@@ -30,7 +30,7 @@
 - 城镇开放函数无条件提供商店、招募、制作/精炼、拍卖与竞技场入口；各业务自身的账号资格、费用、冷却等仍由所属模块校验（`data/data.town_appear.php`）。
 - 普通战从本账号角色中选择 1–5 人，提交时重检地图和体力；敌人生成后进入共享战斗引擎（`class/class.main.php:1285–1325`）。
 - 普通战在战斗中按击杀等事件累计成长、钱和掉落，战后领取不要求最终胜利；败北或平局也保留已产生的有效收益（`class/class.main.php:1325–1340`、`class/class.battle.php:678–682`）。
-- 普通战旧服务器日志由 `record_btl_log` 设置控制；新版已要求持久结算凭据与必要战报/复现数据，不再以玩家展示偏好决定能否恢复和防重复结算。普通玩家可见历史和保留期限继续归展示/运行专题。
+- 普通战旧服务器日志由 `record_btl_log` 设置控制；新版已要求持久结算凭据与必要战报/复现数据，不再以玩家展示偏好决定能否恢复和防重复结算。[展示契约](public-information.md) Q3/Q4 已确认取消旧开关，所有正式战报公开且正常保留 90 天；模拟私有、正常保留 30 天，管理清理按该契约处理，内部记录留存继续归运行专题。
 - 模拟战镜像复制所选角色并调用战斗引擎，不保存战后角色或领取资产；旧实现没有调用服务器战报保存，新版按 Q3 增加个人模拟战报历史。
 - “记忆队伍”保存选中的成员，不等于保存装备、阵位或战术快照，也不新增任意多套预设。普通和团队模拟共用这一选择记忆，旧调用会遍历账号角色构建成员序列（`class/class.main.php:3086–3100`）。
 
@@ -138,7 +138,7 @@ ac0 首项 1010 权重为 0，旧端点偏差使其偶尔出现；修复后不�
 ## 后续专题与证据
 
 - [内容发布](https://github.com/odradekk/hof_redux/issues/8)：24 地图定义、实际开放条件、有序怪物权重/预览标记、动态构建依赖、修复后可达性及版本校验。
-- [展示](https://github.com/odradekk/hof_redux/issues/13)、[手机信息结构](https://github.com/odradekk/hof_redux/issues/14)、[接口](https://github.com/odradekk/hof_redux/issues/16)：地图时区提示、两个模拟入口、记忆队伍版本冲突、配置保存与模拟的分别反馈、历史及查询重试；旧普通战日志开关仅可作为展示偏好处理，不能关闭必要结算/复现数据。
+- [展示](https://github.com/odradekk/hof_redux/issues/13)、[手机信息结构](https://github.com/odradekk/hof_redux/issues/14)、[接口](https://github.com/odradekk/hof_redux/issues/16)：地图时区提示、两个模拟入口、记忆队伍版本冲突、配置保存与模拟的分别反馈、历史及查询重试；展示 Q3 已确认取消旧普通战日志开关，必要结算/复现数据不能被展示清理关闭。
 - [运行](https://github.com/odradekk/hof_redux/issues/17)、[验收](https://github.com/odradekk/hof_redux/issues/18)：时区配置/校验、服务器时钟异常与跨重启计时（包括体力累计和基准校正）、模拟频率与执行预算、记录保留、恢复及数值对照；不改变已批准无体力/每日次数成本的模拟玩法。
 
 地图依据 `old_hof/data/data.land_appear.php:3–37`、`data.land_info.php:4–344`、`data.town_appear.php:6–20`；流程依据 `class/class.main.php:323–374,471–486,1114–1340,3086–3100`；初始状态及镜像复制依据 `class/class.char.php:914–947,1272–1347`；资源依据 `class/class.user.php:252–258,392–401` 及前述安全常量。路径缩写均相对 `old_hof/`。只读调查未读取账号数据、日志或凭据。
