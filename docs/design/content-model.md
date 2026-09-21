@@ -41,7 +41,7 @@
 | --- | --- | --- |
 | 招募模板 | `id, jobId, initialStats, initialSkillIds, initialEquipment, price, presentation` | 一种可购买的初始角色配置；价格使用旧值，创建角色时产生新角色/装备身份 |
 | 角色 | `id, accountId, name, gender, createdAt, jobId, level, experience, baseStats, attributePoints, skillPoints, learnedSkillIds` | `experience` 是当前等级内尚未消耗的经验，不是累计经验；`baseStats` 明确为 STR/INT/DEX/SPD/LUK；已学技能不重复 |
-| 角色配置 | `equipmentSlots, position, guardPolicy, activeTactics, backupTactics` | 装备槽引用持有装备 ID；前后排和保护设置属于角色配置，战斗中变化另存；战术主/备各存完整有序行或未配置状态，切换交换两者。增删操作针对方案中的规则行，不是增删任意数量的方案 |
+| 角色配置 | `equipmentSlots, position, guardPolicy, activeTactics, backupTactics` | 装备槽引用持有装备 ID；`equipmentSlots` 是领域读取/输入输出视图，不要求另存一份可写关联。前后排和保护设置属于角色配置，战斗中变化另存；战术主/备各存完整有序行或未配置状态，切换交换两者。增删操作针对方案中的规则行，不是增删任意数量的方案 |
 | 编队选择 | `characterIds` | 有序且不重复的角色 ID；候补角色仍属于账号，未选中不等于删除 |
 | 职业 | `id, presentation, hpSpCoefficients, allowedEquipmentTypeIds` | 展示可按旧性别配置变化；装备种类是稳定分类引用；旧成长系数分别作用于 HP/SP |
 | 转职关系 | `id, fromJobId, toJobId, requirements` | 有向关系与资格条件；添加更深层职业无需修改转职流程代码；不会自动赋予回转、降阶或自由换职能力 |
@@ -79,6 +79,8 @@
 9. 角色存档、派生面板与战斗状态各有职责。计算缓存即使存在也不是第二份规则来源；成长产生的持久变更由战斗结果明确携带，不能整对象保存临时异常状态。
 
 事务落地、版本冲突与幂等细节归[事务边界](https://github.com/odradekk/hof_redux/issues/6)；这些不变量是其输入，不在本议题选数据库写法。
+
+已确认的[事务契约](state-transactions.md)明确装备关系的写入责任：持有装备的 `location` 是物品模块管理的唯一权威关联，角色槽位由它读取。即使另建查询缓存，也不能形成第二套可独立写入的归属，必须随同一事务更新。
 
 ## 代表性旧内容核验
 
