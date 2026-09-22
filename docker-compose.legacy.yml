@@ -1,0 +1,43 @@
+# 旧版 HOF 本地参照栈（dev/test 对照用，不进入新版应用镜像）。
+#
+# 启动：  docker compose -f docker-compose.legacy.yml up -d --build
+# 访问：  http://127.0.0.1:60000/ （仅回环，不对外暴露）
+# 日志：  docker compose -f docker-compose.legacy.yml logs -f hof-legacy
+# 停止：  docker compose -f docker-compose.legacy.yml down
+# 清空运行时数据（含注册账号、战报、留言及 dev 凭据）：
+#         docker compose -f docker-compose.legacy.yml down -v
+#
+# 约束说明：
+# - ./old_hof 以只读方式挂载，容器内永不回写；运行时状态全在命名卷
+#   hof-legacy-data（对应容器内 /var/www/hof），重启保留、down -v 清除。
+# - setting.php / admin.php 由脱敏参考副本 + entrypoint 生成，
+#   dev 凭据只存在于命名卷和容器日志，永不提交。
+#   首次启动后从日志取 UP_PASS / ADMIN_PASSWORD；轮换凭据见
+#   docker/legacy-php/entrypoint.sh（LEGACY_* 环境变量 / LEGACY_RESET_CONFIG）。
+# - 本栈联网仅为规则对照，不作为新版内容导入源，不跑生产流量。
+services:
+  hof-legacy:
+    container_name: hof-legacy
+    build:
+      context: ./docker/legacy-php
+    image: hof-legacy:7.4.33
+    ports:
+      - "127.0.0.1:60000:80"
+    volumes:
+      - ./old_hof:/srv/old_hof_ro:ro
+      - hof-legacy-data:/var/www/hof
+    # LEGACY_CRYPT_KEY / LEGACY_UP_PASS / LEGACY_ADMIN_PASSWORD 留空时
+    # entrypoint 首启随机生成并持久化到卷内；需要固定值时在此取消注释。
+    # environment:
+    #   LEGACY_CRYPT_KEY: "change-me"
+    #   LEGACY_UP_PASS: "change-me"
+    #   LEGACY_ADMIN_PASSWORD: "change-me"
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@file_get_contents('http://127.0.0.1/')===false?1:0);"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  hof-legacy-data:
