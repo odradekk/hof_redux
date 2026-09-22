@@ -11,6 +11,7 @@ services:
       # 本机代理由 TUN 透明代理提供，容器桥接网络不经过 TUN；构建期使用宿主网络取得外网。
       network: host
     image: hof-backend:local
+    user: "${HOF_RUN_USER:?请经 scripts/instance.sh 启动（生成 var/instance.env 提供运行用户 uid:gid）}"
     environment:
       HOF_DB_PATH: /var/lib/hof/db/hof.sqlite
       HOF_TRUST_PROXY: "true"

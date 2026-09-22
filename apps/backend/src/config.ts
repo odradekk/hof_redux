@@ -9,8 +9,6 @@ export interface AppConfig {
   dbPath: string;
   migrationsDir: string;
   contentManifestPath: string;
-  /** 仅当操作者显式确认接管遗留实例锁时为 true（HOF_LOCK_TAKEOVER=1）。 */
-  lockTakeover: boolean;
   /** 仅在容器内网、入口为受信 Caddy 时为 true。 */
   trustProxy: boolean;
   appVersion: string;
@@ -55,7 +53,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     dbPath: path.resolve(dbPath),
     migrationsDir,
     contentManifestPath,
-    lockTakeover: env.HOF_LOCK_TAKEOVER === "1",
     trustProxy: env.HOF_TRUST_PROXY === "true",
     appVersion: pkg.version,
   };

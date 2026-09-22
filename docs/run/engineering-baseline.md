@@ -15,7 +15,7 @@
 | 基础镜像 | `node:24.14.0-bookworm-slim@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8` | 后端构建/运行、开发实例 |
 | 入口镜像 | `caddy:2.10.2@sha256:c3d7ee5d2b11f9dc54f947f68a734c84e9c9666c92c88a7f30b9cba5da182adb` | 同域静态 + 反向代理 |
 
-依赖完整锁定以 `pnpm-lock.yaml` 为准；镜像构建产物见 `scripts/verify-baseline.sh` 写入的 `var/evidence/`。
+依赖完整锁定以 `pnpm-lock.yaml` 为准。`scripts/verify-baseline.sh` 写入 `var/evidence/` 的证据均来自被验收容器与构建产物：容器内实测的 node/SQLite/caddy 版本、实际运行镜像 ID、`pnpm-lock.yaml` 摘要；不以宿主运行时或硬编码常量充当。
 
 ## 目录结构
 
@@ -34,7 +34,7 @@ var/<实例>/              各实例持久数据（db、backup），不入库
 ## 后端启动行为（已验证）
 
 - 打开全进程唯一业务连接并读回校验 `journal_mode=WAL`、`synchronous=FULL`、`foreign_keys=ON`、`busy_timeout=5000`，任一不符拒绝启动。
-- 启动互斥：数据库旁的 `*.instance.lock` 记录 pid/主机名；第二实例同库启动被拒绝（退出码 1）；正常停止释放锁；同主机名崩溃残留锁自动回收；异主机名锁需显式 `HOF_LOCK_TAKEOVER=1`。
+- 启动互斥：数据库旁的 `*.instance.lock` 由原子 `link` 竞争裁决——候选文件完整写好后以 `link` 安装到锁位，仅当锁位不存在时成功，多个并发启动者恰有一个成功；锁内容含唯一 owner token，释放时先把锁位改名到独有临时名再核对 token，只删除确属自己的锁。任何已存在的锁（含崩溃残留、旧版无 token 的锁）一律拒绝启动；应用内不提供接管（运行契约只要求第二实例不能误启动，任何“先移走旧锁再装新锁”的做法都有锁位空窗）。崩溃残留的人工恢复：确认旧实例确已停止（`scripts/instance.sh <实例> ps` 或 `sudo -n docker ps`）→ 删除 `<数据目录>/hof.sqlite.instance.lock` → 重新启动。行为由 `apps/backend/test/instanceLock.test.ts` 以真实并发子进程回归（恰一赢家、所有权释放、残留拒绝）。
 - 启动即按序执行迁移（每条单独 `BEGIN IMMEDIATE` 事务，记录 SHA-256，漂移或乱序拒绝启动）；启动不清库、不补发资产、不重置身份。
 - `GET /api/health` 以业务库可读为前提，只返回最小状态；`GET /api/version` 返回应用/内容/数据库三版本；未实现路径返回 404。
 
@@ -53,21 +53,35 @@ var/<实例>/              各实例持久数据（db、backup），不入库
 
 本机外网代理由 TUN 透明代理（fake-ip）提供，docker 桥接网络不经过 TUN，因此：镜像构建在各 compose 文件的 `build.network: host` 下使用宿主网络；开发实例先由 `bootstrap`（`network_mode: host`）完成锁定安装并预热 corepack 缓存，backend/frontend 随后在桥接网络离线启动。运行中的容器不需要外网。
 
+## 准备与启动入口（从空工作区可用）
+
+统一使用 `scripts/instance.sh <实例> <compose 参数...>` 启动/停止实例；实例名单独决定 compose 文件与 `var/<实例>` 数据目录，不会混用路径：
+
+```bash
+scripts/instance.sh dev up -d            # 开发（热更新）
+scripts/instance.sh test up -d --build   # 自动测试实例（构建镜像）
+scripts/instance.sh trial down           # 停止人工试用实例
+```
+
+任何 compose 命令前都会先以当前用户准备 `var/<实例>/{db,backup}`（dev 另含 `node-home`），并把当前用户 `uid:gid` 写入 `var/instance.env`（`HOF_RUN_USER`），compose 经 `--env-file` 以它覆盖镜像内固定的 `USER node`。权限模型因此是“容器运行用户 = 准备目录属主”：不依赖宿主用户恰为 uid 1000，也避免 sudo docker 以 root 创建缺失的 bind 目录后容器无法写库（不经入口直接 `docker compose` 会因缺少 `HOF_RUN_USER` 拒绝插值，提示改用 `scripts/instance.sh`）。若目录已存在但当前用户不可写，脚本给出 `chown` 修复指引而不是静默失败。`check-instances.sh` 用合成 uid 静态校验运行用户接线，`check-migrate.sh` 以当前用户对全新临时目录实测启动。
+
+发布端口的唯一事实表在 `scripts/lib-docker.sh`（`instance_port`），与 compose 文件的端口映射由 `scripts/check-instances.sh` 双向校验，防止两处漂移。
+
 ## 常用命令
 
 ```bash
-# 开发（热更新）
-docker compose -f compose/compose.dev.yml up -d        # 或 sudo -n docker compose ...
-
-# 自动测试实例
-docker compose -f compose/compose.test.yml up -d --build
+# 启动实例（见上节 instance.sh）
+scripts/instance.sh test up -d --build
 
 # 单项检查
-bash scripts/check-build.sh                            # 锁定安装 + 构建 + 类型检查
+bash scripts/check-build.sh                            # 锁定安装 + 构建 + 类型检查 + 单元测试
+bash scripts/check-instances.sh                        # 四实例 compose 配置与端口/目录防漂移
 bash scripts/check-health.sh http://127.0.0.1:62000    # 健康/版本契约
-bash scripts/check-restart-persistence.sh test         # 写探针→重启后端→探针保持
+bash scripts/check-migrate.sh                          # 一次性容器空库迁移验证（不触碰实例数据）
+bash scripts/check-restart-persistence.sh test         # 重启后端→迁移登记/表清单/结构版本原样保持
 
-# 整体验证（构建→镜像→启动→契约→重启持久性→legacy 未受影响），证据写入 var/evidence/
+# 整体验证（构建与测试→实例配置→镜像与空库迁移→启动→契约→重启持久性→legacy 未受影响）
+# 证据（容器内实测运行时、实际镜像 ID、依赖锁文件摘要）写入 var/evidence/
 bash scripts/verify-baseline.sh
 ```
 

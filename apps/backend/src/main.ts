@@ -8,9 +8,9 @@ import { runMigrations } from "./db/migrate.js";
 
 const config = loadConfig();
 
-// 启动互斥：第二实例同时调度同一数据库时拒绝启动。
+// 启动互斥：锁位已存在（含崩溃残留）一律拒绝；恢复由操作者确认旧实例停止后删锁。
 const lock = new InstanceLock(`${config.dbPath}.instance.lock`, config.dbPath);
-lock.acquire({ takeover: config.lockTakeover });
+lock.acquire();
 
 // 单一业务写连接：WAL / synchronous=FULL / 外键开启，读回校验。
 const db = openBusinessDatabase(config.dbPath);

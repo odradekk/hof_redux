@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "typecheck": "vue-tsc -p tsconfig.json"
+    "typecheck": "vue-tsc -p tsconfig.json",
+    "test": "node --test \"test/*.test.ts\""
   },
   "dependencies": {
     "@hof/shared": "workspace:*",

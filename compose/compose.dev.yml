@@ -1,14 +1,15 @@
 # 开发实例 hof-dev：源码挂载 + 热更新（tsx watch / vite HMR），经 Caddy 同域入口访问。
-# 入口：http://127.0.0.1:61000  数据：../var/dev/db  备份目标：../var/dev/backup
+# 入口：http://127.0.0.1:61000  数据：../var/dev/db  备份目标：../var/dev/backup  node 缓存：../var/dev/node-home
 # 与 hof-test / hof-trial / hof-recovery / hof-legacy（:60000）在项目名、容器、卷、持久路径、端口上全部隔离。
 name: hof-dev
 
 services:
   # 一次性初始化：宿主网络（本机 TUN 代理不覆盖桥接网络）下载 pnpm 并安装锁定依赖，
-  # 之后 backend/frontend 在桥接网络离线启动（依赖与 corepack 缓存已在卷内）。
+  # 之后 backend/frontend 在桥接网络离线启动（依赖与 corepack 缓存已在 node-home 内）。
+  # node 服务统一以 HOF_RUN_USER（准备目录的属主，见 scripts/instance.sh）运行。
   bootstrap:
     image: node:24.14.0-bookworm-slim@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8
-    user: node
+    user: "${HOF_RUN_USER:?请经 scripts/instance.sh 启动（生成 var/instance.env 提供运行用户 uid:gid）}"
     network_mode: host
     working_dir: /repo
     environment:
@@ -17,11 +18,11 @@ services:
     command: sh -lc "corepack pnpm install --frozen-lockfile"
     volumes:
       - ..:/repo
-      - dev-node-home:/home/node
+      - ../var/dev/node-home:/home/node
 
   backend:
     image: node:24.14.0-bookworm-slim@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8
-    user: node
+    user: "${HOF_RUN_USER:?请经 scripts/instance.sh 启动（生成 var/instance.env 提供运行用户 uid:gid）}"
     working_dir: /repo
     command: sh -lc "corepack pnpm install --frozen-lockfile --offline && corepack pnpm --filter @hof/backend dev"
     environment:
@@ -36,14 +37,14 @@ services:
     volumes:
       - ..:/repo
       - ../var/dev/db:/var/lib/hof/db
-      - dev-node-home:/home/node
+      - ../var/dev/node-home:/home/node
     depends_on:
       bootstrap:
         condition: service_completed_successfully
 
   frontend:
     image: node:24.14.0-bookworm-slim@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8
-    user: node
+    user: "${HOF_RUN_USER:?请经 scripts/instance.sh 启动（生成 var/instance.env 提供运行用户 uid:gid）}"
     working_dir: /repo
     command: sh -lc "corepack pnpm install --frozen-lockfile --offline && corepack pnpm --filter @hof/frontend dev"
     environment:
@@ -52,7 +53,7 @@ services:
       VITE_HMR_CLIENT_PORT: "61000"
     volumes:
       - ..:/repo
-      - dev-node-home:/home/node
+      - ../var/dev/node-home:/home/node
     depends_on:
       bootstrap:
         condition: service_completed_successfully
@@ -68,6 +69,3 @@ services:
         condition: service_started
       frontend:
         condition: service_started
-
-volumes:
-  dev-node-home:

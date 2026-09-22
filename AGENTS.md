@@ -77,7 +77,7 @@
 
 - pnpm 单仓库：`apps/frontend`（Vue 3 + Vite）、`apps/backend`（Fastify + `node:sqlite`）、`packages/shared`（共享接口契约类型）、`content/`（版本化内容发布清单）、`apps/backend/migrations/`（带版本 SQL 迁移）。
 - 四个隔离实例由 `compose/compose.{dev,test,trial,recovery}.yml` 定义，入口端口 61000/62000/63000/64000（仅回环），数据分别在 `var/<实例>/db`（不入库）；旧版参照栈 `hof-legacy` 占用 60000，不得冲突或复用。
-- 自动检查在 `scripts/`：`check-build.sh`、`check-health.sh`、`check-restart-persistence.sh`，整体验证 `verify-baseline.sh`；用法与锁定版本见 [docs/run/engineering-baseline.md](docs/run/engineering-baseline.md)。
+- 实例统一准备/启动入口为 `scripts/instance.sh <dev|test|trial|recovery> <compose 参数...>`（先以当前用户准备 `var/<实例>/{db,backup}` 再执行 compose）；自动检查在 `scripts/`：`check-build.sh`、`check-instances.sh`、`check-health.sh`、`check-migrate.sh`、`check-restart-persistence.sh`，整体验证 `verify-baseline.sh`；用法与锁定版本见 [docs/run/engineering-baseline.md](docs/run/engineering-baseline.md)。
 
 ## Agent skills
 

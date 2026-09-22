@@ -1,34 +1,41 @@
 #!/usr/bin/env bash
-# 重启持久性检查：写探针 → 重启后端容器 → 探针仍在且结构版本不变。
+# 重启持久性检查：比较重启后端容器前后的数据库可观察状态——
+# 迁移登记（含 applied_at，重建库必然变化）与业务表清单完全一致，
+# 且 /api/version 的数据库结构版本不变。依据是应用自身的迁移元数据，
+# 不需要第二写连接，也不向业务 schema 写探针。
 # 用法：check-restart-persistence.sh [instance=test]
 set -euo pipefail
 source "$(dirname "$0")/lib-docker.sh"
 detect_docker
 
 INSTANCE="${1:-test}"
-case "$INSTANCE" in
-  test) BASE_URL="http://127.0.0.1:62000" ;;
-  trial) BASE_URL="http://127.0.0.1:63000" ;;
-  recovery) BASE_URL="http://127.0.0.1:64000" ;;
-  dev) BASE_URL="http://127.0.0.1:61000" ;;
-  *) echo "未知实例：$INSTANCE" >&2; exit 2 ;;
-esac
+BASE_URL="$(instance_base_url "$INSTANCE")"
 DB_PATH="$ROOT/var/$INSTANCE/db/hof.sqlite"
 
-WRITTEN="$(node "$ROOT/scripts/probe-write.mjs" "$DB_PATH")"
-TOKEN="$(node -e 'console.log(JSON.parse(process.argv[1]).token)' "$WRITTEN")"
-SCHEMA_BEFORE="$(node -e 'console.log(JSON.parse(process.argv[1]).schemaVersion)' "$WRITTEN")"
-echo "探针已写入：token=$TOKEN schema=v$SCHEMA_BEFORE"
+STATE_BEFORE="$(node "$ROOT/scripts/db-state.mjs" "$DB_PATH")"
+VERSION_BEFORE="$(curl -sf --max-time 10 "$BASE_URL/api/version")"
 
 compose_for "$INSTANCE" restart backend >/dev/null
 wait_healthy "$BASE_URL" 60
 
-READ_BACK="$(node "$ROOT/scripts/probe-read.mjs" "$DB_PATH")"
-TOKEN_AFTER="$(node -e 'console.log(JSON.parse(process.argv[1]).note)' "$READ_BACK")"
-if [[ "$TOKEN_AFTER" != "$TOKEN" ]]; then
-  echo "错误：重启后探针丢失或被改写（期望 $TOKEN，实际 $TOKEN_AFTER）" >&2
+STATE_AFTER="$(node "$ROOT/scripts/db-state.mjs" "$DB_PATH")"
+VERSION_AFTER="$(curl -sf --max-time 10 "$BASE_URL/api/version")"
+
+if [[ "$STATE_BEFORE" != "$STATE_AFTER" ]]; then
+  echo "错误：重启前后数据库状态不一致（迁移登记或表清单变化，意味着数据库被重建/改写）：" >&2
+  echo "  before: $STATE_BEFORE" >&2
+  echo "  after:  $STATE_AFTER" >&2
   exit 1
 fi
 
+node -e '
+  const before = JSON.parse(process.argv[1]).database.schemaVersion;
+  const after = JSON.parse(process.argv[2]).database.schemaVersion;
+  if (before !== after) {
+    console.error(`数据库结构版本重启前后不一致：${before} → ${after}`);
+    process.exit(1);
+  }
+' "$VERSION_BEFORE" "$VERSION_AFTER"
+
 node "$ROOT/scripts/check-health.mjs" "$BASE_URL" >/dev/null
-echo "check-restart-persistence: OK（重启后探针保持，契约仍满足）"
+echo "check-restart-persistence: OK（重启后迁移登记、表清单与结构版本原样保持）"
