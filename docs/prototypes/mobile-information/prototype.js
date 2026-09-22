@@ -61,7 +61,7 @@ function stepState(step){
 }
 function hybridReport(){return pagedReport()}
 function VariantD(){
-  return `<div class="hybrid">${header()}${globalStatus().includes('<button')?`<div class="hybrid-chrome">${globalStatus()}</div>`:''}<div class="variant-desc">D · A＋B 组合 · 战场／明细战报对比</div>${state.page==='character'?`<div class="hybrid-workbench">${hybridRoster()}<main class="page">${character()}</main></div>`:`<main class="page">${panel()}</main>`}${nav()}</div>`;
+  return `<div class="hybrid">${header()}${globalStatus().includes('<button')?`<div class="hybrid-chrome">${globalStatus()}</div>`:''}<div class="variant-desc">D · A＋B 组合 · 战场战报</div>${state.page==='character'?`<div class="hybrid-workbench">${hybridRoster()}<main class="page">${character()}</main></div>`:`<main class="page ${state.page==='report'&&reportReader.presentation==='battle'?'battle-report-page':''}">${panel()}</main>`}${nav()}</div>`;
 }
 function render(){document.querySelector('#screen').classList.toggle('hybrid-screen',variant==='D');document.querySelector('#app').innerHTML=({A:VariantA,B:VariantB,C:VariantC,D:VariantD}[variant])();document.querySelector('#variant-label').textContent=`原型 ${variant} · ${names[variant]}`}
 function chooseVariant(delta){variant=variants[(variants.indexOf(variant)+delta+variants.length)%variants.length];if(variant==='B'&&state.page==='adventure'&&!busy()&&!pending(state.simulation))state.page='character';const url=new URL(location.href);url.searchParams.set('variant',variant);history.replaceState({},'',url);render()}

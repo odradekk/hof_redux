@@ -20,15 +20,23 @@ function changeReportPresentation(mode){
   if(anchor){const source=document.getElementById(anchor.id);window.scrollTo({top:window.scrollY+source.getBoundingClientRect().top-anchor.top,behavior:'auto'})}
   notice(`已切换${mode==='battle'?'战场版':'明细版'}，阅读步骤不变。`);
 }
-function battlePortrait(actor,role){
-  return `<div class="battle-portrait ${actor.id==='boss'?'boss-portrait':''} ${actor.hp===0?'fallen-portrait':''}">${sprite(actor.img)}<strong>${actor.name}</strong><small>${role}${actor.hp===0?' · 阵亡':''}</small></div>`;
+function battlePortrait(actor,role,newlyFallen=false){
+  return `<div class="battle-portrait ${actor.id==='boss'?'boss-portrait':''} ${actor.hp===0?'fallen-portrait':''}">${sprite(actor.img)}<strong>${actor.name}</strong><small>${role}${actor.hp===0&&!newlyFallen?' · 阵亡':''}</small>${newlyFallen?'<span class="fallen-badge">本步阵亡</span>':''}</div>`;
 }
 function eventImpact(event,step){
+  if(event.kind==='reward')return `<span class="battle-impact impact-reward"><small>本步计算收益</small><b>金钱 +${event.amount}</b><small>${state.report==='sim'?'模拟计算，不产生正式收益':'是否到账以整场结算为准'}</small></span>`;
   const target=step.after.find(actor=>actor.id===event.targetId);
-  const kinds={damage:['伤害',`−${event.amount} HP`],heal:['治疗',`+${event.amount} HP`],sp:['消耗',`−${event.amount} SP`],death:['阵亡','阵亡'],summon:['召唤','加入战场'],status:['状态',event.statusName],charge:['准备','等待释放']};
+  const kinds={damage:['伤害',`−${event.amount} HP`],heal:['治疗',`+${event.amount} HP`],sp:['消耗',`−${event.amount} SP`],death:['死亡事件','本步阵亡'],summon:['召唤','加入战场'],status:['状态',event.statusName],charge:['准备','等待释放']};
   const value=kinds[event.kind];
   if(!value)return '';
   return `<span class="battle-impact impact-${event.kind}"><small>${target?.name||step.after.find(a=>a.id===step.actorId).name} · ${value[0]}</small><b>${value[1]}</b></span>`;
+}
+function battleImpactSummary(step){
+  const impacts=step.events.filter(e=>['damage','heal','death','summon','status','charge','reward'].includes(e.kind)).map(e=>eventImpact(e,step)).join('');
+  if(impacts)return `<div class="battle-impacts">${impacts}</div>`;
+  const actor=step.before.find(a=>a.id===step.actorId);
+  const unchanged=step.before.length===step.after.length&&step.before.every(before=>{const after=step.after.find(a=>a.id===before.id);return after&&after.hp===before.hp&&after.sp===before.sp})&&!step.events.some(e=>['damage','heal','sp'].includes(e.kind));
+  return `<p class="battle-quiet-action"><strong>${actor.name}${step.actionLabel}</strong><span>${unchanged?'本步 HP/SP 未变化':'数值变化见完整记录'}</span></p>`;
 }
 function battleUnit(actor,step){
   const before=step.before.find(a=>a.id===actor.id);
@@ -61,8 +69,8 @@ function battleReport(){
   const targets=step.targetIds.map(id=>step.after.find(a=>a.id===id));
   return `<article class="battle-report battle-reader"><p class="battle-kicker">${simulation?'模拟战 · 无正式收益':'正式战 · 公开'}</p>
     <h1 id="report-step-title" tabindex="-1"><span>第 ${reportReader.step+1} / ${reportSteps.length} 步</span>${step.title}</h1>
-    <div class="battle-action"><div class="action-protagonist">${battlePortrait(actor,'行动者')}</div><div class="action-direction"><span class="event-sigil kind-${step.kind}" aria-hidden="true">${reportKinds[step.kind][1]}</span><strong>${step.actionLabel}</strong>${targets.length?'<span aria-hidden="true">→</span>':''}</div><div class="action-targets">${targets.length?targets.map(a=>battlePortrait(a,step.kind==='summon'?'新召唤':'目标')).join(''):`<p>${step.kind==='charge'?'尚未锁定目标':'本步无行动目标'}</p>`}</div></div>
-    <div class="battle-impacts">${step.events.filter(e=>['damage','heal','death','summon','status','charge'].includes(e.kind)).map(e=>eventImpact(e,step)).join('')}</div>
+    <div class="battle-action"><div class="action-protagonist">${battlePortrait(actor,'行动者')}</div><div class="action-direction"><span class="event-sigil kind-${step.kind}" aria-hidden="true">${reportKinds[step.kind][1]}</span><strong>${step.actionLabel}</strong>${targets.length?'<span aria-hidden="true">→</span>':''}</div><div class="action-targets">${targets.length?targets.map(a=>battlePortrait(a,step.kind==='summon'?'新召唤':'目标',a.hp===0&&step.events.some(e=>e.kind==='death'&&e.targetId===a.id))).join(''):`<p>${step.kind==='charge'?'尚未锁定目标':'本步无行动目标'}</p>`}</div></div>
+    ${battleImpactSummary(step)}
     ${reportPagingControls()}
     <div class="battlefield">${battleSide(step,'敌方')}<div class="battle-frontline"><span>交战前线</span></div>${battleSide(step,'我方')}</div>
     <details class="battle-details"><summary>查看本步完整记录与前后数值</summary><ol class="battle-event-log">${step.events.map(e=>`<li class="event-${e.kind}">${e.text}</li>`).join('')}</ol>${stepChanges(step)}</details>
