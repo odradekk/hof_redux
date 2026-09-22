@@ -22,7 +22,8 @@ const reportSteps = (()=>{
     if(!options.waitStart)actionCount++;
     const firstEvent=eventNumber+1;
     eventNumber+=events.length;
-    steps.push({title,events,firstEvent,lastEvent:eventNumber,actionCount,before,after:structuredClone(actors)});
+    const fixture=reportActionFixtures[steps.length];
+    steps.push({...fixture,title,events:events.map((text,index)=>({...fixture.events[index],text})),firstEvent,lastEvent:eventNumber,actionCount,before,after:structuredClone(actors)});
   }
   record('阿岚开始蓄力',['开始蓄力，等待释放。','此时未扣 SP，也未锁定攻击目标。'],[{id:'a',states:['蓄力']}],{waitStart:true});
   record('阿岚攻击持斧哥布林 · 1',['蓄力完成，消耗 4 SP。','本次攻击造成 18 点实际 HP 损失。'],[{id:'a',sp:36,states:[]},{id:'g1',hp:22}]);
@@ -46,11 +47,11 @@ const reportSteps = (()=>{
   record('白露释放治疗',['咏唱完成，白露消耗 6 SP。','阿岚恢复 20 HP。'],[{id:'h',sp:24,states:[]},{id:'a',hp:93}]);
   record('小蝙蝠 · 1 攻击林间',['林间受到 10 点伤害。'],[{id:'r',hp:90}]);
   record('阿岚攻击暗黑龙，随后毒发',['暗黑龙损失 25 HP。','阿岚因中毒损失 4 HP。'],[{id:'boss',hp:1910},{id:'a',hp:89}]);
-  record('林间击败召唤随从',['召唤随从 · 1 损失 50 HP 并死亡。','死亡召唤物退出后续通常阵型，事件与本步变化仍保留。'],[{id:'summon1',hp:0}]);
+  record('林间击败召唤随从',['召唤随从 · 1 损失 50 HP。','召唤随从 · 1 死亡。','死亡召唤物退出后续通常阵型，事件与本步变化仍保留。'],[{id:'summon1',hp:0}]);
   record('梨央防御，样例结束',['梨央执行防御。','预置展示样例在此结束，结果为平局；24 步不是正式玩法的行动上限。']);
   return steps;
 })();
-const reportReader={step:null,originStep:0,directoryY:0};
+const reportReader={step:null,originStep:0,directoryY:0,directoryOffset:0,presentation:new URLSearchParams(location.search).get('presentation')==='detail'?'detail':'battle'};
 function reportFormation(actors,side){
   const visible=actors.filter(actor=>actor.side===side&&!(actor.summoned&&actor.hp===0));
   return `<section><h3>${side} · ${visible.length} 名</h3><div class="formation">${['前排','后排'].map(lane=>`<div class="lane"><strong>${lane}</strong>${visible.filter(actor=>actor.lane===lane).map(actor=>`<div class="unit ${actor.hp===0?'dead':''}">${sprite(actor.img)}<div class="grow"><b>${actor.name}</b><small style="display:block">HP ${actor.hp}/${actor.maxHp}<br>SP ${actor.sp}/${actor.maxSp}<br>${actor.hp===0?'死亡':actor.states.join('、')||'正常'}</small><div class="meter"><span style="width:${100*actor.hp/actor.maxHp}%"></span></div></div></div>`).join('')||'<p class="muted">无单位</p>'}</div>`).join('')}</div></section>`;
@@ -63,15 +64,15 @@ function stepChanges(step){
 function reportPagingControls(){
   return `<div class="report-paging" aria-label="步骤翻页">${btn('上一步','report-prev',reportReader.step===0?'disabled':'')}${btn('返回目录','report-directory')}${btn('下一步','report-next',reportReader.step===reportSteps.length-1?'disabled':'')}</div>`;
 }
-function pagedReport(){
-  const mode=state.report==='formal'?'正式战示例 · 公开 · 保留 90 天':'模拟战示例 · 仅本人及管理员 · 保留 30 天';
+function detailReport(){
+  const mode=state.report==='formal'?'正式战示例 · 公开 · 保留 90 天':'模拟战示例 · 仅本人及有权限管理员 · 保留 30 天';
   if(reportReader.step===null)return `<div class="eyebrow">Battle report</div><h1>战报目录</h1><div class="tabs">${btn('正式战示例','report-type','data-type="formal"')}${btn('模拟战示例','report-type','data-type="sim"')}</div><div class="card"><span class="tag">${mode}</span><h2>平局 · 预置样例</h2><p>${state.report==='formal'?'示例已结算：金钱 +120。':'不产生正式成长与资产收益。'}</p><p class="muted">共 ${reportSteps.length} 个行动步骤。以下是固定展示数据，不是按钮出战的演算结果。</p></div><p>先浏览摘要，再点某一步查看关联事件与双方状态。</p><div class="report-directory">${reportSteps.map((step,i)=>btn(`<span class="tag">${String(i+1).padStart(2,'0')}</span><span>${step.title}<small>${step.events.length} 条关联事件</small></span>`,'report-step',`id="report-step-${i}" data-index="${i}"`)).join('')}</div>`;
   const step=reportSteps[reportReader.step];
-  return `<article class="report-reader"><span class="tag">${mode}</span><h1 id="report-step-title" tabindex="-1">第 ${reportReader.step+1} / ${reportSteps.length} 步</h1><h2>${step.title}</h2><p class="muted">行动计数 ${step.actionCount} · 事件 ${step.firstEvent}–${step.lastEvent} · 页码不等于回合数</p>${reportPagingControls()}<form class="report-jump"><label>跳到第 <input name="step" type="number" inputmode="numeric" min="1" max="${reportSteps.length}" step="1" required value="${reportReader.step+1}"> 步</label><button type="submit">跳转</button><p class="bad" id="report-jump-error" role="alert"></p></form><h2>本步事件</h2><ol class="report-events">${step.events.map(event=>`<li>${event}</li>`).join('')}</ol><h2>数值与状态变化</h2>${stepChanges(step)}<h2 style="margin-top:20px">本步结束后的双方阵型</h2><p class="muted">完整显示，可在本页滚动；不缩小文字或裁掉随从。</p><div class="desktop-columns">${reportFormation(step.after,'我方')}${reportFormation(step.after,'敌方')}</div>${reportPagingControls()}</article>`;
+  return `<article class="report-reader"><span class="tag">${mode}</span><h1 id="report-step-title" tabindex="-1">第 ${reportReader.step+1} / ${reportSteps.length} 步</h1><h2>${step.title}</h2><p class="muted">行动计数 ${step.actionCount} · 事件 ${step.firstEvent}–${step.lastEvent} · 页码不等于回合数</p>${reportPagingControls()}<form class="report-jump"><label>跳到第 <input name="step" type="number" inputmode="numeric" min="1" max="${reportSteps.length}" step="1" required value="${reportReader.step+1}"> 步</label><button type="submit">跳转</button><p class="bad" id="report-jump-error" role="alert"></p></form><h2>本步事件</h2><ol class="report-events">${step.events.map(event=>`<li>${event.text}</li>`).join('')}</ol><h2>数值与状态变化</h2>${stepChanges(step)}<h2 style="margin-top:20px">本步结束后的双方阵型</h2><p class="muted">完整显示，可在本页滚动；不缩小文字或裁掉随从。</p><div class="desktop-columns">${reportFormation(step.after,'我方')}${reportFormation(step.after,'敌方')}</div>${reportPagingControls()}</article>`;
 }
 function openReportStep(index,fromDirectory=false){
   if(!Number.isInteger(index)||index<0||index>=reportSteps.length)return false;
-  if(fromDirectory){reportReader.directoryY=window.scrollY;reportReader.originStep=index}
+  if(fromDirectory){reportReader.directoryY=window.scrollY;reportReader.originStep=index;reportReader.directoryOffset=document.querySelector(`#report-step-${index}`).getBoundingClientRect().top}
   reportReader.step=index;render();
   const title=document.querySelector('#report-step-title');
   title.focus({preventScroll:true});title.scrollIntoView({block:'start'});
@@ -80,6 +81,7 @@ function openReportStep(index,fromDirectory=false){
 }
 function returnReportDirectory(){
   reportReader.step=null;render();
-  document.querySelector(`#report-step-${reportReader.originStep}`)?.focus({preventScroll:true});
-  window.scrollTo({top:reportReader.directoryY,behavior:'auto'});
+  const source=document.querySelector(`#report-step-${reportReader.originStep}`);
+  source?.focus({preventScroll:true});
+  window.scrollTo({top:source?window.scrollY+source.getBoundingClientRect().top-reportReader.directoryOffset:reportReader.directoryY,behavior:'auto'});
 }

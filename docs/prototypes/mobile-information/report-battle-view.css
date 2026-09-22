@@ -1,0 +1,59 @@
+/* Disposable battle presentation. Existing light detail view remains available for comparison. */
+.report-comparison{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin:0 0 14px;border-bottom:1px dashed #abb8ad;padding-bottom:12px}
+.report-comparison>div{display:flex;gap:5px}.report-comparison small{font-size:12px}
+.battle-report{--ink:#f4efdb;--dim:#b7c2bf;--gold:#e6c988;background:#182827;color:var(--ink);border:1px solid #53645a;border-radius:12px;padding:16px;box-shadow:0 10px 24px #14201b26;overflow-wrap:anywhere}
+.battle-report small,.battle-report .muted{color:var(--dim)}
+.battle-report button{color:var(--ink);background:#2b3d37;border-color:#667264}
+.battle-report button:hover{background:#3b5146}.battle-report button:disabled{opacity:.5}
+.battle-report :is(button,input,summary):focus-visible{outline:3px solid #f4d47e;outline-offset:3px}
+.battle-kicker{font-size:12px;letter-spacing:1px;color:var(--gold);margin:0 0 12px}
+.battle-result{padding:18px 4px 24px;text-align:center;background:radial-gradient(ellipse at 50% 38%,#6d66323d,transparent 70%);border-bottom:1px solid #6f755b}
+.battle-result h1{font-size:17px;font-weight:500;letter-spacing:3px}
+.battle-result h1 span{display:block;margin:14px 0 20px;font-size:48px;line-height:1;font-family:Georgia,"Songti SC",serif;font-weight:700;color:var(--gold);letter-spacing:10px;text-indent:10px}
+.result-opponents{font-weight:600}.result-opponents span{display:block;font-size:12px;margin:8px;color:var(--dim);font-weight:400}
+.battle-loot{display:inline-block;border:1px solid #a3905b;background:#4f472b55;border-radius:4px;padding:8px 14px;color:#f2d993;margin:18px 0 12px}.battle-result>small{display:block}
+.battle-report-types{display:flex;gap:6px;margin:16px 0 24px}.battle-report-types button{flex:1;font-size:12px;padding:8px 4px}
+.battle-directory-title{font-size:18px}.battle-directory-title small{display:block;font-size:12px;font-weight:400;margin-top:5px}
+.battle-directory{display:grid;gap:0}.battle-directory button{display:flex;align-items:center;gap:9px;border:0;border-bottom:1px solid #52675b;background:transparent;text-align:left;padding:15px 0;border-radius:0}
+.battle-step-number{font-size:12px;color:#b2beb6;font-variant-numeric:tabular-nums}
+.event-sigil{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border:1px solid #afbaaa;border-radius:50%;font-family:Georgia,"Songti SC",serif;color:#ebe7da;background:#34443c}
+.kind-death{color:#ffc6b9;border-color:#cf8e83;background:#65372f}.kind-heal{color:#b7efd0;border-color:#74ab8b;background:#224a3a}.kind-summon,.kind-status{color:#e2c4ff;border-color:#a490c0;background:#443353}.kind-charge{color:#f2d993;border-color:#bea163;background:#51462d}
+.battle-summary{min-width:0}.battle-summary b{font-size:14px;font-weight:500}.battle-summary small{display:block;font-size:11px;margin-top:5px}
+.battle-footnote{font-size:12px;color:var(--dim);margin:24px 0 0}
+.battle-reader h1{font-size:24px;line-height:1.4;margin-bottom:22px;color:#fff7df;font-family:Georgia,"Songti SC",serif}.battle-reader h1>span{display:block;font:400 12px/1.5 system-ui,sans-serif;color:var(--dim);margin-bottom:6px}
+.battle-action{display:grid;grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr);gap:8px;align-items:center;padding:8px 0 18px}
+.battle-portrait{display:flex;align-items:center;flex-direction:column;gap:4px;text-align:center;min-width:0}
+.battle-portrait .sprite{width:64px;height:72px;max-width:100%;filter:drop-shadow(0 5px 7px #0005)}
+.battle-portrait.boss-portrait .sprite{width:84px;height:88px}
+.battle-portrait.fallen-portrait .sprite{filter:grayscale(1);opacity:.65}
+.battle-portrait strong{font-size:13px;line-height:1.4}.battle-portrait small{font-size:11px}
+.action-direction{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;color:var(--gold);text-align:center}.action-direction>span:last-child:not(.event-sigil){font-size:24px}
+.action-targets{display:grid;gap:12px}.action-targets>p{color:var(--dim);font-size:12px;text-align:center}
+.battle-impacts{display:flex;flex-wrap:wrap;gap:8px}
+.battle-impact{flex:1 1 100px;padding:10px 12px;background:#53392f;border-left:3px solid #e4a793;border-radius:2px}
+.battle-impact small{display:block;font-size:11px;color:#efd4c7}.battle-impact b{display:block;font-size:25px;line-height:1.3;margin-top:3px;color:#ffd0b4;font-variant-numeric:tabular-nums}
+.impact-heal{background:#24463b;border-color:#a2d8b5}.impact-heal small{color:#bedcc9}.impact-heal b{color:#bbf2cb}
+.impact-death{background:#413533;border-color:#bc9489}.impact-death b{color:#f2c5b9;font-size:20px}
+.impact-summon,.impact-status{background:#42384c;border-color:#c4aadf}.impact-summon b,.impact-status b{color:#e6ccff;font-size:20px}
+.impact-charge{background:#49432d;border-color:#e3cc85}.impact-charge b{color:#f5dc98;font-size:20px}
+.battlefield{padding:14px 10px;background:radial-gradient(ellipse at center,#49503b44,transparent 75%),#111e1c;border:1px solid #586349;border-radius:8px;margin:20px 0}
+.battle-side h2{display:flex;justify-content:space-between;gap:8px;font-size:14px;align-items:baseline;color:#d6c89a;margin:2px 0 12px}.battle-side h2 small{font-size:10px;font-weight:400;color:#b7c2bf}
+.battle-lane h3{color:#b6c2b7;font-size:11px;font-weight:400;text-align:center;letter-spacing:5px;margin:8px 0}
+.battle-rank{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;justify-content:center}
+.battle-unit{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0;padding:6px 4px 9px;border:1px solid #3e5146;border-radius:6px;background:#293a304d}
+.battle-unit.affected{border-color:#b8a16b;background:#4c49313d}
+.battle-unit .sprite{width:48px;height:60px;max-width:100%;margin:2px 0 5px}.battle-unit.boss-unit .sprite{width:72px;height:76px}
+.battle-unit b{font-size:13px;line-height:1.4;font-weight:500}.unit-condition{font-size:12px;color:#cdd8cd;margin:4px 0}
+.unit-flags{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;min-height:19px}.unit-flags span{font-size:11px;color:#fee6a5;border:1px solid #a28f63;padding:0 4px;border-radius:3px}
+.battle-hp{width:100%;height:7px;background:#08110e;border:1px solid #6c816d;border-radius:3px;overflow:hidden;margin:3px 0 5px}.battle-hp>span{display:block;height:100%;background:#91c19c}.battle-hp.low>span{background:#e1bb65}.battle-hp.critical>span{background:#e29c7e}
+.unit-vitals{font-size:12px;line-height:1.6;color:#c9d2c8;font-variant-numeric:tabular-nums}
+.unit-delta{margin-top:6px;font-size:11px;padding:2px 4px;border-radius:3px}.unit-delta.loss{color:#ffd4be;background:#643d2e}.unit-delta.gain{color:#c3f7d6;background:#284f3e}
+.battle-unit.fallen{background:#303332;border-style:dashed}.battle-unit.fallen .sprite{filter:grayscale(1);opacity:.6}.battle-unit.fallen .unit-condition{color:#ffd0bf;font-weight:700}
+.battle-frontline{display:flex;align-items:center;gap:10px;color:#c7b57e;font-size:10px;letter-spacing:3px;margin:20px 0}.battle-frontline:before,.battle-frontline:after{content:'';height:1px;flex:1;background:#827651}
+.battle-details{border-top:1px solid #66735e;border-bottom:1px solid #66735e;margin:18px 0;padding:4px 0}.battle-details summary,.battle-metadata summary{cursor:pointer;min-height:44px;padding:12px 0;font-size:13px;color:#e1d5ac}
+.battle-event-log{padding-left:22px;line-height:1.8;font-size:13px}.battle-event-log li{margin:7px 0}.battle-event-log .event-damage,.battle-event-log .event-death{color:#ffd0b4}.battle-event-log .event-heal{color:#bceccf}.battle-event-log .event-sp,.battle-event-log .event-info{color:#bdc8c0}
+.battle-details .card{background:#24372f;border-color:#586b5a;color:#eee7d1;padding:10px}.battle-details .stack{padding-bottom:14px}.battle-details .card p{font-size:13px}
+.battle-report .report-paging button{font-size:12px}.battle-report .report-jump{font-size:12px}.battle-report .report-jump input{width:64px}.battle-report .bad{color:#ffceba}
+.battle-metadata p{font-size:12px;color:var(--dim);line-height:1.8}.battle-metadata summary{color:var(--dim)}
+@container(min-width:370px){.battle-rank{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@container(min-width:700px){.battle-report{padding:28px;max-width:950px;margin:auto}.battle-reader h1{font-size:30px}.battle-action{max-width:620px;margin:auto;grid-template-columns:minmax(0,1fr) 100px minmax(0,1fr)}.action-targets{grid-template-columns:repeat(auto-fit,minmax(90px,1fr))}.battlefield{padding:24px;max-width:720px;margin:24px auto}.battle-rank{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}.battle-frontline{margin:28px 0}.battle-directory button{gap:16px;padding:18px 4px}.battle-summary b{font-size:16px}.battle-result h1 span{font-size:60px}.result-opponents span{display:inline-block;margin:0 18px}}

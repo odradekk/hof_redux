@@ -4,14 +4,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HOF Redux · 手机信息结构原型</title>
 <link rel="stylesheet" href="prototype.css">
+<link rel="stylesheet" href="report-battle-view.css">
 <body>
 <div class="lab"><strong>HOF / 界面试验</strong><span>一次性原型 · 全部数值与结果为模拟 · 刷新重置</span>
 <label>预览宽度 <select id="width"><option value="390">390 px</option><option value="320">320 px</option><option value="430">430 px</option><option value="full">桌面 / 自适应</option></select></label>
-<details><summary>试用任务与异常场景</summary><p>第二轮默认打开 D 组合版。请试：切换培养角色后离开再回来；从八名角色中选择最多五人；出战处理中进入城镇；从战报目录进入某一步，翻页或按步骤号跳转，再返回原目录位置。全部操作只修改本页模拟状态。</p>
+<details><summary>试用任务与异常场景</summary><p>默认打开 D 组合版，战报可切换战场版和明细版。请试：切换培养角色后离开再回来；从八名角色中选择最多五人；出战处理中进入城镇；从战报目录进入某一步，翻页或按步骤号跳转，再返回原目录位置。全部操作只修改本页模拟状态。</p>
 <label>下一次提交结果 <select id="scenario"><option value="ok">正常受理</option><option value="busy">容量已满（拒绝受理）</option><option value="conflict">角色已在另一页修改</option><option value="unknown">响应丢失（查询原操作）</option><option value="manual">已受理，等待人工处理</option><option value="cancel">已受理后故障取消</option><option value="pause">维护 / 保护性暂停</option></select></label><button id="reset">重置模拟数据</button></details></div>
 <div id="screen"><div id="app"></div></div>
 <div id="notice" role="status" aria-live="polite"></div>
 <nav id="switcher" aria-label="原型方案切换"><button id="prev" aria-label="上一个方案">←</button><span id="variant-label"></span><button id="next" aria-label="下一个方案">→</button></nav>
+<script src="report-action-fixtures.js"></script>
 <script src="report-prototype.js"></script>
+<script src="report-battle-view.js"></script>
 <script src="prototype.js"></script>
 </body></html>
