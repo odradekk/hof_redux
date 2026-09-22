@@ -1,0 +1,31 @@
+# 人工试用实例 hof-trial：固定构建镜像，供人工试用。
+# 入口：http://127.0.0.1:63000  数据：../var/trial/db  备份目标：../var/trial/backup
+# 远程/手机试用需要的 HTTPS 与域名属于环境准备项（S1 规格），落实前仅本机回环访问。
+name: hof-trial
+
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/app/backend.Dockerfile
+      # 本机代理由 TUN 透明代理提供，容器桥接网络不经过 TUN；构建期使用宿主网络取得外网。
+      network: host
+    image: hof-backend:local
+    environment:
+      HOF_DB_PATH: /var/lib/hof/db/hof.sqlite
+      HOF_TRUST_PROXY: "true"
+    volumes:
+      - ../var/trial/db:/var/lib/hof/db
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ..
+      dockerfile: docker/app/web.Dockerfile
+      network: host
+    image: hof-web:local
+    ports:
+      - "127.0.0.1:63000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

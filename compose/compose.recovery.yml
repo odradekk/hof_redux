@@ -1,0 +1,31 @@
+# 恢复演练实例 hof-recovery：固定构建镜像，供隔离恢复演练。
+# 入口：http://127.0.0.1:64000  数据：../var/recovery/db  备份目标：../var/recovery/backup
+# 演练数据库只从备份产物恢复填入，不从其他实例的运行库直接复制。
+name: hof-recovery
+
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/app/backend.Dockerfile
+      # 本机代理由 TUN 透明代理提供，容器桥接网络不经过 TUN；构建期使用宿主网络取得外网。
+      network: host
+    image: hof-backend:local
+    environment:
+      HOF_DB_PATH: /var/lib/hof/db/hof.sqlite
+      HOF_TRUST_PROXY: "true"
+    volumes:
+      - ../var/recovery/db:/var/lib/hof/db
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ..
+      dockerfile: docker/app/web.Dockerfile
+      network: host
+    image: hof-web:local
+    ports:
+      - "127.0.0.1:64000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
