@@ -1,0 +1,12 @@
+.git
+node_modules
+**/node_modules
+**/dist
+var
+.pnpm-store
+old_hof
+docs
+docker/legacy-php
+compose
+scripts
+*.md

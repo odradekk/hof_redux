@@ -1,0 +1,19 @@
+{
+	# 本机/内网阶段使用明文 HTTP；HTTPS 与域名属于环境准备项（运行契约 Q29），落实后改由 Caddy 自动管理证书。
+	auto_https off
+}
+
+:80 {
+	root * /srv
+	encode gzip
+
+	# 后端只在容器内网可达，同域 /api 由本入口反代。
+	handle /api/* {
+		reverse_proxy backend:3000
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
+}

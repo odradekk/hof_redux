@@ -1,0 +1,14 @@
+{
+	auto_https off
+}
+
+# 开发实例同域入口：/api 转发后端（tsx watch 热更新），其余转发 vite 开发服务器（HMR）。
+:80 {
+	handle /api/* {
+		reverse_proxy backend:3000
+	}
+
+	handle {
+		reverse_proxy frontend:5173
+	}
+}
