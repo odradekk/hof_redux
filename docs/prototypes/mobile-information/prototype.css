@@ -23,3 +23,4 @@
 
 .hybrid{padding-bottom:66px}
 .hybrid>.bottomnav{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);width:min(var(--preview-width,390px),100vw);z-index:9;box-shadow:0 -3px 12px #20302f15}
+.gear-filters{display:grid;gap:8px;margin:14px 0}.gear-filters label{display:flex;justify-content:space-between}.gear-filters input{width:180px;max-width:65%;min-height:44px;border:1px solid #b7c3b9;border-radius:6px;padding:8px;font:inherit}.gear-candidates{max-height:260px;overflow-y:auto;display:grid;gap:8px;padding:3px}.gear-candidates button{display:flex;align-items:center;gap:8px;text-align:left}.gear-candidates small{display:block}.hybrid>.bottomnav{padding-bottom:env(safe-area-inset-bottom,0px)}
