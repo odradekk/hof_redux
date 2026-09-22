@@ -68,6 +68,17 @@
 - 子代理显式指定模型：高难度任务和所有审查使用 `gpt-5.6-sol`；简单快速任务使用 `gpt-5.6-luna`；其他常规任务使用 `gpt-5.6-terra`。任务说明应包含目标、范围、已知证据和交付物。
 - 文档仅记录已确认事实和约定；使用已有文档检查，文档变更不新增无关测试。交付说明结果、验证方式和剩余工作。
 
+### 旧版运行参考
+
+- `old_hof/` 当前通过本机 Docker 运行，部署配置为 `docker-compose.legacy.yml`，服务地址为 `http://127.0.0.1:60000`。
+- 需要确认或验证旧版的可观察行为时，可向该地址发起 HTTP 请求；该实例仅作为玩法和行为参考，仍须遵守旧目录只读及敏感数据边界。
+
+### 新版工程结构（S1 基线）
+
+- pnpm 单仓库：`apps/frontend`（Vue 3 + Vite）、`apps/backend`（Fastify + `node:sqlite`）、`packages/shared`（共享接口契约类型）、`content/`（版本化内容发布清单）、`apps/backend/migrations/`（带版本 SQL 迁移）。
+- 四个隔离实例由 `compose/compose.{dev,test,trial,recovery}.yml` 定义，入口端口 61000/62000/63000/64000（仅回环），数据分别在 `var/<实例>/db`（不入库）；旧版参照栈 `hof-legacy` 占用 60000，不得冲突或复用。
+- 自动检查在 `scripts/`：`check-build.sh`、`check-health.sh`、`check-restart-persistence.sh`，整体验证 `verify-baseline.sh`；用法与锁定版本见 [docs/run/engineering-baseline.md](docs/run/engineering-baseline.md)。
+
 ## Agent skills
 
 ### Issue tracker
