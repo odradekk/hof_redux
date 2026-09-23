@@ -225,6 +225,19 @@ test("职业不可装备的武器不能作为初始装备", () => {
   fs.rmSync(dir, { recursive: true, force: true });
 });
 
+test("阻塞槽位与已穿戴装备冲突时应报错", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "hof-content-neg-"));
+  fs.cpSync(CONTENT_DIR, dir, { recursive: true });
+  const p = path.join(dir, "items.json");
+  const o = JSON.parse(fs.readFileSync(p, "utf8")) as { items: Record<string, unknown>[] };
+  // 短剑阻塞盾槽，但战士初始穿戴仍保留木盾
+  o.items.find((i) => i["id"] === "item.1000")!["blockedSlots"] = ["shield"];
+  fs.writeFileSync(p, JSON.stringify(o, null, 2));
+  const result = validateContent(dir);
+  assert.ok(result.errors.some((d) => d.code === "E_WEAR"), JSON.stringify(result.errors));
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
 test("未知字段应报错（Schema 执行未知字段拒绝）", () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "hof-content-neg-"));
   fs.cpSync(CONTENT_DIR, dir, { recursive: true });

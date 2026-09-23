@@ -26,15 +26,14 @@
         {
           "file": "old_hof/data/data.item.php",
           "lines": "65-74",
-          "note": "1000 短剑：type 剑/atk[10,0]/handle 1。need 6001x4 为未来制作来源含义，S1 不开放制作。无 dh 标记即单手（twoHanded=false）。"
+          "note": "1000 短剑：type 剑/atk[10,0]/handle 1。need 6001x4 为未来制作来源含义，S1 不开放制作。无 dh 标记，规范化为 blockedSlots=[]（单手，不阻塞其他槽）。"
         },
         {
           "file": "old_hof/data/data.item.php",
           "lines": "1839-1848",
           "note": "type2 映射：剑属 WEAPON（内容模型 LEG-14 独立映射依据）。"
         }
-      ],
-      "twoHanded": false
+      ]
     },
     {
       "id": "item.1700",
@@ -66,10 +65,9 @@
         {
           "file": "old_hof/data/data.item.php",
           "lines": "384-393",
-          "note": "1700 棒：type 魔杖/atk[1,5]/handle 1。need 引用 6020（木料·S1 未收录）与 6001，仅保留来源含义；S1 闭合引用只校验已收录定义，未来材料另行收录。无 dh 标记即单手（twoHanded=false）。"
+          "note": "1700 棒：type 魔杖/atk[1,5]/handle 1。need 引用 6020（木料·S1 未收录）与 6001，仅保留来源含义；S1 闭合引用只校验已收录定义，未来材料另行收录。无 dh 标记，规范化为 blockedSlots=[]（单手，不阻塞其他槽）。"
         }
-      ],
-      "twoHanded": false
+      ]
     },
     {
       "id": "item.3000",
@@ -103,10 +101,9 @@
         {
           "file": "old_hof/data/data.item.php",
           "lines": "758-767",
-          "note": "3000 木盾：type 盾/def[5,5,0,0]/handle 1。need 含 S1 未收录的 6020，仅保留来源含义。无 dh 标记即单手（twoHanded=false）。"
+          "note": "3000 木盾：type 盾/def[5,5,0,0]/handle 1。need 含 S1 未收录的 6020，仅保留来源含义。无 dh 标记，规范化为 blockedSlots=[]（单手，不阻塞其他槽）。"
         }
-      ],
-      "twoHanded": false
+      ]
     },
     {
       "id": "item.5000",
@@ -136,10 +133,9 @@
         {
           "file": "old_hof/data/data.item.php",
           "lines": "914-923",
-          "note": "5000 皮甲：type 甲/def[18,15,7,0]/handle 1。need 6040（S1 未收录）仅保留来源含义。无 dh 标记即单手（twoHanded=false）。"
+          "note": "5000 皮甲：type 甲/def[18,15,7,0]/handle 1。need 6040（S1 未收录）仅保留来源含义。无 dh 标记，规范化为 blockedSlots=[]（单手，不阻塞其他槽）。"
         }
-      ],
-      "twoHanded": false
+      ]
     },
     {
       "id": "item.5200",
@@ -169,10 +165,9 @@
         {
           "file": "old_hof/data/data.item.php",
           "lines": "1156-1165",
-          "note": "5200 棉长袍：type 长袍/def[0,5,30,10]/handle 1。need 6180（S1 未收录）仅保留来源含义。无 dh 标记即单手（twoHanded=false）。"
+          "note": "5200 棉长袍：type 长袍/def[0,5,30,10]/handle 1。need 6180（S1 未收录）仅保留来源含义。无 dh 标记，规范化为 blockedSlots=[]（单手，不阻塞其他槽）。"
         }
-      ],
-      "twoHanded": false
+      ]
     },
     {
       "id": "item.6000",

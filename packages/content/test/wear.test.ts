@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validateContent } from "../src/validate.js";
-import { handleCapacity, validateWearSet } from "../src/wear.js";
-import type { EquipmentItemBase, JobDefinition } from "../src/types.js";
+import { handleCapacity, validateWearSet, type WearItem } from "../src/wear.js";
+import type { JobDefinition } from "../src/types.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const CONTENT_DIR = path.resolve(HERE, "..", "..", "..", "content");
@@ -26,12 +26,18 @@ test("S1 两套初始穿戴均合法", () => {
   const items = new Map(c.items.map((i) => [i.id, i]));
   for (const r of c.recruitments) {
     const job = c.jobs.find((j) => j.id === r.jobId)!;
+    const lookup = (id: string | undefined): WearItem | undefined => {
+      if (!id) return undefined;
+      const item = items.get(id);
+      if (!item || item.kind !== "equipment") throw new Error(`初始装备非装备定义：${id}`);
+      return item;
+    };
     const errors = validateWearSet(
       job,
       {
-        weapon: r.initialEquipment.weapon ? (items.get(r.initialEquipment.weapon) as EquipmentItemBase) : undefined,
-        shield: r.initialEquipment.shield ? (items.get(r.initialEquipment.shield) as EquipmentItemBase) : undefined,
-        armor: r.initialEquipment.armor ? (items.get(r.initialEquipment.armor) as EquipmentItemBase) : undefined,
+        weapon: lookup(r.initialEquipment.weapon),
+        shield: lookup(r.initialEquipment.shield),
+        armor: lookup(r.initialEquipment.armor),
       },
       { level: r.initialLevel, dex: r.initialStats.dex },
     );
@@ -39,18 +45,19 @@ test("S1 两套初始穿戴均合法", () => {
   }
 });
 
-test("双手武器与盾冲突", () => {
+test("阻塞槽位冲突被拒绝", () => {
   const job = { id: "job.x", allowedEquipmentTypes: ["剑", "盾"] } as JobDefinition;
-  const greatsword = {
+  const sword = {
     id: "item.x",
     slot: "weapon",
     equipmentType: "剑",
-    twoHanded: true,
+    blockedSlots: ["shield"],
     handleCost: 1,
-  } as EquipmentItemBase;
-  const shield = { id: "item.y", slot: "shield", equipmentType: "盾", twoHanded: false, handleCost: 1 } as EquipmentItemBase;
-  const errors = validateWearSet(job, { weapon: greatsword, shield }, { level: 1, dex: 1 });
+  } satisfies WearItem;
+  const shield = { id: "item.y", slot: "shield", equipmentType: "盾", blockedSlots: [], handleCost: 1 } satisfies WearItem;
+  const errors = validateWearSet(job, { weapon: sword, shield }, { level: 1, dex: 1 });
   assert.ok(errors.some((e) => e.includes("冲突")), JSON.stringify(errors));
+  assert.deepEqual(validateWearSet(job, { weapon: sword }, { level: 1, dex: 1 }), []);
 });
 
 test("承载超限被拒绝", () => {
@@ -59,9 +66,9 @@ test("承载超限被拒绝", () => {
     id: "item.x",
     slot: "weapon",
     equipmentType: "剑",
-    twoHanded: false,
+    blockedSlots: [],
     handleCost: 99,
-  } as EquipmentItemBase;
+  } satisfies WearItem;
   const errors = validateWearSet(job, { weapon: heavy }, { level: 1, dex: 1 });
   assert.ok(errors.some((e) => e.includes("承载不足")), JSON.stringify(errors));
 });

@@ -65,12 +65,11 @@ export interface EquipmentItemBase {
   name: string;
   equipmentType: string;
   slot: "weapon" | "shield" | "armor";
-  blockedSlots?: string[];
+  /** 被占用的其他槽位（旧 dh 规范化为阻塞盾槽）；S1 首批全部为空。 */
+  blockedSlots: ("weapon" | "shield" | "armor")[];
   atk?: [number, number];
   def?: [number, number, number, number];
   handleCost: number;
-  /** 旧 dh 标记；缺席即单手。S1 首批全部为 false。 */
-  twoHanded: boolean;
   buyPrice: number;
   imageAssetId: string;
   /** 持有装备逐件独立身份，定义本身不携带实例状态。 */
