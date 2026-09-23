@@ -1,7 +1,0 @@
-{
-  "releaseId": "s1-baseline-empty",
-  "schemaVersion": 1,
-  "contentHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "files": [],
-  "notes": "工程基线占位清单：不含玩法内容，contentHash 为空文件列表（[] 序列化字节）的 SHA-256。首批 S1 内容包按 docs/design/content-release.md 生成，见后续任务（GitHub #23）。"
-}

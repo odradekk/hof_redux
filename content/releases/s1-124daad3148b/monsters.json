@@ -1,0 +1,207 @@
+{
+  "monsters": [
+    {
+      "id": "monster.1000",
+      "oldNo": "1000",
+      "name": "持斧哥布林",
+      "level": 1,
+      "baseStats": {
+        "str": 8,
+        "int": 3,
+        "dex": 5,
+        "spd": 5,
+        "luk": 1
+      },
+      "maxHp": 140,
+      "maxSp": 80,
+      "atk": [
+        20,
+        10
+      ],
+      "def": [
+        10,
+        3,
+        5,
+        0
+      ],
+      "position": null,
+      "guardPolicy": {
+        "kind": "hp-rate-gte",
+        "threshold": 75
+      },
+      "tactics": [
+        {
+          "conditions": [
+            {
+              "conditionId": "condition.1940",
+              "quantity": 50
+            },
+            {
+              "conditionId": "condition.1205",
+              "quantity": 40
+            }
+          ],
+          "skillId": "skill.1017"
+        },
+        {
+          "conditions": [
+            {
+              "conditionId": "condition.1000",
+              "quantity": 0
+            }
+          ],
+          "skillId": "skill.1000"
+        }
+      ],
+      "experienceReward": 20,
+      "moneyReward": 40,
+      "drops": {
+        "denominator": 10000,
+        "entries": [
+          {
+            "itemId": "item.6000",
+            "weight": 1000
+          },
+          {
+            "itemId": "item.6001",
+            "weight": 1000
+          },
+          {
+            "itemId": "item.6002",
+            "weight": 600
+          },
+          {
+            "itemId": "item.6003",
+            "weight": 200
+          },
+          {
+            "itemId": "item.7100",
+            "weight": 100
+          }
+        ]
+      },
+      "imageAssetId": "asset.monster.1000",
+      "sources": [
+        {
+          "file": "old_hof/data/data.monster.php",
+          "lines": "50-74",
+          "note": "1000 持斧哥布林全字段。judge[1940,1205,1000]/quantity[50,40,0]/action[9000,1017,1000]：前两行经 9000 连接转为有序 AND 组（50% 概率 ∧ SP>=40 → 1017），末行必定→1000。position 缺省表示前后排随机（:3929-3931）。"
+        },
+        {
+          "file": "old_hof/data/data.monster.php",
+          "lines": "3933-3944",
+          "note": "掉落：固定分母 10000 单次抽取，有序区间，未命中为无掉落。本表权重和 2900，无掉落 7100/10000=71%。"
+        },
+        {
+          "file": "old_hof/class/class.battle.php",
+          "lines": "467-482",
+          "note": "9000 连接语义：同组条件 AND，命中后选用组末实际动作（MultiFactJudge 短路）。"
+        },
+        {
+          "file": "old_hof/data/data.monster.php",
+          "lines": "3914-3917",
+          "note": "待决：CreateMonster 返回前对编号 <2000 的怪物统一覆盖 moneyhold=100，本表定义的 40 在旧运行时实际不生效。S1 规格记为 40，两者冲突待裁决（见 #23 审阅）；本包暂按已确认 S1 规格保留 40，未静默采用 100。"
+        }
+      ]
+    },
+    {
+      "id": "monster.1001",
+      "oldNo": "1001",
+      "name": "哥布林勇士",
+      "level": 1,
+      "baseStats": {
+        "str": 8,
+        "int": 3,
+        "dex": 5,
+        "spd": 5,
+        "luk": 1
+      },
+      "maxHp": 180,
+      "maxSp": 50,
+      "atk": [
+        10,
+        10
+      ],
+      "def": [
+        15,
+        5,
+        10,
+        0
+      ],
+      "position": "front",
+      "guardPolicy": {
+        "kind": "hp-rate-gte",
+        "threshold": 75
+      },
+      "tactics": [
+        {
+          "conditions": [
+            {
+              "conditionId": "condition.1940",
+              "quantity": 50
+            },
+            {
+              "conditionId": "condition.1205",
+              "quantity": 50
+            }
+          ],
+          "skillId": "skill.1014"
+        },
+        {
+          "conditions": [
+            {
+              "conditionId": "condition.1000",
+              "quantity": 0
+            }
+          ],
+          "skillId": "skill.1000"
+        }
+      ],
+      "experienceReward": 20,
+      "moneyReward": 40,
+      "drops": {
+        "denominator": 10000,
+        "entries": [
+          {
+            "itemId": "item.6000",
+            "weight": 1000
+          },
+          {
+            "itemId": "item.6001",
+            "weight": 1000
+          },
+          {
+            "itemId": "item.6002",
+            "weight": 600
+          },
+          {
+            "itemId": "item.6003",
+            "weight": 200
+          },
+          {
+            "itemId": "item.7100",
+            "weight": 100
+          }
+        ]
+      },
+      "imageAssetId": "asset.monster.1001",
+      "sources": [
+        {
+          "file": "old_hof/data/data.monster.php",
+          "lines": "75-99",
+          "note": "1001 哥布林勇士全字段。judge[1940,1205,1000]/quantity[50,50,0]/action[9000,1014,1000] 转有序 AND 组（50% ∧ SP>=50 → 1014），position front 固定。"
+        },
+        {
+          "file": "old_hof/data/data.monster.php",
+          "lines": "3933-3944",
+          "note": "掉落同 1000：权重和 2900，无掉落 71%。"
+        },
+        {
+          "file": "old_hof/data/data.monster.php",
+          "lines": "3914-3917",
+          "note": "待决：CreateMonster 返回前对编号 <2000 的怪物统一覆盖 moneyhold=100，本表定义的 40 在旧运行时实际不生效。S1 规格记为 40，两者冲突待裁决（见 #23 审阅）；本包暂按已确认 S1 规格保留 40，未静默采用 100。"
+        }
+      ]
+    }
+  ]
+}

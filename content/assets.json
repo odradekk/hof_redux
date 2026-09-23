@@ -1,0 +1,216 @@
+{
+  "assets": [
+    {
+      "id": "asset.job.100.male",
+      "path": "content/assets/job-100-male.gif",
+      "sourceFile": "old_hof/image/char/mon_079.gif",
+      "sha256": "1ec2f27b8c5abefb7cf2f34ae6e81dc968ac6ffe5d06f8db480f1603ceca9a1a",
+      "bytes": 1035,
+      "usedBy": [
+        "job.100"
+      ]
+    },
+    {
+      "id": "asset.job.100.female",
+      "path": "content/assets/job-100-female.gif",
+      "sourceFile": "old_hof/image/char/mon_080r.gif",
+      "sha256": "0db03607700bd4973f2901a48aca8ab8852beac05e0a6b2ad0af7e867990709c",
+      "bytes": 1037,
+      "usedBy": [
+        "job.100"
+      ]
+    },
+    {
+      "id": "asset.job.200.male",
+      "path": "content/assets/job-200-male.gif",
+      "sourceFile": "old_hof/image/char/mon_106.gif",
+      "sha256": "b026ec6ae53cc6b8756e314fe9f74966b957d01ac7f1582049314a7e628cedae",
+      "bytes": 840,
+      "usedBy": [
+        "job.200"
+      ]
+    },
+    {
+      "id": "asset.job.200.female",
+      "path": "content/assets/job-200-female.gif",
+      "sourceFile": "old_hof/image/char/mon_018.gif",
+      "sha256": "700515f0169a076c26531cd25507d4a934ddbc109d04899602e6ca69aeb460fb",
+      "bytes": 1049,
+      "usedBy": [
+        "job.200"
+      ]
+    },
+    {
+      "id": "asset.monster.1000",
+      "path": "content/assets/monster-1000.gif",
+      "sourceFile": "old_hof/image/char/mon_053.gif",
+      "sha256": "4aa6829bf9e02f223d152e9029c7ba8036495d95a225592dacd524258eed7208",
+      "bytes": 1323,
+      "usedBy": [
+        "monster.1000"
+      ]
+    },
+    {
+      "id": "asset.monster.1001",
+      "path": "content/assets/monster-1001.gif",
+      "sourceFile": "old_hof/image/char/mon_052.gif",
+      "sha256": "3766307812bea09f1f8899660fdd4bd2dcaab49252dc9455709903b44725e5a7",
+      "bytes": 1311,
+      "usedBy": [
+        "monster.1001"
+      ]
+    },
+    {
+      "id": "asset.skill.1000",
+      "path": "content/assets/skill-1000.png",
+      "sourceFile": "old_hof/image/icon/skill_042.png",
+      "sha256": "533ba41f54903f54471b8a862272bff7ae1c600d4a95ccb489225e85797ac870",
+      "bytes": 269,
+      "usedBy": [
+        "skill.1000"
+      ]
+    },
+    {
+      "id": "asset.skill.1001",
+      "path": "content/assets/skill-1001.png",
+      "sourceFile": "old_hof/image/icon/skill_032.png",
+      "sha256": "02b4c3622cc6524ed88b96872ed8a104bba144f9ecc1c79b4d39bdd493ce8ed4",
+      "bytes": 290,
+      "usedBy": [
+        "skill.1001"
+      ]
+    },
+    {
+      "id": "asset.skill.1002",
+      "path": "content/assets/skill-1002.png",
+      "sourceFile": "old_hof/image/icon/skill_018.png",
+      "sha256": "2dedddbf77cf5ab8ceb5417b6ec795c684cedd1e6e4054f96824388f0ec1d928",
+      "bytes": 283,
+      "usedBy": [
+        "skill.1002"
+      ]
+    },
+    {
+      "id": "asset.skill.1014",
+      "path": "content/assets/skill-1014.png",
+      "sourceFile": "old_hof/image/icon/skill_074z.png",
+      "sha256": "b1fdc2f2beba4baca2f6dae3f327270d46ea068af21ddc0a057a17c585609d30",
+      "bytes": 291,
+      "usedBy": [
+        "skill.1014"
+      ]
+    },
+    {
+      "id": "asset.skill.1017",
+      "path": "content/assets/skill-1017.png",
+      "sourceFile": "old_hof/image/icon/skill_031.png",
+      "sha256": "561d739e3c8472f09260a65865454d4e8931166b3550a3335b296453347ab09e",
+      "bytes": 326,
+      "usedBy": [
+        "skill.1017"
+      ]
+    },
+    {
+      "id": "asset.skill.3010",
+      "path": "content/assets/skill-3010.png",
+      "sourceFile": "old_hof/image/icon/skill_019.png",
+      "sha256": "95770436e77d2a09a354d65c3103edbf63ead51c95b537d5879a672fe1a9e9d6",
+      "bytes": 297,
+      "usedBy": [
+        "skill.3010"
+      ]
+    },
+    {
+      "id": "asset.item.1000",
+      "path": "content/assets/item-1000.png",
+      "sourceFile": "old_hof/image/icon/we_sword026.png",
+      "sha256": "ec3fbf1bbae52f3477362a86ea14f909fdbaa3efd6a2067d783a839ac2f79b90",
+      "bytes": 303,
+      "usedBy": [
+        "item.1000"
+      ]
+    },
+    {
+      "id": "asset.item.1700",
+      "path": "content/assets/item-1700.png",
+      "sourceFile": "old_hof/image/icon/we_staff002.png",
+      "sha256": "7bffe864541ae46ae24aaed5a9dcad711eed6c5e86ac1dd02563e8fa5d17b3de",
+      "bytes": 261,
+      "usedBy": [
+        "item.1700"
+      ]
+    },
+    {
+      "id": "asset.item.3000",
+      "path": "content/assets/item-3000.png",
+      "sourceFile": "old_hof/image/icon/shield_001m.png",
+      "sha256": "2570a730e468be7bf4bcbef3c7302ac89a8f4f621b0b4e361c1f2180ee780f34",
+      "bytes": 299,
+      "usedBy": [
+        "item.3000"
+      ]
+    },
+    {
+      "id": "asset.item.5000",
+      "path": "content/assets/item-5000.png",
+      "sourceFile": "old_hof/image/icon/armor_016b.png",
+      "sha256": "9c04f16e7ec6de19cd1f097c829141a892705ae116c856349df9204f92733f68",
+      "bytes": 339,
+      "usedBy": [
+        "item.5000"
+      ]
+    },
+    {
+      "id": "asset.item.5200",
+      "path": "content/assets/item-5200.png",
+      "sourceFile": "old_hof/image/icon/armor_012.png",
+      "sha256": "de8bb4db3bb971d13b4e6b543d239fcf9d1fd56a0a7f1e7d30f9383fd91da722",
+      "bytes": 351,
+      "usedBy": [
+        "item.5200"
+      ]
+    },
+    {
+      "id": "asset.item.6000",
+      "path": "content/assets/item-6000.png",
+      "sourceFile": "old_hof/image/icon/item_009z.png",
+      "sha256": "ad740b29bb9f2f3b404df6b06612e7939071d13b239a4d58935b4109354cfc0b",
+      "bytes": 275,
+      "usedBy": [
+        "item.6000"
+      ]
+    },
+    {
+      "id": "asset.item.6001",
+      "path": "content/assets/item-6001.png",
+      "sourceFile": "old_hof/image/icon/mat_001.png",
+      "sha256": "479747bfe1187a8cbbd3030bc5f08f25e28bc07487c986c6eb197e60bbd5478f",
+      "bytes": 253,
+      "usedBy": [
+        "item.6001",
+        "item.6002",
+        "item.6003"
+      ]
+    },
+    {
+      "id": "asset.item.7100",
+      "path": "content/assets/item-7100.png",
+      "sourceFile": "old_hof/image/icon/item_018.png",
+      "sha256": "d2691fad1fb69ee211198645b4d6d73b8fe7bd28374c34a75835365d50e46938",
+      "bytes": 263,
+      "usedBy": [
+        "item.7100"
+      ]
+    },
+    {
+      "id": "asset.map.gb0.background",
+      "path": "content/assets/map-gb0-background.gif",
+      "sourceFile": "old_hof/image/other/bg_grass.gif",
+      "sha256": "4752053b1fe6f7ba6ee9b294b3fd5d6bae53df3307fbf31b077b796c3b5d0b08",
+      "bytes": 25758,
+      "usedBy": [
+        "map.gb0"
+      ]
+    }
+  ]
+}

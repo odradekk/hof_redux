@@ -1,0 +1,35 @@
+{
+  "maps": [
+    {
+      "id": "map.gb0",
+      "oldId": "gb0",
+      "name": "哥布林(最弱)",
+      "nameEn": "Goblin Training",
+      "background": "grass",
+      "backgroundAssetId": "asset.map.gb0.background",
+      "levelLabel": "Lv1",
+      "enemyCount": { "mode": "equal-party-size", "min": 1, "max": 5 },
+      "encounters": [
+        { "monsterId": "monster.1000", "weight": 300, "preview": true },
+        { "monsterId": "monster.1001", "weight": 300, "preview": true }
+      ],
+      "sources": [
+        {
+          "file": "old_hof/data/data.land_info.php",
+          "lines": "3-15",
+          "note": "gb0：名称/背景 grass/怪物表 1000:[300,1]/1001:[300,1]。第二项为预览标记（adventure-flow 已确认），非权重。"
+        },
+        {
+          "file": "old_hof/class/class.main.php",
+          "lines": "335-374",
+          "note": "遭遇：旧 SelectMonster 0..总权重端点偏差按 LEG-20 修复为 1..W；S1 敌人数等于出战人数（1-5），每敌位独立有放回抽选、允许重复，顺序即敌队顺序。"
+        },
+        {
+          "file": "old_hof/image.php",
+          "lines": "98-104",
+          "note": "背景 grass 取 bg_grass.gif。"
+        }
+      ]
+    }
+  ]
+}

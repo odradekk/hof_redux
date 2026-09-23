@@ -1,0 +1,42 @@
+{
+  "jobs": [
+    {
+      "id": "job.100",
+      "oldNo": "100",
+      "presentation": {
+        "nameMale": "战士",
+        "nameFemale": "战士",
+        "imageMaleAssetId": "asset.job.100.male",
+        "imageFemaleAssetId": "asset.job.100.female"
+      },
+      "hpSpCoefficients": [3, 0.5],
+      "allowedEquipmentTypes": ["剑", "双手剑", "盾", "甲", "衣服", "长袍", "道具"],
+      "sources": [
+        {
+          "file": "old_hof/data/data.job.php",
+          "lines": "11-20",
+          "note": "战士：名称/男女图/可装备/HP·SP 系数。转职目标 101/102/103 超出 S1 范围，S1 不表达转职边。"
+        }
+      ]
+    },
+    {
+      "id": "job.200",
+      "oldNo": "200",
+      "presentation": {
+        "nameMale": "巫师",
+        "nameFemale": "巫师",
+        "imageMaleAssetId": "asset.job.200.male",
+        "imageFemaleAssetId": "asset.job.200.female"
+      },
+      "hpSpCoefficients": [1.5, 1],
+      "allowedEquipmentTypes": ["魔杖", "杖", "书", "衣服", "长袍", "道具"],
+      "sources": [
+        {
+          "file": "old_hof/data/data.job.php",
+          "lines": "48-57",
+          "note": "巫师：名称/男女图/可装备/HP·SP 系数。转职目标 201/202/203 超出 S1 范围，S1 不表达转职边。"
+        }
+      ]
+    }
+  ]
+}

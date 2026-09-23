@@ -1,0 +1,87 @@
+{
+  "conditions": [
+    {
+      "id": "condition.1000",
+      "oldNo": "1000",
+      "kind": "always",
+      "quantityRange": [0, 0],
+      "description": "必定成立",
+      "sources": [
+        {
+          "file": "old_hof/data/data.judge.php",
+          "lines": "18-19",
+          "note": "1000 必定 return true。quantity 固定 0，仅占位。"
+        },
+        {
+          "file": "old_hof/data/data.judge_setup.php",
+          "lines": "16-18",
+          "note": "1000 展示“必定”。"
+        }
+      ]
+    },
+    {
+      "id": "condition.1205",
+      "oldNo": "1205",
+      "kind": "self-sp-absolute-gte",
+      "quantityUnit": "sp",
+      "quantityRange": [0, 99999],
+      "description": "自己的 SP 绝对值以上",
+      "sources": [
+        {
+          "file": "old_hof/data/data.judge.php",
+          "lines": "81-83",
+          "note": "1205：Quantity <= SP，绝对值比较（注释与代码一致为绝对值，非百分比）。"
+        },
+        {
+          "file": "old_hof/data/data.judge_setup.php",
+          "lines": "65-67",
+          "note": "1205 展示“自己的 SP{数量}以上”。"
+        }
+      ]
+    },
+    {
+      "id": "condition.1206",
+      "oldNo": "1206",
+      "kind": "self-sp-absolute-lte",
+      "quantityUnit": "sp",
+      "quantityRange": [0, 99999],
+      "description": "自己的 SP 绝对值以下",
+      "sources": [
+        {
+          "file": "old_hof/data/data.judge.php",
+          "lines": "84-87",
+          "note": "1206：SP <= Quantity，绝对值比较。注释写“(%)”但代码取 $My->SP 绝对值，S1 按代码实际行为记录。"
+        },
+        {
+          "file": "old_hof/data/data.judge_setup.php",
+          "lines": "68-70",
+          "note": "1206 展示“自己的 SP{数量}以下”。"
+        }
+      ]
+    },
+    {
+      "id": "condition.1940",
+      "oldNo": "1940",
+      "kind": "probability-percent",
+      "quantityUnit": "percent",
+      "quantityRange": [0, 100],
+      "description": "给定百分比概率成立（1-100 抽样，prob <= quantity）",
+      "sources": [
+        {
+          "file": "old_hof/data/data.judge.php",
+          "lines": "634-638",
+          "note": "1940：mt_rand(1,100) <= Quantity。"
+        },
+        {
+          "file": "old_hof/data/data.judge_setup.php",
+          "lines": "434-436",
+          "note": "1940 展示“{数量}%的概率”。"
+        }
+      ]
+    }
+  ],
+  "connectorNote": {
+    "oldNo": "9000",
+    "note": "旧 9000（敌方 Lv 以上，data.judge.php:640-646）不是可施放技能，也不是 S1 条件定义。在 S1 内容中，旧 action=9000 的连续行已转换为有序 AND 条件组（combat-contract 战术节：连续连接动作与其后实际动作组成 AND 组，从左到右短路，末尾必须有实际动作）。发布校验拒绝 skill.9000 引用与悬空连接。"
+  }
+}
