@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { dropIntervals, pickDrop, pickEncounter } from "./distributions.js";
@@ -92,13 +93,21 @@ function main(): void {
     }
   }
 
-  // 发布身份由编辑源内容派生：相同编辑源恒得同一标识，不同内容恒得不同标识。
+  // 发布身份由编辑源内容与版本配对元数据共同派生：任一变化即新发布，
+  // 同一快照的启动与恢复条件恒定。配对元数据不参与 contentHash（后者只覆盖内容载荷）。
+  const pairing = {
+    schemaVersion: SCHEMA_VERSION,
+    engine: ENGINE_VERSION,
+    randomProtocol: RANDOM_PROTOCOL,
+    eventFormat: EVENT_FORMAT,
+    compatibleDbSchema: maxMigrationVersion(),
+  };
   const editHashes = EDIT_FILES.map((f) => {
     const data = fs.readFileSync(path.join(CONTENT_DIR, f));
     return `${f}:${sha256Hex(data)}`;
   }).sort();
   const sourceHash = sha256Hex(editHashes.join("\n") + "\n");
-  const releaseId = `s1-${sourceHash.slice(0, 12)}`;
+  const releaseId = `s1-${sha256Hex(`${sourceHash}\n${JSON.stringify(pairing)}\n`).slice(0, 12)}`;
   const snapshotRel = `content/releases/${releaseId}`;
   const snapshotDir = path.join(REPO_ROOT, snapshotRel);
 
@@ -128,47 +137,38 @@ function main(): void {
     staged.set(`${snapshotRel}/assets/${path.basename(a.path)}`, fs.readFileSync(srcAbs));
   }
 
-  if (fs.existsSync(snapshotDir)) {
+  // 完整产物先在临时目录生成（含清单与报告），再整体发布；
+  // 已有快照只做一致性核验，任何字节差异即失败，绝不原地改写。
+  const stageDir = fs.mkdtempSync(path.join(os.tmpdir(), "hof-release-"));
+  try {
     for (const [rel, data] of staged) {
-      const abs = path.join(REPO_ROOT, rel);
-      if (!fs.existsSync(abs) || !fs.readFileSync(abs).equals(data)) {
-        console.error(`快照 ${releaseId} 已存在但内容不一致（不可变快照不得原地改写）：${rel}`);
-        process.exit(1);
+      const abs = path.join(stageDir, path.relative("content", rel));
+      fs.mkdirSync(path.dirname(abs), { recursive: true });
+      fs.writeFileSync(abs, data);
+    }
+
+    const files = [...staged.keys()].sort().map((rel) => {
+      const data = staged.get(rel)!;
+      return { path: rel, sha256: sha256Hex(data), bytes: data.length };
+    });
+    const contentHash = `sha256:${sha256Hex(files.map((f) => `${f.path}:${f.sha256}`).join("\n") + "\n")}`;
+
+    const handlerUse = new Map<string, string[]>();
+    for (const s of content.skills) {
+      if (s.handlerId) {
+        const list = handlerUse.get(s.handlerId) ?? [];
+        list.push(s.id);
+        handlerUse.set(s.handlerId, list);
       }
     }
-  } else {
-    fs.mkdirSync(path.join(snapshotDir, "assets"), { recursive: true });
-    for (const [rel, data] of staged) {
-      fs.writeFileSync(path.join(REPO_ROOT, rel), data);
-    }
-  }
-
-  const files = [...staged.keys()].sort().map((rel) => {
-    const data = staged.get(rel)!;
-    return { path: rel, sha256: sha256Hex(data), bytes: data.length };
-  });
-  const contentHash = `sha256:${sha256Hex(files.map((f) => `${f.path}:${f.sha256}`).join("\n") + "\n")}`;
-
-  const handlerUse = new Map<string, string[]>();
-  for (const s of content.skills) {
-    if (s.handlerId) {
-      const list = handlerUse.get(s.handlerId) ?? [];
-      list.push(s.id);
-      handlerUse.set(s.handlerId, list);
-    }
-  }
-  const release = {
-    releaseId,
-    schemaVersion: SCHEMA_VERSION,
-    contentHash,
-    sourceHash: `sha256:${sourceHash}`,
-    engine: ENGINE_VERSION,
-    randomProtocol: RANDOM_PROTOCOL,
-    eventFormat: EVENT_FORMAT,
-    compatibleDbSchema: maxMigrationVersion(),
-    files,
-    notes: "S1 首批内容包（#23）：招募 1/2、职业 100/200、初始装备 1000/1700/3000/5000/5200、gb0、怪物 1000/1001、技能 1000/1001/1002/1014/1017/3010、条件 1000/1205/1206/1940 与有序 AND、材料 6000/6001/6002/6003/7100。旧 9000 为有序 AND 连接，不作技能。怪物 moneyReward=100 系已裁决保留旧行为（moneyhold<2000 覆盖，属规格来源核对修正，非批准差异）。",
-  };
+    const release = {
+      releaseId,
+      ...pairing,
+      contentHash,
+      sourceHash: `sha256:${sourceHash}`,
+      files,
+      notes: "S1 首批内容包（#23）：招募 1/2、职业 100/200、初始装备 1000/1700/3000/5000/5200、gb0、怪物 1000/1001、技能 1000/1001/1002/1014/1017/3010、条件 1000/1205/1206/1940 与有序 AND、材料 6000/6001/6002/6003/7100。旧 9000 为有序 AND 连接，不作技能。怪物 moneyReward=100 系已裁决保留旧行为（moneyhold<2000 覆盖，属规格来源核对修正，非批准差异）。",
+    };
   const report = {
     releaseId,
     schemaVersion: SCHEMA_VERSION,
@@ -210,10 +210,36 @@ function main(): void {
     ],
   };
 
-  fs.writeFileSync(path.join(snapshotDir, "release.json"), JSON.stringify(release, null, 2) + "\n");
-  fs.writeFileSync(path.join(snapshotDir, "release.report.json"), JSON.stringify(report, null, 2) + "\n");
-  fs.writeFileSync(path.join(CONTENT_DIR, "current-release"), releaseId + "\n");
-  console.log(`已发布 ${releaseId}：${files.length} 个文件，contentHash=${contentHash}`);
+  const releaseBytes = Buffer.from(JSON.stringify(release, null, 2) + "\n", "utf8");
+  const reportBytes = Buffer.from(JSON.stringify(report, null, 2) + "\n", "utf8");
+  fs.writeFileSync(path.join(stageDir, "release.json"), releaseBytes);
+  fs.writeFileSync(path.join(stageDir, "release.report.json"), reportBytes);
+
+  const expected: [string, Buffer][] = [
+    ...[...staged.entries()].map(([rel, data]) => [rel, data] as [string, Buffer]),
+    [`${snapshotRel}/release.json`, releaseBytes],
+    [`${snapshotRel}/release.report.json`, reportBytes],
+  ];
+  if (fs.existsSync(snapshotDir)) {
+    for (const [rel, data] of expected) {
+      const abs = path.join(REPO_ROOT, rel);
+      if (!fs.existsSync(abs) || !fs.readFileSync(abs).equals(data)) {
+        console.error(`快照 ${releaseId} 已存在但内容不一致（不可变快照不得原地改写）：${rel}`);
+        process.exit(1);
+      }
+    }
+    console.log(`快照 ${releaseId} 已存在且一致，仅核验（${expected.length} 个文件）`);
+  } else {
+    fs.mkdirSync(path.join(snapshotDir, "assets"), { recursive: true });
+    for (const [rel, data] of expected) {
+      fs.writeFileSync(path.join(REPO_ROOT, rel), data);
+    }
+    fs.writeFileSync(path.join(CONTENT_DIR, "current-release"), releaseId + "\n");
+    console.log(`已发布 ${releaseId}：${files.length} 个内容文件，contentHash=${contentHash}`);
+  }
+  } finally {
+    fs.rmSync(stageDir, { recursive: true, force: true });
+  }
 }
 
 main();

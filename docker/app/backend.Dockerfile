@@ -14,8 +14,8 @@ RUN corepack pnpm --filter @hof/backend build
 RUN corepack pnpm deploy --legacy --filter @hof/backend --prod /deploy
 
 FROM node:24.14.0-bookworm-slim@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8
+# 内容清单默认经指针定位当前快照（config 默认解析）；此处不再指向已删除的占位清单。
 ENV NODE_ENV=production \
-    HOF_CONTENT_MANIFEST=/app/content/release.json \
     HOF_MIGRATIONS_DIR=/app/migrations \
     HOF_HOST=0.0.0.0 \
     HOF_PORT=3000
@@ -23,10 +23,10 @@ WORKDIR /app
 COPY --from=build /deploy ./
 COPY --from=build /repo/apps/backend/dist ./dist
 COPY apps/backend/migrations ./migrations
-# 运行镜像只装载已验证的发布快照与当前指针，不装载可编辑源与 Schema；
-# 后端经指针加载快照并核对完整性与版本门控。
-COPY content/releases ./content/releases
-COPY content/current-release ./content/current-release
+# 运行镜像只装载构建阶段验证完成的发布快照与当前指针（不装载可编辑源与 Schema，
+# 也不从宿主上下文复制未经构建验证的内容）；后端经指针加载快照并核对完整性与版本门控。
+COPY --from=build /repo/content/releases ./content/releases
+COPY --from=build /repo/content/current-release ./content/current-release
 USER node
 EXPOSE 3000
 CMD ["node", "dist/main.js"]

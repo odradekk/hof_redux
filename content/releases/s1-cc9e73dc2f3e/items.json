@@ -1,0 +1,264 @@
+{
+  "items": [
+    {
+      "id": "item.1000",
+      "oldNo": "1000",
+      "kind": "equipment",
+      "name": "短剑",
+      "equipmentType": "剑",
+      "slot": "weapon",
+      "blockedSlots": [],
+      "atk": [
+        10,
+        0
+      ],
+      "handleCost": 1,
+      "buyPrice": 500,
+      "imageAssetId": "asset.item.1000",
+      "instancePolicy": "independent",
+      "futureCraftNeedsOld": [
+        {
+          "oldNo": "6001",
+          "quantity": 4
+        }
+      ],
+      "sources": [
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "65-74",
+          "note": "1000 短剑：type 剑/atk[10,0]/handle 1。need 6001x4 为未来制作来源含义，S1 不开放制作。无 dh 标记，规范化为 blockedSlots=[]（单手，不阻塞其他槽）。"
+        },
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "1839-1848",
+          "note": "type2 映射：剑属 WEAPON（内容模型 LEG-14 独立映射依据）。"
+        }
+      ]
+    },
+    {
+      "id": "item.1700",
+      "oldNo": "1700",
+      "kind": "equipment",
+      "name": "棒",
+      "equipmentType": "魔杖",
+      "slot": "weapon",
+      "blockedSlots": [],
+      "atk": [
+        1,
+        5
+      ],
+      "handleCost": 1,
+      "buyPrice": 1000,
+      "imageAssetId": "asset.item.1700",
+      "instancePolicy": "independent",
+      "futureCraftNeedsOld": [
+        {
+          "oldNo": "6020",
+          "quantity": 2
+        },
+        {
+          "oldNo": "6001",
+          "quantity": 1
+        }
+      ],
+      "sources": [
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "384-393",
+          "note": "1700 棒：type 魔杖/atk[1,5]/handle 1。need 引用 6020（木料·S1 未收录）与 6001，仅保留来源含义；S1 闭合引用只校验已收录定义，未来材料另行收录。无 dh 标记，规范化为 blockedSlots=[]（单手，不阻塞其他槽）。"
+        }
+      ]
+    },
+    {
+      "id": "item.3000",
+      "oldNo": "3000",
+      "kind": "equipment",
+      "name": "木盾",
+      "equipmentType": "盾",
+      "slot": "shield",
+      "blockedSlots": [],
+      "def": [
+        5,
+        5,
+        0,
+        0
+      ],
+      "handleCost": 1,
+      "buyPrice": 1000,
+      "imageAssetId": "asset.item.3000",
+      "instancePolicy": "independent",
+      "futureCraftNeedsOld": [
+        {
+          "oldNo": "6001",
+          "quantity": 1
+        },
+        {
+          "oldNo": "6020",
+          "quantity": 4
+        }
+      ],
+      "sources": [
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "758-767",
+          "note": "3000 木盾：type 盾/def[5,5,0,0]/handle 1。need 含 S1 未收录的 6020，仅保留来源含义。无 dh 标记，规范化为 blockedSlots=[]（单手，不阻塞其他槽）。"
+        }
+      ]
+    },
+    {
+      "id": "item.5000",
+      "oldNo": "5000",
+      "kind": "equipment",
+      "name": "皮甲",
+      "equipmentType": "甲",
+      "slot": "armor",
+      "blockedSlots": [],
+      "def": [
+        18,
+        15,
+        7,
+        0
+      ],
+      "handleCost": 1,
+      "buyPrice": 1000,
+      "imageAssetId": "asset.item.5000",
+      "instancePolicy": "independent",
+      "futureCraftNeedsOld": [
+        {
+          "oldNo": "6040",
+          "quantity": 8
+        }
+      ],
+      "sources": [
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "914-923",
+          "note": "5000 皮甲：type 甲/def[18,15,7,0]/handle 1。need 6040（S1 未收录）仅保留来源含义。无 dh 标记，规范化为 blockedSlots=[]（单手，不阻塞其他槽）。"
+        }
+      ]
+    },
+    {
+      "id": "item.5200",
+      "oldNo": "5200",
+      "kind": "equipment",
+      "name": "棉长袍",
+      "equipmentType": "长袍",
+      "slot": "armor",
+      "blockedSlots": [],
+      "def": [
+        0,
+        5,
+        30,
+        10
+      ],
+      "handleCost": 1,
+      "buyPrice": 1000,
+      "imageAssetId": "asset.item.5200",
+      "instancePolicy": "independent",
+      "futureCraftNeedsOld": [
+        {
+          "oldNo": "6180",
+          "quantity": 4
+        }
+      ],
+      "sources": [
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "1156-1165",
+          "note": "5200 棉长袍：type 长袍/def[0,5,30,10]/handle 1。need 6180（S1 未收录）仅保留来源含义。无 dh 标记，规范化为 blockedSlots=[]（单手，不阻塞其他槽）。"
+        }
+      ]
+    },
+    {
+      "id": "item.6000",
+      "oldNo": "6000",
+      "kind": "material",
+      "name": "石头",
+      "buyPrice": 1000,
+      "sellPrice": 5,
+      "imageAssetId": "asset.item.6000",
+      "stackable": true,
+      "futureUse": "crafting",
+      "sources": [
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "1310-1317",
+          "note": "6000 石头：材料，可堆叠。S1 仅掉落获得，制作用途 S2 开放。"
+        }
+      ]
+    },
+    {
+      "id": "item.6001",
+      "oldNo": "6001",
+      "kind": "material",
+      "name": "钢",
+      "buyPrice": 1000,
+      "sellPrice": 10,
+      "imageAssetId": "asset.item.6001",
+      "stackable": true,
+      "futureUse": "crafting",
+      "sources": [
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "1318-1325",
+          "note": "6001 钢：材料，可堆叠。亦为初始装备未来配方的来源含义（S1 不消耗）。"
+        }
+      ]
+    },
+    {
+      "id": "item.6002",
+      "oldNo": "6002",
+      "kind": "material",
+      "name": "银",
+      "buyPrice": 1000,
+      "sellPrice": 20,
+      "imageAssetId": "asset.item.6001",
+      "stackable": true,
+      "futureUse": "crafting",
+      "sources": [
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "1326-1333",
+          "note": "6002 银：材料，与 6001 共用 mat_001.png（旧定义如此）。"
+        }
+      ]
+    },
+    {
+      "id": "item.6003",
+      "oldNo": "6003",
+      "kind": "material",
+      "name": "铁",
+      "buyPrice": 1000,
+      "sellPrice": 30,
+      "imageAssetId": "asset.item.6001",
+      "stackable": true,
+      "futureUse": "crafting",
+      "sources": [
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "1334-1341",
+          "note": "6003 铁：材料，与 6001 共用 mat_001.png。"
+        }
+      ]
+    },
+    {
+      "id": "item.7100",
+      "oldNo": "7100",
+      "kind": "material",
+      "name": "哥布林之泪",
+      "buyPrice": 3000,
+      "sellPrice": 100,
+      "imageAssetId": "asset.item.7100",
+      "stackable": true,
+      "futureUse": "crafting",
+      "futureAffix": "M01",
+      "sources": [
+        {
+          "file": "old_hof/data/data.item.php",
+          "lines": "1556-1564",
+          "note": "7100 哥布林之泪：材料，Add M01 为未来追加效果来源含义（data.enchant.php M01：MAXHP+10“哥布林之”），S1 不抽取附加效果。"
+        }
+      ]
+    }
+  ]
+}
