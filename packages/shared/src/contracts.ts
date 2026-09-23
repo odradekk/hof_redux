@@ -19,9 +19,11 @@ export interface VersionResponse {
     version: string;
   };
   content: {
-    /** 已加载内容发布包标识；基线阶段为占位清单，首批内容包随 #23 发布。 */
+    /** 已加载内容发布快照标识；首批内容包随 #23 以不可变快照发布。 */
     releaseId: string;
     schemaVersion: number;
+    /** 快照内容摘要（排序后的 path:sha256 清单哈希），用于区分同名不同内容的发布。 */
+    contentHash: string;
   };
   database: {
     /** 已应用的最高迁移版本号。 */

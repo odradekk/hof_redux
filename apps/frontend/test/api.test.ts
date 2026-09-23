@@ -4,7 +4,7 @@ import { decodeHealth, decodeVersion } from "../src/api.ts";
 
 const goodVersion = {
   app: { name: "@hof/backend", version: "0.1.0" },
-  content: { releaseId: "s1-baseline-empty", schemaVersion: 1 },
+  content: { releaseId: "s1-test", schemaVersion: 1, contentHash: `sha256:${"ab".repeat(32)}` },
   database: { schemaVersion: 2 },
 };
 
@@ -33,6 +33,8 @@ test("decodeVersion 拒绝缺字段与非法类型", () => {
     { ...goodVersion, app: { name: "a" } },
     { ...goodVersion, content: { releaseId: "r", schemaVersion: 0 } },
     { ...goodVersion, content: { releaseId: "r", schemaVersion: "1" } },
+    { ...goodVersion, content: { releaseId: "r", schemaVersion: 1 } },
+    { ...goodVersion, content: { releaseId: "r", schemaVersion: 1, contentHash: "nope" } },
     { ...goodVersion, database: { schemaVersion: 1.5 } },
   ];
   for (const bad of cases) {

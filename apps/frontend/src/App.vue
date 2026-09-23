@@ -53,7 +53,7 @@ onMounted(refresh);
         </div>
         <div>
           <dt>内容版本</dt>
-          <dd v-if="version">{{ version.content.releaseId }}（schema v{{ version.content.schemaVersion }}）</dd>
+          <dd v-if="version">{{ version.content.releaseId }}（schema v{{ version.content.schemaVersion }}，{{ version.content.contentHash.slice(0, 19) }}…）</dd>
           <dd v-else class="bad">未知</dd>
         </div>
         <div>

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveSnapshotManifest } from "./contentManifest.js";
 
 export interface AppConfig {
   host: string;
@@ -37,14 +38,21 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       throw new Error("找不到迁移目录，请设置 HOF_MIGRATIONS_DIR");
     })();
 
+  // 内容清单默认经 current-release 指针定位当前不可变快照；
+  // HOF_CONTENT_MANIFEST 显式指向仍优先（测试与恢复演练用）。
   const contentManifestPath =
     env.HOF_CONTENT_MANIFEST ??
-    firstExisting([
-      path.resolve(process.cwd(), "content/release.json"),
-      path.resolve(process.cwd(), "../../content/release.json"),
-    ]) ??
     (() => {
-      throw new Error("找不到内容发布清单，请设置 HOF_CONTENT_MANIFEST");
+      const candidates = [
+        path.resolve(process.cwd(), "content"),
+        path.resolve(process.cwd(), "../../content"),
+        path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "content"),
+      ];
+      const dir = firstExisting(candidates);
+      if (!dir) {
+        throw new Error("找不到内容目录，请设置 HOF_CONTENT_MANIFEST");
+      }
+      return resolveSnapshotManifest(dir);
     })();
 
   return {

@@ -15,7 +15,8 @@ lock.acquire();
 // 单一业务写连接：WAL / synchronous=FULL / 外键开启，读回校验。
 const db = openBusinessDatabase(config.dbPath);
 const schemaVersion = runMigrations(db, config.migrationsDir);
-const content = loadContentManifest(config.contentManifestPath);
+// 内容快照门控：版本组合与数据库版本一致后才受理业务。
+const content = loadContentManifest(config.contentManifestPath, { expectedDbSchema: schemaVersion });
 
 const app = Fastify({
   logger: { level: "info" },
@@ -31,7 +32,7 @@ app.get("/api/health", async (): Promise<HealthResponse> => {
 app.get("/api/version", async (): Promise<VersionResponse> => {
   return {
     app: { name: "@hof/backend", version: config.appVersion },
-    content: { releaseId: content.releaseId, schemaVersion: content.schemaVersion },
+    content: { releaseId: content.releaseId, schemaVersion: content.schemaVersion, contentHash: content.contentHash },
     database: { schemaVersion },
   };
 });

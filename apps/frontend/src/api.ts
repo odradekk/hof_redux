@@ -47,6 +47,10 @@ export function decodeVersion(value: unknown): VersionResponse {
   const app = asRecord(record.app, "/api/version app");
   const content = asRecord(record.content, "/api/version content");
   const database = asRecord(record.database, "/api/version database");
+  const contentHash = asString(content.contentHash, "/api/version content.contentHash");
+  if (!contentHash.startsWith("sha256:")) {
+    throw new Error(`/api/version content.contentHash 非法：${contentHash}`);
+  }
   return {
     app: {
       name: asString(app.name, "/api/version app.name"),
@@ -55,6 +59,7 @@ export function decodeVersion(value: unknown): VersionResponse {
     content: {
       releaseId: asString(content.releaseId, "/api/version content.releaseId"),
       schemaVersion: asPositiveInt(content.schemaVersion, "/api/version content.schemaVersion"),
+      contentHash,
     },
     database: {
       schemaVersion: asPositiveInt(database.schemaVersion, "/api/version database.schemaVersion"),

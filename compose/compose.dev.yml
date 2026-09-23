@@ -29,7 +29,7 @@ services:
       CI: "true"
       HOME: /home/node
       HOF_DB_PATH: /var/lib/hof/db/hof.sqlite
-      HOF_CONTENT_MANIFEST: /repo/content/release.json
+      # 内容清单默认经 content/current-release 指针定位当前快照，不再指向已删除的占位清单。
       HOF_MIGRATIONS_DIR: /repo/apps/backend/migrations
       HOF_HOST: 0.0.0.0
       HOF_PORT: "3000"
