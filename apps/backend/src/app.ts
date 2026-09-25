@@ -20,6 +20,9 @@ export function buildApp(
   schemaVersion: number,
   partyContent: PartyContent,
 ): FastifyInstance {
+  if (content.releaseId !== partyContent.releaseId) {
+    throw new Error(`建队内容版本与发布清单不一致：${partyContent.releaseId} / ${content.releaseId}`);
+  }
   const app = Fastify({
     logger: { level: "silent" },
     trustProxy: config.trustProxy,

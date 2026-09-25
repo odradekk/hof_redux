@@ -138,8 +138,7 @@ export function createFirstParty(
       "INSERT INTO owned_equipment (id, account_id, definition_id, slot, equipped_character_id, created_at) VALUES (?, ?, ?, ?, ?, ?)",
     );
     for (const [slot, definitionId] of Object.entries(template.initialEquipment)) {
-      const equipmentSlot = content.equipmentSlots.get(definitionId) ?? slot;
-      insertEquipment.run(newId(), opts.accountId, definitionId, equipmentSlot, characterId, now);
+      insertEquipment.run(newId(), opts.accountId, definitionId, slot, characterId, now);
     }
 
     const insertTactic = db.prepare(
@@ -168,7 +167,7 @@ export interface MinePartyResult {
 }
 
 /** 只读查看：角色等级/经验/属性/未分配点/技能/装备/阵位/默认战术（S1 无培养编辑）。 */
-export function getPartyMine(db: DatabaseSync, accountId: string): MinePartyResult {
+export function getPartyMine(db: DatabaseSync, accountId: string, content: PartyContent): MinePartyResult {
   const account = db.prepare("SELECT team_name, team_completed FROM accounts WHERE id = ? AND deleted_at IS NULL").get(
     accountId,
   ) as unknown as { team_name: string | null; team_completed: number } | undefined;
@@ -188,19 +187,28 @@ export function getPartyMine(db: DatabaseSync, accountId: string): MinePartyResu
     db.prepare("SELECT skill_id FROM character_skills WHERE character_id = ? ORDER BY position").all(characterId) as unknown as {
       skill_id: string;
     }[]
-  ).map((row) => row.skill_id);
+  ).map((row) => ({ skillId: row.skill_id, name: requireDefinition(content.skillNames, row.skill_id) }));
   const equipment = (
     db.prepare("SELECT id, definition_id, slot FROM owned_equipment WHERE equipped_character_id = ? ORDER BY slot, id").all(
       characterId,
     ) as unknown as { id: string; definition_id: string; slot: string }[]
-  ).map((row) => ({ equipmentId: row.id, definitionId: row.definition_id, slot: row.slot }));
+  ).map((row) => ({
+    equipmentId: row.id,
+    definitionId: row.definition_id,
+    name: requireDefinition(content.equipmentNames, row.definition_id),
+    slot: row.slot,
+  }));
   const tactics = (
     db.prepare("SELECT skill_id, conditions_json FROM character_tactics WHERE character_id = ? ORDER BY position").all(
       characterId,
     ) as unknown as { skill_id: string; conditions_json: string }[]
   ).map((row) => ({
-    conditions: JSON.parse(row.conditions_json) as Array<{ conditionId: string; quantity: number }>,
+    conditions: (JSON.parse(row.conditions_json) as Array<{ conditionId: string; quantity: number }>).map((condition) => ({
+      ...condition,
+      description: requireDefinition(content.conditionDescriptions, condition.conditionId),
+    })),
     skillId: row.skill_id,
+    skillName: requireDefinition(content.skillNames, row.skill_id),
   }));
 
   return {
@@ -210,6 +218,9 @@ export function getPartyMine(db: DatabaseSync, accountId: string): MinePartyResu
       characterId,
       name: String(character.name),
       jobId: String(character.job_id),
+      jobName: requireDefinition(content.jobNames, String(character.job_id))[
+        String(character.gender) === "male" ? "male" : "female"
+      ],
       gender: String(character.gender),
       level: Number(character.level),
       experience: Number(character.experience),
@@ -226,13 +237,19 @@ export function getPartyMine(db: DatabaseSync, accountId: string): MinePartyResu
       },
       unassignedAp: Number(character.unassigned_ap),
       unassignedSp: Number(character.unassigned_sp),
-      skillIds: skills,
+      skills,
       equipment,
       position: String(character.position),
       guardPolicy: { kind: String(character.guard_policy) },
       defaultTactics: tactics,
     },
   };
+}
+
+function requireDefinition<T>(definitions: Map<string, T>, id: string): T {
+  const value = definitions.get(id);
+  if (value === undefined) throw new Error(`角色引用未发布的内容：${id}`);
+  return value;
 }
 
 /** 建队资格：未建队账号不能招募或冒险（后续招募/冒险入口调用此门槛）。 */

@@ -368,24 +368,24 @@ onMounted(async () => {
         <dl class="status-grid">
           <div><dt>队伍名</dt><dd>{{ mineParty.teamName }}</dd></div>
           <div><dt>首名角色</dt><dd>{{ mineParty.character.name }}</dd></div>
-          <div><dt>职业</dt><dd>{{ mineParty.character.jobId === "job.100" ? "战士" : "法师" }}（{{ mineParty.character.gender === "male" ? "男" : "女" }}）</dd></div>
+          <div><dt>职业</dt><dd>{{ mineParty.character.jobName }}（{{ mineParty.character.gender === "male" ? "男" : "女" }}）</dd></div>
           <div><dt>等级 / 经验</dt><dd>{{ mineParty.character.level }} / {{ mineParty.character.experience }}</dd></div>
           <div><dt>HP / SP</dt><dd>{{ mineParty.character.hp }} / {{ mineParty.character.maxHp }} · {{ mineParty.character.sp }} / {{ mineParty.character.maxSp }}</dd></div>
           <div><dt>属性（力/智/敏/速/运）</dt><dd>{{ mineParty.character.stats.str }} / {{ mineParty.character.stats.int }} / {{ mineParty.character.stats.dex }} / {{ mineParty.character.stats.spd }} / {{ mineParty.character.stats.luk }}</dd></div>
           <div><dt>未分配点数</dt><dd>属性 {{ mineParty.character.unassignedAp }} · 技能 {{ mineParty.character.unassignedSp }}</dd></div>
-          <div><dt>技能</dt><dd>{{ mineParty.character.skillIds.join("、") }}</dd></div>
+          <div><dt>技能</dt><dd>{{ mineParty.character.skills.map((skill) => skill.name).join("、") }}</dd></div>
           <div><dt>阵位 / 掩护</dt><dd>{{ mineParty.character.position === "front" ? "前排" : "后排" }} / {{ mineParty.character.guardPolicy.kind === "always" ? "掩护" : "不掩护" }}</dd></div>
         </dl>
         <h3>装备（每件独立身份）</h3>
         <ul>
           <li v-for="item in mineParty.character.equipment" :key="item.equipmentId">
-            {{ item.slot }}：{{ item.definitionId }}（归属本角色）
+            {{ item.slot }}：{{ item.name }}（归属本角色）
           </li>
         </ul>
         <h3>默认战术（只读）</h3>
         <ol>
           <li v-for="(tactic, index) in mineParty.character.defaultTactics" :key="index">
-            {{ tactic.conditions.map((c) => `${c.conditionId}×${c.quantity}`).join(" + ") }} → {{ tactic.skillId }}
+            {{ tactic.conditions.map((c) => `${c.description}（${c.quantity}）`).join(" + ") }} → {{ tactic.skillName }}
           </li>
         </ol>
         <p class="muted">S1 尚未开放加点、技能学习、换装与战术编辑；以上为真实保存的只读状态。</p>
@@ -397,10 +397,10 @@ onMounted(async () => {
         <p class="muted">输入队名与首名角色姓名，选择战士/法师及性别，一次提交建队（首角免费）。队名全服唯一，角色名允许重名；名称 1–16 个字符，按 Unicode 码点计数。</p>
         <form @submit.prevent="onCreateFirstParty">
           <label>队伍名（全服唯一）
-            <input v-model="teamName" maxlength="16" inputmode="text" autocapitalize="none" autocorrect="off" :disabled="partyBusy || partyPending" />
+            <input v-model="teamName" inputmode="text" autocapitalize="none" autocorrect="off" :disabled="partyBusy || partyPending" />
           </label>
           <label>首名角色姓名（可重名）
-            <input v-model="characterName" maxlength="16" inputmode="text" autocapitalize="none" autocorrect="off" :disabled="partyBusy || partyPending" />
+            <input v-model="characterName" inputmode="text" autocapitalize="none" autocorrect="off" :disabled="partyBusy || partyPending" />
           </label>
           <fieldset>
             <legend>职业</legend>

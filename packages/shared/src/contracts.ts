@@ -123,6 +123,7 @@ export type AuthErrorCode =
   | "REQUEST_CONFLICT"
   | "RATE_LIMITED";
 
+
 /** 首次建队契约常量（#25）：与 docs/design/accounts.md 名称规则一致。 */
 export const PARTY_CONTRACT = {
   /** 队伍名/角色名按 Unicode 码点计数。 */
@@ -149,6 +150,7 @@ export interface PartyCharacterView {
   characterId: string;
   name: string;
   jobId: string;
+  jobName: string;
   gender: string;
   level: number;
   experience: number;
@@ -160,11 +162,15 @@ export interface PartyCharacterView {
   /** 未分配属性点 / 技能点（S1 只读展示，培养编辑后续开放）。 */
   unassignedAp: number;
   unassignedSp: number;
-  skillIds: string[];
-  equipment: Array<{ equipmentId: string; definitionId: string; slot: string }>;
+  skills: Array<{ skillId: string; name: string }>;
+  equipment: Array<{ equipmentId: string; definitionId: string; name: string; slot: string }>;
   position: string;
   guardPolicy: { kind: string };
-  defaultTactics: Array<{ conditions: Array<{ conditionId: string; quantity: number }>; skillId: string }>;
+  defaultTactics: Array<{
+    conditions: Array<{ conditionId: string; description: string; quantity: number }>;
+    skillId: string;
+    skillName: string;
+  }>;
 }
 
 /** POST /api/party/first 响应。 */
@@ -195,9 +201,10 @@ export type PartyErrorCode =
   | "PARTY_ALREADY_COMPLETED"
   | "TEAM_NOT_COMPLETED"
   | "REQUEST_CONFLICT"
-  | "RATE_LIMITED";
+  | "RATE_LIMITED"
+  | "INTERNAL_ERROR";
 
 export interface ErrorResponse {
-  code: AuthErrorCode;
+  code: AuthErrorCode | PartyErrorCode;
   message: string;
 }

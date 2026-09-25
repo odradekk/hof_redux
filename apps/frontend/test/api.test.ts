@@ -85,6 +85,7 @@ const partyCharacter = {
   characterId: "char-1",
   name: "艾尔文",
   jobId: "job.100",
+  jobName: "战士",
   gender: "male",
   level: 1,
   experience: 0,
@@ -95,11 +96,11 @@ const partyCharacter = {
   stats: { str: 10, int: 2, dex: 4, spd: 4, luk: 1 },
   unassignedAp: 0,
   unassignedSp: 0,
-  skillIds: ["skill.1000", "skill.1001"],
-  equipment: [{ equipmentId: "eq-1", definitionId: "item.1000", slot: "weapon" }],
+  skills: [{ skillId: "skill.1000", name: "攻击" }, { skillId: "skill.1001", name: "痛击" }],
+  equipment: [{ equipmentId: "eq-1", definitionId: "item.1000", name: "短剑", slot: "weapon" }],
   position: "front",
   guardPolicy: { kind: "always" },
-  defaultTactics: [{ conditions: [{ conditionId: "condition.1205", quantity: 8 }], skillId: "skill.1001" }],
+  defaultTactics: [{ conditions: [{ conditionId: "condition.1205", description: "自己的 SP 绝对值以上", quantity: 8 }], skillId: "skill.1001", skillName: "痛击" }],
 };
 
 test("建队响应解码接受契约内视图，拒绝坏数据", () => {

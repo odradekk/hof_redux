@@ -227,16 +227,11 @@ export async function logout(): Promise<void> {
   }
 }
 
-function asStringArray(value: unknown, where: string): string[] {
-  if (!Array.isArray(value) || !value.every((v): v is string => typeof v === "string")) {
-    throw new Error(`${where} 应为字符串数组，实际：${JSON.stringify(value)}`);
-  }
-  return value;
-}
-
 export function decodePartyCharacter(value: unknown, where: string): PartyCharacterView {
   const record = asRecord(value, where);
   const stats = asRecord(record.stats, `${where} stats`);
+  const skills = record.skills as unknown;
+  if (!Array.isArray(skills)) throw new Error(`${where} skills 应为数组`);
   const equipment = record.equipment as unknown;
   if (!Array.isArray(equipment)) throw new Error(`${where} equipment 应为数组`);
   const tactics = record.defaultTactics as unknown;
@@ -245,6 +240,7 @@ export function decodePartyCharacter(value: unknown, where: string): PartyCharac
     characterId: asString(record.characterId, `${where} characterId`),
     name: asString(record.name, `${where} name`),
     jobId: asString(record.jobId, `${where} jobId`),
+    jobName: asString(record.jobName, `${where} jobName`),
     gender: asString(record.gender, `${where} gender`),
     level: asPositiveInt(record.level, `${where} level`),
     experience: asNonnegativeInt(record.experience, `${where} experience`),
@@ -261,12 +257,19 @@ export function decodePartyCharacter(value: unknown, where: string): PartyCharac
     },
     unassignedAp: asNonnegativeInt(record.unassignedAp, `${where} unassignedAp`),
     unassignedSp: asNonnegativeInt(record.unassignedSp, `${where} unassignedSp`),
-    skillIds: asStringArray(record.skillIds, `${where} skillIds`),
+    skills: skills.map((entry, index) => {
+      const skill = asRecord(entry, `${where} skills[${index}]`);
+      return {
+        skillId: asString(skill.skillId, `${where} skills[${index}].skillId`),
+        name: asString(skill.name, `${where} skills[${index}].name`),
+      };
+    }),
     equipment: equipment.map((entry, index) => {
       const item = asRecord(entry, `${where} equipment[${index}]`);
       return {
         equipmentId: asString(item.equipmentId, `${where} equipment[${index}].equipmentId`),
         definitionId: asString(item.definitionId, `${where} equipment[${index}].definitionId`),
+        name: asString(item.name, `${where} equipment[${index}].name`),
         slot: asString(item.slot, `${where} equipment[${index}].slot`),
       };
     }),
@@ -281,10 +284,12 @@ export function decodePartyCharacter(value: unknown, where: string): PartyCharac
           const item = asRecord(condition, `${where} condition[${conditionIndex}]`);
           return {
             conditionId: asString(item.conditionId, `${where} condition.conditionId`),
+            description: asString(item.description, `${where} condition.description`),
             quantity: asNonnegativeInt(item.quantity, `${where} condition.quantity`),
           };
         }),
         skillId: asString(tactic.skillId, `${where} defaultTactics[${index}].skillId`),
+        skillName: asString(tactic.skillName, `${where} defaultTactics[${index}].skillName`),
       };
     }),
   };

@@ -1,22 +1,38 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
+import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { DatabaseSync } from "node:sqlite";
 import { buildApp } from "../src/app.js";
+import { loadContentManifest, resolveSnapshotManifest } from "../src/contentManifest.js";
 import { runMigrations } from "../src/db/migrate.js";
-import { buildTestPartyContent } from "../src/party/content.js";
+import { loadPartyContent } from "../src/party/content.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const MIGRATIONS_DIR = path.resolve(HERE, "../migrations");
+const SNAPSHOT_MANIFEST = resolveSnapshotManifest(path.resolve(HERE, "../../../content"));
+const TEST_CONTENT = loadContentManifest(SNAPSHOT_MANIFEST, { expectedDbSchema: 4 });
+const SNAPSHOT_DIR = path.dirname(SNAPSHOT_MANIFEST);
+const PARTY_CONTENT = loadPartyContent(SNAPSHOT_DIR);
 
-const TEST_CONTENT = {
-  releaseId: "s1-test",
-  schemaVersion: 1,
-  contentHash: "sha256:test",
-  fileCount: 0,
-};
+function withEditedSnapshot(file: string, edit: (data: Record<string, unknown>) => void, check: (dir: string) => void): void {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "hof-party-content-"));
+  try {
+    for (const name of ["release.json", "jobs.json", "items.json", "skills.json", "conditions.json", "recruitment.json"]) {
+      fs.copyFileSync(path.join(SNAPSHOT_DIR, name), path.join(dir, name));
+    }
+    const target = path.join(dir, file);
+    const data = JSON.parse(fs.readFileSync(target, "utf8")) as Record<string, unknown>;
+    edit(data);
+    fs.writeFileSync(target, JSON.stringify(data));
+    check(dir);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
 
 function createTestApp() {
   const db = new DatabaseSync(":memory:");
@@ -34,7 +50,7 @@ function createTestApp() {
     appVersion: "0.1.0-test",
     maxUsers: 500,
   };
-  const app = buildApp(db, config, TEST_CONTENT, 4, buildTestPartyContent());
+  const app = buildApp(db, config, TEST_CONTENT, 4, PARTY_CONTENT);
   return { app, db };
 }
 
@@ -87,19 +103,25 @@ test("首次建队一次提交获得队伍、首角、独立装备、技能、�
   assert.equal(character.level, 1);
   assert.equal(character.experience, 0);
   assert.deepEqual(character.stats, { str: 10, int: 2, dex: 4, spd: 4, luk: 1 });
-  assert.deepEqual(character.skillIds, ["skill.1000", "skill.1001"]);
+  assert.deepEqual(character.skills, [
+    { skillId: "skill.1000", name: "攻击" },
+    { skillId: "skill.1001", name: "痛击" },
+  ]);
+  assert.equal(character.jobName, "战士");
   assert.equal(character.position, "front");
   assert.deepEqual(character.guardPolicy, { kind: "always" });
-  assert.deepEqual(character.defaultTactics, [
-    { conditions: [{ conditionId: "condition.1205", quantity: 8 }], skillId: "skill.1001" },
-    { conditions: [{ conditionId: "condition.1000", quantity: 0 }], skillId: "skill.1000" },
+  assert.deepEqual((character.defaultTactics as Array<{ skillId: string }>).map((tactic) => tactic.skillId), [
+    "skill.1001",
+    "skill.1000",
   ]);
+  assert.equal((character.defaultTactics as Array<{ skillName: string }>)[0].skillName, "痛击");
 
   // 每件初始装备拥有不复用的持有身份、正确归属和穿戴关系。
-  const equipment = character.equipment as { equipmentId: string; definitionId: string; slot: string }[];
+  const equipment = character.equipment as { equipmentId: string; definitionId: string; name: string; slot: string }[];
   assert.equal(equipment.length, 3);
   const definitions = equipment.map((e) => e.definitionId).sort();
   assert.deepEqual(definitions, ["item.1000", "item.3000", "item.5000"]);
+  assert.ok(equipment.some((item) => item.name === "短剑"));
   assert.equal(new Set(equipment.map((e) => e.equipmentId)).size, 3);
   const rows = db.prepare("SELECT * FROM owned_equipment").all() as unknown as Record<string, unknown>[];
   assert.equal(rows.length, 3);
@@ -148,12 +170,52 @@ test("战士/法师与男/女四种组合均生成正确内容", async () => {
     assert.equal(character.jobId, cases[index].jobId, `组合 ${index} 职业`);
     assert.equal(character.gender, cases[index].gender, `组合 ${index} 性别`);
     assert.equal(character.position, cases[index].position, `组合 ${index} 阵位`);
-    assert.equal((character.skillIds as unknown[]).length, cases[index].skills, `组合 ${index} 技能`);
+    assert.equal((character.skills as unknown[]).length, cases[index].skills, `组合 ${index} 技能`);
     assert.equal((character.equipment as unknown[]).length, cases[index].equipment, `组合 ${index} 装备`);
     await app.close();
     db.close();
   }
   // 角色名允许重名：四队同名均成功已在上循环中断言。
+});
+
+test("建队内容加载拒绝槽位错配和重复招募标识", () => {
+  withEditedSnapshot("recruitment.json", (data) => {
+    const recruitments = data.recruitments as Array<Record<string, unknown>>;
+    (recruitments[0].initialEquipment as Record<string, string>).shield = "item.1000";
+  }, (dir) => assert.throws(() => loadPartyContent(dir), /不属于槽位 shield/));
+
+  withEditedSnapshot("recruitment.json", (data) => {
+    const recruitments = data.recruitments as Array<Record<string, unknown>>;
+    recruitments.push(recruitments[0]);
+  }, (dir) => assert.throws(() => loadPartyContent(dir), /内容标识重复：recruit.1/));
+});
+
+test("发布身份不一致拒绝组装应用；无法解释的持有内容返回服务端错误", async () => {
+  const { app, db } = createTestApp();
+  const jar = await registerAndLogin(app, "badcontent1");
+  const created = await app.inject({
+    method: "POST",
+    url: "/api/party/first",
+    headers: { cookie: jar },
+    payload: firstPartyPayload(),
+  });
+  assert.equal(created.statusCode, 201);
+  db.prepare("UPDATE character_skills SET skill_id = ? WHERE position = 0").run("skill.missing");
+  const mine = await app.inject({ method: "GET", url: "/api/party/mine", headers: { cookie: jar } });
+  assert.equal(mine.statusCode, 500);
+  assert.deepEqual(mine.json(), { code: "INTERNAL_ERROR", message: "服务器内部错误" });
+  assert.throws(() => buildApp(db, {
+    host: "127.0.0.1",
+    port: 0,
+    dbPath: ":memory:",
+    migrationsDir: MIGRATIONS_DIR,
+    contentManifestPath: SNAPSHOT_MANIFEST,
+    trustProxy: false,
+    appVersion: "0.1.0-test",
+    maxUsers: 500,
+  }, { ...TEST_CONTENT, releaseId: "wrong-release" }, 4, PARTY_CONTENT), /版本与发布清单不一致/);
+  await app.close();
+  db.close();
 });
 
 test("队名与角色名按 NFC、码点长度及字符规则校验；队名唯一", async () => {
@@ -201,6 +263,16 @@ test("队名与角色名按 NFC、码点长度及字符规则校验；队名唯�
   const mine2 = await app.inject({ method: "GET", url: "/api/party/mine", headers: { cookie: jar2 } });
   assert.equal((mine2.json() as Record<string, unknown>).teamCompleted, false);
   assert.equal((db.prepare("SELECT COUNT(*) AS n FROM characters").get() as { n: number }).n, 1);
+
+  // 非 BMP 字符每个占两个 UTF-16 单元，但仍只算一个 Unicode 码点。
+  const emojiName = "🦊".repeat(16);
+  const emojiParty = await app.inject({
+    method: "POST",
+    url: "/api/party/first",
+    headers: { cookie: jar2 },
+    payload: firstPartyPayload({ teamName: emojiName, characterName: emojiName }),
+  });
+  assert.equal(emojiParty.statusCode, 201, emojiParty.body);
 
   // NFC 等价队名视为冲突：e + 组合重音与单一码点 é 冲突。
   const jar3 = await registerAndLogin(app, "nameuser3");
@@ -305,7 +377,7 @@ test("未建队账号可读空视图；建队后只读视图含全部真实状�
       teamCompleted: false,
       teamName: null,
       character: null,
-      releaseId: "s1-test",
+      releaseId: TEST_CONTENT.releaseId,
       recoveryEpoch: 1,
     },
   );
@@ -332,7 +404,7 @@ test("未建队账号可读空视图；建队后只读视图含全部真实状�
     "stats",
     "unassignedAp",
     "unassignedSp",
-    "skillIds",
+    "skills",
     "equipment",
     "position",
     "guardPolicy",

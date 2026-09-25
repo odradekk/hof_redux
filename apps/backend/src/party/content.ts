@@ -22,11 +22,17 @@ export interface RecruitTemplate {
 export interface PartyContent {
   releaseId: string;
   recruitments: Map<string, RecruitTemplate>;
-  jobIds: Set<string>;
+  jobNames: Map<string, { male: string; female: string }>;
   /** 装备定义身份 → 穿戴槽位。 */
   equipmentSlots: Map<string, string>;
-  skillIds: Set<string>;
-  conditionIds: Set<string>;
+  equipmentNames: Map<string, string>;
+  skillNames: Map<string, string>;
+  conditionDescriptions: Map<string, string>;
+}
+
+function insertUnique<T>(map: Map<string, T>, id: string, value: T): void {
+  if (map.has(id)) throw new Error(`内容标识重复：${id}`);
+  map.set(id, value);
 }
 
 function asRecord(value: unknown, where: string): Record<string, unknown> {
@@ -58,24 +64,34 @@ export function loadPartyContent(contentDir: string): PartyContent {
   );
   const read = (file: string): unknown => JSON.parse(fs.readFileSync(path.join(contentDir, file), "utf8"));
 
-  const jobIds = new Set<string>();
+  const jobNames = new Map<string, { male: string; female: string }>();
   for (const job of (asRecord(read("jobs.json"), "jobs.json").jobs as unknown[])) {
-    jobIds.add(asString(asRecord(job, "job").id, "job.id"));
+    const record = asRecord(job, "job");
+    const presentation = asRecord(record.presentation, "job.presentation");
+    insertUnique(jobNames, asString(record.id, "job.id"), {
+      male: asString(presentation.nameMale, "job.nameMale"),
+      female: asString(presentation.nameFemale, "job.nameFemale"),
+    });
   }
   const equipmentSlots = new Map<string, string>();
+  const equipmentNames = new Map<string, string>();
   for (const item of (asRecord(read("items.json"), "items.json").items as unknown[])) {
     const record = asRecord(item, "item");
     if (record.kind !== "equipment") continue;
-    equipmentSlots.set(asString(record.id, "item.id"), asString(record.slot, "item.slot"));
+    const id = asString(record.id, "item.id");
+    insertUnique(equipmentSlots, id, asString(record.slot, "item.slot"));
+    equipmentNames.set(id, asString(record.name, "item.name"));
   }
-  const skillIds = new Set<string>();
+  const skillNames = new Map<string, string>();
   for (const skill of (asRecord(read("skills.json"), "skills.json").skills as unknown[])) {
-    skillIds.add(asString(asRecord(skill, "skill").id, "skill.id"));
+    const record = asRecord(skill, "skill");
+    insertUnique(skillNames, asString(record.id, "skill.id"), asString(record.name, "skill.name"));
   }
-  const conditionIds = new Set<string>();
+  const conditionDescriptions = new Map<string, string>();
   const conditionsRaw = asRecord(read("conditions.json"), "conditions.json").conditions as unknown[];
   for (const condition of conditionsRaw) {
-    conditionIds.add(asString(asRecord(condition, "condition").id, "condition.id"));
+    const record = asRecord(condition, "condition");
+    insertUnique(conditionDescriptions, asString(record.id, "condition.id"), asString(record.description, "condition.description"));
   }
 
   const recruitments = new Map<string, RecruitTemplate>();
@@ -133,84 +149,23 @@ export function loadPartyContent(contentDir: string): PartyContent {
       }),
     };
     // 引用闭合：未知职业/装备/技能/条件直接拒绝，不退化。
-    if (!jobIds.has(template.jobId)) throw new Error(`${id} 引用未知职业：${template.jobId}`);
-    for (const itemId of Object.values(template.initialEquipment)) {
-      if (!equipmentSlots.has(itemId)) throw new Error(`${id} 引用未知装备：${itemId}`);
+    if (!jobNames.has(template.jobId)) throw new Error(`${id} 引用未知职业：${template.jobId}`);
+    for (const [slot, itemId] of Object.entries(template.initialEquipment)) {
+      if (equipmentSlots.get(itemId) !== slot) throw new Error(`${id} 装备 ${itemId} 不属于槽位 ${slot}`);
     }
     for (const skillId of template.initialSkillIds) {
-      if (!skillIds.has(skillId)) throw new Error(`${id} 引用未知技能：${skillId}`);
+      if (!skillNames.has(skillId)) throw new Error(`${id} 引用未知技能：${skillId}`);
     }
     for (const tactic of template.defaultTactics) {
-      if (!skillIds.has(tactic.skillId)) throw new Error(`${id} 战术引用未知技能：${tactic.skillId}`);
+      if (!skillNames.has(tactic.skillId)) throw new Error(`${id} 战术引用未知技能：${tactic.skillId}`);
       for (const condition of tactic.conditions) {
-        if (!conditionIds.has(condition.conditionId)) {
+        if (!conditionDescriptions.has(condition.conditionId)) {
           throw new Error(`${id} 战术引用未知条件：${condition.conditionId}`);
         }
       }
     }
-    recruitments.set(id, template);
+    insertUnique(recruitments, id, template);
   }
 
-  return { releaseId, recruitments, jobIds, equipmentSlots, skillIds, conditionIds };
-}
-
-/** 测试夹具：与 S1 快照同值的最小建队内容（避免测试依赖真实快照目录）。 */
-export function buildTestPartyContent(): PartyContent {
-  const recruitments = new Map<string, RecruitTemplate>([
-    [
-      "recruit.1",
-      {
-        id: "recruit.1",
-        jobId: "job.100",
-        price: 2000,
-        initialLevel: 1,
-        initialExperience: 0,
-        initialStats: { str: 10, int: 2, dex: 4, spd: 4, luk: 1 },
-        initialHpSp: { maxHp: 300, hp: 300, maxSp: 50, sp: 50 },
-        initialSkillIds: ["skill.1000", "skill.1001"],
-        initialEquipment: { weapon: "item.1000", shield: "item.3000", armor: "item.5000" },
-        position: "front",
-        guardPolicy: { kind: "always" },
-        defaultTactics: [
-          { conditions: [{ conditionId: "condition.1205", quantity: 8 }], skillId: "skill.1001" },
-          { conditions: [{ conditionId: "condition.1000", quantity: 0 }], skillId: "skill.1000" },
-        ],
-      },
-    ],
-    [
-      "recruit.2",
-      {
-        id: "recruit.2",
-        jobId: "job.200",
-        price: 2000,
-        initialLevel: 1,
-        initialExperience: 0,
-        initialStats: { str: 2, int: 10, dex: 5, spd: 3, luk: 1 },
-        initialHpSp: { maxHp: 150, hp: 150, maxSp: 100, sp: 100 },
-        initialSkillIds: ["skill.1000", "skill.1002", "skill.3010"],
-        initialEquipment: { weapon: "item.1700", armor: "item.5200" },
-        position: "back",
-        guardPolicy: { kind: "never" },
-        defaultTactics: [
-          { conditions: [{ conditionId: "condition.1206", quantity: 20 }], skillId: "skill.3010" },
-          { conditions: [{ conditionId: "condition.1000", quantity: 0 }], skillId: "skill.1002" },
-          { conditions: [{ conditionId: "condition.1000", quantity: 0 }], skillId: "skill.1000" },
-        ],
-      },
-    ],
-  ]);
-  return {
-    releaseId: "s1-test",
-    recruitments,
-    jobIds: new Set(["job.100", "job.200"]),
-    equipmentSlots: new Map([
-      ["item.1000", "weapon"],
-      ["item.1700", "weapon"],
-      ["item.3000", "shield"],
-      ["item.5000", "armor"],
-      ["item.5200", "armor"],
-    ]),
-    skillIds: new Set(["skill.1000", "skill.1001", "skill.1002", "skill.1014", "skill.1017", "skill.3010"]),
-    conditionIds: new Set(["condition.1000", "condition.1205", "condition.1206", "condition.1940"]),
-  };
+  return { releaseId, recruitments, jobNames, equipmentSlots, equipmentNames, skillNames, conditionDescriptions };
 }

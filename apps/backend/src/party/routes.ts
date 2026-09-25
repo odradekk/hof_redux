@@ -19,6 +19,11 @@ function sendError(reply: FastifyReply, status: number, code: string, message: s
   void reply.status(status).send({ code, message });
 }
 
+function sendUnexpected(request: FastifyRequest, reply: FastifyReply, err: unknown): void {
+  request.log.error({ err }, "角色与编队请求失败");
+  sendError(reply, 500, "INTERNAL_ERROR", "服务器内部错误");
+}
+
 function readJsonBody(request: FastifyRequest): Record<string, unknown> | undefined {
   const body = request.body as unknown;
   if (typeof body !== "object" || body === null || Array.isArray(body)) return undefined;
@@ -119,7 +124,7 @@ export function registerPartyRoutes(app: FastifyInstance, opts: PartyRouteOption
         gender: body.gender as string,
         requestId: body.requestId as string,
       });
-      const mine = getPartyMine(db, accountId);
+      const mine = getPartyMine(db, accountId, partyContent);
       void reply.status(result.replayed ? 200 : 201).send({
         teamName: result.teamName,
         character: mine.character,
@@ -146,8 +151,7 @@ export function registerPartyRoutes(app: FastifyInstance, opts: PartyRouteOption
         sendError(reply, 400, code, message);
         return;
       }
-      request.log.error({ err: message }, "首次建队失败");
-      sendError(reply, 500, "INVALID_INPUT", "服务器内部错误");
+      sendUnexpected(request, reply, err);
     }
   });
 
@@ -155,12 +159,14 @@ export function registerPartyRoutes(app: FastifyInstance, opts: PartyRouteOption
     const accountId = requireSession(db, request, reply);
     if (!accountId) return;
     try {
-      const mine = getPartyMine(db, accountId);
+      const mine = getPartyMine(db, accountId, partyContent);
       void reply.status(200).send({ ...mine, releaseId, recoveryEpoch: getRecoveryEpoch(db) });
     } catch (err) {
-      const code = (err as NodeJS.ErrnoException)?.code ?? "INVALID_INPUT";
-      const message = err instanceof Error ? err.message : "服务器内部错误";
-      sendError(reply, errorStatus(code), code, message);
+      if ((err as NodeJS.ErrnoException)?.code === "UNAUTHORIZED") {
+        sendError(reply, 401, "UNAUTHORIZED", "需要登录");
+      } else {
+        sendUnexpected(request, reply, err);
+      }
     }
   });
 }
