@@ -6,7 +6,8 @@ import { fileURLToPath } from "node:url";
 import { DatabaseSync } from "node:sqlite";
 import { buildApp } from "../src/app.js";
 import { runMigrations } from "../src/db/migrate.js";
-import { resetAuthRateLimits } from "../src/auth/routes.js";
+import { createSession } from "../src/auth/store.js";
+import { hashPassword } from "../src/auth/password.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const MIGRATIONS_DIR = path.resolve(HERE, "../migrations");
@@ -34,7 +35,6 @@ function createTestApp(maxUsers = 500) {
     appVersion: "0.1.0-test",
     maxUsers,
   };
-  resetAuthRateLimits();
   const app = buildApp(db, config, TEST_CONTENT, 3);
   return { app, db };
 }
@@ -157,6 +157,12 @@ test("同一请求身份重复提交返回原结果且不重放恢复码；换�
     payload: { loginName: "otheruser99", password: LONG_PASSWORD, requestId: rid },
   });
   assert.equal(conflict.statusCode, 409);
+  const changedPassword = await app.inject({
+    method: "POST",
+    url: "/api/auth/register",
+    payload: { loginName: "replayuser", password: "another-long-password-12345", requestId: rid },
+  });
+  assert.equal(changedPassword.statusCode, 409);
   await app.close();
   db.close();
 });
@@ -263,6 +269,71 @@ test("过期会话被拒绝（闲置与绝对边界）", async () => {
   const me = await app.inject({ method: "GET", url: "/api/auth/me", headers: { cookie: jar } });
   assert.equal(me.statusCode, 401);
   assert.equal((me.json() as { code: string }).code, "SESSION_EXPIRED");
+  await app.close();
+  db.close();
+});
+
+test("密码核验后凭据已改变时，旧核验结果不能签发会话", async () => {
+  const { app, db } = createTestApp();
+  const reg = await app.inject({
+    method: "POST",
+    url: "/api/auth/register",
+    payload: { loginName: "credentialrace", password: LONG_PASSWORD, requestId: requestId() },
+  });
+  assert.equal(reg.statusCode, 201);
+  const accountId = (reg.json() as { accountId: string }).accountId;
+  const oldHash = (db.prepare("SELECT password_hash FROM accounts WHERE id = ?").get(accountId) as { password_hash: string }).password_hash;
+  db.prepare("UPDATE accounts SET password_hash = ? WHERE id = ?").run("changed-credential", accountId);
+  assert.throws(() => createSession(db, accountId, "test-token", oldHash));
+  assert.equal((db.prepare("SELECT COUNT(*) AS n FROM sessions").get() as { n: number }).n, 0);
+  await app.close();
+  db.close();
+});
+
+test("共享出口的 100 个不同账号并发登录时，普通读取仍可用", async () => {
+  const { app, db } = createTestApp();
+  const passwordHash = await hashPassword(LONG_PASSWORD);
+  const now = new Date().toISOString();
+  const insertAccount = db.prepare(
+    "INSERT INTO accounts (id, login_name, login_key, password_hash, recovery_hash, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+  );
+  const insertAssets = db.prepare(
+    "INSERT INTO account_assets (account_id, money, stamina, stamina_updated_at) VALUES (?, 10000, 100, ?)",
+  );
+  const names: string[] = [];
+  for (let n = 0; n < 100; n++) {
+    const id = `account-${n}`;
+    const name = `player${String(n).padStart(4, "0")}`;
+    names.push(name);
+    insertAccount.run(id, name, name, passwordHash, "test-recovery-hash", now);
+    insertAssets.run(id, now);
+  }
+  const logins = names.map((name) => app.inject({ method: "POST", url: "/api/auth/login", payload: { loginName: name, password: LONG_PASSWORD } }));
+  const health = app.inject({ method: "GET", url: "/api/health" });
+  const results = await Promise.all(logins);
+  const healthResult = await health;
+  results.forEach((result, n) => assert.equal(result.statusCode, 200, `第 ${n + 1} 个登录：${result.body}`));
+  assert.equal(healthResult.statusCode, 200);
+  await app.close();
+  db.close();
+});
+
+test("同一登录目标的连续猜测受到独立限流", async () => {
+  const { app, db } = createTestApp();
+  for (let n = 0; n < 10; n++) {
+    const result = await app.inject({
+      method: "POST",
+      url: "/api/auth/login",
+      payload: { loginName: "targetuser", password: LONG_PASSWORD },
+    });
+    assert.equal(result.statusCode, 401);
+  }
+  const limited = await app.inject({
+    method: "POST",
+    url: "/api/auth/login",
+    payload: { loginName: "targetuser", password: LONG_PASSWORD },
+  });
+  assert.equal(limited.statusCode, 429);
   await app.close();
   db.close();
 });

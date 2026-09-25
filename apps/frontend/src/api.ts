@@ -70,9 +70,21 @@ function asString(value: unknown, where: string): string {
 }
 
 function asPositiveInt(value: unknown, where: string): number {
-  if (typeof value !== "number" || !Number.isInteger(value) || value < 1) {
+  if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 1) {
     throw new Error(`${where} 应为正整数，实际：${JSON.stringify(value)}`);
   }
+  return value;
+}
+
+function asNonnegativeInt(value: unknown, where: string): number {
+  if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 0) {
+    throw new Error(`${where} 应为非负整数，实际：${JSON.stringify(value)}`);
+  }
+  return value;
+}
+
+function asBoolean(value: unknown, where: string): boolean {
+  if (typeof value !== "boolean") throw new Error(`${where} 应为布尔值，实际：${JSON.stringify(value)}`);
   return value;
 }
 
@@ -123,60 +135,51 @@ export function decodeVersion(value: unknown): VersionResponse {
   return out;
 }
 
-function decodeAccountFields(record: Record<string, unknown>, where: string): Omit<MeResponse, "releaseId" | "recoveryEpoch"> & { releaseId?: string; recoveryEpoch?: number } {
+function decodeAccountSummary(record: Record<string, unknown>, where: string) {
   return {
     accountId: asString(record.accountId, `${where} accountId`),
     loginName: asString(record.loginName, `${where} loginName`),
-    teamCompleted: record.teamCompleted === true,
+    teamCompleted: asBoolean(record.teamCompleted, `${where} teamCompleted`),
     money: asMoneyString(record.money, `${where} money`),
-    stamina: typeof record.stamina === "number" ? record.stamina : Number(asString(record.stamina, `${where} stamina`)),
-    recoveryGeneration:
-      typeof record.recoveryGeneration === "number"
-        ? record.recoveryGeneration
-        : Number(asString(record.recoveryGeneration, `${where} recoveryGeneration`)),
-    createdAt: (record.createdAt as string | undefined) ?? (record.sessionExpiresAt as string | undefined) ?? "",
+    stamina: asNonnegativeInt(record.stamina, `${where} stamina`),
   };
 }
 
 export function decodeRegister(value: unknown): RegisterResponse {
   const record = asRecord(value, "/api/auth/register");
-  const base = decodeAccountFields(record, "/api/auth/register");
+  const replayed = record.replayed === true;
+  if (record.replayed !== undefined && !replayed) throw new Error("/api/auth/register replayed 非法");
+  if (replayed && record.recoveryCode !== undefined) throw new Error("/api/auth/register 重放不得包含恢复码");
+  if (!replayed && record.recoveryCode === undefined) throw new Error("/api/auth/register 首次响应缺少恢复码");
   return {
-    ...base,
+    ...decodeAccountSummary(record, "/api/auth/register"),
     createdAt: asString(record.createdAt, "/api/auth/register createdAt"),
-    recoveryCode: typeof record.recoveryCode === "string" ? record.recoveryCode : undefined,
-    replayed: record.replayed === true ? true : undefined,
+    recoveryGeneration: asPositiveInt(record.recoveryGeneration, "/api/auth/register recoveryGeneration"),
+    recoveryCode: replayed ? undefined : asString(record.recoveryCode, "/api/auth/register recoveryCode"),
+    replayed: replayed ? true : undefined,
     releaseId: asString(record.releaseId, "/api/auth/register releaseId"),
-    recoveryEpoch: Number(record.recoveryEpoch ?? 1),
+    recoveryEpoch: asPositiveInt(record.recoveryEpoch, "/api/auth/register recoveryEpoch"),
   };
 }
 
 export function decodeLogin(value: unknown): LoginResponse {
   const record = asRecord(value, "/api/auth/login");
   return {
-    accountId: asString(record.accountId, "/api/auth/login accountId"),
-    loginName: asString(record.loginName, "/api/auth/login loginName"),
-    teamCompleted: record.teamCompleted === true,
-    money: asMoneyString(record.money, "/api/auth/login money"),
-    stamina: typeof record.stamina === "number" ? record.stamina : 0,
+    ...decodeAccountSummary(record, "/api/auth/login"),
     sessionExpiresAt: asString(record.sessionExpiresAt, "/api/auth/login sessionExpiresAt"),
     releaseId: asString(record.releaseId, "/api/auth/login releaseId"),
-    recoveryEpoch: Number(record.recoveryEpoch ?? 1),
+    recoveryEpoch: asPositiveInt(record.recoveryEpoch, "/api/auth/login recoveryEpoch"),
   };
 }
 
 export function decodeMe(value: unknown): MeResponse {
   const record = asRecord(value, "/api/auth/me");
   return {
-    accountId: asString(record.accountId, "/api/auth/me accountId"),
-    loginName: asString(record.loginName, "/api/auth/me loginName"),
-    teamCompleted: record.teamCompleted === true,
-    money: asMoneyString(record.money, "/api/auth/me money"),
-    stamina: typeof record.stamina === "number" ? record.stamina : 0,
-    recoveryGeneration: Number(record.recoveryGeneration ?? 1),
+    ...decodeAccountSummary(record, "/api/auth/me"),
+    recoveryGeneration: asPositiveInt(record.recoveryGeneration, "/api/auth/me recoveryGeneration"),
     createdAt: asString(record.createdAt, "/api/auth/me createdAt"),
     releaseId: asString(record.releaseId, "/api/auth/me releaseId"),
-    recoveryEpoch: Number(record.recoveryEpoch ?? 1),
+    recoveryEpoch: asPositiveInt(record.recoveryEpoch, "/api/auth/me recoveryEpoch"),
   };
 }
 

@@ -162,12 +162,17 @@ export function registerAccount(
   });
 }
 
-/** 登录：事务内复核身份后签发会话（密码校验在事务外完成）。 */
-export function createSession(db: DatabaseSync, accountId: string, token: string): { sessionId: string; createdAt: string } {
+/** 登录：事务内复核身份与已验证的凭据后签发会话（密码计算在事务外）。 */
+export function createSession(
+  db: DatabaseSync,
+  accountId: string,
+  token: string,
+  verifiedPasswordHash: string,
+): { sessionId: string; createdAt: string } {
   const tokenHash = sha256Hex(token);
   const now = new Date().toISOString();
   return withTransaction(db, () => {
-    const account = db.prepare("SELECT id FROM accounts WHERE id = ? AND deleted_at IS NULL").get(accountId) as unknown as
+    const account = db.prepare("SELECT id FROM accounts WHERE id = ? AND password_hash = ? AND deleted_at IS NULL").get(accountId, verifiedPasswordHash) as unknown as
       | { id: string }
       | undefined;
     if (!account) {

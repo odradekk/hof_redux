@@ -1,6 +1,7 @@
 import type { DatabaseSync } from "node:sqlite";
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { ACCOUNT_CONTRACT } from "@hof/shared";
+import { AuthAdmission, AuthenticationBusyError } from "./admission.js";
 import {
   rejectUnknownFields,
   validateLoginName,
@@ -26,37 +27,6 @@ export interface AuthRouteOptions {
   maxUsers: number;
 }
 
-interface RateEntry {
-  times: number[];
-}
-
-const rateBuckets = new Map<string, RateEntry>();
-const RATE_WINDOW_MS = 60_000;
-const RATE_LIMIT_PER_IP = 60;
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateBuckets.get(ip) ?? { times: [] };
-  entry.times = entry.times.filter((t) => now - t < RATE_WINDOW_MS);
-  if (entry.times.length >= RATE_LIMIT_PER_IP) {
-    rateBuckets.set(ip, entry);
-    return false;
-  }
-  entry.times.push(now);
-  rateBuckets.set(ip, entry);
-  // 有界内存：上限外清理最旧桶。
-  if (rateBuckets.size > 10_000) {
-    const oldest = [...rateBuckets.keys()].slice(0, 1000);
-    for (const k of oldest) rateBuckets.delete(k);
-  }
-  return true;
-}
-
-/** 测试隔离：重置进程内限流桶。 */
-export function resetAuthRateLimits(): void {
-  rateBuckets.clear();
-}
-
 function clientIp(request: FastifyRequest): string {
   return request.ip ?? "unknown";
 }
@@ -79,13 +49,14 @@ function readJsonBody(request: FastifyRequest): Record<string, unknown> | undefi
 
 export function registerAuthRoutes(app: FastifyInstance, opts: AuthRouteOptions): void {
   const { db, releaseId, maxUsers } = opts;
+  const admission = new AuthAdmission();
 
   app.post("/api/auth/register", async (request, reply) => {
     if (!checkSameOrigin(request.headers as Record<string, string | string[] | undefined>)) {
       sendError(reply, 403, "REQUEST_CONFLICT", "来源校验失败，请经本站页面提交");
       return;
     }
-    if (!checkRateLimit(clientIp(request))) {
+    if (!admission.allowSource(clientIp(request))) {
       sendError(reply, 429, "RATE_LIMITED", "请求过于频繁，请稍后重试");
       return;
     }
@@ -118,16 +89,23 @@ export function registerAuthRoutes(app: FastifyInstance, opts: AuthRouteOptions)
     const loginName = body.loginName as string;
     const password = body.password as string;
     const requestId = body.requestId as string;
-
-    // 耗时工作（哈希、随机量）在写事务之外。
-    const passwordHash = await hashPassword(password);
-    const recoveryCode = generateRecoveryCode();
+    if (!admission.allowTarget("register", clientIp(request), loginName.toLowerCase())) {
+      sendError(reply, 429, "RATE_LIMITED", "请求过于频繁，请稍后重试");
+      return;
+    }
 
     try {
+      // 耗时工作（哈希、随机量）在写事务之外。
+      const passwordHash = await admission.runPassword(() => hashPassword(password));
+      const recoveryCode = generateRecoveryCode();
       const result = registerAccount(db, { loginName, passwordHash, recoveryCode, requestId, maxUsers, releaseId });
       const assets = getAccountWithAssets(db, result.accountId);
       const recoveryEpoch = getRecoveryEpoch(db);
       if (result.replayed) {
+        if (!assets || !(await admission.runPassword(() => verifyPassword(assets.password_hash, password)))) {
+          sendError(reply, 409, "REQUEST_CONFLICT", "同一请求身份不得更换参数");
+          return;
+        }
         // 幂等重放不重放恢复码明文；用已设置的密码登录后可重新签发（#26）。
         void reply.status(200).send({
           accountId: result.accountId,
@@ -156,6 +134,10 @@ export function registerAuthRoutes(app: FastifyInstance, opts: AuthRouteOptions)
         recoveryEpoch,
       });
     } catch (err) {
+      if (err instanceof AuthenticationBusyError) {
+        sendError(reply, 429, "RATE_LIMITED", "认证请求繁忙，请稍后重试");
+        return;
+      }
       const code = (err as NodeJS.ErrnoException)?.code;
       if (code === "LOGIN_TAKEN") {
         sendError(reply, 409, "LOGIN_TAKEN", "登录名已被占用");
@@ -179,7 +161,7 @@ export function registerAuthRoutes(app: FastifyInstance, opts: AuthRouteOptions)
       sendError(reply, 403, "REQUEST_CONFLICT", "来源校验失败，请经本站页面提交");
       return;
     }
-    if (!checkRateLimit(clientIp(request))) {
+    if (!admission.allowSource(clientIp(request))) {
       sendError(reply, 429, "RATE_LIMITED", "请求过于频繁，请稍后重试");
       return;
     }
@@ -205,23 +187,26 @@ export function registerAuthRoutes(app: FastifyInstance, opts: AuthRouteOptions)
     const loginName = body.loginName as string;
     const password = body.password as string;
     const loginKey = loginName.toLowerCase();
-
-    const account = getAccountByKey(db, loginKey);
-    if (!account || account.deleted_at !== null) {
-      // 未知名称仍执行一次哈希以收敛耗时侧信道；返回与错误凭据一致的说明。
-      await hashPassword(password).catch(() => undefined);
-      sendError(reply, 401, "INVALID_CREDENTIALS", "登录名或密码不正确");
-      return;
-    }
-    const ok = await verifyPassword(account.password_hash, password);
-    if (!ok) {
-      sendError(reply, 401, "INVALID_CREDENTIALS", "登录名或密码不正确");
+    if (!admission.allowTarget("login", clientIp(request), loginKey)) {
+      sendError(reply, 429, "RATE_LIMITED", "请求过于频繁，请稍后重试");
       return;
     }
 
     try {
+      const account = getAccountByKey(db, loginKey);
+      if (!account || account.deleted_at !== null) {
+        // 未知名称仍执行一次哈希以收敛耗时侧信道；返回与错误凭据一致的说明。
+        await admission.runPassword(() => hashPassword(password));
+        sendError(reply, 401, "INVALID_CREDENTIALS", "登录名或密码不正确");
+        return;
+      }
+      const ok = await admission.runPassword(() => verifyPassword(account.password_hash, password));
+      if (!ok) {
+        sendError(reply, 401, "INVALID_CREDENTIALS", "登录名或密码不正确");
+        return;
+      }
       const token = generateSessionToken();
-      const created = createSession(db, account.id, token);
+      const created = createSession(db, account.id, token, account.password_hash);
       const assets = getAccountWithAssets(db, account.id);
       const recoveryEpoch = getRecoveryEpoch(db);
       const secure = isSecureRequest(request);
@@ -238,6 +223,14 @@ export function registerAuthRoutes(app: FastifyInstance, opts: AuthRouteOptions)
         recoveryEpoch,
       });
     } catch (err) {
+      if (err instanceof AuthenticationBusyError) {
+        sendError(reply, 429, "RATE_LIMITED", "认证请求繁忙，请稍后重试");
+        return;
+      }
+      if ((err as NodeJS.ErrnoException)?.code === "INVALID_CREDENTIALS") {
+        sendError(reply, 401, "INVALID_CREDENTIALS", "登录名或密码不正确");
+        return;
+      }
       request.log.error({ err: err instanceof Error ? err.message : String(err) }, "登录签发会话失败");
       sendError(reply, 500, "INVALID_INPUT", "服务器内部错误");
     }

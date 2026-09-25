@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { decodeHealth, decodeVersion } from "../src/api.ts";
+import { decodeHealth, decodeLogin, decodeMe, decodeRegister, decodeVersion } from "../src/api.ts";
 
 const goodVersion = {
   app: { name: "@hof/backend", version: "0.1.0" },
@@ -39,5 +39,36 @@ test("decodeVersion 拒绝缺字段与非法类型", () => {
   ];
   for (const bad of cases) {
     assert.throws(() => decodeVersion(bad), /api\/version/);
+  }
+});
+
+const account = { accountId: "account-1", loginName: "hero1234", teamCompleted: false, money: "10000", stamina: 100 };
+
+test("账号响应解码拒绝错误类型，不将坏数据静默改成默认值", () => {
+  const login = { ...account, sessionExpiresAt: "2026-10-25T00:00:00.000Z", releaseId: "s1-test", recoveryEpoch: 1 };
+  const me = { ...account, recoveryGeneration: 1, createdAt: "2026-09-25T00:00:00.000Z", releaseId: "s1-test", recoveryEpoch: 1 };
+  assert.deepEqual(decodeLogin(login), login);
+  assert.deepEqual(decodeMe(me), me);
+  for (const bad of [
+    { ...login, teamCompleted: "false" },
+    { ...login, stamina: "100" },
+    { ...login, recoveryEpoch: "1" },
+    { ...me, recoveryGeneration: "1" },
+    { ...me, stamina: -1 },
+  ]) {
+    assert.throws(() => ("sessionExpiresAt" in bad ? decodeLogin(bad) : decodeMe(bad)), /api\/auth/);
+  }
+});
+
+test("注册响应区分首次发码与幂等重放", () => {
+  const base = { ...account, recoveryGeneration: 1, createdAt: "2026-09-25T00:00:00.000Z", releaseId: "s1-test", recoveryEpoch: 1 };
+  assert.equal(decodeRegister({ ...base, recoveryCode: "saved-once" }).recoveryCode, "saved-once");
+  assert.equal(decodeRegister({ ...base, replayed: true }).replayed, true);
+  for (const bad of [
+    base,
+    { ...base, recoveryCode: "saved-once", replayed: true },
+    { ...base, recoveryCode: 123 },
+  ]) {
+    assert.throws(() => decodeRegister(bad), /api\/auth\/register/);
   }
 });

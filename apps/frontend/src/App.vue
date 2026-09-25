@@ -16,6 +16,8 @@ const regLogin = ref("");
 const regPassword = ref("");
 const regError = ref<string | null>(null);
 const regBusy = ref(false);
+const regPending = ref(false);
+const regRequestId = ref<string | null>(null);
 const recoveryCode = ref<string | null>(null);
 const recoverySaved = ref(false);
 const regAccount = ref<{ accountId: string; loginName: string } | null>(null);
@@ -85,9 +87,11 @@ async function onRegister() {
     return;
   }
   regBusy.value = true;
+  regRequestId.value ??= newRequestId();
   try {
-    // 同一按钮点击的网络重试复用同一请求身份；新点击生成新身份。
-    const result = await registerAccount(regLogin.value, regPassword.value, newRequestId());
+    const result = await registerAccount(regLogin.value, regPassword.value, regRequestId.value);
+    regRequestId.value = null;
+    regPending.value = false;
     regAccount.value = { accountId: result.accountId, loginName: result.loginName };
     recoveryCode.value = result.recoveryCode ?? null;
     recoverySaved.value = false;
@@ -97,7 +101,16 @@ async function onRegister() {
     regPassword.value = "";
     await refreshMe();
   } catch (err) {
-    regError.value = friendlyError(err);
+    if (err instanceof ApiError && err.status === 429 && regPending.value) {
+      regError.value = "本次重试受到限流，先前注册仍待确认。请稍后用原请求重试，或尝试登录。";
+    } else if (err instanceof ApiError && err.status >= 400 && err.status < 500) {
+      regRequestId.value = null;
+      regPending.value = false;
+      regError.value = friendlyError(err);
+    } else {
+      regPending.value = true;
+      regError.value = `注册结果待确认：${friendlyError(err)}。请用原请求重试，或尝试用刚设置的密码登录；不要另建账号。`;
+    }
   } finally {
     regBusy.value = false;
   }
@@ -212,12 +225,12 @@ onMounted(async () => {
         <h3>注册</h3>
         <form @submit.prevent="onRegister">
           <label>登录名（4–16 位字母或数字）
-            <input v-model="regLogin" autocomplete="username" maxlength="16" inputmode="text" autocapitalize="none" autocorrect="off" />
+            <input v-model="regLogin" autocomplete="username" maxlength="16" inputmode="text" autocapitalize="none" autocorrect="off" :disabled="regBusy || regPending" />
           </label>
           <label>长口令（15–128 个字符，可含中文/空格/符号，不裁剪）
-            <input v-model="regPassword" type="password" autocomplete="new-password" />
+            <input v-model="regPassword" type="password" autocomplete="new-password" :disabled="regBusy || regPending" />
           </label>
-          <button type="submit" :disabled="regBusy">{{ regBusy ? "注册中…" : "注册" }}</button>
+          <button type="submit" :disabled="regBusy">{{ regBusy ? "注册中…" : regPending ? "用原请求重试" : "注册" }}</button>
         </form>
         <p v-if="regError" class="bad" role="alert">{{ regError }}</p>
         <div v-if="recoveryCode" class="recovery" role="alert">
