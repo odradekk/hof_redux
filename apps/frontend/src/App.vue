@@ -1,7 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { HealthResponse, MeResponse, VersionResponse } from "@hof/shared";
-import { ApiError, fetchHealth, fetchMe, fetchVersion, login, logout, newRequestId, registerAccount } from "./api";
+import type { HealthResponse, MeResponse, MinePartyResponse, VersionResponse } from "@hof/shared";
+import {
+  ApiError,
+  createFirstParty,
+  fetchHealth,
+  fetchMe,
+  fetchMineParty,
+  fetchVersion,
+  login,
+  logout,
+  newRequestId,
+  registerAccount,
+} from "./api";
 
 const health = ref<HealthResponse | null>(null);
 const version = ref<VersionResponse | null>(null);
@@ -28,6 +39,17 @@ const loginPassword = ref("");
 const loginError = ref<string | null>(null);
 const loginBusy = ref(false);
 const logoutBusy = ref(false);
+
+// 首次建队表单（#25；内存态，不写入长期存储）。
+const mineParty = ref<MinePartyResponse | null>(null);
+const teamName = ref("");
+const characterName = ref("");
+const recruitId = ref("recruit.1");
+const gender = ref("male");
+const partyError = ref<string | null>(null);
+const partyBusy = ref(false);
+const partyPending = ref(false);
+const partyRequestId = ref<string | null>(null);
 
 function friendlyError(err: unknown): string {
   if (err instanceof ApiError) return err.message;
@@ -61,6 +83,15 @@ async function refreshMe() {
   } finally {
     authChecked.value = true;
   }
+  if (me.value) {
+    try {
+      mineParty.value = await fetchMineParty();
+    } catch {
+      mineParty.value = null;
+    }
+  } else {
+    mineParty.value = null;
+  }
 }
 
 function validateLocalLoginName(name: string): string | null {
@@ -71,6 +102,78 @@ function validateLocalLoginName(name: string): string | null {
 function validateLocalPassword(password: string): string | null {
   if ([...password].length < 15 || [...password].length > 128) return "密码须为 15–128 个字符（按 Unicode 码点计数）";
   return null;
+}
+
+function validateLocalPartyName(name: string, label: string): string | null {
+  const normalized = name.normalize("NFC");
+  // eslint-disable-next-line no-misleading-character-class
+  if (/[\p{Cc}\p{Cf}]/u.test(normalized)) return `${label}不得包含换行、控制或不可见格式字符`;
+  const trimmed = normalized.trim();
+  if (trimmed.length === 0) return `${label}不能为空`;
+  const length = [...trimmed].length;
+  if (length < 1 || length > 16) return `${label}须为 1–16 个字符（按 Unicode 码点计数）`;
+  return null;
+}
+
+async function onCreateFirstParty() {
+  partyError.value = null;
+  const teamErr = validateLocalPartyName(teamName.value, "队伍名");
+  if (teamErr) {
+    partyError.value = teamErr;
+    return;
+  }
+  const charErr = validateLocalPartyName(characterName.value, "角色名");
+  if (charErr) {
+    partyError.value = charErr;
+    return;
+  }
+  if (recruitId.value !== "recruit.1" && recruitId.value !== "recruit.2") {
+    partyError.value = "职业选择非法（S1 仅支持战士或法师）";
+    return;
+  }
+  if (gender.value !== "male" && gender.value !== "female") {
+    partyError.value = "性别选择非法";
+    return;
+  }
+  partyBusy.value = true;
+  partyRequestId.value ??= newRequestId();
+  try {
+    const result = await createFirstParty(
+      teamName.value.normalize("NFC").trim(),
+      characterName.value.normalize("NFC").trim(),
+      recruitId.value,
+      gender.value,
+      partyRequestId.value,
+    );
+    partyRequestId.value = null;
+    partyPending.value = false;
+    if (result.replayed) {
+      partyError.value = "该请求已受理（幂等重放），未重复赠送。";
+    }
+    await refreshMe();
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 429) {
+      partyPending.value = true;
+      partyError.value = "本次重试受到限流，先前建队仍待确认。请稍后用原请求重试。";
+    } else if (err instanceof ApiError && err.status >= 400 && err.status < 500) {
+      // 确定性拒绝：下次提交换新请求身份（同身份换参数会被幂等拒绝）。
+      partyRequestId.value = null;
+      partyPending.value = false;
+      if (err.code === "TEAM_NAME_TAKEN") {
+        partyError.value = "队伍名已被占用，请更换。";
+      } else if (err.code === "PARTY_ALREADY_COMPLETED") {
+        partyError.value = "已完成首次建队，无需重复提交。";
+        await refreshMe();
+      } else {
+        partyError.value = friendlyError(err);
+      }
+    } else {
+      partyPending.value = true;
+      partyError.value = `建队结果待确认：${friendlyError(err)}。请用原请求重试，不要另建队伍。`;
+    }
+  } finally {
+    partyBusy.value = false;
+  }
 }
 
 async function onRegister() {
@@ -256,11 +359,71 @@ onMounted(async () => {
       </div>
     </section>
 
+    <section class="card" aria-label="首次建队">
+      <h2>首次建队</h2>
+      <div v-if="!me">
+        <p class="muted">登录后可建立队伍并获得首名角色。</p>
+      </div>
+      <div v-else-if="mineParty?.teamCompleted && mineParty.character">
+        <dl class="status-grid">
+          <div><dt>队伍名</dt><dd>{{ mineParty.teamName }}</dd></div>
+          <div><dt>首名角色</dt><dd>{{ mineParty.character.name }}</dd></div>
+          <div><dt>职业</dt><dd>{{ mineParty.character.jobId === "job.100" ? "战士" : "法师" }}（{{ mineParty.character.gender === "male" ? "男" : "女" }}）</dd></div>
+          <div><dt>等级 / 经验</dt><dd>{{ mineParty.character.level }} / {{ mineParty.character.experience }}</dd></div>
+          <div><dt>HP / SP</dt><dd>{{ mineParty.character.hp }} / {{ mineParty.character.maxHp }} · {{ mineParty.character.sp }} / {{ mineParty.character.maxSp }}</dd></div>
+          <div><dt>属性（力/智/敏/速/运）</dt><dd>{{ mineParty.character.stats.str }} / {{ mineParty.character.stats.int }} / {{ mineParty.character.stats.dex }} / {{ mineParty.character.stats.spd }} / {{ mineParty.character.stats.luk }}</dd></div>
+          <div><dt>未分配点数</dt><dd>属性 {{ mineParty.character.unassignedAp }} · 技能 {{ mineParty.character.unassignedSp }}</dd></div>
+          <div><dt>技能</dt><dd>{{ mineParty.character.skillIds.join("、") }}</dd></div>
+          <div><dt>阵位 / 掩护</dt><dd>{{ mineParty.character.position === "front" ? "前排" : "后排" }} / {{ mineParty.character.guardPolicy.kind === "always" ? "掩护" : "不掩护" }}</dd></div>
+        </dl>
+        <h3>装备（每件独立身份）</h3>
+        <ul>
+          <li v-for="item in mineParty.character.equipment" :key="item.equipmentId">
+            {{ item.slot }}：{{ item.definitionId }}（归属本角色）
+          </li>
+        </ul>
+        <h3>默认战术（只读）</h3>
+        <ol>
+          <li v-for="(tactic, index) in mineParty.character.defaultTactics" :key="index">
+            {{ tactic.conditions.map((c) => `${c.conditionId}×${c.quantity}`).join(" + ") }} → {{ tactic.skillId }}
+          </li>
+        </ol>
+        <p class="muted">S1 尚未开放加点、技能学习、换装与战术编辑；以上为真实保存的只读状态。</p>
+      </div>
+      <div v-else-if="me.teamCompleted">
+        <p class="muted">正在读取角色状态…</p>
+      </div>
+      <div v-else>
+        <p class="muted">输入队名与首名角色姓名，选择战士/法师及性别，一次提交建队（首角免费）。队名全服唯一，角色名允许重名；名称 1–16 个字符，按 Unicode 码点计数。</p>
+        <form @submit.prevent="onCreateFirstParty">
+          <label>队伍名（全服唯一）
+            <input v-model="teamName" maxlength="16" inputmode="text" autocapitalize="none" autocorrect="off" :disabled="partyBusy || partyPending" />
+          </label>
+          <label>首名角色姓名（可重名）
+            <input v-model="characterName" maxlength="16" inputmode="text" autocapitalize="none" autocorrect="off" :disabled="partyBusy || partyPending" />
+          </label>
+          <fieldset>
+            <legend>职业</legend>
+            <label><input v-model="recruitId" type="radio" value="recruit.1" :disabled="partyBusy || partyPending" /> 战士（前排）</label>
+            <label><input v-model="recruitId" type="radio" value="recruit.2" :disabled="partyBusy || partyPending" /> 法师（后排）</label>
+          </fieldset>
+          <fieldset>
+            <legend>性别</legend>
+            <label><input v-model="gender" type="radio" value="male" :disabled="partyBusy || partyPending" /> 男</label>
+            <label><input v-model="gender" type="radio" value="female" :disabled="partyBusy || partyPending" /> 女</label>
+          </fieldset>
+          <button type="submit" :disabled="partyBusy">{{ partyBusy ? "建队中…" : partyPending ? "用原请求重试" : "建立队伍" }}</button>
+        </form>
+        <p v-if="partyError" class="bad" role="alert">{{ partyError }}</p>
+      </div>
+    </section>
+
     <section class="card" aria-label="已开放范围">
       <h2>S1 本阶段已开放范围</h2>
       <ul>
         <li>真实注册、登录、初始资产（10,000 金钱 / 100 体力）与一次性恢复码展示。</li>
-        <li>建队、招募、冒险、战报与管理后台等后续功能<strong>尚未开放</strong>，入口已隐藏、接口直接拒绝。</li>
+        <li>首次建队：队名与首角一次提交，首角免费，角色只读查看。</li>
+        <li>招募、冒险、战报与管理后台等后续功能<strong>尚未开放</strong>，入口已隐藏、接口直接拒绝。</li>
       </ul>
     </section>
 

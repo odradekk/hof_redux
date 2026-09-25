@@ -1,7 +1,10 @@
 import type {
+  FirstPartyResponse,
   HealthResponse,
   LoginResponse,
   MeResponse,
+  MinePartyResponse,
+  PartyCharacterView,
   RegisterResponse,
   VersionResponse,
 } from "@hof/shared";
@@ -203,11 +206,116 @@ export async function fetchMe(): Promise<MeResponse> {
   return decodeMe(await getJson("/api/auth/me"));
 }
 
+export async function createFirstParty(
+  teamName: string,
+  characterName: string,
+  recruitId: string,
+  gender: string,
+  requestId: string,
+): Promise<FirstPartyResponse> {
+  return decodeFirstParty(await postJson("/api/party/first", { teamName, characterName, recruitId, gender, requestId }));
+}
+
+export async function fetchMineParty(): Promise<MinePartyResponse> {
+  return decodeMineParty(await getJson("/api/party/mine"));
+}
+
 export async function logout(): Promise<void> {
   const response = await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
   if (!response.ok) {
     throw await toApiError("/api/auth/logout", response);
   }
+}
+
+function asStringArray(value: unknown, where: string): string[] {
+  if (!Array.isArray(value) || !value.every((v): v is string => typeof v === "string")) {
+    throw new Error(`${where} 应为字符串数组，实际：${JSON.stringify(value)}`);
+  }
+  return value;
+}
+
+export function decodePartyCharacter(value: unknown, where: string): PartyCharacterView {
+  const record = asRecord(value, where);
+  const stats = asRecord(record.stats, `${where} stats`);
+  const equipment = record.equipment as unknown;
+  if (!Array.isArray(equipment)) throw new Error(`${where} equipment 应为数组`);
+  const tactics = record.defaultTactics as unknown;
+  if (!Array.isArray(tactics)) throw new Error(`${where} defaultTactics 应为数组`);
+  return {
+    characterId: asString(record.characterId, `${where} characterId`),
+    name: asString(record.name, `${where} name`),
+    jobId: asString(record.jobId, `${where} jobId`),
+    gender: asString(record.gender, `${where} gender`),
+    level: asPositiveInt(record.level, `${where} level`),
+    experience: asNonnegativeInt(record.experience, `${where} experience`),
+    maxHp: asPositiveInt(record.maxHp, `${where} maxHp`),
+    hp: asNonnegativeInt(record.hp, `${where} hp`),
+    maxSp: asPositiveInt(record.maxSp, `${where} maxSp`),
+    sp: asNonnegativeInt(record.sp, `${where} sp`),
+    stats: {
+      str: asNonnegativeInt(stats.str, `${where} stats.str`),
+      int: asNonnegativeInt(stats.int, `${where} stats.int`),
+      dex: asNonnegativeInt(stats.dex, `${where} stats.dex`),
+      spd: asNonnegativeInt(stats.spd, `${where} stats.spd`),
+      luk: asNonnegativeInt(stats.luk, `${where} stats.luk`),
+    },
+    unassignedAp: asNonnegativeInt(record.unassignedAp, `${where} unassignedAp`),
+    unassignedSp: asNonnegativeInt(record.unassignedSp, `${where} unassignedSp`),
+    skillIds: asStringArray(record.skillIds, `${where} skillIds`),
+    equipment: equipment.map((entry, index) => {
+      const item = asRecord(entry, `${where} equipment[${index}]`);
+      return {
+        equipmentId: asString(item.equipmentId, `${where} equipment[${index}].equipmentId`),
+        definitionId: asString(item.definitionId, `${where} equipment[${index}].definitionId`),
+        slot: asString(item.slot, `${where} equipment[${index}].slot`),
+      };
+    }),
+    position: asString(record.position, `${where} position`),
+    guardPolicy: { kind: asString(asRecord(record.guardPolicy, `${where} guardPolicy`).kind, `${where} guardPolicy.kind`) },
+    defaultTactics: tactics.map((entry, index) => {
+      const tactic = asRecord(entry, `${where} defaultTactics[${index}]`);
+      const conditions = tactic.conditions as unknown;
+      if (!Array.isArray(conditions)) throw new Error(`${where} defaultTactics[${index}].conditions 应为数组`);
+      return {
+        conditions: conditions.map((condition, conditionIndex) => {
+          const item = asRecord(condition, `${where} condition[${conditionIndex}]`);
+          return {
+            conditionId: asString(item.conditionId, `${where} condition.conditionId`),
+            quantity: asNonnegativeInt(item.quantity, `${where} condition.quantity`),
+          };
+        }),
+        skillId: asString(tactic.skillId, `${where} defaultTactics[${index}].skillId`),
+      };
+    }),
+  };
+}
+
+export function decodeFirstParty(value: unknown): FirstPartyResponse {
+  const record = asRecord(value, "/api/party/first");
+  const replayed = record.replayed === true;
+  if (record.replayed !== undefined && !replayed) throw new Error("/api/party/first replayed 非法");
+  return {
+    teamName: asString(record.teamName, "/api/party/first teamName"),
+    character: decodePartyCharacter(record.character, "/api/party/first character"),
+    replayed: replayed ? true : undefined,
+    releaseId: asString(record.releaseId, "/api/party/first releaseId"),
+    recoveryEpoch: asPositiveInt(record.recoveryEpoch, "/api/party/first recoveryEpoch"),
+  };
+}
+
+export function decodeMineParty(value: unknown): MinePartyResponse {
+  const record = asRecord(value, "/api/party/mine");
+  const teamCompleted = asBoolean(record.teamCompleted, "/api/party/mine teamCompleted");
+  if (record.teamName !== null && typeof record.teamName !== "string") {
+    throw new Error("/api/party/mine teamName 应为字符串或 null");
+  }
+  return {
+    teamCompleted,
+    teamName: record.teamName as string | null,
+    character: record.character == null ? null : decodePartyCharacter(record.character, "/api/party/mine character"),
+    releaseId: asString(record.releaseId, "/api/party/mine releaseId"),
+    recoveryEpoch: asPositiveInt(record.recoveryEpoch, "/api/party/mine recoveryEpoch"),
+  };
 }
 
 /** 为一次明确提交生成高熵请求身份（32 位十六进制，符合契约格式）。 */

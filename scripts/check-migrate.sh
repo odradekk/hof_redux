@@ -54,8 +54,8 @@ node -e '
     console.error(`迁移登记与仓库文件不一致：\n  容器内：${JSON.stringify(actual)}\n  期望：  ${JSON.stringify(expected)}`);
     process.exit(1);
   }
-  if (JSON.stringify(state.tables) !== JSON.stringify(["account_assets","accounts","app_meta","game_change_records","register_requests","schema_migrations","sessions"])) {
-    console.error(`空库迁移后业务表清单异常：${JSON.stringify(state.tables)}（应为 #24 账号基线表集合）`);
+  if (JSON.stringify(state.tables) !== JSON.stringify(["account_assets","accounts","app_meta","character_skills","character_tactics","characters","first_party_requests","game_change_records","owned_equipment","register_requests","schema_migrations","sessions"])) {
+    console.error(`空库迁移后业务表清单异常：${JSON.stringify(state.tables)}（应为 #24 账号基线 + #25 建队表集合）`);
     process.exit(1);
   }
 ' "$DB_STATE" "$ROOT/apps/backend/migrations"

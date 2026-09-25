@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { DatabaseSync } from "node:sqlite";
 import { buildApp } from "../src/app.js";
 import { runMigrations } from "../src/db/migrate.js";
+import { buildTestPartyContent } from "../src/party/content.js";
 import { createSession } from "../src/auth/store.js";
 import { hashPassword } from "../src/auth/password.js";
 
@@ -35,7 +36,7 @@ function createTestApp(maxUsers = 500) {
     appVersion: "0.1.0-test",
     maxUsers,
   };
-  const app = buildApp(db, config, TEST_CONTENT, 3);
+  const app = buildApp(db, config, TEST_CONTENT, 3, buildTestPartyContent());
   return { app, db };
 }
 

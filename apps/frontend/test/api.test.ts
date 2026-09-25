@@ -1,6 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { decodeHealth, decodeLogin, decodeMe, decodeRegister, decodeVersion } from "../src/api.ts";
+import {
+  decodeFirstParty,
+  decodeHealth,
+  decodeLogin,
+  decodeMe,
+  decodeMineParty,
+  decodeRegister,
+  decodeVersion,
+} from "../src/api.ts";
 
 const goodVersion = {
   app: { name: "@hof/backend", version: "0.1.0" },
@@ -71,4 +79,43 @@ test("注册响应区分首次发码与幂等重放", () => {
   ]) {
     assert.throws(() => decodeRegister(bad), /api\/auth\/register/);
   }
+});
+
+const partyCharacter = {
+  characterId: "char-1",
+  name: "艾尔文",
+  jobId: "job.100",
+  gender: "male",
+  level: 1,
+  experience: 0,
+  maxHp: 300,
+  hp: 300,
+  maxSp: 50,
+  sp: 50,
+  stats: { str: 10, int: 2, dex: 4, spd: 4, luk: 1 },
+  unassignedAp: 0,
+  unassignedSp: 0,
+  skillIds: ["skill.1000", "skill.1001"],
+  equipment: [{ equipmentId: "eq-1", definitionId: "item.1000", slot: "weapon" }],
+  position: "front",
+  guardPolicy: { kind: "always" },
+  defaultTactics: [{ conditions: [{ conditionId: "condition.1205", quantity: 8 }], skillId: "skill.1001" }],
+};
+
+test("建队响应解码接受契约内视图，拒绝坏数据", () => {
+  const base = { teamName: "远征小队", releaseId: "s1-test", recoveryEpoch: 1 };
+  assert.deepEqual(decodeFirstParty({ ...base, character: partyCharacter }).character, partyCharacter);
+  assert.equal(decodeFirstParty({ ...base, character: partyCharacter, replayed: true }).replayed, true);
+  assert.deepEqual(decodeMineParty({ teamCompleted: false, teamName: null, character: null, releaseId: "s1-test", recoveryEpoch: 1 }).character, null);
+  for (const bad of [
+    { ...base, character: { ...partyCharacter, level: "1" } },
+    { ...base, character: { ...partyCharacter, stats: { ...partyCharacter.stats, str: -1 } } },
+    { ...base, character: { ...partyCharacter, equipment: [{ equipmentId: "eq-1" }] } },
+  ]) {
+    assert.throws(() => decodeFirstParty(bad), /api\/party/);
+  }
+  assert.throws(
+    () => decodeMineParty({ teamCompleted: "false", teamName: null, character: null, releaseId: "s1-test", recoveryEpoch: 1 }),
+    /api\/party/,
+  );
 });

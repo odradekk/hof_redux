@@ -81,11 +81,17 @@ test("迁移后的业务 schema 为账号基线表集合（无测试设施表）
   const db = new DatabaseSync(":memory:");
   runMigrations(db, MIGRATIONS_DIR);
   // #24 起生产 schema 包含账号/资产/会话/幂等/流水/元数据表；探针表已在 0002 移除。
+  // #25 追加角色/技能/持有装备/默认战术/建队幂等表，并在 accounts 增加 team_name。
   assert.deepEqual(businessTables(db), [
     "account_assets",
     "accounts",
     "app_meta",
+    "character_skills",
+    "character_tactics",
+    "characters",
+    "first_party_requests",
     "game_change_records",
+    "owned_equipment",
     "register_requests",
     "schema_migrations",
     "sessions",
@@ -136,7 +142,12 @@ test("旧 v1 本地库升级：0001 记录原样保留，后续迁移继续应�
     "account_assets",
     "accounts",
     "app_meta",
+    "character_skills",
+    "character_tactics",
+    "characters",
+    "first_party_requests",
     "game_change_records",
+    "owned_equipment",
     "register_requests",
     "schema_migrations",
     "sessions",

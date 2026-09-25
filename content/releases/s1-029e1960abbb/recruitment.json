@@ -1,0 +1,89 @@
+{
+  "recruitments": [
+    {
+      "id": "recruit.1",
+      "oldNo": "1",
+      "presentation": { "name": "战士" },
+      "jobId": "job.100",
+      "price": 2000,
+      "initialLevel": 1,
+      "initialExperience": 0,
+      "initialStats": { "str": 10, "int": 2, "dex": 4, "spd": 4, "luk": 1 },
+      "initialHpSp": { "maxHp": 300, "hp": 300, "maxSp": 50, "sp": 50 },
+      "initialSkillIds": ["skill.1000", "skill.1001"],
+      "initialEquipment": {
+        "weapon": "item.1000",
+        "shield": "item.3000",
+        "armor": "item.5000"
+      },
+      "position": "front",
+      "guardPolicy": { "kind": "always" },
+      "defaultTactics": [
+        {
+          "conditions": [{ "conditionId": "condition.1205", "quantity": 8 }],
+          "skillId": "skill.1001"
+        },
+        {
+          "conditions": [{ "conditionId": "condition.1000", "quantity": 0 }],
+          "skillId": "skill.1000"
+        }
+      ],
+      "sources": [
+        {
+          "file": "old_hof/data/data.base_char.php",
+          "lines": "4-26",
+          "note": "招募模板 1（战士）：BaseCharStatus case 1 全字段。Pattern 1205<>1000|8<>0|1001<>1000 按序转为两组战术。"
+        },
+        {
+          "file": "old_hof/class/class.main.php",
+          "lines": "1983-1988",
+          "note": "战士/法师招募各 2000（RecruitProcess recruit_no 1/2）。"
+        }
+      ]
+    },
+    {
+      "id": "recruit.2",
+      "oldNo": "2",
+      "presentation": { "name": "法师" },
+      "jobId": "job.200",
+      "price": 2000,
+      "initialLevel": 1,
+      "initialExperience": 0,
+      "initialStats": { "str": 2, "int": 10, "dex": 5, "spd": 3, "luk": 1 },
+      "initialHpSp": { "maxHp": 150, "hp": 150, "maxSp": 100, "sp": 100 },
+      "initialSkillIds": ["skill.1000", "skill.1002", "skill.3010"],
+      "initialEquipment": {
+        "weapon": "item.1700",
+        "armor": "item.5200"
+      },
+      "position": "back",
+      "guardPolicy": { "kind": "never" },
+      "defaultTactics": [
+        {
+          "conditions": [{ "conditionId": "condition.1206", "quantity": 20 }],
+          "skillId": "skill.3010"
+        },
+        {
+          "conditions": [{ "conditionId": "condition.1000", "quantity": 0 }],
+          "skillId": "skill.1002"
+        },
+        {
+          "conditions": [{ "conditionId": "condition.1000", "quantity": 0 }],
+          "skillId": "skill.1000"
+        }
+      ],
+      "sources": [
+        {
+          "file": "old_hof/data/data.base_char.php",
+          "lines": "27-47",
+          "note": "招募模板 2（法师）：BaseCharStatus case 2 全字段。Pattern 1206<>1000<>1000|20<>0<>0|3010<>1002<>1000 原样保留三行顺序（含不可达的第三行，不 quasi 优化）。"
+        },
+        {
+          "file": "old_hof/class/class.main.php",
+          "lines": "1983-1988",
+          "note": "战士/法师招募各 2000。"
+        }
+      ]
+    }
+  ]
+}

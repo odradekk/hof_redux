@@ -123,6 +123,80 @@ export type AuthErrorCode =
   | "REQUEST_CONFLICT"
   | "RATE_LIMITED";
 
+/** 首次建队契约常量（#25）：与 docs/design/accounts.md 名称规则一致。 */
+export const PARTY_CONTRACT = {
+  /** 队伍名/角色名按 Unicode 码点计数。 */
+  nameMinLength: 1,
+  nameMaxLength: 16,
+  /** S1 可选招募模板（战士/法师）。 */
+  recruitIds: ["recruit.1", "recruit.2"],
+  genders: ["male", "female"],
+} as const;
+
+/** POST /api/party/first 请求：一次业务提交获得队伍与免费首角。 */
+export interface FirstPartyRequest {
+  teamName: string;
+  characterName: string;
+  /** S1 仅 recruit.1（战士）/ recruit.2（法师）。 */
+  recruitId: string;
+  gender: string;
+  /** 同一按钮点击的网络重试复用；换参数或换操作者拒绝。 */
+  requestId: string;
+}
+
+/** 角色只读视图（#25 建队结果与 GET /api/party/mine 共用）。 */
+export interface PartyCharacterView {
+  characterId: string;
+  name: string;
+  jobId: string;
+  gender: string;
+  level: number;
+  experience: number;
+  maxHp: number;
+  hp: number;
+  maxSp: number;
+  sp: number;
+  stats: { str: number; int: number; dex: number; spd: number; luk: number };
+  /** 未分配属性点 / 技能点（S1 只读展示，培养编辑后续开放）。 */
+  unassignedAp: number;
+  unassignedSp: number;
+  skillIds: string[];
+  equipment: Array<{ equipmentId: string; definitionId: string; slot: string }>;
+  position: string;
+  guardPolicy: { kind: string };
+  defaultTactics: Array<{ conditions: Array<{ conditionId: string; quantity: number }>; skillId: string }>;
+}
+
+/** POST /api/party/first 响应。 */
+export interface FirstPartyResponse {
+  teamName: string;
+  character: PartyCharacterView;
+  /** true 表示本次为同请求身份的幂等重放。 */
+  replayed?: boolean;
+  releaseId: string;
+  recoveryEpoch: number;
+}
+
+/** GET /api/party/mine 响应（未建队时 teamName/character 为 null）。 */
+export interface MinePartyResponse {
+  teamCompleted: boolean;
+  teamName: string | null;
+  character: PartyCharacterView | null;
+  releaseId: string;
+  recoveryEpoch: number;
+}
+
+/** 建队错误代码（与账号错误码共用 INVALID_INPUT / UNAUTHORIZED / REQUEST_CONFLICT / RATE_LIMITED）。 */
+export type PartyErrorCode =
+  | "INVALID_INPUT"
+  | "UNAUTHORIZED"
+  | "SESSION_EXPIRED"
+  | "TEAM_NAME_TAKEN"
+  | "PARTY_ALREADY_COMPLETED"
+  | "TEAM_NOT_COMPLETED"
+  | "REQUEST_CONFLICT"
+  | "RATE_LIMITED";
+
 export interface ErrorResponse {
   code: AuthErrorCode;
   message: string;

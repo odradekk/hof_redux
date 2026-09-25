@@ -5,6 +5,8 @@ import type { AppConfig } from "./config.js";
 import type { ContentManifest } from "./contentManifest.js";
 import { registerAuthRoutes } from "./auth/routes.js";
 import { getRecoveryEpoch } from "./auth/store.js";
+import { registerPartyRoutes } from "./party/routes.js";
+import type { PartyContent } from "./party/content.js";
 
 /**
  * 构建应用（HTTP 入口只做协议解析、身份传递、调用及结果映射；
@@ -16,6 +18,7 @@ export function buildApp(
   config: AppConfig,
   content: ContentManifest,
   schemaVersion: number,
+  partyContent: PartyContent,
 ): FastifyInstance {
   const app = Fastify({
     logger: { level: "silent" },
@@ -38,6 +41,7 @@ export function buildApp(
   });
 
   registerAuthRoutes(app, { db, releaseId: content.releaseId, maxUsers: config.maxUsers });
+  registerPartyRoutes(app, { db, releaseId: content.releaseId, partyContent });
 
   // 未实现路径返回 404（未交付操作不模拟成功，接口亦拒绝未支持命令）。
   app.setNotFoundHandler(async (request, reply) => {

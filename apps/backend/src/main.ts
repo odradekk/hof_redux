@@ -1,5 +1,7 @@
+import path from "node:path";
 import { loadConfig } from "./config.js";
 import { loadContentManifest } from "./contentManifest.js";
+import { loadPartyContent } from "./party/content.js";
 import { openBusinessDatabase } from "./db/database.js";
 import { InstanceLock } from "./db/instanceLock.js";
 import { runMigrations } from "./db/migrate.js";
@@ -16,8 +18,10 @@ const db = openBusinessDatabase(config.dbPath);
 const schemaVersion = runMigrations(db, config.migrationsDir);
 // 内容快照门控：版本组合与数据库版本一致后才受理业务。
 const content = loadContentManifest(config.contentManifestPath, { expectedDbSchema: schemaVersion });
+// 建队内容子集：引用闭合，缺失即拒绝启动。
+const partyContent = loadPartyContent(path.dirname(config.contentManifestPath));
 
-const app = buildApp(db, config, content, schemaVersion);
+const app = buildApp(db, config, content, schemaVersion, partyContent);
 // 生产日志级别：测试经 buildApp 使用 silent，此处恢复 info。
 app.log.level = "info";
 
