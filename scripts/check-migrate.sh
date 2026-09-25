@@ -4,7 +4,7 @@
 # 以当前用户（与临时目录属主一致，不依赖宿主 uid=1000）运行，
 # 验证 空库 → 按序迁移 → 健康，并在被验证容器内核对：
 #   1) 迁移登记与仓库迁移文件逐条一致（version/name/sha256，无多余记录）；
-#   2) 业务表清单只含 schema_migrations（无测试设施表）。
+#   2) 业务表清单为账号基线表集合（#24 起含账号/资产/会话等表，无测试设施表）。
 set -euo pipefail
 source "$(dirname "$0")/lib-docker.sh"
 detect_docker
@@ -54,10 +54,10 @@ node -e '
     console.error(`迁移登记与仓库文件不一致：\n  容器内：${JSON.stringify(actual)}\n  期望：  ${JSON.stringify(expected)}`);
     process.exit(1);
   }
-  if (JSON.stringify(state.tables) !== JSON.stringify(["schema_migrations"])) {
-    console.error(`空库迁移后业务表清单异常：${JSON.stringify(state.tables)}（应仅 schema_migrations）`);
+  if (JSON.stringify(state.tables) !== JSON.stringify(["account_assets","accounts","app_meta","game_change_records","register_requests","schema_migrations","sessions"])) {
+    console.error(`空库迁移后业务表清单异常：${JSON.stringify(state.tables)}（应为 #24 账号基线表集合）`);
     process.exit(1);
   }
 ' "$DB_STATE" "$ROOT/apps/backend/migrations"
 
-echo "check-migrate: OK（空库按序迁移，登记与文件一致，业务 schema 无测试设施表）"
+echo "check-migrate: OK（空库按序迁移，登记与文件一致，账号基线表集合完整）"
