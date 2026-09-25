@@ -15,6 +15,52 @@ test("S1 首批内容包校验通过：零错误", () => {
   assert.ok(result.content);
 });
 
+test("素材使用者由内容引用生成，而非由编辑源维护", (t) => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "hof-content-neg-"));
+  t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  fs.cpSync(CONTENT_DIR, dir, { recursive: true });
+  const source = JSON.parse(fs.readFileSync(path.join(dir, "assets.json"), "utf8")) as {
+    assets: Record<string, unknown>[];
+  };
+  assert.ok(source.assets.every((a) => !("usedBy" in a)));
+  const p = path.join(dir, "items.json");
+  const items = JSON.parse(fs.readFileSync(p, "utf8")) as { items: Record<string, unknown>[] };
+  const item = items.items.find((i) => i["id"] === "item.6002")!;
+  item["imageAssetId"] = "asset.item.6000";
+  fs.writeFileSync(p, JSON.stringify(items, null, 2));
+  const result = validateContent(dir);
+  assert.equal(result.errors.length, 0, JSON.stringify(result.errors));
+  assert.deepEqual(result.content!.assets.find((a) => a.id === "asset.item.6001")?.usedBy, ["item.6001", "item.6003"]);
+  assert.deepEqual(result.content!.assets.find((a) => a.id === "asset.item.6000")?.usedBy, ["item.6000", "item.6002"]);
+});
+
+test("素材路径不能逃出 content/assets", (t) => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "hof-content-neg-"));
+  t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  fs.cpSync(CONTENT_DIR, dir, { recursive: true });
+  const p = path.join(dir, "assets.json");
+  const o = JSON.parse(fs.readFileSync(p, "utf8")) as { assets: Record<string, unknown>[] };
+  o.assets[0]!["path"] = "content/assets/../../package.json";
+  fs.writeFileSync(p, JSON.stringify(o, null, 2));
+  const result = validateContent(dir);
+  assert.ok(result.errors.some((d) => d.code === "E_ASSET_PATH"), JSON.stringify(result.errors));
+});
+
+test("保护策略的阈值必须与种类匹配", (t) => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "hof-content-neg-"));
+  t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  fs.cpSync(CONTENT_DIR, dir, { recursive: true });
+  const p = path.join(dir, "recruitment.json");
+  const raw = fs.readFileSync(p, "utf8");
+  for (const policy of [{ kind: "probability" }, { kind: "always", threshold: 25 }]) {
+    const o = JSON.parse(raw) as { recruitments: Record<string, unknown>[] };
+    o.recruitments[0]!["guardPolicy"] = policy;
+    fs.writeFileSync(p, JSON.stringify(o, null, 2));
+    const result = validateContent(dir);
+    assert.ok(result.errors.some((d) => d.code === "E_SCHEMA"), JSON.stringify(result.errors));
+  }
+});
+
 test("S1 范围恰好包含指定的首批定义", () => {
   const result = validateContent(CONTENT_DIR);
   assert.equal(result.errors.length, 0);

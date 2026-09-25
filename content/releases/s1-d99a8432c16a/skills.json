@@ -1,0 +1,133 @@
+{
+  "skills": [
+    {
+      "id": "skill.1000",
+      "oldNo": "1000",
+      "name": "攻击",
+      "imageAssetId": "asset.skill.1000",
+      "spCost": 0,
+      "damageType": "physical",
+      "target": { "side": "enemy", "mode": "single", "hits": 1 },
+      "power": 100,
+      "preDelay": 0,
+      "postDelay": 0,
+      "ignoreGuard": false,
+      "support": false,
+      "sources": [
+        {
+          "file": "old_hof/data/data.skill.php",
+          "lines": "47-57",
+          "note": "1000 攻击：type 0 物理/pow 100/单体敌方1段/无蓄力。"
+        }
+      ]
+    },
+    {
+      "id": "skill.1001",
+      "oldNo": "1001",
+      "name": "痛击",
+      "imageAssetId": "asset.skill.1001",
+      "spCost": 8,
+      "damageType": "physical",
+      "target": { "side": "enemy", "mode": "single", "hits": 1 },
+      "power": 160,
+      "preDelay": 20,
+      "postDelay": 20,
+      "ignoreGuard": false,
+      "support": false,
+      "sources": [
+        {
+          "file": "old_hof/data/data.skill.php",
+          "lines": "58-69",
+          "note": "1001 痛击：type 0/pow 160/charge[20,20] 物理蓄力+硬直。"
+        }
+      ]
+    },
+    {
+      "id": "skill.1002",
+      "oldNo": "1002",
+      "name": "火球术",
+      "imageAssetId": "asset.skill.1002",
+      "spCost": 20,
+      "damageType": "magic",
+      "target": { "side": "enemy", "mode": "random-multi", "hits": 4 },
+      "power": 100,
+      "preDelay": 60,
+      "postDelay": 0,
+      "ignoreGuard": true,
+      "support": false,
+      "sources": [
+        {
+          "file": "old_hof/data/data.skill.php",
+          "lines": "70-82",
+          "note": "1002 火球术：type 1 魔法/multi 4 段（每段重选目标，允许重复）/charge[60,0] 咏唱/invalid 无视保护。"
+        }
+      ]
+    },
+    {
+      "id": "skill.1014",
+      "oldNo": "1014",
+      "name": "致命突刺",
+      "imageAssetId": "asset.skill.1014",
+      "spCost": 50,
+      "damageType": "physical",
+      "target": { "side": "enemy", "mode": "single", "hits": 1 },
+      "power": 360,
+      "preDelay": 0,
+      "postDelay": 50,
+      "ignoreGuard": false,
+      "support": false,
+      "sources": [
+        {
+          "file": "old_hof/data/data.skill.php",
+          "lines": "137-148",
+          "note": "1014 致命突刺：type 0/pow 360/charge[0,50] 无前摇、有后摇。"
+        }
+      ]
+    },
+    {
+      "id": "skill.1017",
+      "oldNo": "1017",
+      "name": "愤怒一击",
+      "imageAssetId": "asset.skill.1017",
+      "spCost": 40,
+      "damageType": "physical",
+      "target": { "side": "enemy", "mode": "random-multi", "hits": 5 },
+      "power": 100,
+      "preDelay": 40,
+      "postDelay": 60,
+      "ignoreGuard": false,
+      "support": false,
+      "sources": [
+        {
+          "file": "old_hof/data/data.skill.php",
+          "lines": "175-186",
+          "note": "1017 愤怒一击：type 0/multi 5 段随机多目标/charge[40,60] 蓄力+硬直。"
+        }
+      ]
+    },
+    {
+      "id": "skill.3010",
+      "oldNo": "3010",
+      "name": "恢复精神",
+      "imageAssetId": "asset.skill.3010",
+      "spCost": 0,
+      "damageType": "magic",
+      "target": { "side": "self", "mode": "single", "hits": 1 },
+      "support": true,
+      "handlerId": "recover-sp-max-percent",
+      "handlerParams": { "percent": 30, "rounding": "ceil" },
+      "sources": [
+        {
+          "file": "old_hof/data/data.skill.php",
+          "lines": "1632-1642",
+          "note": "3010 恢复精神：type 1/support 自身/SP 回复（通用 pow 路径不适用，走具名处理器）。"
+        },
+        {
+          "file": "old_hof/class/class.skill_effect.php",
+          "lines": "213-217",
+          "note": "3010 机制：SpRec = ceil(MAXSP*3/10)，RecoverSP。"
+        }
+      ]
+    }
+  ]
+}

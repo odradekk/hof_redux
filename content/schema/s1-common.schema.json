@@ -37,13 +37,23 @@
       "additionalProperties": false
     },
     "guardPolicy": {
-      "type": "object",
-      "required": ["kind"],
-      "properties": {
-        "kind": { "enum": ["always", "never", "hp-rate-gte", "probability"] },
-        "threshold": { "enum": [25, 50, 75] }
-      },
-      "additionalProperties": false
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind"],
+          "properties": { "kind": { "enum": ["always", "never"] } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "threshold"],
+          "properties": {
+            "kind": { "enum": ["hp-rate-gte", "probability"] },
+            "threshold": { "enum": [25, 50, 75] }
+          },
+          "additionalProperties": false
+        }
+      ]
     },
     "baseStats": {
       "type": "object",

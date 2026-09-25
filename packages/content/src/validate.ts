@@ -1,12 +1,13 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { resolveAssetPath } from "./assetPath.js";
 import { findDuplicateKeys } from "./duplicateKeys.js";
 import { CONTENT_FILES, loadSchemaValidators, schemaErrorsToDiagnostics } from "./schemas.js";
 import type { Diagnostic, ValidationResult } from "./validate-types.js";
 import { validateWearSet, type WearSet } from "./wear.js";
 import type {
-  AssetDefinition,
+  AssetSourceDefinition,
   ConditionDefinition,
   ItemDefinition,
   JobDefinition,
@@ -79,7 +80,7 @@ export function validateContent(contentDir: string): ValidationResult {
   const conditions = (parsed.get("conditions.json") as { conditions: ConditionDefinition[] }).conditions;
   const monsters = (parsed.get("monsters.json") as { monsters: MonsterDefinition[] }).monsters;
   const maps = (parsed.get("maps.json") as { maps: MapDefinition[] }).maps;
-  const assets = (parsed.get("assets.json") as { assets: AssetDefinition[] }).assets;
+  const sourceAssets = (parsed.get("assets.json") as { assets: AssetSourceDefinition[] }).assets;
 
   const ids = new Map<string, string>();
   function register(id: string, prefix: string, file: string): void {
@@ -99,7 +100,7 @@ export function validateContent(contentDir: string): ValidationResult {
   for (const c of conditions) register(c.id, "condition.", "conditions.json");
   for (const m of monsters) register(m.id, "monster.", "monsters.json");
   for (const m of maps) register(m.id, "map.", "maps.json");
-  for (const a of assets) register(a.id, "asset.", "assets.json");
+  for (const a of sourceAssets) register(a.id, "asset.", "assets.json");
 
   const jobById = new Map(jobs.map((j) => [j.id, j]));
   const itemById = new Map(items.map((i) => [i.id, i]));
@@ -243,9 +244,15 @@ export function validateContent(contentDir: string): ValidationResult {
   }
 
   // 素材：文件存在性/摘要/字节/来源白名单（大小写精确路径）；引用双向闭合。
-  const assetById = new Map(assets.map((a) => [a.id, a]));
-  for (const a of assets) {
-    const abs = path.join(contentDir, path.relative("content", a.path));
+  const assetById = new Map(sourceAssets.map((a) => [a.id, a]));
+  for (const a of sourceAssets) {
+    let abs: string;
+    try {
+      abs = resolveAssetPath(contentDir, a.path).absolutePath;
+    } catch (e) {
+      err(diags, "E_ASSET_PATH", "assets.json", e instanceof Error ? e.message : String(e), { definitionId: a.id });
+      continue;
+    }
     if (!fs.existsSync(abs)) {
       err(diags, "E_ASSET_MISSING", "assets.json", `素材文件缺失：${a.path}`, { definitionId: a.id, source: a.sourceFile });
       continue;
@@ -257,38 +264,28 @@ export function validateContent(contentDir: string): ValidationResult {
     if (data.length !== a.bytes) {
       err(diags, "E_ASSET_HASH", "assets.json", `素材字节数不符：${a.path}`, { definitionId: a.id });
     }
-    for (const u of a.usedBy) {
-      if (!ids.has(u)) err(diags, "E_REF", "assets.json", `素材 ${a.id} 的 usedBy 引用缺失：${u}`, { definitionId: a.id });
-    }
   }
-  const referencedAssets = new Set<string>();
-  const collectAssetRefs = (obj: unknown): void => {
-    if (Array.isArray(obj)) {
-      for (const v of obj) collectAssetRefs(v);
-      return;
-    }
-    if (typeof obj === "object" && obj !== null) {
-      for (const [k, v] of Object.entries(obj)) {
-        if (
-          (k === "imageAssetId" || k === "backgroundAssetId" || k === "imageMaleAssetId" || k === "imageFemaleAssetId") &&
-          typeof v === "string"
-        ) {
-          referencedAssets.add(v);
-        } else {
-          collectAssetRefs(v);
-        }
-      }
-    }
-  };
-  for (const f of ["recruitment.json", "jobs.json", "items.json", "skills.json", "monsters.json", "maps.json"] as const) {
-    collectAssetRefs(parsed.get(f));
+  const assetUses = new Map<string, Set<string>>();
+  function addAssetUse(assetId: string, definitionId: string): void {
+    const uses = assetUses.get(assetId) ?? new Set<string>();
+    uses.add(definitionId);
+    assetUses.set(assetId, uses);
   }
-  for (const aid of referencedAssets) {
+  for (const j of jobs) {
+    addAssetUse(j.presentation.imageMaleAssetId, j.id);
+    addAssetUse(j.presentation.imageFemaleAssetId, j.id);
+  }
+  for (const i of items) addAssetUse(i.imageAssetId, i.id);
+  for (const s of skills) addAssetUse(s.imageAssetId, s.id);
+  for (const m of monsters) addAssetUse(m.imageAssetId, m.id);
+  for (const m of maps) addAssetUse(m.backgroundAssetId, m.id);
+  for (const aid of assetUses.keys()) {
     if (!assetById.has(aid)) err(diags, "E_REF", "assets.json", `素材引用缺失：${aid}`, { definitionId: aid });
   }
   for (const aid of assetById.keys()) {
-    if (!referencedAssets.has(aid)) err(diags, "E_ASSET_ORPHAN", "assets.json", `素材 ${aid} 未被任何内容引用`, { definitionId: aid });
+    if (!assetUses.has(aid)) err(diags, "E_ASSET_ORPHAN", "assets.json", `素材 ${aid} 未被任何内容引用`, { definitionId: aid });
   }
+  const assets = sourceAssets.map((a) => ({ ...a, usedBy: [...(assetUses.get(a.id) ?? [])].sort() }));
 
   // S1 范围完整性。
   for (const id of [

@@ -30,10 +30,9 @@ export interface TacticsGroup {
   skillId: string;
 }
 
-export interface GuardPolicy {
-  kind: "always" | "never" | "hp-rate-gte" | "probability";
-  threshold?: number;
-}
+export type GuardPolicy =
+  | { kind: "always" | "never" }
+  | { kind: "hp-rate-gte" | "probability"; threshold: 25 | 50 | 75 };
 
 export interface RecruitmentDefinition {
   id: string;
@@ -191,12 +190,15 @@ export interface MapDefinition {
   sources: SourceRef[];
 }
 
-export interface AssetDefinition {
+export interface AssetSourceDefinition {
   id: string;
   path: string;
   sourceFile: string;
   sha256: string;
   bytes: number;
+}
+
+export interface AssetDefinition extends AssetSourceDefinition {
   usedBy: string[];
 }
 

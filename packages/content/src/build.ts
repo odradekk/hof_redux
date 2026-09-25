@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { dropIntervals, pickDrop, pickEncounter } from "./distributions.js";
+import { resolveAssetPath } from "./assetPath.js";
 import { validateContent } from "./validate.js";
 import { publishSnapshot } from "./publish.js";
 
@@ -120,11 +121,8 @@ function main(): void {
   for (const f of EDIT_FILES) {
     const rel = `${snapshotRel}/${f}`;
     if (f === "assets.json") {
-      const assetsDoc = JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, f), "utf8")) as {
-        assets: { path: string }[];
-      };
       const rewritten = {
-        assets: assetsDoc.assets.map((a) => ({ ...a, path: a.path.replace(/^content\/assets\//, `${snapshotRel}/assets/`) })),
+        assets: content.assets.map((a) => ({ ...a, path: `${snapshotRel}/assets/${resolveAssetPath(CONTENT_DIR, a.path).relativePath}` })),
       };
       staged.set(rel, Buffer.from(JSON.stringify(rewritten, null, 2) + "\n", "utf8"));
     } else {
@@ -132,8 +130,8 @@ function main(): void {
     }
   }
   for (const a of content.assets) {
-    const srcAbs = path.join(CONTENT_DIR, path.relative("content", a.path));
-    staged.set(`${snapshotRel}/assets/${path.basename(a.path)}`, fs.readFileSync(srcAbs));
+    const { absolutePath, relativePath } = resolveAssetPath(CONTENT_DIR, a.path);
+    staged.set(`${snapshotRel}/assets/${relativePath}`, fs.readFileSync(absolutePath));
   }
 
   const files = [...staged.keys()].sort().map((rel) => {
