@@ -77,11 +77,19 @@ test("空库按序应用全部迁移，记录与磁盘文件一致", () => {
   assert.equal(businessTables(db).includes("schema_migrations"), true);
 });
 
-test("迁移后的业务 schema 不含测试设施表", () => {
+test("迁移后的业务 schema 为账号基线表集合（无测试设施表）", () => {
   const db = new DatabaseSync(":memory:");
   runMigrations(db, MIGRATIONS_DIR);
-  // 重启持久性验证改用迁移元数据，生产 schema 不再包含探针表。
-  assert.deepEqual(businessTables(db), ["schema_migrations"]);
+  // #24 起生产 schema 包含账号/资产/会话/幂等/流水/元数据表；探针表已在 0002 移除。
+  assert.deepEqual(businessTables(db), [
+    "account_assets",
+    "accounts",
+    "app_meta",
+    "game_change_records",
+    "register_requests",
+    "schema_migrations",
+    "sessions",
+  ]);
 });
 
 test("重复执行幂等：记录（含 applied_at）不变", () => {
@@ -124,5 +132,13 @@ test("旧 v1 本地库升级：0001 记录原样保留，后续迁移继续应�
   assert.equal(rows[0].applied_at, "2026-09-01T00:00:00.000Z");
   assert.equal(rows.length, expected.length);
   // 升级后的 schema 与空库迁移结果一致。
-  assert.deepEqual(businessTables(db), ["schema_migrations"]);
+  assert.deepEqual(businessTables(db), [
+    "account_assets",
+    "accounts",
+    "app_meta",
+    "game_change_records",
+    "register_requests",
+    "schema_migrations",
+    "sessions",
+  ]);
 });

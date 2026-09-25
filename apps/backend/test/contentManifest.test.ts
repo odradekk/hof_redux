@@ -18,8 +18,18 @@ function snapshotReleaseId(): string {
   return fs.readFileSync(path.join(CONTENT_DIR, "current-release"), "utf8").trim();
 }
 
+function maxMigrationVersion(): number {
+  const dir = path.join(REPO_ROOT, "apps", "backend", "migrations");
+  return Math.max(
+    ...fs
+      .readdirSync(dir)
+      .filter((f) => /^\d{4}_[a-z0-9_]+\.sql$/.test(f))
+      .map((f) => Number(f.slice(0, 4))),
+  );
+}
+
 test("当前快照清单加载通过：发布身份、摘要与文件数", () => {
-  const manifest = loadContentManifest(snapshotManifest(), { expectedDbSchema: 2 });
+  const manifest = loadContentManifest(snapshotManifest(), { expectedDbSchema: maxMigrationVersion() });
   assert.match(manifest.releaseId, /^s1-[0-9a-f]{12}$/);
   assert.equal(manifest.releaseId, snapshotReleaseId());
   assert.equal(manifest.schemaVersion, 1);
@@ -34,7 +44,7 @@ test("快照内文件被篡改时拒绝启动", () => {
   const jobsPath = path.join(dir, "content", "releases", id, "jobs.json");
   fs.writeFileSync(jobsPath, fs.readFileSync(jobsPath, "utf8") + "\n");
   assert.throws(
-    () => loadContentManifest(path.join(dir, "content", "releases", id, "release.json"), { expectedDbSchema: 2 }),
+    () => loadContentManifest(path.join(dir, "content", "releases", id, "release.json"), { expectedDbSchema: maxMigrationVersion() }),
     /字节数|摘要/,
   );
   fs.rmSync(dir, { recursive: true, force: true });
@@ -48,10 +58,10 @@ test("不支持的版本组合被拒绝", () => {
   const raw = JSON.parse(fs.readFileSync(manifestPath, "utf8")) as Record<string, unknown>;
   // schemaVersion=999
   fs.writeFileSync(manifestPath, JSON.stringify({ ...raw, schemaVersion: 999 }));
-  assert.throws(() => loadContentManifest(manifestPath, { expectedDbSchema: 2 }), /不受支持/);
+  assert.throws(() => loadContentManifest(manifestPath, { expectedDbSchema: maxMigrationVersion() }), /不受支持/);
   // engine 不支持
   fs.writeFileSync(manifestPath, JSON.stringify({ ...raw, engine: "s9-engine-9" }));
-  assert.throws(() => loadContentManifest(manifestPath, { expectedDbSchema: 2 }), /不受支持/);
+  assert.throws(() => loadContentManifest(manifestPath, { expectedDbSchema: maxMigrationVersion() }), /不受支持/);
   // 数据库版本不一致
   fs.writeFileSync(manifestPath, JSON.stringify(raw));
   assert.throws(() => loadContentManifest(manifestPath, { expectedDbSchema: 999 }), /compatibleDbSchema/);
