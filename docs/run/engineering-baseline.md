@@ -11,7 +11,7 @@
 | Vue / Vite / plugin-vue | 3.5.43 / 7.3.6 / 6.0.9 | Vite 选 7.x 稳定线；plugin-vue 6.0.9 兼容 vite 5–8 |
 | Fastify | 5.12.5 | 后端 HTTP 框架 |
 | TypeScript | 5.9.3 | 未采用 7.x 原生预览线；vue-tsc 3.3.11 配套 |
-| 后端打包 | esbuild 0.28.2（`--packages=external`） | 开发用 tsx 4.23.15 watch |
+| 后端打包 | esbuild 0.28.2（第三方 `--external:fastify` / `--external:@node-rs/argon2`，workspace `@hof/*` 打包进 bundle，裸 `node` 可直接运行） | 开发用 tsx 4.23.15 watch |
 | 基础镜像 | `node:24.14.0-bookworm-slim@sha256:d8e448a56fc63242f70026718378bd4b00f8c82e78d20eefb199224a4d8e33d8` | 后端构建/运行、开发实例 |
 | 入口镜像 | `caddy:2.10.2@sha256:c3d7ee5d2b11f9dc54f947f68a734c84e9c9666c92c88a7f30b9cba5da182adb` | 同域静态 + 反向代理 |
 
