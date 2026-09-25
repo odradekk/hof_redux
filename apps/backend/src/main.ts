@@ -1,10 +1,9 @@
-import Fastify from "fastify";
-import type { HealthResponse, VersionResponse } from "@hof/shared";
 import { loadConfig } from "./config.js";
 import { loadContentManifest } from "./contentManifest.js";
 import { openBusinessDatabase } from "./db/database.js";
 import { InstanceLock } from "./db/instanceLock.js";
 import { runMigrations } from "./db/migrate.js";
+import { buildApp } from "./app.js";
 
 const config = loadConfig();
 
@@ -18,24 +17,9 @@ const schemaVersion = runMigrations(db, config.migrationsDir);
 // 内容快照门控：版本组合与数据库版本一致后才受理业务。
 const content = loadContentManifest(config.contentManifestPath, { expectedDbSchema: schemaVersion });
 
-const app = Fastify({
-  logger: { level: "info" },
-  trustProxy: config.trustProxy,
-});
-
-app.get("/api/health", async (): Promise<HealthResponse> => {
-  // 应用健康以业务数据库可读为前提；失败时 fastify 返回 500，入口视为不健康。
-  db.prepare("SELECT 1 AS ok").get();
-  return { status: "ok", now: new Date().toISOString() };
-});
-
-app.get("/api/version", async (): Promise<VersionResponse> => {
-  return {
-    app: { name: "@hof/backend", version: config.appVersion },
-    content: { releaseId: content.releaseId, schemaVersion: content.schemaVersion, contentHash: content.contentHash },
-    database: { schemaVersion },
-  };
-});
+const app = buildApp(db, config, content, schemaVersion);
+// 生产日志级别：测试经 buildApp 使用 silent，此处恢复 info。
+app.log.level = "info";
 
 async function shutdown(signal: string): Promise<void> {
   app.log.info({ signal }, "收到停止信号，开始安全关闭");

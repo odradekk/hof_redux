@@ -1,0 +1,334 @@
+{
+  "releaseId": "s1-4f2ae8a8c250",
+  "schemaVersion": 1,
+  "contentHash": "sha256:c9c1aee41de56710b427d5ac4dfb0572f837b8904122a69bd4676f0ade855ce4",
+  "sourceFingerprint": "sha256:8bcf3270faa916e46ec4150180bc43809fea066f0f8794155aa6dde1fddce1f3",
+  "snapshot": "content/releases/s1-4f2ae8a8c250",
+  "coverage": {
+    "recruitments": [
+      "recruit.1",
+      "recruit.2"
+    ],
+    "jobs": [
+      "job.100",
+      "job.200"
+    ],
+    "items": [
+      "item.1000(equipment)",
+      "item.1700(equipment)",
+      "item.3000(equipment)",
+      "item.5000(equipment)",
+      "item.5200(equipment)",
+      "item.6000(material)",
+      "item.6001(material)",
+      "item.6002(material)",
+      "item.6003(material)",
+      "item.7100(material)"
+    ],
+    "skills": [
+      "skill.1000[generic]",
+      "skill.1001[generic]",
+      "skill.1002[generic]",
+      "skill.1014[generic]",
+      "skill.1017[generic]",
+      "skill.3010[recover-sp-max-percent]"
+    ],
+    "conditions": [
+      "condition.1000[always]",
+      "condition.1205[self-sp-absolute-gte]",
+      "condition.1206[self-sp-absolute-lte]",
+      "condition.1940[probability-percent]"
+    ],
+    "monsters": [
+      "monster.1000",
+      "monster.1001"
+    ],
+    "maps": [
+      "map.gb0"
+    ],
+    "assets": [
+      "asset.job.100.male -> content/assets/job-100-male.gif (1035B)",
+      "asset.job.100.female -> content/assets/job-100-female.gif (1037B)",
+      "asset.job.200.male -> content/assets/job-200-male.gif (840B)",
+      "asset.job.200.female -> content/assets/job-200-female.gif (1049B)",
+      "asset.monster.1000 -> content/assets/monster-1000.gif (1323B)",
+      "asset.monster.1001 -> content/assets/monster-1001.gif (1311B)",
+      "asset.skill.1000 -> content/assets/skill-1000.png (269B)",
+      "asset.skill.1001 -> content/assets/skill-1001.png (290B)",
+      "asset.skill.1002 -> content/assets/skill-1002.png (283B)",
+      "asset.skill.1014 -> content/assets/skill-1014.png (291B)",
+      "asset.skill.1017 -> content/assets/skill-1017.png (326B)",
+      "asset.skill.3010 -> content/assets/skill-3010.png (297B)",
+      "asset.item.1000 -> content/assets/item-1000.png (303B)",
+      "asset.item.1700 -> content/assets/item-1700.png (261B)",
+      "asset.item.3000 -> content/assets/item-3000.png (299B)",
+      "asset.item.5000 -> content/assets/item-5000.png (339B)",
+      "asset.item.5200 -> content/assets/item-5200.png (351B)",
+      "asset.item.6000 -> content/assets/item-6000.png (275B)",
+      "asset.item.6001 -> content/assets/item-6001.png (253B)",
+      "asset.item.7100 -> content/assets/item-7100.png (263B)",
+      "asset.map.gb0.background -> content/assets/map-gb0-background.gif (25758B)"
+    ]
+  },
+  "mechanisms": {
+    "handlers": [
+      {
+        "handlerId": "recover-sp-max-percent",
+        "usedBy": [
+          "skill.3010"
+        ]
+      }
+    ],
+    "genericDamage": [
+      "skill.1000",
+      "skill.1001",
+      "skill.1002",
+      "skill.1014",
+      "skill.1017"
+    ],
+    "connectorNote": "旧 9000 已转为有序 AND 条件组；skill.9000 / condition.9000 不存在且被 Schema 与校验拒绝。"
+  },
+  "encounters": {
+    "mapId": "map.gb0",
+    "candidates": [
+      {
+        "monsterId": "monster.1000",
+        "weight": 300,
+        "preview": true
+      },
+      {
+        "monsterId": "monster.1001",
+        "weight": 300,
+        "preview": true
+      }
+    ],
+    "totalWeight": 600,
+    "endpointChecks": [
+      {
+        "roll": 1,
+        "expected": "monster.1000",
+        "got": "monster.1000",
+        "pass": true
+      },
+      {
+        "roll": 300,
+        "expected": "monster.1000",
+        "got": "monster.1000",
+        "pass": true
+      },
+      {
+        "roll": 301,
+        "expected": "monster.1001",
+        "got": "monster.1001",
+        "pass": true
+      },
+      {
+        "roll": 600,
+        "expected": "monster.1001",
+        "got": "monster.1001",
+        "pass": true
+      }
+    ]
+  },
+  "drops": [
+    {
+      "monsterId": "monster.1000",
+      "denominator": 10000,
+      "intervals": [
+        {
+          "itemId": "item.6000",
+          "from": 1,
+          "to": 1000
+        },
+        {
+          "itemId": "item.6001",
+          "from": 1001,
+          "to": 2000
+        },
+        {
+          "itemId": "item.6002",
+          "from": 2001,
+          "to": 2600
+        },
+        {
+          "itemId": "item.6003",
+          "from": 2601,
+          "to": 2800
+        },
+        {
+          "itemId": "item.7100",
+          "from": 2801,
+          "to": 2900
+        }
+      ],
+      "noDropRange": [
+        2901,
+        10000
+      ],
+      "endpointChecks": [
+        {
+          "roll": 1,
+          "expected": "item.6000",
+          "pass": true
+        },
+        {
+          "roll": 1000,
+          "expected": "item.6000",
+          "pass": true
+        },
+        {
+          "roll": 1001,
+          "expected": "item.6001",
+          "pass": true
+        },
+        {
+          "roll": 2000,
+          "expected": "item.6001",
+          "pass": true
+        },
+        {
+          "roll": 2001,
+          "expected": "item.6002",
+          "pass": true
+        },
+        {
+          "roll": 2600,
+          "expected": "item.6002",
+          "pass": true
+        },
+        {
+          "roll": 2601,
+          "expected": "item.6003",
+          "pass": true
+        },
+        {
+          "roll": 2800,
+          "expected": "item.6003",
+          "pass": true
+        },
+        {
+          "roll": 2801,
+          "expected": "item.7100",
+          "pass": true
+        },
+        {
+          "roll": 2900,
+          "expected": "item.7100",
+          "pass": true
+        },
+        {
+          "roll": 2901,
+          "expected": null,
+          "pass": true
+        },
+        {
+          "roll": 10000,
+          "expected": null,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "monsterId": "monster.1001",
+      "denominator": 10000,
+      "intervals": [
+        {
+          "itemId": "item.6000",
+          "from": 1,
+          "to": 1000
+        },
+        {
+          "itemId": "item.6001",
+          "from": 1001,
+          "to": 2000
+        },
+        {
+          "itemId": "item.6002",
+          "from": 2001,
+          "to": 2600
+        },
+        {
+          "itemId": "item.6003",
+          "from": 2601,
+          "to": 2800
+        },
+        {
+          "itemId": "item.7100",
+          "from": 2801,
+          "to": 2900
+        }
+      ],
+      "noDropRange": [
+        2901,
+        10000
+      ],
+      "endpointChecks": [
+        {
+          "roll": 1,
+          "expected": "item.6000",
+          "pass": true
+        },
+        {
+          "roll": 1000,
+          "expected": "item.6000",
+          "pass": true
+        },
+        {
+          "roll": 1001,
+          "expected": "item.6001",
+          "pass": true
+        },
+        {
+          "roll": 2000,
+          "expected": "item.6001",
+          "pass": true
+        },
+        {
+          "roll": 2001,
+          "expected": "item.6002",
+          "pass": true
+        },
+        {
+          "roll": 2600,
+          "expected": "item.6002",
+          "pass": true
+        },
+        {
+          "roll": 2601,
+          "expected": "item.6003",
+          "pass": true
+        },
+        {
+          "roll": 2800,
+          "expected": "item.6003",
+          "pass": true
+        },
+        {
+          "roll": 2801,
+          "expected": "item.7100",
+          "pass": true
+        },
+        {
+          "roll": 2900,
+          "expected": "item.7100",
+          "pass": true
+        },
+        {
+          "roll": 2901,
+          "expected": null,
+          "pass": true
+        },
+        {
+          "roll": 10000,
+          "expected": null,
+          "pass": true
+        }
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "scenarios": [
+    "gb0 遭遇 1/300/301/600 端点固定输入验证通过",
+    "怪物掉落 1/1000/1001/2000/2001/2600/2601/2800/2801/2900/2901/10000 端点固定输入验证通过（两只怪物分别验证）"
+  ]
+}

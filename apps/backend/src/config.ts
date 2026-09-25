@@ -13,6 +13,8 @@ export interface AppConfig {
   /** 仅在容器内网、入口为受信 Caddy 时为 true。 */
   trustProxy: boolean;
   appVersion: string;
+  /** 注册容量（旧 MAX_USERS 默认值，可配置覆盖；计入未删除玩家账号）。 */
+  maxUsers: number;
 }
 
 function firstExisting(candidates: string[]): string | undefined {
@@ -63,5 +65,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     contentManifestPath,
     trustProxy: env.HOF_TRUST_PROXY === "true",
     appVersion: pkg.version,
+    maxUsers: Number(env.HOF_MAX_USERS ?? "500"),
   };
 }

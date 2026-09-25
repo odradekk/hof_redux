@@ -1,0 +1,158 @@
+{
+  "releaseId": "s1-4f2ae8a8c250",
+  "schemaVersion": 1,
+  "engine": "s1-engine-0",
+  "randomProtocol": "s1-random-0",
+  "eventFormat": "s1-event-0",
+  "compatibleDbSchema": 3,
+  "contentHash": "sha256:c9c1aee41de56710b427d5ac4dfb0572f837b8904122a69bd4676f0ade855ce4",
+  "sourceHash": "sha256:8bcf3270faa916e46ec4150180bc43809fea066f0f8794155aa6dde1fddce1f3",
+  "files": [
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets.json",
+      "sha256": "0b8cb4aa7473fc907e4cd6ca1670f50b329ac4c35334a3849ca4359672b53392",
+      "bytes": 6881
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/item-1000.png",
+      "sha256": "ec3fbf1bbae52f3477362a86ea14f909fdbaa3efd6a2067d783a839ac2f79b90",
+      "bytes": 303
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/item-1700.png",
+      "sha256": "7bffe864541ae46ae24aaed5a9dcad711eed6c5e86ac1dd02563e8fa5d17b3de",
+      "bytes": 261
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/item-3000.png",
+      "sha256": "2570a730e468be7bf4bcbef3c7302ac89a8f4f621b0b4e361c1f2180ee780f34",
+      "bytes": 299
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/item-5000.png",
+      "sha256": "9c04f16e7ec6de19cd1f097c829141a892705ae116c856349df9204f92733f68",
+      "bytes": 339
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/item-5200.png",
+      "sha256": "de8bb4db3bb971d13b4e6b543d239fcf9d1fd56a0a7f1e7d30f9383fd91da722",
+      "bytes": 351
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/item-6000.png",
+      "sha256": "ad740b29bb9f2f3b404df6b06612e7939071d13b239a4d58935b4109354cfc0b",
+      "bytes": 275
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/item-6001.png",
+      "sha256": "479747bfe1187a8cbbd3030bc5f08f25e28bc07487c986c6eb197e60bbd5478f",
+      "bytes": 253
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/item-7100.png",
+      "sha256": "d2691fad1fb69ee211198645b4d6d73b8fe7bd28374c34a75835365d50e46938",
+      "bytes": 263
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/job-100-female.gif",
+      "sha256": "0db03607700bd4973f2901a48aca8ab8852beac05e0a6b2ad0af7e867990709c",
+      "bytes": 1037
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/job-100-male.gif",
+      "sha256": "1ec2f27b8c5abefb7cf2f34ae6e81dc968ac6ffe5d06f8db480f1603ceca9a1a",
+      "bytes": 1035
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/job-200-female.gif",
+      "sha256": "700515f0169a076c26531cd25507d4a934ddbc109d04899602e6ca69aeb460fb",
+      "bytes": 1049
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/job-200-male.gif",
+      "sha256": "b026ec6ae53cc6b8756e314fe9f74966b957d01ac7f1582049314a7e628cedae",
+      "bytes": 840
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/map-gb0-background.gif",
+      "sha256": "4752053b1fe6f7ba6ee9b294b3fd5d6bae53df3307fbf31b077b796c3b5d0b08",
+      "bytes": 25758
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/monster-1000.gif",
+      "sha256": "4aa6829bf9e02f223d152e9029c7ba8036495d95a225592dacd524258eed7208",
+      "bytes": 1323
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/monster-1001.gif",
+      "sha256": "3766307812bea09f1f8899660fdd4bd2dcaab49252dc9455709903b44725e5a7",
+      "bytes": 1311
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/skill-1000.png",
+      "sha256": "533ba41f54903f54471b8a862272bff7ae1c600d4a95ccb489225e85797ac870",
+      "bytes": 269
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/skill-1001.png",
+      "sha256": "02b4c3622cc6524ed88b96872ed8a104bba144f9ecc1c79b4d39bdd493ce8ed4",
+      "bytes": 290
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/skill-1002.png",
+      "sha256": "2dedddbf77cf5ab8ceb5417b6ec795c684cedd1e6e4054f96824388f0ec1d928",
+      "bytes": 283
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/skill-1014.png",
+      "sha256": "b1fdc2f2beba4baca2f6dae3f327270d46ea068af21ddc0a057a17c585609d30",
+      "bytes": 291
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/skill-1017.png",
+      "sha256": "561d739e3c8472f09260a65865454d4e8931166b3550a3335b296453347ab09e",
+      "bytes": 326
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/assets/skill-3010.png",
+      "sha256": "95770436e77d2a09a354d65c3103edbf63ead51c95b537d5879a672fe1a9e9d6",
+      "bytes": 297
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/conditions.json",
+      "sha256": "265f4afe9de686f8f723beb9495e7b8ea9c39508ab78bd1eefcf810609d72f86",
+      "bytes": 2880
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/items.json",
+      "sha256": "b735ada5413e9335dad7355f7e5f864d26d967937f7f150003511986ccb330c0",
+      "bytes": 7046
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/jobs.json",
+      "sha256": "2c94c9b4c97319d0ec08167562567edaa0efd4032c1018f1c15b1058df5f0757",
+      "bytes": 1313
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/maps.json",
+      "sha256": "da6a89433a2c61de0988db7bdb4bb96b5fb43fdc0a313b17141ab4602530f74d",
+      "bytes": 1244
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/monsters.json",
+      "sha256": "a2d71316d55a054ea20421c949586c53ffca9818725b38ede1fd12a92cf13f71",
+      "bytes": 5556
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/recruitment.json",
+      "sha256": "dec2d45b0c960c30df7c3bfa09b79f84700fbe3b1e3e28e7f7ded28c6086854b",
+      "bytes": 2913
+    },
+    {
+      "path": "content/releases/s1-4f2ae8a8c250/skills.json",
+      "sha256": "1035eec7f29d6ba503d8e01c93b61f98c9da443e1b528fc62eff287a4df77ac9",
+      "bytes": 3809
+    }
+  ],
+  "notes": "S1 首批内容包（#23）：招募 1/2、职业 100/200、初始装备 1000/1700/3000/5000/5200、gb0、怪物 1000/1001、技能 1000/1001/1002/1014/1017/3010、条件 1000/1205/1206/1940 与有序 AND、材料 6000/6001/6002/6003/7100。旧 9000 为有序 AND 连接，不作技能。怪物 moneyReward=100 系已裁决保留旧行为（moneyhold<2000 覆盖，属规格来源核对修正，非批准差异）。"
+}
