@@ -1,0 +1,134 @@
+{
+  "101": {
+    "id": "101",
+    "data": {
+      "from_job": "100",
+      "minimum_level": 20
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 4,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  },
+  "102": {
+    "id": "102",
+    "data": {
+      "from_job": "100",
+      "minimum_level": 25
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 8,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  },
+  "103": {
+    "id": "103",
+    "data": {
+      "from_job": "100",
+      "minimum_level": 23
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 12,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  },
+  "201": {
+    "id": "201",
+    "data": {
+      "from_job": "200",
+      "minimum_level": 20
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 16,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  },
+  "202": {
+    "id": "202",
+    "data": {
+      "from_job": "200",
+      "minimum_level": 25
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 20,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  },
+  "203": {
+    "id": "203",
+    "data": {
+      "from_job": "200",
+      "minimum_level": 22
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 24,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  },
+  "301": {
+    "id": "301",
+    "data": {
+      "from_job": "300",
+      "minimum_level": 25
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 28,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  },
+  "302": {
+    "id": "302",
+    "data": {
+      "from_job": "300",
+      "minimum_level": 20
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 32,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  },
+  "401": {
+    "id": "401",
+    "data": {
+      "from_job": "400",
+      "minimum_level": 20
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 36,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  },
+  "402": {
+    "id": "402",
+    "data": {
+      "from_job": "400",
+      "minimum_level": 25
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 40,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  },
+  "403": {
+    "id": "403",
+    "data": {
+      "from_job": "400",
+      "minimum_level": 22
+    },
+    "source": {
+      "path": "data/data.classchange.php",
+      "line": 44,
+      "sha256": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab"
+    }
+  }
+}

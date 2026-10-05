@@ -1,0 +1,980 @@
+{
+  "gb0": {
+    "id": "gb0",
+    "data": {
+      "name": "哥布林(最弱)",
+      "name0": "Goblin Training",
+      "land": "grass",
+      "proper": "Lv1",
+      "encounters": {
+        "1000": [
+          300,
+          1
+        ],
+        "1001": [
+          300,
+          1
+        ]
+      },
+      "no": "gb0",
+      "unlock": {
+        "kind": "always"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 4,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "gb1": {
+    "id": "gb1",
+    "data": {
+      "name": "强一点的哥布林",
+      "name0": "The Goblins",
+      "land": "grass",
+      "proper": "Lv1-5",
+      "encounters": {
+        "1000": [
+          300,
+          1
+        ],
+        "1001": [
+          300,
+          1
+        ],
+        "1002": [
+          150,
+          1
+        ],
+        "1003": [
+          150,
+          1
+        ],
+        "1004": [
+          100,
+          1
+        ],
+        "1005": [
+          100,
+          1
+        ],
+        "1006": [
+          100,
+          1
+        ],
+        "1007": [
+          100,
+          1
+        ]
+      },
+      "no": "gb1",
+      "unlock": {
+        "kind": "always"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 15,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "gb2": {
+    "id": "gb2",
+    "data": {
+      "name": "哥布林战士",
+      "name0": "The Goblin Warriors",
+      "land": "grass",
+      "proper": "Lv3-8",
+      "encounters": {
+        "1005": [
+          100,
+          1
+        ],
+        "1006": [
+          100,
+          1
+        ],
+        "1007": [
+          100,
+          1
+        ],
+        "1008": [
+          100,
+          1
+        ],
+        "1009": [
+          100,
+          1
+        ]
+      },
+      "no": "gb2",
+      "unlock": {
+        "kind": "always"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 32,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "ac0": {
+    "id": "ac0",
+    "data": {
+      "name": "古之洞穴",
+      "name0": "TheAncientCave",
+      "land": "cave",
+      "proper": "Lv??",
+      "encounters": {
+        "1010": [
+          0,
+          1
+        ],
+        "1011": [
+          0,
+          1
+        ],
+        "1012": [
+          500,
+          0
+        ],
+        "1013": [
+          150,
+          1
+        ],
+        "1014": [
+          150,
+          1
+        ],
+        "1015": [
+          150,
+          1
+        ],
+        "1016": [
+          100,
+          0
+        ],
+        "1017": [
+          50,
+          0
+        ]
+      },
+      "no": "ac0",
+      "unlock": {
+        "kind": "item",
+        "item": "8000"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 46,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "ac1": {
+    "id": "ac1",
+    "data": {
+      "name": "古之洞穴(B2)",
+      "name0": "TheAncientCave2F",
+      "land": "cave",
+      "proper": "Lv??",
+      "encounters": {
+        "1018": [
+          100,
+          1
+        ],
+        "1019": [
+          100,
+          1
+        ],
+        "1020": [
+          100,
+          1
+        ],
+        "1021": [
+          100,
+          1
+        ],
+        "1022": [
+          30,
+          1
+        ]
+      },
+      "no": "ac1",
+      "unlock": {
+        "kind": "item",
+        "item": "8001"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 63,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "ac2": {
+    "id": "ac2",
+    "data": {
+      "name": "古之洞穴(B3)",
+      "name0": "TheAncientCave3F",
+      "land": "cave",
+      "proper": "Lv??",
+      "encounters": {
+        "1023": [
+          400,
+          1
+        ],
+        "1024": [
+          300,
+          1
+        ],
+        "1025": [
+          35,
+          0
+        ]
+      },
+      "no": "ac2",
+      "unlock": {
+        "kind": "item",
+        "item": "8002"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 77,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "ac3": {
+    "id": "ac3",
+    "data": {
+      "name": "古之洞穴(B4)",
+      "name0": "TheAncientCave4F",
+      "land": "cave",
+      "proper": "Lv??",
+      "encounters": {
+        "1027": [
+          20,
+          1
+        ],
+        "1028": [
+          80,
+          1
+        ],
+        "1029": [
+          100,
+          1
+        ]
+      },
+      "no": "ac3",
+      "unlock": {
+        "kind": "item",
+        "item": "8003"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 89,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "ac4": {
+    "id": "ac4",
+    "data": {
+      "name": "古之洞穴(B5)",
+      "name0": "TheAncientCave5F",
+      "land": "cave",
+      "proper": "Lv??",
+      "encounters": {
+        "1030": [
+          150,
+          1
+        ],
+        "1031": [
+          150,
+          1
+        ],
+        "1032": [
+          150,
+          1
+        ],
+        "1033": [
+          200,
+          1
+        ],
+        "1034": [
+          70,
+          1
+        ],
+        "1035": [
+          10,
+          0
+        ]
+      },
+      "no": "ac4",
+      "unlock": {
+        "kind": "item",
+        "item": "8004"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 101,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "sea0": {
+    "id": "sea0",
+    "data": {
+      "name": "海岸",
+      "name0": "",
+      "land": "sea",
+      "proper": "99-99",
+      "encounters": {
+        "1060": [
+          7,
+          0
+        ],
+        "1061": [
+          100,
+          1
+        ],
+        "1062": [
+          100,
+          1
+        ],
+        "1063": [
+          100,
+          1
+        ],
+        "1064": [
+          100,
+          1
+        ],
+        "1065": [
+          100,
+          1
+        ],
+        "1066": [
+          5,
+          0
+        ]
+      },
+      "no": "sea0",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 117,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "sea1": {
+    "id": "sea1",
+    "data": {
+      "name": "海(西海岸)",
+      "name0": "",
+      "land": "sea",
+      "proper": "99-99",
+      "encounters": {
+        "1065": [
+          100,
+          1
+        ]
+      },
+      "no": "sea1",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 133,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "ocean0": {
+    "id": "ocean0",
+    "data": {
+      "name": "海洋",
+      "name0": "",
+      "land": "ocean",
+      "proper": "99-99",
+      "encounters": {
+        "1067": [
+          8,
+          0
+        ],
+        "1068": [
+          100,
+          1
+        ],
+        "1069": [
+          100,
+          1
+        ],
+        "1070": [
+          100,
+          1
+        ],
+        "1071": [
+          100,
+          1
+        ]
+      },
+      "no": "ocean0",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 144,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "sand0": {
+    "id": "sand0",
+    "data": {
+      "name": "沙漠",
+      "name0": "",
+      "land": "sand",
+      "proper": "99-99",
+      "encounters": {
+        "1083": [
+          100,
+          1
+        ],
+        "1084": [
+          7,
+          0
+        ],
+        "1085": [
+          100,
+          1
+        ],
+        "1086": [
+          100,
+          1
+        ],
+        "1087": [
+          100,
+          1
+        ]
+      },
+      "no": "sand0",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 159,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "mt0": {
+    "id": "mt0",
+    "data": {
+      "name": "火入口",
+      "name0": "",
+      "land": "mount",
+      "proper": "Lv??",
+      "encounters": {
+        "1072": [
+          100,
+          1
+        ],
+        "1073": [
+          100,
+          1
+        ],
+        "1078": [
+          100,
+          1
+        ],
+        "1082": [
+          5,
+          0
+        ]
+      },
+      "no": "mt0",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 173,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "volc0": {
+    "id": "volc0",
+    "data": {
+      "name": "火中腹",
+      "name0": "",
+      "land": "lava",
+      "proper": "Lv??",
+      "encounters": {
+        "1073": [
+          80,
+          1
+        ],
+        "1074": [
+          100,
+          1
+        ],
+        "1077": [
+          100,
+          1
+        ],
+        "1080": [
+          100,
+          1
+        ],
+        "1088": [
+          10,
+          0
+        ]
+      },
+      "no": "volc0",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 186,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "volc1": {
+    "id": "volc1",
+    "data": {
+      "name": "火顶上",
+      "name0": "",
+      "land": "lava",
+      "proper": "Lv??",
+      "encounters": {
+        "1074": [
+          60,
+          1
+        ],
+        "1075": [
+          170,
+          1
+        ],
+        "1077": [
+          120,
+          1
+        ],
+        "1080": [
+          100,
+          1
+        ],
+        "1081": [
+          8,
+          0
+        ],
+        "1076": [
+          3,
+          0
+        ]
+      },
+      "no": "volc1",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 200,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "swamp0": {
+    "id": "swamp0",
+    "data": {
+      "name": "沼泽",
+      "name0": "",
+      "land": "swamp",
+      "proper": "Lv??",
+      "encounters": {
+        "1053": [
+          100,
+          1
+        ],
+        "1054": [
+          100,
+          1
+        ],
+        "1055": [
+          100,
+          1
+        ],
+        "1056": [
+          100,
+          1
+        ],
+        "1057": [
+          100,
+          1
+        ],
+        "1058": [
+          20,
+          0
+        ]
+      },
+      "no": "swamp0",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 215,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "swamp1": {
+    "id": "swamp1",
+    "data": {
+      "name": "村庄",
+      "name0": "",
+      "land": "swamp",
+      "proper": "Lv??",
+      "encounters": {
+        "1053": [
+          70,
+          1
+        ],
+        "1050": [
+          100,
+          1
+        ],
+        "1051": [
+          150,
+          1
+        ],
+        "1052": [
+          100,
+          1
+        ],
+        "1059": [
+          8,
+          0
+        ]
+      },
+      "no": "swamp1",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 230,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "snow0": {
+    "id": "snow0",
+    "data": {
+      "name": "滴冻入口",
+      "name0": "FrostyMountain(foot)",
+      "land": "snow",
+      "proper": "Lv??",
+      "encounters": {
+        "1036": [
+          100,
+          1
+        ],
+        "1037": [
+          100,
+          1
+        ],
+        "1038": [
+          100,
+          1
+        ],
+        "1039": [
+          100,
+          1
+        ]
+      },
+      "no": "snow0",
+      "unlock": {
+        "kind": "item",
+        "item": "8009"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 244,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "snow1": {
+    "id": "snow1",
+    "data": {
+      "name": "滴冻中腹",
+      "name0": "FrostyMountain(HalfWay)",
+      "land": "snow",
+      "proper": "Lv??",
+      "encounters": {
+        "1040": [
+          100,
+          1
+        ],
+        "1041": [
+          100,
+          1
+        ],
+        "1042": [
+          100,
+          1
+        ],
+        "1043": [
+          100,
+          1
+        ],
+        "1044": [
+          40,
+          1
+        ],
+        "1045": [
+          15,
+          0
+        ],
+        "1046": [
+          10,
+          0
+        ]
+      },
+      "no": "snow1",
+      "unlock": {
+        "kind": "item",
+        "item": "8010"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 257,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "snow2": {
+    "id": "snow2",
+    "data": {
+      "name": "滴冻顶上",
+      "name0": "FrostyMountain(Top)",
+      "land": "snow",
+      "proper": "Lv??",
+      "encounters": {
+        "1089": [
+          80,
+          1
+        ],
+        "1090": [
+          80,
+          1
+        ],
+        "1044": [
+          30,
+          1
+        ],
+        "1047": [
+          100,
+          1
+        ],
+        "1048": [
+          60,
+          1
+        ],
+        "1049": [
+          5,
+          0
+        ],
+        "1046": [
+          10,
+          0
+        ]
+      },
+      "no": "snow2",
+      "unlock": {
+        "kind": "item",
+        "item": "8011"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 273,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "des01": {
+    "id": "des01",
+    "data": {
+      "name": "Plunderer's Sandland",
+      "land": "sand",
+      "proper": "Lv5-10",
+      "encounters": {
+        "1005": [
+          100,
+          1
+        ],
+        "1006": [
+          100,
+          1
+        ],
+        "1007": [
+          100,
+          1
+        ],
+        "1008": [
+          100,
+          1
+        ],
+        "1009": [
+          100,
+          1
+        ]
+      },
+      "no": "des01",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 289,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "plund01": {
+    "id": "plund01",
+    "data": {
+      "name": "贼之巢穴",
+      "name0": "Plunderer's Nest",
+      "land": "sand",
+      "proper": "Lv10-15",
+      "encounters": {
+        "1005": [
+          100,
+          1
+        ],
+        "1006": [
+          100,
+          1
+        ],
+        "1007": [
+          100,
+          1
+        ],
+        "1008": [
+          100,
+          1
+        ],
+        "1009": [
+          100,
+          1
+        ]
+      },
+      "no": "plund01",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 303,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "blow01": {
+    "id": "blow01",
+    "data": {
+      "name": "Blow山脉地区",
+      "name0": "TheBlowHills",
+      "land": "aband",
+      "proper": "Lv20-30",
+      "encounters": {
+        "1018": [
+          100,
+          1
+        ],
+        "1019": [
+          100,
+          1
+        ],
+        "1020": [
+          100,
+          1
+        ],
+        "1021": [
+          100,
+          1
+        ],
+        "1022": [
+          30,
+          1
+        ]
+      },
+      "no": "blow01",
+      "unlock": {
+        "kind": "unavailable"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 317,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  },
+  "horh": {
+    "id": "horh",
+    "data": {
+      "name": "天堂或地狱",
+      "name0": "Heaven or Hell",
+      "land": "sea",
+      "proper": "Lv99",
+      "encounters": {
+        "5100": [
+          100,
+          1
+        ],
+        "5101": [
+          100,
+          1
+        ],
+        "5102": [
+          100,
+          1
+        ],
+        "5103": [
+          100,
+          1
+        ],
+        "5104": [
+          100,
+          1
+        ]
+      },
+      "no": "horh",
+      "unlock": {
+        "kind": "daily_window",
+        "from": "02:50",
+        "until": "03:00",
+        "timezone": "UTC"
+      }
+    },
+    "source": {
+      "path": "data/data.land_info.php",
+      "line": 331,
+      "sha256": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1"
+    }
+  }
+}

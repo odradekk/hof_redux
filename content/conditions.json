@@ -1,0 +1,1342 @@
+{
+  "1000": {
+    "id": "1000",
+    "data": {
+      "exp": "必定"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 16,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1001": {
+    "id": "1001",
+    "data": {
+      "exp": "跳过此判断"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 19,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1099": {
+    "id": "1099",
+    "data": {
+      "exp": "HP",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 23,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1100": {
+    "id": "1100",
+    "data": {
+      "exp": "自己的HP ←←(%)以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 27,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1101": {
+    "id": "1101",
+    "data": {
+      "exp": "自己的HP ←←(%)以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 30,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1105": {
+    "id": "1105",
+    "data": {
+      "exp": "自己的HP ←←以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 33,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1106": {
+    "id": "1106",
+    "data": {
+      "exp": "自己的HP ←←以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 36,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1110": {
+    "id": "1110",
+    "data": {
+      "exp": "最大HP ←←以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 39,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1111": {
+    "id": "1111",
+    "data": {
+      "exp": "最大HP ←←以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 42,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1121": {
+    "id": "1121",
+    "data": {
+      "exp": "我方 HP←←(%)以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 45,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1125": {
+    "id": "1125",
+    "data": {
+      "exp": "我方平均HP ←←(%)以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 48,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1126": {
+    "id": "1126",
+    "data": {
+      "exp": "我方平均HP ←←(%)以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 51,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1199": {
+    "id": "1199",
+    "data": {
+      "exp": "SP",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 55,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1200": {
+    "id": "1200",
+    "data": {
+      "exp": "自己的SP←←(%)以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 59,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1201": {
+    "id": "1201",
+    "data": {
+      "exp": "自己的SP←←(%)以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 62,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1205": {
+    "id": "1205",
+    "data": {
+      "exp": "自己的SP←←以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 65,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1206": {
+    "id": "1206",
+    "data": {
+      "exp": "自己的SP←←以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 68,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1210": {
+    "id": "1210",
+    "data": {
+      "exp": "最大SP←←以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 71,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1211": {
+    "id": "1211",
+    "data": {
+      "exp": "最大SP←←以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 74,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1221": {
+    "id": "1221",
+    "data": {
+      "exp": "我方 SP←←(%)以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 77,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1225": {
+    "id": "1225",
+    "data": {
+      "exp": "我方平均SP ←←(%)以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 80,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1226": {
+    "id": "1226",
+    "data": {
+      "exp": "我方平均SP ←←(%)以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 83,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1399": {
+    "id": "1399",
+    "data": {
+      "exp": "生死",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 179,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1400": {
+    "id": "1400",
+    "data": {
+      "exp": "我方的生存者 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 183,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1401": {
+    "id": "1401",
+    "data": {
+      "exp": "我方的生存者 ←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 186,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1405": {
+    "id": "1405",
+    "data": {
+      "exp": "我方的死者 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 189,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1406": {
+    "id": "1406",
+    "data": {
+      "exp": "我方的死者 ←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 192,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1410": {
+    "id": "1410",
+    "data": {
+      "exp": "我方前排的生存者 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 195,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1449": {
+    "id": "1449",
+    "data": {
+      "exp": "生死(敌)",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 199,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1450": {
+    "id": "1450",
+    "data": {
+      "exp": "敌方的生存者 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 203,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1451": {
+    "id": "1451",
+    "data": {
+      "exp": "敌方的生存者 ←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 206,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1455": {
+    "id": "1455",
+    "data": {
+      "exp": "敌方的死者 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 209,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1456": {
+    "id": "1456",
+    "data": {
+      "exp": "敌方的死者 ←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 212,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1499": {
+    "id": "1499",
+    "data": {
+      "exp": "蓄力+咏唱",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 216,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1500": {
+    "id": "1500",
+    "data": {
+      "exp": "蓄力状态的 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 220,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1501": {
+    "id": "1501",
+    "data": {
+      "exp": "蓄力状态的 ←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 223,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1505": {
+    "id": "1505",
+    "data": {
+      "exp": "咏唱状态的←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 226,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1506": {
+    "id": "1506",
+    "data": {
+      "exp": "咏唱状态的←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 229,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1510": {
+    "id": "1510",
+    "data": {
+      "exp": "蓄力咏唱状态的←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 232,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1511": {
+    "id": "1511",
+    "data": {
+      "exp": "蓄力咏唱状态的←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 235,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1549": {
+    "id": "1549",
+    "data": {
+      "exp": "咏唱(敌)",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 239,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1550": {
+    "id": "1550",
+    "data": {
+      "exp": "敌方蓄力状态的 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 243,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1551": {
+    "id": "1551",
+    "data": {
+      "exp": "敌方蓄力状态的 ←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 246,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1555": {
+    "id": "1555",
+    "data": {
+      "exp": "敌方咏唱状态的 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 249,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1556": {
+    "id": "1556",
+    "data": {
+      "exp": "敌方咏唱状态的 ←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 252,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1560": {
+    "id": "1560",
+    "data": {
+      "exp": "敌方咏唱蓄力状态的 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 255,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1561": {
+    "id": "1561",
+    "data": {
+      "exp": "敌方蓄力咏唱状态的 ←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 258,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1599": {
+    "id": "1599",
+    "data": {
+      "exp": "毒",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 262,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1600": {
+    "id": "1600",
+    "data": {
+      "exp": "自己处于毒状态"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 266,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1610": {
+    "id": "1610",
+    "data": {
+      "exp": "我方毒状态 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 269,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1611": {
+    "id": "1611",
+    "data": {
+      "exp": "我方毒状态 ←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 272,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1612": {
+    "id": "1612",
+    "data": {
+      "exp": "我方毒状态 ←←% 以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 275,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1613": {
+    "id": "1613",
+    "data": {
+      "exp": "我方毒状态 ←←% 以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 278,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1614": {
+    "id": "1614",
+    "data": {
+      "exp": "毒(敌)",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 282,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1615": {
+    "id": "1615",
+    "data": {
+      "exp": "敌方毒状态 ←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 286,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1616": {
+    "id": "1616",
+    "data": {
+      "exp": "敌方毒状态 ←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 289,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1617": {
+    "id": "1617",
+    "data": {
+      "exp": "敌方毒状态 ←←% 以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 292,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1618": {
+    "id": "1618",
+    "data": {
+      "exp": "敌方毒状态 ←←% 以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 295,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1699": {
+    "id": "1699",
+    "data": {
+      "exp": "队列",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 299,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1700": {
+    "id": "1700",
+    "data": {
+      "exp": "自己在前排"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 303,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1701": {
+    "id": "1701",
+    "data": {
+      "exp": "自己在后排"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 306,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1710": {
+    "id": "1710",
+    "data": {
+      "exp": "我方前排←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 309,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1711": {
+    "id": "1711",
+    "data": {
+      "exp": "我方前排←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 312,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1712": {
+    "id": "1712",
+    "data": {
+      "exp": "我方前排←←人"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 315,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1715": {
+    "id": "1715",
+    "data": {
+      "exp": "我方后排←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 318,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1716": {
+    "id": "1716",
+    "data": {
+      "exp": "我方后排←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 321,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1717": {
+    "id": "1717",
+    "data": {
+      "exp": "我方后排←←人"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 324,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1749": {
+    "id": "1749",
+    "data": {
+      "exp": "队列(敌)",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 328,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1750": {
+    "id": "1750",
+    "data": {
+      "exp": "敌方前排←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 332,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1751": {
+    "id": "1751",
+    "data": {
+      "exp": "敌方前排←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 335,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1752": {
+    "id": "1752",
+    "data": {
+      "exp": "敌方前排←←人"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 338,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1755": {
+    "id": "1755",
+    "data": {
+      "exp": "敌方后排←←人以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 341,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1756": {
+    "id": "1756",
+    "data": {
+      "exp": "敌方后排←←人以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 344,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1757": {
+    "id": "1757",
+    "data": {
+      "exp": "敌方后排←←人"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 347,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1799": {
+    "id": "1799",
+    "data": {
+      "exp": "召唤",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 351,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1800": {
+    "id": "1800",
+    "data": {
+      "exp": "我方的召唤物 ←←匹以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 355,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1801": {
+    "id": "1801",
+    "data": {
+      "exp": "我方的召唤物 ←←匹以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 358,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1805": {
+    "id": "1805",
+    "data": {
+      "exp": "我方的召唤物 ←←匹"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 361,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1819": {
+    "id": "1819",
+    "data": {
+      "exp": "召唤(敌)",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 365,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1820": {
+    "id": "1820",
+    "data": {
+      "exp": "敌方的召唤物 ←←匹以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 369,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1821": {
+    "id": "1821",
+    "data": {
+      "exp": "敌方的召唤物 ←←匹以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 372,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1825": {
+    "id": "1825",
+    "data": {
+      "exp": "敌方的召唤物 ←←匹"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 375,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1839": {
+    "id": "1839",
+    "data": {
+      "exp": "魔法阵",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 379,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1840": {
+    "id": "1840",
+    "data": {
+      "exp": "我方的魔法阵数 ←←个以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 383,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1841": {
+    "id": "1841",
+    "data": {
+      "exp": "我方的魔法阵数 ←←个以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 386,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1845": {
+    "id": "1845",
+    "data": {
+      "exp": "我方的魔法阵数 ←←个"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 389,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1849": {
+    "id": "1849",
+    "data": {
+      "exp": "魔法阵(敌)",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 393,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1850": {
+    "id": "1850",
+    "data": {
+      "exp": "敌方的魔法阵数 ←←个以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 397,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1851": {
+    "id": "1851",
+    "data": {
+      "exp": "敌方的魔法阵数 ←←个以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 400,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1855": {
+    "id": "1855",
+    "data": {
+      "exp": "敌方的魔法阵数 ←←个"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 403,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1899": {
+    "id": "1899",
+    "data": {
+      "exp": "指定行动回数",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 408,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1900": {
+    "id": "1900",
+    "data": {
+      "exp": "自己的行动回数 ←←回以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 412,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1901": {
+    "id": "1901",
+    "data": {
+      "exp": "自己的行动回数 ←←回以下"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 415,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1902": {
+    "id": "1902",
+    "data": {
+      "exp": "自己的第 ←←回合"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 418,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1919": {
+    "id": "1919",
+    "data": {
+      "exp": "回合限制",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 422,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1920": {
+    "id": "1920",
+    "data": {
+      "exp": "第←←回 必定"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 426,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1939": {
+    "id": "1939",
+    "data": {
+      "exp": "概率",
+      "css": true
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 430,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1940": {
+    "id": "1940",
+    "data": {
+      "exp": "←←%的概率"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 434,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "9000": {
+    "id": "9000",
+    "data": {
+      "exp": "敌方Lv超过←←以上"
+    },
+    "source": {
+      "path": "data/data.judge_setup.php",
+      "line": 438,
+      "sha256": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178"
+    }
+  },
+  "1300": {
+    "id": "1300",
+    "data": {
+      "exp": "自己的STR ** 以上",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 132,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1301": {
+    "id": "1301",
+    "data": {
+      "exp": "自己的STR ** 以下",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 134,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1310": {
+    "id": "1310",
+    "data": {
+      "exp": "自己的INT ** 以上",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 137,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1311": {
+    "id": "1311",
+    "data": {
+      "exp": "自己的INT ** 以下",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 139,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1320": {
+    "id": "1320",
+    "data": {
+      "exp": "自己的DEX ** 以上",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 142,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1321": {
+    "id": "1321",
+    "data": {
+      "exp": "自己的DEX ** 以下",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 144,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1330": {
+    "id": "1330",
+    "data": {
+      "exp": "自己的SPD ** 以上",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 147,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1331": {
+    "id": "1331",
+    "data": {
+      "exp": "自己的SPD ** 以下",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 149,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1340": {
+    "id": "1340",
+    "data": {
+      "exp": "自己的LUK ** 以上",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 152,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1341": {
+    "id": "1341",
+    "data": {
+      "exp": "自己的LUK ** 以下",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 154,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1350": {
+    "id": "1350",
+    "data": {
+      "exp": "自己的ATK ** 以上",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 157,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1351": {
+    "id": "1351",
+    "data": {
+      "exp": "自己的ATK ** 以下",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 159,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1360": {
+    "id": "1360",
+    "data": {
+      "exp": "自己的MATK ** 以上",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 162,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1361": {
+    "id": "1361",
+    "data": {
+      "exp": "自己的MATK ** 以下",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 164,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1370": {
+    "id": "1370",
+    "data": {
+      "exp": "自己的DEF ** 以上",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 167,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1371": {
+    "id": "1371",
+    "data": {
+      "exp": "自己的DEF ** 以下",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 169,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1380": {
+    "id": "1380",
+    "data": {
+      "exp": "自己的MDEF ** 以上",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 172,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  },
+  "1381": {
+    "id": "1381",
+    "data": {
+      "exp": "自己的MDEF ** 以下",
+      "selectable": false,
+      "legacy_effect": "empty_unlisted_case"
+    },
+    "source": {
+      "path": "data/data.judge.php",
+      "line": 174,
+      "sha256": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e"
+    }
+  }
+}

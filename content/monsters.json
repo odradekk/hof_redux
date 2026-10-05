@@ -1,0 +1,8508 @@
+{
+  "1000": {
+    "id": "1000",
+    "data": {
+      "name": "持斧哥布林",
+      "img": "mon_053.gif",
+      "level": "1",
+      "exphold": "20",
+      "moneyhold": 100,
+      "maxhp": "140",
+      "hp": "140",
+      "maxsp": "80",
+      "sp": "80",
+      "str": "8",
+      "int": "3",
+      "dex": "5",
+      "spd": "5",
+      "luk": "1",
+      "guard": "life75",
+      "special": [],
+      "judge": [
+        1940,
+        1205,
+        1000
+      ],
+      "quantity": [
+        50,
+        40,
+        0
+      ],
+      "action": [
+        9000,
+        1017,
+        1000
+      ],
+      "atk": [
+        20,
+        10
+      ],
+      "def": [
+        10,
+        3,
+        5,
+        0
+      ],
+      "itemtable": {
+        "6000": "1000",
+        "6001": "1000",
+        "6002": "600",
+        "6003": "200",
+        "7100": "100"
+      },
+      "monster": "1",
+      "no": "1000"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 50,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1001": {
+    "id": "1001",
+    "data": {
+      "name": "哥布林勇士",
+      "img": "mon_052.gif",
+      "level": "1",
+      "exphold": "20",
+      "moneyhold": 100,
+      "maxhp": "180",
+      "hp": "180",
+      "maxsp": "50",
+      "sp": "50",
+      "str": "8",
+      "int": "3",
+      "dex": "5",
+      "spd": "5",
+      "luk": "1",
+      "position": "front",
+      "guard": "life75",
+      "judge": [
+        1940,
+        1205,
+        1000
+      ],
+      "quantity": [
+        50,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        1014,
+        1000
+      ],
+      "atk": [
+        10,
+        10
+      ],
+      "def": [
+        15,
+        5,
+        10,
+        0
+      ],
+      "itemtable": {
+        "6000": "1000",
+        "6001": "1000",
+        "6002": "600",
+        "6003": "200",
+        "7100": "100"
+      },
+      "monster": "1",
+      "no": "1001"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 75,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1002": {
+    "id": "1002",
+    "data": {
+      "name": "哥布林猪骑手",
+      "img": "mon_095.gif",
+      "level": "3",
+      "exphold": "30",
+      "moneyhold": 100,
+      "maxhp": "270",
+      "hp": "270",
+      "maxsp": "70",
+      "sp": "70",
+      "str": "15",
+      "int": "3",
+      "dex": "6",
+      "spd": "9",
+      "luk": "1",
+      "guard": "life50",
+      "judge": [
+        1902,
+        1940,
+        1940,
+        1205,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        50,
+        60,
+        0
+      ],
+      "action": [
+        9000,
+        3110,
+        9000,
+        1015,
+        1000
+      ],
+      "atk": [
+        30,
+        10
+      ],
+      "def": [
+        20,
+        1,
+        20,
+        1
+      ],
+      "itemtable": {
+        "6001": "1000",
+        "6040": "1500",
+        "7100": "100"
+      },
+      "monster": "1",
+      "no": "1002"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 100,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1003": {
+    "id": "1003",
+    "data": {
+      "name": "哥布林骑士",
+      "img": "mon_206.gif",
+      "level": "5",
+      "exphold": "40",
+      "moneyhold": 100,
+      "maxhp": "320",
+      "hp": "320",
+      "maxsp": "90",
+      "sp": "90",
+      "str": "22",
+      "int": "10",
+      "dex": "10",
+      "spd": "12",
+      "luk": "1",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1902,
+        1940,
+        1940,
+        1205,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        50,
+        30,
+        0
+      ],
+      "action": [
+        9000,
+        3112,
+        9000,
+        1012,
+        1000
+      ],
+      "atk": [
+        30,
+        10
+      ],
+      "def": [
+        35,
+        8,
+        30,
+        10
+      ],
+      "itemtable": {
+        "6001": "1000",
+        "6040": "1000",
+        "6002": "600",
+        "6003": "300",
+        "7100": "100"
+      },
+      "monster": "1",
+      "no": "1003"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 124,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1004": {
+    "id": "1004",
+    "data": {
+      "name": "小哥布林",
+      "img": "mon_054.gif",
+      "level": "4",
+      "exphold": "40",
+      "moneyhold": 100,
+      "maxhp": "250",
+      "hp": "250",
+      "maxsp": "120",
+      "sp": "120",
+      "str": "15",
+      "int": "10",
+      "dex": "15",
+      "spd": "8",
+      "luk": "10",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1940,
+        1940,
+        1000
+      ],
+      "quantity": [
+        40,
+        30,
+        50,
+        0
+      ],
+      "action": [
+        3010,
+        2022,
+        2020,
+        1002
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        15,
+        1,
+        15,
+        1
+      ],
+      "itemtable": {
+        "6020": "1000",
+        "6021": "1000",
+        "7100": "100"
+      },
+      "monster": "1",
+      "no": "1004"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 149,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1005": {
+    "id": "1005",
+    "data": {
+      "name": "哥布林魔术师",
+      "img": "mon_051.gif",
+      "level": "6",
+      "exphold": "50",
+      "moneyhold": 100,
+      "maxhp": "240",
+      "hp": "240",
+      "maxsp": "210",
+      "sp": "210",
+      "str": "10",
+      "int": "28",
+      "dex": "10",
+      "spd": "6",
+      "luk": "1",
+      "position": "back",
+      "guard": "never",
+      "judge": [
+        1201,
+        1940,
+        1000
+      ],
+      "quantity": [
+        40,
+        30,
+        0
+      ],
+      "action": [
+        3011,
+        2002,
+        2000
+      ],
+      "atk": [
+        10,
+        40
+      ],
+      "def": [
+        10,
+        10,
+        40,
+        10
+      ],
+      "itemtable": {
+        "6020": "1000",
+        "6021": "500",
+        "7100": "100"
+      },
+      "monster": "1",
+      "no": "1005"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 175,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1006": {
+    "id": "1006",
+    "data": {
+      "name": "哥布林僧侣",
+      "img": "mon_205.gif",
+      "level": "7",
+      "exphold": "60",
+      "moneyhold": 100,
+      "maxhp": "320",
+      "hp": "320",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "25",
+      "int": "12",
+      "dex": "15",
+      "spd": "14",
+      "luk": "1",
+      "guard": "prob50",
+      "judge": [
+        1201,
+        1226,
+        1000
+      ],
+      "quantity": [
+        40,
+        50,
+        0
+      ],
+      "action": [
+        3010,
+        3101,
+        1017
+      ],
+      "atk": [
+        40,
+        10
+      ],
+      "def": [
+        5,
+        30,
+        10,
+        20
+      ],
+      "itemtable": {
+        "6180": "1000",
+        "6181": "1000",
+        "7100": "100"
+      },
+      "monster": "1",
+      "no": "1006"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 201,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1007": {
+    "id": "1007",
+    "data": {
+      "name": "哥布林领主",
+      "img": "mon_205r.gif",
+      "level": "10",
+      "exphold": "80",
+      "moneyhold": 100,
+      "maxhp": "460",
+      "hp": "460",
+      "maxsp": "140",
+      "sp": "140",
+      "str": "35",
+      "int": "16",
+      "dex": "20",
+      "spd": "18",
+      "luk": "1",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1201,
+        1940,
+        1101,
+        1226,
+        1000
+      ],
+      "quantity": [
+        30,
+        50,
+        60,
+        50,
+        0
+      ],
+      "action": [
+        3011,
+        9000,
+        3121,
+        3101,
+        1016
+      ],
+      "atk": [
+        10,
+        10
+      ],
+      "def": [
+        20,
+        10,
+        20,
+        10
+      ],
+      "itemtable": {
+        "6180": "1000",
+        "6181": "1000",
+        "6182": "1000",
+        "7100": "100"
+      },
+      "monster": "1",
+      "no": "1007"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 226,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1008": {
+    "id": "1008",
+    "data": {
+      "name": "哥布林突击者",
+      "img": "mon_183r.gif",
+      "level": "10",
+      "exphold": "60",
+      "moneyhold": 100,
+      "maxhp": "300",
+      "hp": "300",
+      "maxsp": "60",
+      "sp": "60",
+      "str": "50",
+      "int": "5",
+      "dex": "5",
+      "spd": "20",
+      "luk": "1",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1902,
+        1940,
+        1200,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        3111,
+        1016,
+        1000
+      ],
+      "atk": [
+        50,
+        10
+      ],
+      "def": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "itemtable": {
+        "6001": "1000",
+        "6002": "1000",
+        "6003": "500",
+        "7100": "100"
+      },
+      "monster": "1",
+      "no": "1008"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 252,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1009": {
+    "id": "1009",
+    "data": {
+      "name": "哥布林坦克",
+      "img": "mon_078.gif",
+      "level": "15",
+      "exphold": "100",
+      "moneyhold": 100,
+      "maxhp": "700",
+      "hp": "700",
+      "maxsp": "150",
+      "sp": "150",
+      "str": "40",
+      "int": "15",
+      "dex": "15",
+      "spd": "15",
+      "luk": "1",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1902,
+        1940,
+        1101,
+        1200,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        70,
+        20,
+        0
+      ],
+      "action": [
+        9000,
+        3112,
+        3120,
+        5000,
+        1000
+      ],
+      "atk": [
+        30,
+        20
+      ],
+      "def": [
+        20,
+        10,
+        20,
+        10
+      ],
+      "itemtable": {
+        "6040": "1000",
+        "6020": "1000",
+        "7100": "100"
+      },
+      "monster": "1",
+      "no": "1009"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 279,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1010": {
+    "id": "1010",
+    "data": {
+      "name": "小蝙蝠",
+      "level": "10",
+      "img": "mon_121.gif",
+      "judge": [],
+      "preview_only": true,
+      "moneyhold": 100,
+      "monster": "1",
+      "no": "1010"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 305,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1011": {
+    "id": "1011",
+    "data": {
+      "name": "蝙蝠",
+      "level": "10",
+      "img": "mon_121r.gif",
+      "judge": [],
+      "preview_only": true,
+      "moneyhold": 100,
+      "monster": "1",
+      "no": "1011"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 312,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1012": {
+    "id": "1012",
+    "data": {
+      "name": "蝙蝠",
+      "level": "10",
+      "exphold": "40",
+      "moneyhold": 100,
+      "maxhp": "150",
+      "hp": "150",
+      "maxsp": "10",
+      "sp": "10",
+      "str": "36",
+      "int": "16",
+      "dex": "16",
+      "spd": "30",
+      "luk": "1",
+      "guard": "prob25",
+      "judge": [
+        1902,
+        1940,
+        1940,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        10,
+        0
+      ],
+      "action": [
+        9000,
+        5800,
+        5001,
+        5002
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        5,
+        0,
+        5,
+        0
+      ],
+      "itemtable": {
+        "6180": "600"
+      },
+      "image_variants": [
+        "mon_121.gif",
+        "mon_121r.gif"
+      ],
+      "monster": "1",
+      "no": "1012"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 319,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1013": {
+    "id": "1013",
+    "data": {
+      "name": "洞穴蛙",
+      "img": "mon_126z.gif",
+      "level": "12",
+      "exphold": "80",
+      "moneyhold": 100,
+      "maxhp": "450",
+      "hp": "450",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "60",
+      "int": "50",
+      "dex": "16",
+      "spd": "20",
+      "luk": "1",
+      "guard": "prob50",
+      "judge": [
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        0
+      ],
+      "action": [
+        5004,
+        1000
+      ],
+      "atk": [
+        30,
+        30
+      ],
+      "def": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "itemtable": {
+        "6162": "1000",
+        "6181": "1000"
+      },
+      "monster": "1",
+      "no": "1013"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 346,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1014": {
+    "id": "1014",
+    "data": {
+      "name": "洞穴蜥蜴",
+      "img": "mon_036z.gif",
+      "level": "12",
+      "exphold": "100",
+      "moneyhold": 100,
+      "maxhp": "580",
+      "hp": "580",
+      "maxsp": "60",
+      "sp": "60",
+      "str": "55",
+      "int": "6",
+      "dex": "16",
+      "spd": "25",
+      "luk": "1",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1940,
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        50,
+        0
+      ],
+      "action": [
+        5003,
+        5005,
+        1000
+      ],
+      "atk": [
+        30,
+        20
+      ],
+      "def": [
+        35,
+        30,
+        10,
+        30
+      ],
+      "itemtable": {
+        "6040": "1500"
+      },
+      "monster": "1",
+      "no": "1014"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 371,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1015": {
+    "id": "1015",
+    "data": {
+      "name": "守灵者",
+      "img": "mon_034.gif",
+      "level": "14",
+      "exphold": "120",
+      "moneyhold": 100,
+      "maxhp": "360",
+      "hp": "360",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "10",
+      "int": "40",
+      "dex": "10",
+      "spd": "20",
+      "luk": "1",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1902,
+        1940,
+        1200
+      ],
+      "quantity": [
+        40,
+        1,
+        50,
+        30
+      ],
+      "action": [
+        3010,
+        9000,
+        3235,
+        2000
+      ],
+      "atk": [
+        30,
+        20
+      ],
+      "def": [
+        20,
+        10,
+        40,
+        30
+      ],
+      "itemtable": {
+        "6020": "1000",
+        "6021": "600",
+        "6022": "200"
+      },
+      "monster": "1",
+      "no": "1015"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 397,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1016": {
+    "id": "1016",
+    "data": {
+      "name": "隐士",
+      "img": "mon_034z.gif",
+      "level": "14",
+      "exphold": "120",
+      "moneyhold": 100,
+      "maxhp": "320",
+      "hp": "320",
+      "maxsp": "180",
+      "sp": "180",
+      "str": "14",
+      "int": "40",
+      "dex": "10",
+      "spd": "37",
+      "luk": "1",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1126,
+        1000
+      ],
+      "quantity": [
+        40,
+        70,
+        0
+      ],
+      "action": [
+        3010,
+        3002,
+        3222
+      ],
+      "atk": [
+        30,
+        20
+      ],
+      "def": [
+        20,
+        10,
+        20,
+        10
+      ],
+      "itemtable": {
+        "6020": "1500",
+        "6021": "900",
+        "6022": "300"
+      },
+      "monster": "1",
+      "no": "1016"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 423,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1017": {
+    "id": "1017",
+    "data": {
+      "name": "蝙蝠首领",
+      "img": "mon_147z.gif",
+      "level": "20",
+      "exphold": "1500",
+      "moneyhold": 100,
+      "maxhp": "500",
+      "hp": "500",
+      "maxsp": "300",
+      "sp": "300",
+      "str": "40",
+      "int": "30",
+      "dex": "20",
+      "spd": "60",
+      "luk": "1",
+      "guard": "prob25",
+      "judge": [
+        1902,
+        1902,
+        1940,
+        1000
+      ],
+      "quantity": [
+        1,
+        2,
+        50,
+        0
+      ],
+      "action": [
+        5801,
+        5006,
+        2091,
+        2031
+      ],
+      "atk": [
+        30,
+        30
+      ],
+      "def": [
+        30,
+        20,
+        30,
+        50
+      ],
+      "itemtable": {
+        "8001": "10000"
+      },
+      "monster": "1",
+      "no": "1017"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 449,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1018": {
+    "id": "1018",
+    "data": {
+      "name": "骷髅勇士",
+      "img": "mon_032.gif",
+      "level": "16",
+      "exphold": "160",
+      "moneyhold": 100,
+      "maxhp": "480",
+      "hp": "480",
+      "maxsp": "80",
+      "sp": "80",
+      "str": "50",
+      "int": "5",
+      "dex": "10",
+      "spd": "20",
+      "luk": "1",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1200,
+        1000
+      ],
+      "quantity": [
+        20,
+        0
+      ],
+      "action": [
+        1003,
+        1000
+      ],
+      "atk": [
+        20,
+        1
+      ],
+      "def": [
+        40,
+        25,
+        0,
+        0
+      ],
+      "itemtable": {
+        "6001": "1000",
+        "6002": "1000",
+        "6003": "500"
+      },
+      "monster": "1",
+      "no": "1018"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 474,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1019": {
+    "id": "1019",
+    "data": {
+      "name": "骷髅士兵",
+      "img": "mon_144.gif",
+      "level": "20",
+      "exphold": "200",
+      "moneyhold": 100,
+      "maxhp": "600",
+      "hp": "600",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "60",
+      "int": "5",
+      "dex": "15",
+      "spd": "25",
+      "luk": "1",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1902,
+        1940,
+        1200,
+        1000
+      ],
+      "quantity": [
+        1,
+        70,
+        40,
+        0
+      ],
+      "action": [
+        9000,
+        1015,
+        1017,
+        1000
+      ],
+      "atk": [
+        40,
+        1
+      ],
+      "def": [
+        45,
+        30,
+        10,
+        10
+      ],
+      "itemtable": {
+        "6001": "500",
+        "6002": "1000",
+        "6003": "1000"
+      },
+      "monster": "1",
+      "no": "1019"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 500,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1020": {
+    "id": "1020",
+    "data": {
+      "name": "骷髅箭手",
+      "img": "mon_143r.gif",
+      "level": "16",
+      "exphold": "160",
+      "moneyhold": 100,
+      "maxhp": "340",
+      "hp": "340",
+      "maxsp": "80",
+      "sp": "80",
+      "str": "10",
+      "int": "10",
+      "dex": "40",
+      "spd": "15",
+      "luk": "1",
+      "guard": "prob25",
+      "position": "back",
+      "judge": [
+        1201,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        50,
+        0
+      ],
+      "action": [
+        2300,
+        2301,
+        2302
+      ],
+      "atk": [
+        40,
+        20
+      ],
+      "def": [
+        20,
+        0,
+        20,
+        0
+      ],
+      "itemtable": {
+        "6020": "1000",
+        "6021": "1000"
+      },
+      "monster": "1",
+      "no": "1020"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 526,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1021": {
+    "id": "1021",
+    "data": {
+      "name": "骨头萨满",
+      "img": "mon_108.gif",
+      "level": "15",
+      "exphold": "150",
+      "moneyhold": 100,
+      "maxhp": "270",
+      "hp": "270",
+      "maxsp": "210",
+      "sp": "210",
+      "str": "10",
+      "int": "60",
+      "dex": "20",
+      "spd": "10",
+      "luk": "1",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1902,
+        1101,
+        1000
+      ],
+      "quantity": [
+        40,
+        1,
+        70,
+        0
+      ],
+      "action": [
+        2090,
+        5802,
+        2030,
+        2011
+      ],
+      "atk": [
+        30,
+        20
+      ],
+      "def": [
+        20,
+        10,
+        60,
+        20
+      ],
+      "itemtable": {
+        "6182": "1200"
+      },
+      "monster": "1",
+      "no": "1021"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 552,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1022": {
+    "id": "1022",
+    "data": {
+      "name": "卵罐",
+      "img": "mon_019.gif",
+      "level": "20",
+      "exphold": "300",
+      "moneyhold": 100,
+      "maxhp": "600",
+      "hp": "600",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "10",
+      "int": "10",
+      "dex": "10",
+      "spd": "10",
+      "luk": "1",
+      "guard": "never",
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        5803
+      ],
+      "atk": [
+        10,
+        10
+      ],
+      "def": [
+        20,
+        0,
+        20,
+        0
+      ],
+      "itemtable": {
+        "6003": "1000"
+      },
+      "monster": "1",
+      "no": "1022"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 578,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1023": {
+    "id": "1023",
+    "data": {
+      "name": "独眼巨人",
+      "img": "mon_139.gif",
+      "level": "20",
+      "exphold": "250",
+      "moneyhold": 100,
+      "maxhp": "680",
+      "hp": "680",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "100",
+      "int": "10",
+      "dex": "20",
+      "spd": "35",
+      "luk": "1",
+      "guard": "never",
+      "position": "front",
+      "judge": [
+        1200,
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        30,
+        0
+      ],
+      "action": [
+        9000,
+        5032,
+        5031
+      ],
+      "atk": [
+        60,
+        10
+      ],
+      "def": [
+        40,
+        30,
+        10,
+        0
+      ],
+      "itemtable": {
+        "6001": "500",
+        "6002": "800",
+        "6003": "500"
+      },
+      "monster": "1",
+      "no": "1023"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 604,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1024": {
+    "id": "1024",
+    "data": {
+      "name": "哥布林铁匠",
+      "img": "mon_053r.gif",
+      "level": "18",
+      "exphold": "200",
+      "moneyhold": 100,
+      "maxhp": "570",
+      "hp": "570",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "70",
+      "int": "10",
+      "dex": "40",
+      "spd": "50",
+      "luk": "1",
+      "guard": "never",
+      "position": "front",
+      "judge": [
+        1201,
+        1940,
+        1000
+      ],
+      "quantity": [
+        40,
+        50,
+        0
+      ],
+      "action": [
+        5031,
+        5033,
+        5034
+      ],
+      "atk": [
+        60,
+        10
+      ],
+      "def": [
+        40,
+        30,
+        30,
+        0
+      ],
+      "itemtable": {
+        "6001": "500",
+        "6002": "1000",
+        "6003": "800"
+      },
+      "monster": "1",
+      "no": "1024"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 630,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1025": {
+    "id": "1025",
+    "data": {
+      "name": "模仿怪",
+      "img": "mon_066.gif",
+      "level": "22",
+      "exphold": "100",
+      "moneyhold": 100,
+      "maxhp": "200",
+      "hp": "200",
+      "maxsp": "10",
+      "sp": "10",
+      "str": "400",
+      "int": "10",
+      "dex": "10",
+      "spd": "100",
+      "luk": "1",
+      "guard": "never",
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        200,
+        10
+      ],
+      "def": [
+        65,
+        40,
+        65,
+        40
+      ],
+      "itemtable": {
+        "8003": "3000",
+        "6002": "2000"
+      },
+      "monster": "1",
+      "no": "1025"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 656,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1026": {
+    "id": "1026",
+    "data": {
+      "name": "石像鬼",
+      "img": "mon_104.gif",
+      "level": "22",
+      "exphold": "220",
+      "moneyhold": 100,
+      "maxhp": "300",
+      "hp": "300",
+      "maxsp": "10",
+      "sp": "10",
+      "str": "40",
+      "int": "80",
+      "dex": "10",
+      "spd": "10",
+      "luk": "1",
+      "guard": "never",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        5035
+      ],
+      "atk": [
+        10,
+        50
+      ],
+      "def": [
+        50,
+        100,
+        0,
+        0
+      ],
+      "itemtable": {
+        "6002": "2000"
+      },
+      "monster": "1",
+      "no": "1026"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 680,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1027": {
+    "id": "1027",
+    "data": {
+      "name": "骷髅队长",
+      "img": "mon_144r.gif",
+      "level": "27",
+      "exphold": "460",
+      "moneyhold": 100,
+      "maxhp": "1300",
+      "hp": "1300",
+      "maxsp": "110",
+      "sp": "110",
+      "str": "140",
+      "int": "30",
+      "dex": "40",
+      "spd": "60",
+      "luk": "10",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1701,
+        1200,
+        1200,
+        1940,
+        1200,
+        1940,
+        1000
+      ],
+      "quantity": [
+        0,
+        20,
+        30,
+        30,
+        90,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        3112,
+        9000,
+        1020,
+        9000,
+        1019,
+        1000
+      ],
+      "atk": [
+        70,
+        50
+      ],
+      "def": [
+        50,
+        80,
+        20,
+        10
+      ],
+      "itemtable": {
+        "8004": "700",
+        "6003": "2000"
+      },
+      "monster": "1",
+      "no": "1027"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 705,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1028": {
+    "id": "1028",
+    "data": {
+      "name": "邪恶巫师",
+      "img": "mon_108z.gif",
+      "level": "26",
+      "exphold": "300",
+      "moneyhold": 100,
+      "maxhp": "450",
+      "hp": "450",
+      "maxsp": "600",
+      "sp": "600",
+      "str": "20",
+      "int": "90",
+      "dex": "40",
+      "spd": "20",
+      "luk": "10",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1902,
+        1940,
+        1902,
+        1940,
+        1902,
+        1940,
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        1,
+        30,
+        1,
+        50,
+        1,
+        50,
+        50,
+        0
+      ],
+      "action": [
+        3011,
+        9000,
+        3220,
+        9000,
+        3230,
+        9000,
+        2051,
+        2012,
+        2021
+      ],
+      "atk": [
+        10,
+        40
+      ],
+      "def": [
+        5,
+        10,
+        55,
+        30
+      ],
+      "itemtable": {
+        "6181": "1000",
+        "6182": "1000"
+      },
+      "monster": "1",
+      "no": "1028"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 731,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1029": {
+    "id": "1029",
+    "data": {
+      "name": "卵罐",
+      "img": "mon_019r.gif",
+      "level": "28",
+      "exphold": "400",
+      "moneyhold": 100,
+      "maxhp": "750",
+      "hp": "750",
+      "maxsp": "600",
+      "sp": "600",
+      "str": "10",
+      "int": "10",
+      "dex": "10",
+      "spd": "10",
+      "luk": "10",
+      "guard": "never",
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        10,
+        10
+      ],
+      "def": [
+        30,
+        20,
+        30,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1029"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 757,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1030": {
+    "id": "1030",
+    "data": {
+      "name": "眼球怪",
+      "img": "mon_105.gif",
+      "level": "35",
+      "exphold": "420",
+      "moneyhold": 100,
+      "maxhp": "520",
+      "hp": "520",
+      "maxsp": "240",
+      "sp": "240",
+      "str": "10",
+      "int": "40",
+      "dex": "10",
+      "spd": "50",
+      "luk": "10",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        0
+      ],
+      "action": [
+        5036,
+        5037
+      ],
+      "atk": [
+        10,
+        10
+      ],
+      "def": [
+        30,
+        30,
+        40,
+        50
+      ],
+      "itemtable": {
+        "6180": "1000",
+        "6184": "1000"
+      },
+      "monster": "1",
+      "no": "1030"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 781,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1031": {
+    "id": "1031",
+    "data": {
+      "name": "邪恶佣人",
+      "img": "mon_107.gif",
+      "level": "37",
+      "exphold": "460",
+      "moneyhold": 100,
+      "maxhp": "420",
+      "hp": "420",
+      "maxsp": "630",
+      "sp": "630",
+      "str": "20",
+      "int": "130",
+      "dex": "30",
+      "spd": "40",
+      "luk": "30",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1902,
+        1940,
+        1902,
+        1940,
+        1121,
+        1201,
+        1000
+      ],
+      "quantity": [
+        20,
+        1,
+        30,
+        1,
+        30,
+        70,
+        60,
+        0
+      ],
+      "action": [
+        3010,
+        9000,
+        2091,
+        9000,
+        3230,
+        3004,
+        3010,
+        2001
+      ],
+      "atk": [
+        10,
+        50
+      ],
+      "def": [
+        10,
+        20,
+        60,
+        40
+      ],
+      "itemtable": {
+        "6183": "2000",
+        "6184": "1000"
+      },
+      "monster": "1",
+      "no": "1031"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 807,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1032": {
+    "id": "1032",
+    "data": {
+      "name": "人马猎手",
+      "img": "mon_129.gif",
+      "level": "39",
+      "exphold": "520",
+      "moneyhold": 100,
+      "maxhp": "670",
+      "hp": "670",
+      "maxsp": "150",
+      "sp": "150",
+      "str": "20",
+      "int": "30",
+      "dex": "160",
+      "spd": "70",
+      "luk": "20",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1940,
+        1000
+      ],
+      "quantity": [
+        20,
+        70,
+        0
+      ],
+      "action": [
+        2308,
+        2302,
+        2305
+      ],
+      "atk": [
+        70,
+        10
+      ],
+      "def": [
+        20,
+        30,
+        30,
+        30
+      ],
+      "itemtable": {
+        "6021": "1500",
+        "6022": "700"
+      },
+      "monster": "1",
+      "no": "1032"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 833,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1033": {
+    "id": "1033",
+    "data": {
+      "name": "人马骑士",
+      "img": "mon_129r.gif",
+      "level": "40",
+      "exphold": "580",
+      "moneyhold": 100,
+      "maxhp": "1340",
+      "hp": "1340",
+      "maxsp": "120",
+      "sp": "120",
+      "str": "150",
+      "int": "20",
+      "dex": "30",
+      "spd": "50",
+      "luk": "30",
+      "guard": "life75",
+      "position": "front",
+      "judge": [
+        1701,
+        1200,
+        1902,
+        1940,
+        1100,
+        1200,
+        1000
+      ],
+      "quantity": [
+        0,
+        10,
+        1,
+        50,
+        80,
+        40,
+        0
+      ],
+      "action": [
+        9000,
+        3112,
+        9000,
+        3231,
+        1114,
+        1017,
+        1000
+      ],
+      "atk": [
+        80,
+        10
+      ],
+      "def": [
+        60,
+        30,
+        20,
+        20
+      ],
+      "itemtable": {
+        "6002": "1500",
+        "6003": "500"
+      },
+      "monster": "1",
+      "no": "1033"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 859,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1034": {
+    "id": "1034",
+    "data": {
+      "name": "巴风特",
+      "img": "mon_210r.gif",
+      "level": "46",
+      "exphold": "830",
+      "moneyhold": 100,
+      "maxhp": "900",
+      "hp": "900",
+      "maxsp": "780",
+      "sp": "780",
+      "str": "120",
+      "int": "120",
+      "dex": "30",
+      "spd": "40",
+      "luk": "100",
+      "guard": "never",
+      "judge": [
+        1201,
+        1101,
+        1902,
+        1940,
+        1940,
+        1000
+      ],
+      "quantity": [
+        40,
+        50,
+        1,
+        30,
+        50,
+        0
+      ],
+      "action": [
+        3010,
+        2030,
+        9000,
+        5039,
+        5040,
+        5038
+      ],
+      "atk": [
+        60,
+        60
+      ],
+      "def": [
+        30,
+        20,
+        50,
+        50
+      ],
+      "itemtable": {
+        "6003": "700",
+        "6022": "700",
+        "6184": "700"
+      },
+      "monster": "1",
+      "no": "1034"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 885,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1035": {
+    "id": "1035",
+    "data": {
+      "name": "巴风特领主",
+      "img": "mon_210.gif",
+      "level": "57",
+      "exphold": "3480",
+      "moneyhold": 100,
+      "maxhp": "1500",
+      "hp": "1500",
+      "maxsp": "900",
+      "sp": "900",
+      "str": "170",
+      "int": "170",
+      "dex": "30",
+      "spd": "120",
+      "luk": "100",
+      "guard": "prob25",
+      "position": "front",
+      "judge": [
+        1201,
+        1902,
+        1101,
+        1920,
+        1000
+      ],
+      "quantity": [
+        40,
+        1,
+        40,
+        1,
+        0
+      ],
+      "action": [
+        3011,
+        5804,
+        2031,
+        5041,
+        5040
+      ],
+      "atk": [
+        90,
+        90
+      ],
+      "def": [
+        60,
+        70,
+        45,
+        80
+      ],
+      "itemtable": {
+        "6003": "700",
+        "6022": "700",
+        "6184": "700"
+      },
+      "monster": "1",
+      "no": "1035"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 910,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1036": {
+    "id": "1036",
+    "data": {
+      "name": "雪兔",
+      "img": "mon_111.gif",
+      "exphold": "20",
+      "moneyhold": 100,
+      "level": "1",
+      "maxhp": "80",
+      "hp": "80",
+      "maxsp": "50",
+      "sp": "50",
+      "str": "5",
+      "int": "5",
+      "dex": "5",
+      "spd": "1",
+      "luk": "1",
+      "guard": "never",
+      "judge": [
+        1201,
+        1000
+      ],
+      "quantity": [
+        10,
+        0
+      ],
+      "action": [
+        3010,
+        5007
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        5,
+        0,
+        15,
+        0
+      ],
+      "itemtable": {
+        "6040": "1000"
+      },
+      "monster": "1",
+      "no": "1036"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 936,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1037": {
+    "id": "1037",
+    "data": {
+      "name": "雪人",
+      "img": "mon_181.gif",
+      "exphold": "30",
+      "moneyhold": 100,
+      "level": "2",
+      "maxhp": "130",
+      "hp": "130",
+      "maxsp": "20",
+      "sp": "20",
+      "str": "8",
+      "int": "5",
+      "dex": "5",
+      "spd": "4",
+      "luk": "1",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        5042
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        15,
+        10,
+        5,
+        0
+      ],
+      "itemtable": {
+        "6020": "1000"
+      },
+      "monster": "1",
+      "no": "1037"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 961,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1038": {
+    "id": "1038",
+    "data": {
+      "name": "雪狼",
+      "img": "mon_184.gif",
+      "exphold": "35",
+      "moneyhold": 100,
+      "level": "3",
+      "maxhp": "150",
+      "hp": "150",
+      "maxsp": "40",
+      "sp": "40",
+      "str": "14",
+      "int": "5",
+      "dex": "5",
+      "spd": "7",
+      "luk": "1",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1940,
+        1940,
+        1200,
+        1000
+      ],
+      "quantity": [
+        30,
+        50,
+        90,
+        0
+      ],
+      "action": [
+        5010,
+        9000,
+        5805,
+        5009
+      ],
+      "atk": [
+        30,
+        20
+      ],
+      "def": [
+        15,
+        20,
+        5,
+        10
+      ],
+      "itemtable": {
+        "6040": "1000"
+      },
+      "monster": "1",
+      "no": "1038"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 986,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1039": {
+    "id": "1039",
+    "data": {
+      "name": "哥布林滑雪者",
+      "img": "mon_182.gif",
+      "exphold": "30",
+      "moneyhold": 100,
+      "level": "3",
+      "maxhp": "130",
+      "hp": "130",
+      "maxsp": "40",
+      "sp": "40",
+      "str": "9",
+      "int": "5",
+      "dex": "5",
+      "spd": "14",
+      "luk": "1",
+      "guard": "never",
+      "judge": [
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        0
+      ],
+      "action": [
+        5042,
+        5008
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        10,
+        10,
+        15,
+        10
+      ],
+      "itemtable": {
+        "8010": "1000"
+      },
+      "monster": "1",
+      "no": "1039"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1012,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1040": {
+    "id": "1040",
+    "data": {
+      "name": "小雪人",
+      "img": "mon_163.gif",
+      "exphold": "250",
+      "moneyhold": 100,
+      "level": "20",
+      "maxhp": "400",
+      "hp": "400",
+      "maxsp": "140",
+      "sp": "140",
+      "str": "40",
+      "int": "55",
+      "dex": "10",
+      "spd": "30",
+      "luk": "80",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1940,
+        1902,
+        1200,
+        1200,
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        1,
+        80,
+        30,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        9000,
+        5046,
+        9000,
+        5045,
+        5043
+      ],
+      "atk": [
+        30,
+        30
+      ],
+      "def": [
+        20,
+        10,
+        35,
+        20
+      ],
+      "itemtable": {
+        "6181": "800",
+        "6021": "200",
+        "6184": "100"
+      },
+      "monster": "1",
+      "no": "1040"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1037,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1041": {
+    "id": "1041",
+    "data": {
+      "name": "雪人",
+      "img": "mon_164.gif",
+      "exphold": "330",
+      "moneyhold": 100,
+      "level": "23",
+      "maxhp": "700",
+      "hp": "700",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "80",
+      "int": "80",
+      "dex": "10",
+      "spd": "40",
+      "luk": "100",
+      "guard": "life25",
+      "position": "front",
+      "judge": [
+        1101,
+        1200,
+        1940,
+        1902,
+        1200,
+        1200,
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        10,
+        30,
+        1,
+        50,
+        40,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        3121,
+        9000,
+        9000,
+        5046,
+        9000,
+        5044,
+        5043
+      ],
+      "atk": [
+        50,
+        30
+      ],
+      "def": [
+        30,
+        30,
+        35,
+        30
+      ],
+      "itemtable": {
+        "6040": "600",
+        "6181": "300",
+        "6161": "200"
+      },
+      "monster": "1",
+      "no": "1041"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1063,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1042": {
+    "id": "1042",
+    "data": {
+      "name": "暗黑小雪人",
+      "img": "mon_163r.gif",
+      "exphold": "250",
+      "moneyhold": 100,
+      "level": "20",
+      "maxhp": "350",
+      "hp": "350",
+      "maxsp": "160",
+      "sp": "160",
+      "str": "60",
+      "int": "85",
+      "dex": "10",
+      "spd": "40",
+      "luk": "10",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1200,
+        1121,
+        1200,
+        1610,
+        1200,
+        1000
+      ],
+      "quantity": [
+        20,
+        90,
+        20,
+        1,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        3003,
+        9000,
+        3030,
+        5047,
+        5043
+      ],
+      "atk": [
+        40,
+        40
+      ],
+      "def": [
+        25,
+        0,
+        45,
+        0
+      ],
+      "itemtable": {
+        "6040": "300",
+        "6184": "100",
+        "6160": "40"
+      },
+      "monster": "1",
+      "no": "1042"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1089,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1043": {
+    "id": "1043",
+    "data": {
+      "name": "暗黑雪人",
+      "img": "mon_164r.gif",
+      "exphold": "330",
+      "moneyhold": 100,
+      "level": "23",
+      "maxhp": "600",
+      "hp": "600",
+      "maxsp": "240",
+      "sp": "240",
+      "str": "110",
+      "int": "110",
+      "dex": "10",
+      "spd": "50",
+      "luk": "100",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1902,
+        1200,
+        1940,
+        1201,
+        1200,
+        1940,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        70,
+        20,
+        30,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        9000,
+        5048,
+        2090,
+        9000,
+        5044,
+        5043
+      ],
+      "atk": [
+        70,
+        50
+      ],
+      "def": [
+        35,
+        0,
+        45,
+        0
+      ],
+      "itemtable": {
+        "6183": "400",
+        "6184": "200"
+      },
+      "monster": "1",
+      "no": "1043"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1115,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1044": {
+    "id": "1044",
+    "data": {
+      "name": "靴精灵",
+      "img": "mon_187.gif",
+      "exphold": "360",
+      "moneyhold": 100,
+      "level": "26",
+      "maxhp": "340",
+      "hp": "340",
+      "maxsp": "410",
+      "sp": "410",
+      "str": "10",
+      "int": "130",
+      "dex": "40",
+      "spd": "50",
+      "luk": "100",
+      "guard": "never",
+      "judge": [
+        1940,
+        1902,
+        1201,
+        1200,
+        1405,
+        1121,
+        1000
+      ],
+      "quantity": [
+        50,
+        1,
+        30,
+        40,
+        1,
+        90,
+        0
+      ],
+      "action": [
+        9000,
+        5049,
+        3101,
+        9000,
+        3040,
+        3002,
+        2480
+      ],
+      "atk": [
+        10,
+        20
+      ],
+      "def": [
+        10,
+        10,
+        35,
+        100
+      ],
+      "itemtable": {
+        "6021": "500",
+        "6160": "30"
+      },
+      "monster": "1",
+      "no": "1044"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1141,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1045": {
+    "id": "1045",
+    "data": {
+      "name": "雪精灵",
+      "img": "mon_186.gif",
+      "exphold": "600",
+      "moneyhold": 100,
+      "level": "29",
+      "maxhp": "800",
+      "hp": "800",
+      "maxsp": "400",
+      "sp": "400",
+      "str": "30",
+      "int": "120",
+      "dex": "10",
+      "spd": "80",
+      "luk": "50",
+      "guard": "prob50",
+      "position": "back",
+      "judge": [
+        1201,
+        1902,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        1,
+        50,
+        0
+      ],
+      "action": [
+        3010,
+        5051,
+        5051,
+        5050
+      ],
+      "atk": [
+        70,
+        50
+      ],
+      "def": [
+        20,
+        20,
+        40,
+        40
+      ],
+      "itemtable": {
+        "6184": "1000",
+        "8011": "4000"
+      },
+      "monster": "1",
+      "no": "1045"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1166,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1046": {
+    "id": "1046",
+    "data": {
+      "name": "圣诞老人",
+      "img": "mon_188.gif",
+      "exphold": "3000",
+      "moneyhold": 100,
+      "level": "32",
+      "maxhp": "1000",
+      "hp": "1000",
+      "maxsp": "0",
+      "sp": "0",
+      "str": "10",
+      "int": "10",
+      "dex": "10",
+      "spd": "200",
+      "luk": "300",
+      "guard": "prob50",
+      "judge": [
+        1920,
+        1940,
+        1000
+      ],
+      "quantity": [
+        2,
+        30,
+        0
+      ],
+      "action": [
+        9000,
+        5806,
+        5052
+      ],
+      "atk": [
+        70,
+        50
+      ],
+      "def": [
+        40,
+        20,
+        35,
+        50
+      ],
+      "itemtable": {
+        "6160": "3000"
+      },
+      "monster": "1",
+      "no": "1046"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1192,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1047": {
+    "id": "1047",
+    "data": {
+      "name": "驯鹿士兵",
+      "img": "mon_189.gif",
+      "exphold": "420",
+      "moneyhold": 100,
+      "level": "30",
+      "maxhp": "800",
+      "hp": "800",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "100",
+      "int": "10",
+      "dex": "30",
+      "spd": "35",
+      "luk": "10",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1200,
+        1940,
+        1200,
+        1940,
+        1000
+      ],
+      "quantity": [
+        60,
+        50,
+        40,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        1015,
+        9000,
+        1017,
+        5043
+      ],
+      "atk": [
+        40,
+        10
+      ],
+      "def": [
+        35,
+        30,
+        25,
+        20
+      ],
+      "itemtable": {
+        "6021": "300",
+        "6002": "300",
+        "6161": "100"
+      },
+      "monster": "1",
+      "no": "1047"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1217,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1048": {
+    "id": "1048",
+    "data": {
+      "name": "驯鹿首领",
+      "img": "mon_189r.gif",
+      "exphold": "480",
+      "moneyhold": 100,
+      "level": "35",
+      "maxhp": "1050",
+      "hp": "1050",
+      "maxsp": "150",
+      "sp": "150",
+      "str": "150",
+      "int": "20",
+      "dex": "30",
+      "spd": "50",
+      "luk": "30",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1701,
+        1200,
+        1610,
+        1200,
+        1101,
+        1200,
+        1200,
+        1000
+      ],
+      "quantity": [
+        0,
+        10,
+        1,
+        20,
+        50,
+        10,
+        30,
+        0
+      ],
+      "action": [
+        9000,
+        3112,
+        9000,
+        3030,
+        9000,
+        3121,
+        1017,
+        5042
+      ],
+      "atk": [
+        50,
+        10
+      ],
+      "def": [
+        30,
+        40,
+        30,
+        30
+      ],
+      "itemtable": {
+        "6160": "100",
+        "6022": "300",
+        "6003": "400"
+      },
+      "monster": "1",
+      "no": "1048"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1243,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1049": {
+    "id": "1049",
+    "data": {
+      "name": "霜冻女皇",
+      "img": "mon_190.gif",
+      "exphold": "2200",
+      "moneyhold": 100,
+      "level": "43",
+      "maxhp": "900",
+      "hp": "900",
+      "maxsp": "1200",
+      "sp": "1200",
+      "str": "60",
+      "int": "150",
+      "dex": "10",
+      "spd": "80",
+      "luk": "150",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1902,
+        1101,
+        1920,
+        1000
+      ],
+      "quantity": [
+        30,
+        1,
+        40,
+        1,
+        0
+      ],
+      "action": [
+        3011,
+        5053,
+        9000,
+        5055,
+        5054
+      ],
+      "atk": [
+        20,
+        60
+      ],
+      "def": [
+        60,
+        10,
+        40,
+        100
+      ],
+      "itemtable": {
+        "6160": "2000"
+      },
+      "monster": "1",
+      "no": "1049"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1269,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1050": {
+    "id": "1050",
+    "data": {
+      "name": "暗黑精灵猎手",
+      "img": "mon_042r.gif",
+      "exphold": "500",
+      "moneyhold": 100,
+      "level": "39",
+      "maxhp": "580",
+      "hp": "580",
+      "maxsp": "300",
+      "sp": "300",
+      "str": "20",
+      "int": "50",
+      "dex": "140",
+      "spd": "100",
+      "luk": "10",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        50,
+        30
+      ],
+      "def": [
+        20,
+        20,
+        30,
+        40
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1050"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1295,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1051": {
+    "id": "1051",
+    "data": {
+      "name": "暗黑精灵女战神",
+      "img": "mon_215r.gif",
+      "exphold": "630",
+      "moneyhold": 100,
+      "level": "42",
+      "maxhp": "980",
+      "hp": "980",
+      "maxsp": "240",
+      "sp": "240",
+      "str": "100",
+      "int": "90",
+      "dex": "30",
+      "spd": "80",
+      "luk": "10",
+      "guard": "life25",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        60,
+        10
+      ],
+      "def": [
+        45,
+        20,
+        30,
+        20
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1051"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1319,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1052": {
+    "id": "1052",
+    "data": {
+      "name": "暗黑精灵萨满",
+      "img": "mon_220r.gif",
+      "exphold": "600",
+      "moneyhold": 100,
+      "level": "41",
+      "maxhp": "420",
+      "hp": "420",
+      "maxsp": "820",
+      "sp": "820",
+      "str": "10",
+      "int": "160",
+      "dex": "30",
+      "spd": "60",
+      "luk": "10",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        10,
+        70
+      ],
+      "def": [
+        15,
+        10,
+        60,
+        60
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1052"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1343,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1053": {
+    "id": "1053",
+    "data": {
+      "name": "沼泽狂战士",
+      "img": "mon_102.gif",
+      "exphold": "440",
+      "moneyhold": 100,
+      "level": "36",
+      "maxhp": "790",
+      "hp": "790",
+      "maxsp": "50",
+      "sp": "50",
+      "str": "150",
+      "int": "10",
+      "dex": "10",
+      "spd": "50",
+      "luk": "10",
+      "guard": "prob75",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        40,
+        10
+      ],
+      "def": [
+        40,
+        30,
+        10,
+        10
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1053"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1367,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1054": {
+    "id": "1054",
+    "data": {
+      "name": "诅咒石像鬼",
+      "img": "mon_104r.gif",
+      "exphold": "400",
+      "moneyhold": 100,
+      "level": "31",
+      "maxhp": "500",
+      "hp": "500",
+      "maxsp": "300",
+      "sp": "300",
+      "str": "80",
+      "int": "80",
+      "dex": "10",
+      "spd": "20",
+      "luk": "10",
+      "guard": "always",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        40,
+        40,
+        40,
+        40
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1054"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1391,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1055": {
+    "id": "1055",
+    "data": {
+      "name": "邪恶植物",
+      "img": "mon_127.gif",
+      "exphold": "390",
+      "moneyhold": 100,
+      "level": "29",
+      "maxhp": "450",
+      "hp": "450",
+      "maxsp": "120",
+      "sp": "120",
+      "str": "60",
+      "int": "60",
+      "dex": "40",
+      "spd": "10",
+      "luk": "10",
+      "guard": "prob50",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        20,
+        20,
+        30,
+        20
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1055"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1414,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    },
+    "adjustments": [
+      {
+        "catalog": "monsters",
+        "id": "1055",
+        "field": "guard",
+        "before": "pro50",
+        "after": "prob50",
+        "reason": "Correct misspelled probabilistic guard policy; no invalid-enum fallback"
+      }
+    ]
+  },
+  "1056": {
+    "id": "1056",
+    "data": {
+      "name": "邪恶巨木",
+      "img": "mon_128.gif",
+      "exphold": "430",
+      "moneyhold": 100,
+      "level": "33",
+      "maxhp": "700",
+      "hp": "700",
+      "maxsp": "300",
+      "sp": "300",
+      "str": "40",
+      "int": "100",
+      "dex": "10",
+      "spd": "10",
+      "luk": "10",
+      "guard": "prob50",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        30,
+        30
+      ],
+      "def": [
+        30,
+        0,
+        30,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1056"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1437,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1057": {
+    "id": "1057",
+    "data": {
+      "name": "烟巨人",
+      "img": "mon_130.gif",
+      "exphold": "470",
+      "moneyhold": 100,
+      "level": "34",
+      "maxhp": "500",
+      "hp": "500",
+      "maxsp": "0",
+      "sp": "0",
+      "str": "110",
+      "int": "10",
+      "dex": "10",
+      "spd": "30",
+      "luk": "10",
+      "guard": "always",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        50,
+        20
+      ],
+      "def": [
+        90,
+        0,
+        0,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1057"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1460,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1058": {
+    "id": "1058",
+    "data": {
+      "name": "地狱哨兵",
+      "img": "mon_174.gif",
+      "exphold": "1000",
+      "moneyhold": 100,
+      "level": "37",
+      "maxhp": "1000",
+      "hp": "1000",
+      "maxsp": "300",
+      "sp": "300",
+      "str": "100",
+      "int": "100",
+      "dex": "40",
+      "spd": "50",
+      "luk": "10",
+      "guard": "prob50",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        30,
+        50
+      ],
+      "def": [
+        35,
+        30,
+        30,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1058"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1483,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1059": {
+    "id": "1059",
+    "data": {
+      "name": "花神元素",
+      "img": "mon_028.gif",
+      "exphold": "1000",
+      "moneyhold": 100,
+      "level": "40",
+      "maxhp": "1000",
+      "hp": "1000",
+      "maxsp": "1000",
+      "sp": "1000",
+      "str": "100",
+      "int": "100",
+      "dex": "100",
+      "spd": "100",
+      "luk": "100",
+      "guard": "life75",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        50,
+        50
+      ],
+      "def": [
+        40,
+        20,
+        50,
+        50
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1059"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1506,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1060": {
+    "id": "1060",
+    "data": {
+      "name": "水元素",
+      "img": "mon_024.gif",
+      "exphold": "1000",
+      "moneyhold": 100,
+      "level": "40",
+      "maxhp": "1000",
+      "hp": "1000",
+      "maxsp": "1000",
+      "sp": "1000",
+      "str": "100",
+      "int": "100",
+      "dex": "100",
+      "spd": "100",
+      "luk": "100",
+      "guard": "life75",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        30,
+        60,
+        30,
+        80
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1060"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1529,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1061": {
+    "id": "1061",
+    "data": {
+      "name": "小海盗",
+      "img": "mon_063.gif",
+      "exphold": "170",
+      "moneyhold": 100,
+      "level": "16",
+      "maxhp": "410",
+      "hp": "410",
+      "maxsp": "30",
+      "sp": "30",
+      "str": "50",
+      "int": "20",
+      "dex": "10",
+      "spd": "20",
+      "luk": "10",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        30,
+        10
+      ],
+      "def": [
+        30,
+        10,
+        10,
+        10
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1061"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1552,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1062": {
+    "id": "1062",
+    "data": {
+      "name": "巨大海妖",
+      "img": "mon_070.gif",
+      "exphold": "420",
+      "moneyhold": 100,
+      "level": "27",
+      "maxhp": "1220",
+      "hp": "1220",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "80",
+      "int": "20",
+      "dex": "30",
+      "spd": "30",
+      "luk": "10",
+      "guard": "always",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        30,
+        30
+      ],
+      "def": [
+        0,
+        10,
+        0,
+        10
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1062"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1576,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1063": {
+    "id": "1063",
+    "data": {
+      "name": "疯狂章鱼",
+      "img": "mon_118.gif",
+      "exphold": "300",
+      "moneyhold": 100,
+      "level": "24",
+      "maxhp": "430",
+      "hp": "430",
+      "maxsp": "180",
+      "sp": "180",
+      "str": "40",
+      "int": "80",
+      "dex": "10",
+      "spd": "40",
+      "luk": "20",
+      "guard": "never",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        20,
+        20,
+        20,
+        40
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1063"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1599,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1064": {
+    "id": "1064",
+    "data": {
+      "name": "海鸥",
+      "img": "mon_223.gif",
+      "exphold": "220",
+      "moneyhold": 100,
+      "level": "22",
+      "maxhp": "430",
+      "hp": "430",
+      "maxsp": "0",
+      "sp": "0",
+      "str": "50",
+      "int": "20",
+      "dex": "20",
+      "spd": "70",
+      "luk": "30",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        50,
+        20
+      ],
+      "def": [
+        10,
+        10,
+        20,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1064"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1622,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1065": {
+    "id": "1065",
+    "data": {
+      "name": "螃蟹",
+      "img": "mon_225.gif",
+      "exphold": "200",
+      "moneyhold": 100,
+      "level": "21",
+      "maxhp": "450",
+      "hp": "450",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "60",
+      "int": "10",
+      "dex": "10",
+      "spd": "60",
+      "luk": "10",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        40,
+        10
+      ],
+      "def": [
+        60,
+        10,
+        0,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1065"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1646,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1066": {
+    "id": "1066",
+    "data": {
+      "name": "巨型鲸鱼",
+      "img": "mon_227.gif",
+      "exphold": "3100",
+      "moneyhold": 100,
+      "level": "53",
+      "maxhp": "3200",
+      "hp": "3200",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "210",
+      "int": "30",
+      "dex": "30",
+      "spd": "100",
+      "luk": "50",
+      "guard": "never",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        200,
+        20
+      ],
+      "def": [
+        10,
+        30,
+        20,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1066"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1670,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1067": {
+    "id": "1067",
+    "data": {
+      "name": "海神尼普顿",
+      "img": "mon_162.gif",
+      "exphold": "2400",
+      "moneyhold": 100,
+      "level": "45",
+      "maxhp": "1200",
+      "hp": "1200",
+      "maxsp": "1000",
+      "sp": "1000",
+      "str": "4",
+      "int": "170",
+      "dex": "30",
+      "spd": "50",
+      "luk": "50",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        80
+      ],
+      "def": [
+        30,
+        20,
+        50,
+        50
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1067"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1694,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1068": {
+    "id": "1068",
+    "data": {
+      "name": "人鱼",
+      "img": "mon_116.gif",
+      "exphold": "450",
+      "moneyhold": 100,
+      "level": "33",
+      "maxhp": "450",
+      "hp": "450",
+      "maxsp": "300",
+      "sp": "300",
+      "str": "30",
+      "int": "70",
+      "dex": "20",
+      "spd": "60",
+      "luk": "60",
+      "guard": "prob25",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        40,
+        40
+      ],
+      "def": [
+        20,
+        10,
+        30,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1068"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1718,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1069": {
+    "id": "1069",
+    "data": {
+      "name": "人鱼巫师",
+      "img": "mon_117.gif",
+      "exphold": "420",
+      "moneyhold": 100,
+      "level": "35",
+      "maxhp": "420",
+      "hp": "420",
+      "maxsp": "550",
+      "sp": "550",
+      "str": "10",
+      "int": "90",
+      "dex": "30",
+      "spd": "50",
+      "luk": "30",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        50,
+        20
+      ],
+      "def": [
+        10,
+        10,
+        40,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1069"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1741,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1070": {
+    "id": "1070",
+    "data": {
+      "name": "人鱼士兵",
+      "img": "mon_116r.gif",
+      "exphold": "480",
+      "moneyhold": 100,
+      "level": "37",
+      "maxhp": "910",
+      "hp": "910",
+      "maxsp": "120",
+      "sp": "120",
+      "str": "100",
+      "int": "50",
+      "dex": "10",
+      "spd": "100",
+      "luk": "40",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        30,
+        80,
+        20,
+        20
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1070"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1765,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1071": {
+    "id": "1071",
+    "data": {
+      "name": "人鱼战士",
+      "img": "mon_117r.gif",
+      "exphold": "560",
+      "moneyhold": 100,
+      "level": "39",
+      "maxhp": "1100",
+      "hp": "1100",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "120",
+      "int": "80",
+      "dex": "40",
+      "spd": "80",
+      "luk": "60",
+      "guard": "life25",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        60,
+        60
+      ],
+      "def": [
+        40,
+        0,
+        30,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1071"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1789,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1072": {
+    "id": "1072",
+    "data": {
+      "name": "Harpe",
+      "img": "mon_125.gif",
+      "exphold": "420",
+      "moneyhold": 100,
+      "level": "29",
+      "maxhp": "510",
+      "hp": "510",
+      "maxsp": "210",
+      "sp": "210",
+      "str": "40",
+      "int": "70",
+      "dex": "30",
+      "spd": "50",
+      "luk": "10",
+      "guard": "prob25",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        30,
+        30
+      ],
+      "def": [
+        20,
+        20,
+        30,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1072"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1813,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1073": {
+    "id": "1073",
+    "data": {
+      "name": "冲锋犀牛",
+      "img": "mon_134.gif",
+      "exphold": "470",
+      "moneyhold": 100,
+      "level": "34",
+      "maxhp": "830",
+      "hp": "830",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "120",
+      "int": "10",
+      "dex": "10",
+      "spd": "60",
+      "luk": "10",
+      "guard": "prob75",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        60,
+        30
+      ],
+      "def": [
+        50,
+        0,
+        10,
+        20
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1073"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1836,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1074": {
+    "id": "1074",
+    "data": {
+      "name": "火蜥蜴",
+      "img": "mon_136.gif",
+      "exphold": "430",
+      "moneyhold": 100,
+      "level": "35",
+      "maxhp": "620",
+      "hp": "620",
+      "maxsp": "300",
+      "sp": "300",
+      "str": "40",
+      "int": "80",
+      "dex": "30",
+      "spd": "40",
+      "luk": "30",
+      "guard": "prob25",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        30,
+        60
+      ],
+      "def": [
+        30,
+        0,
+        30,
+        40
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1074"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1860,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1075": {
+    "id": "1075",
+    "data": {
+      "name": "岩浆巨人",
+      "img": "mon_138.gif",
+      "exphold": "670",
+      "moneyhold": 100,
+      "level": "42",
+      "maxhp": "1300",
+      "hp": "1300",
+      "maxsp": "300",
+      "sp": "300",
+      "str": "130",
+      "int": "40",
+      "dex": "20",
+      "spd": "30",
+      "luk": "40",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        80,
+        10
+      ],
+      "def": [
+        60,
+        50,
+        20,
+        20
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1075"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1883,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1076": {
+    "id": "1076",
+    "data": {
+      "name": "火凤凰",
+      "img": "mon_140.gif",
+      "exphold": "1800",
+      "moneyhold": 100,
+      "level": "51",
+      "maxhp": "1400",
+      "hp": "1400",
+      "maxsp": "800",
+      "sp": "800",
+      "str": "100",
+      "int": "170",
+      "dex": "60",
+      "spd": "100",
+      "luk": "30",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        70,
+        70
+      ],
+      "def": [
+        30,
+        30,
+        40,
+        50
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1076"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1907,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1077": {
+    "id": "1077",
+    "data": {
+      "name": "火焰头",
+      "img": "mon_193.gif",
+      "exphold": "600",
+      "moneyhold": 100,
+      "level": "38",
+      "maxhp": "520",
+      "hp": "520",
+      "maxsp": "600",
+      "sp": "600",
+      "str": "10",
+      "int": "120",
+      "dex": "30",
+      "spd": "30",
+      "luk": "20",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        30,
+        50
+      ],
+      "def": [
+        0,
+        30,
+        60,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1077"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1931,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1078": {
+    "id": "1078",
+    "data": {
+      "name": "恶狼",
+      "img": "mon_249.gif",
+      "exphold": "320",
+      "moneyhold": 100,
+      "level": "32",
+      "maxhp": "700",
+      "hp": "700",
+      "maxsp": "80",
+      "sp": "80",
+      "str": "80",
+      "int": "40",
+      "dex": "30",
+      "spd": "110",
+      "luk": "10",
+      "guard": "never",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        50,
+        10
+      ],
+      "def": [
+        30,
+        10,
+        20,
+        20
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1078"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1955,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1079": {
+    "id": "1079",
+    "data": {
+      "name": "小魔女",
+      "img": "mon_135.gif",
+      "exphold": "0",
+      "moneyhold": 100,
+      "level": "",
+      "maxhp": "",
+      "hp": "",
+      "maxsp": "",
+      "sp": "",
+      "str": "0",
+      "int": "0",
+      "dex": "0",
+      "spd": "0",
+      "luk": "0",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1079"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 1978,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    },
+    "availability": "catalog_only",
+    "exclusion_reason": "Unreferenced incomplete source prototype with blank level, HP and SP; no combat stats invented."
+  },
+  "1080": {
+    "id": "1080",
+    "data": {
+      "name": "FoolHardy",
+      "img": "mon_139r.gif",
+      "exphold": "600",
+      "moneyhold": 100,
+      "level": "41",
+      "maxhp": "1000",
+      "hp": "1000",
+      "maxsp": "120",
+      "sp": "120",
+      "str": "200",
+      "int": "10",
+      "dex": "10",
+      "spd": "30",
+      "luk": "30",
+      "guard": "life50",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        100,
+        10
+      ],
+      "def": [
+        30,
+        20,
+        20,
+        10
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1080"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2002,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1081": {
+    "id": "1081",
+    "data": {
+      "name": "火炎女皇",
+      "img": "mon_190r.gif",
+      "exphold": "2600",
+      "moneyhold": 100,
+      "level": "45",
+      "maxhp": "2300",
+      "hp": "2300",
+      "maxsp": "700",
+      "sp": "700",
+      "str": "50",
+      "int": "120",
+      "dex": "30",
+      "spd": "30",
+      "luk": "30",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        100,
+        80
+      ],
+      "def": [
+        20,
+        20,
+        30,
+        90
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1081"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2026,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1082": {
+    "id": "1082",
+    "data": {
+      "name": "雷鸟",
+      "img": "mon_208r.gif",
+      "exphold": "1050",
+      "moneyhold": 100,
+      "level": "44",
+      "maxhp": "1500",
+      "hp": "1500",
+      "maxsp": "450",
+      "sp": "450",
+      "str": "70",
+      "int": "100",
+      "dex": "20",
+      "spd": "70",
+      "luk": "50",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        70,
+        40
+      ],
+      "def": [
+        20,
+        30,
+        30,
+        70
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1082"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2050,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1083": {
+    "id": "1083",
+    "data": {
+      "name": "砂蜥蜴",
+      "img": "mon_036.gif",
+      "exphold": "300",
+      "moneyhold": 100,
+      "level": "23",
+      "maxhp": "640",
+      "hp": "640",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "60",
+      "int": "10",
+      "dex": "20",
+      "spd": "30",
+      "luk": "20",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        30,
+        20
+      ],
+      "def": [
+        30,
+        60,
+        10,
+        20
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1083"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2074,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1084": {
+    "id": "1084",
+    "data": {
+      "name": "风元素",
+      "img": "mon_030.gif",
+      "exphold": "1000",
+      "moneyhold": 100,
+      "level": "40",
+      "maxhp": "1000",
+      "hp": "1000",
+      "maxsp": "1000",
+      "sp": "1000",
+      "str": "100",
+      "int": "100",
+      "dex": "100",
+      "spd": "100",
+      "luk": "100",
+      "guard": "life75",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        0,
+        150,
+        0,
+        200
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1084"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2098,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1085": {
+    "id": "1085",
+    "data": {
+      "name": "沙漠蝎",
+      "img": "mon_101.gif",
+      "exphold": "360",
+      "moneyhold": 100,
+      "level": "24",
+      "maxhp": "560",
+      "hp": "560",
+      "maxsp": "20",
+      "sp": "20",
+      "str": "40",
+      "int": "30",
+      "dex": "40",
+      "spd": "50",
+      "luk": "30",
+      "guard": "prob25",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        50,
+        20
+      ],
+      "def": [
+        50,
+        40,
+        20,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1085"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2121,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1086": {
+    "id": "1086",
+    "data": {
+      "name": "响尾蛇",
+      "img": "mon_068.gif",
+      "exphold": "320",
+      "moneyhold": 100,
+      "level": "23",
+      "maxhp": "480",
+      "hp": "480",
+      "maxsp": "70",
+      "sp": "70",
+      "str": "70",
+      "int": "20",
+      "dex": "20",
+      "spd": "40",
+      "luk": "20",
+      "guard": "never",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        50,
+        20
+      ],
+      "def": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1086"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2144,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1087": {
+    "id": "1087",
+    "data": {
+      "name": "砂巨人",
+      "img": "mon_043z.gif",
+      "exphold": "400",
+      "moneyhold": 100,
+      "level": "25",
+      "maxhp": "1300",
+      "hp": "1300",
+      "maxsp": "90",
+      "sp": "90",
+      "str": "80",
+      "int": "20",
+      "dex": "20",
+      "spd": "20",
+      "luk": "20",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        40,
+        20
+      ],
+      "def": [
+        20,
+        10,
+        20,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1087"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2167,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1088": {
+    "id": "1088",
+    "data": {
+      "name": "火元素",
+      "img": "mon_026.gif",
+      "exphold": "1000",
+      "moneyhold": 100,
+      "level": "40",
+      "maxhp": "1000",
+      "hp": "1000",
+      "maxsp": "1000",
+      "sp": "1000",
+      "str": "100",
+      "int": "100",
+      "dex": "100",
+      "spd": "100",
+      "luk": "100",
+      "guard": "life75",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        60,
+        0,
+        65,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1088"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2191,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1089": {
+    "id": "1089",
+    "data": {
+      "name": "雪人",
+      "img": "mon_164.gif",
+      "exphold": "330",
+      "moneyhold": 100,
+      "level": "23",
+      "maxhp": "700",
+      "hp": "700",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "80",
+      "int": "80",
+      "dex": "10",
+      "spd": "40",
+      "luk": "100",
+      "guard": "life25",
+      "position": "back",
+      "judge": [
+        1101,
+        1200,
+        1940,
+        1902,
+        1200,
+        1200,
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        10,
+        30,
+        1,
+        50,
+        40,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        3121,
+        9000,
+        9000,
+        5046,
+        9000,
+        5044,
+        5043
+      ],
+      "atk": [
+        50,
+        30
+      ],
+      "def": [
+        30,
+        30,
+        35,
+        30
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1089"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2215,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1090": {
+    "id": "1090",
+    "data": {
+      "name": "暗黑雪人",
+      "img": "mon_164r.gif",
+      "exphold": "330",
+      "moneyhold": 100,
+      "level": "23",
+      "maxhp": "600",
+      "hp": "600",
+      "maxsp": "240",
+      "sp": "240",
+      "str": "110",
+      "int": "110",
+      "dex": "10",
+      "spd": "50",
+      "luk": "100",
+      "guard": "prob50",
+      "position": "back",
+      "judge": [
+        1902,
+        1200,
+        1940,
+        1201,
+        1200,
+        1940,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        70,
+        20,
+        30,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        9000,
+        5048,
+        2090,
+        9000,
+        5044,
+        5043
+      ],
+      "atk": [
+        70,
+        50
+      ],
+      "def": [
+        35,
+        0,
+        45,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1090"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2241,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1091": {
+    "id": "1091",
+    "data": {
+      "name": "猎狼",
+      "img": "mon_184rz.gif",
+      "exphold": "400",
+      "moneyhold": 100,
+      "level": "29",
+      "maxhp": "320",
+      "hp": "320",
+      "maxsp": "0",
+      "sp": "0",
+      "str": "60",
+      "int": "30",
+      "dex": "30",
+      "spd": "20",
+      "luk": "10",
+      "guard": "prob25",
+      "judge": [
+        1902,
+        1940,
+        1940,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        5058,
+        5056,
+        5057
+      ],
+      "atk": [
+        40,
+        10
+      ],
+      "def": [
+        20,
+        0,
+        15,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1091"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2268,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1092": {
+    "id": "1092",
+    "data": {
+      "name": "盗贼",
+      "img": "mon_216r.gif",
+      "exphold": "500",
+      "moneyhold": 100,
+      "level": "32",
+      "maxhp": "600",
+      "hp": "600",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "50",
+      "int": "30",
+      "dex": "60",
+      "spd": "30",
+      "luk": "20",
+      "guard": "life50",
+      "judge": [
+        1902,
+        1940,
+        1615,
+        1200,
+        1902,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        4,
+        10,
+        1,
+        0
+      ],
+      "action": [
+        9000,
+        5060,
+        9000,
+        1200,
+        1207,
+        1000
+      ],
+      "atk": [
+        30,
+        20
+      ],
+      "def": [
+        35,
+        0,
+        20,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1092"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2294,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1093": {
+    "id": "1093",
+    "data": {
+      "name": "女盗贼",
+      "img": "mon_217.gif",
+      "exphold": "400",
+      "moneyhold": 100,
+      "level": "28",
+      "maxhp": "520",
+      "hp": "520",
+      "maxsp": "170",
+      "sp": "170",
+      "str": "40",
+      "int": "40",
+      "dex": "70",
+      "spd": "20",
+      "luk": "10",
+      "guard": "never",
+      "judge": [
+        1902,
+        1940,
+        1200,
+        1610,
+        1200,
+        1100,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        50,
+        3,
+        20,
+        10,
+        0
+      ],
+      "action": [
+        9000,
+        3265,
+        9000,
+        1209,
+        1204,
+        1203,
+        1000
+      ],
+      "atk": [
+        30,
+        30
+      ],
+      "def": [
+        30,
+        0,
+        30,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1093"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2320,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1094": {
+    "id": "1094",
+    "data": {
+      "name": "驯狼者",
+      "img": "mon_217r.gif",
+      "exphold": "420",
+      "moneyhold": 100,
+      "level": "30",
+      "maxhp": "480",
+      "hp": "480",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "60",
+      "int": "30",
+      "dex": "60",
+      "spd": "10",
+      "luk": "30",
+      "guard": "never",
+      "judge": [
+        1902,
+        1201,
+        1940,
+        1940,
+        1000
+      ],
+      "quantity": [
+        1,
+        20,
+        30,
+        50,
+        0
+      ],
+      "action": [
+        5807,
+        1240,
+        1242,
+        1241,
+        1243
+      ],
+      "atk": [
+        90,
+        0
+      ],
+      "def": [
+        20,
+        0,
+        30,
+        20
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1094"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2346,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1095": {
+    "id": "1095",
+    "data": {
+      "name": "链锤兵",
+      "img": "mon_194.gif",
+      "exphold": "800",
+      "moneyhold": 100,
+      "level": "46",
+      "maxhp": "1360",
+      "hp": "1360",
+      "maxsp": "180",
+      "sp": "180",
+      "str": "180",
+      "int": "30",
+      "dex": "50",
+      "spd": "60",
+      "luk": "30",
+      "guard": "life25",
+      "position": "front",
+      "judge": [
+        1902,
+        1940,
+        1701,
+        1200,
+        1101,
+        1200,
+        1200,
+        1200,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        0,
+        10,
+        40,
+        20,
+        50,
+        30,
+        0
+      ],
+      "action": [
+        9000,
+        1012,
+        9000,
+        1022,
+        9000,
+        5005,
+        1019,
+        1017,
+        1000
+      ],
+      "atk": [
+        120,
+        20
+      ],
+      "def": [
+        60,
+        30,
+        40,
+        10
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1095"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2372,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1096": {
+    "id": "1096",
+    "data": {
+      "name": "巨剑兵",
+      "img": "mon_194r.gif",
+      "exphold": "1000",
+      "moneyhold": 100,
+      "level": "48",
+      "maxhp": "1580",
+      "hp": "1580",
+      "maxsp": "120",
+      "sp": "120",
+      "str": "100",
+      "int": "40",
+      "dex": "50",
+      "spd": "30",
+      "luk": "20",
+      "guard": "life25",
+      "position": "front",
+      "judge": [
+        1902,
+        1940,
+        1701,
+        1200,
+        1100,
+        1701,
+        1200,
+        1101,
+        1200,
+        1750,
+        1200,
+        1940,
+        1200,
+        1000
+      ],
+      "quantity": [
+        1,
+        50,
+        0,
+        10,
+        70,
+        0,
+        10,
+        40,
+        20,
+        1,
+        60,
+        50,
+        40,
+        0
+      ],
+      "action": [
+        9000,
+        3123,
+        9000,
+        9000,
+        1022,
+        9000,
+        3112,
+        9000,
+        3121,
+        9000,
+        9000,
+        1015,
+        1017,
+        1000
+      ],
+      "atk": [
+        60,
+        20
+      ],
+      "def": [
+        80,
+        100,
+        40,
+        20
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1096"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2399,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1097": {
+    "id": "1097",
+    "data": {
+      "name": "黑暗桃乐斯",
+      "img": "mon_018r.gif",
+      "exphold": "800",
+      "moneyhold": 100,
+      "level": "45",
+      "maxhp": "480",
+      "hp": "480",
+      "maxsp": "700",
+      "sp": "700",
+      "str": "20",
+      "int": "140",
+      "dex": "40",
+      "spd": "50",
+      "luk": "10",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1712,
+        1750,
+        1940,
+        1750,
+        1200,
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        0,
+        1,
+        50,
+        1,
+        80,
+        70,
+        0
+      ],
+      "action": [
+        3011,
+        2463,
+        9000,
+        2012,
+        9000,
+        9000,
+        2015,
+        2001
+      ],
+      "atk": [
+        20,
+        110
+      ],
+      "def": [
+        10,
+        20,
+        60,
+        40
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1097"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2426,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1098": {
+    "id": "1098",
+    "data": {
+      "name": "堕落女祭司",
+      "img": "mon_214rzz.gif",
+      "exphold": "700",
+      "moneyhold": 100,
+      "level": "45",
+      "maxhp": "630",
+      "hp": "630",
+      "maxsp": "500",
+      "sp": "500",
+      "str": "20",
+      "int": "100",
+      "dex": "50",
+      "spd": "55",
+      "luk": "20",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1221,
+        1405,
+        1610,
+        1126,
+        1902,
+        1940,
+        1902,
+        1000
+      ],
+      "quantity": [
+        30,
+        1,
+        3,
+        50,
+        1,
+        50,
+        1,
+        0
+      ],
+      "action": [
+        3101,
+        3040,
+        3030,
+        3002,
+        9000,
+        3401,
+        3220,
+        2480
+      ],
+      "atk": [
+        20,
+        70
+      ],
+      "def": [
+        20,
+        20,
+        50,
+        50
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1098"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2453,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1099": {
+    "id": "1099",
+    "data": {
+      "name": "哥布林坦克",
+      "img": "mon_078.gif",
+      "level": "15",
+      "exphold": "100",
+      "moneyhold": 100,
+      "maxhp": "800",
+      "hp": "800",
+      "maxsp": "150",
+      "sp": "150",
+      "str": "40",
+      "int": "15",
+      "dex": "30",
+      "spd": "15",
+      "luk": "1",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1205,
+        1000
+      ],
+      "quantity": [
+        20,
+        0
+      ],
+      "action": [
+        2302,
+        2300
+      ],
+      "atk": [
+        30,
+        20
+      ],
+      "def": [
+        50,
+        0,
+        20,
+        10
+      ],
+      "monster": "1",
+      "no": "1099"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2480,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1100": {
+    "id": "1100",
+    "data": {
+      "name": "猴子勇士",
+      "img": "mon_008.gif",
+      "level": "20",
+      "exphold": "200",
+      "moneyhold": 100,
+      "maxhp": "650",
+      "hp": "650",
+      "maxsp": "150",
+      "sp": "150",
+      "str": "80",
+      "int": "15",
+      "dex": "15",
+      "spd": "100",
+      "luk": "1",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1101,
+        1206,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        49,
+        50,
+        0
+      ],
+      "action": [
+        5066,
+        5066,
+        5064,
+        5065
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        40,
+        20,
+        20,
+        5
+      ],
+      "itemtable": {
+        "6600": "3000"
+      },
+      "monster": "1",
+      "no": "1100"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2504,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1101": {
+    "id": "1101",
+    "data": {
+      "name": "香蕉猴",
+      "img": "mon_021.gif",
+      "level": "20",
+      "exphold": "200",
+      "moneyhold": 100,
+      "maxhp": "400",
+      "hp": "400",
+      "maxsp": "250",
+      "sp": "250",
+      "str": "40",
+      "int": "15",
+      "dex": "100",
+      "spd": "90",
+      "luk": "1",
+      "guard": "always",
+      "position": "back",
+      "judge": [
+        1101,
+        1206,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        49,
+        50,
+        0
+      ],
+      "action": [
+        5066,
+        5066,
+        5064,
+        5065
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        20,
+        10,
+        40,
+        20
+      ],
+      "itemtable": {
+        "6600": "3000"
+      },
+      "monster": "1",
+      "no": "1101"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2529,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1102": {
+    "id": "1102",
+    "data": {
+      "name": "蛋",
+      "img": "mon_207.gif",
+      "level": "30",
+      "exphold": "300",
+      "moneyhold": 100,
+      "maxhp": "300",
+      "hp": "300",
+      "maxsp": "10",
+      "sp": "10",
+      "str": "10",
+      "int": "10",
+      "dex": "10",
+      "spd": "10",
+      "luk": "1",
+      "guard": "never",
+      "position": "front",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        10,
+        10
+      ],
+      "def": [
+        90,
+        0,
+        70,
+        10
+      ],
+      "monster": "1",
+      "no": "1102"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2554,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1103": {
+    "id": "1103",
+    "data": {
+      "name": "雷鸟王",
+      "img": "mon_208rz.gif",
+      "level": "35",
+      "exphold": "500",
+      "moneyhold": 100,
+      "maxhp": "1000",
+      "hp": "1000",
+      "maxsp": "500",
+      "sp": "500",
+      "str": "130",
+      "int": "130",
+      "dex": "15",
+      "spd": "100",
+      "luk": "10",
+      "guard": "prob50",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        100,
+        100
+      ],
+      "def": [
+        30,
+        40,
+        50,
+        40
+      ],
+      "monster": "1",
+      "no": "1103"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2578,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1104": {
+    "id": "1104",
+    "data": {
+      "name": "幻影",
+      "img": "mon_047.gif",
+      "level": "30",
+      "exphold": "100",
+      "moneyhold": 100,
+      "maxhp": "450",
+      "hp": "450",
+      "maxsp": "700",
+      "sp": "700",
+      "str": "40",
+      "int": "120",
+      "dex": "100",
+      "spd": "50",
+      "luk": "1",
+      "guard": "always",
+      "position": "front",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        30,
+        70
+      ],
+      "def": [
+        10,
+        0,
+        50,
+        30
+      ],
+      "monster": "1",
+      "no": "1104"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2601,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1105": {
+    "id": "1105",
+    "data": {
+      "name": "幻影",
+      "img": "mon_047.gif",
+      "level": "30",
+      "exphold": "100",
+      "moneyhold": 100,
+      "maxhp": "900",
+      "hp": "900",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "120",
+      "int": "15",
+      "dex": "100",
+      "spd": "80",
+      "luk": "1",
+      "guard": "never",
+      "position": "front",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        70,
+        20
+      ],
+      "def": [
+        60,
+        20,
+        30,
+        30
+      ],
+      "monster": "1",
+      "no": "1105"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2625,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1106": {
+    "id": "1106",
+    "data": {
+      "name": "人鱼复仇者",
+      "img": "mon_116r.gif",
+      "level": "33",
+      "exphold": "400",
+      "moneyhold": 100,
+      "maxhp": "880",
+      "hp": "880",
+      "maxsp": "150",
+      "sp": "150",
+      "str": "120",
+      "int": "70",
+      "dex": "50",
+      "spd": "110",
+      "luk": "1",
+      "guard": "life25",
+      "position": "front",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        60,
+        20
+      ],
+      "def": [
+        50,
+        30,
+        30,
+        30
+      ],
+      "monster": "1",
+      "no": "1106"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2649,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1107": {
+    "id": "1107",
+    "data": {
+      "name": "人鱼召唤师",
+      "img": "mon_116.gif",
+      "level": "32",
+      "exphold": "400",
+      "moneyhold": 100,
+      "maxhp": "400",
+      "hp": "400",
+      "maxsp": "800",
+      "sp": "800",
+      "str": "10",
+      "int": "130",
+      "dex": "30",
+      "spd": "70",
+      "luk": "1",
+      "guard": "never",
+      "position": "back",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        30,
+        60
+      ],
+      "def": [
+        10,
+        0,
+        60,
+        60
+      ],
+      "monster": "1",
+      "no": "1107"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2673,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1108": {
+    "id": "1108",
+    "data": {
+      "name": "人鱼巫师",
+      "img": "mon_117.gif",
+      "level": "30",
+      "exphold": "400",
+      "moneyhold": 100,
+      "maxhp": "500",
+      "hp": "500",
+      "maxsp": "600",
+      "sp": "600",
+      "str": "20",
+      "int": "120",
+      "dex": "30",
+      "spd": "80",
+      "luk": "1",
+      "guard": "never",
+      "position": "back",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        30,
+        60
+      ],
+      "def": [
+        20,
+        30,
+        60,
+        40
+      ],
+      "monster": "1",
+      "no": "1108"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2697,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1109": {
+    "id": "1109",
+    "data": {
+      "name": "食人魔伊莱扎",
+      "img": "mon_169.gif",
+      "level": "59",
+      "exphold": "800",
+      "moneyhold": 100,
+      "maxhp": "700",
+      "hp": "700",
+      "maxsp": "900",
+      "sp": "900",
+      "str": "40",
+      "int": "180",
+      "dex": "50",
+      "spd": "90",
+      "luk": "50",
+      "guard": "never",
+      "position": "back",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        30,
+        80
+      ],
+      "def": [
+        40,
+        30,
+        70,
+        60
+      ],
+      "monster": "1",
+      "no": "1109"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2721,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1110": {
+    "id": "1110",
+    "data": {
+      "name": "食人魔伊桑",
+      "img": "mon_170.gif",
+      "level": "55",
+      "exphold": "800",
+      "moneyhold": 100,
+      "maxhp": "2300",
+      "hp": "2300",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "240",
+      "int": "30",
+      "dex": "15",
+      "spd": "55",
+      "luk": "1",
+      "guard": "always",
+      "position": "front",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        150,
+        20
+      ],
+      "def": [
+        70,
+        50,
+        30,
+        30
+      ],
+      "monster": "1",
+      "no": "1110"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2745,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "1900": {
+    "id": "1900",
+    "data": {
+      "name": "***********",
+      "img": "mon_190.gif",
+      "exphold": "0",
+      "moneyhold": 100,
+      "level": "",
+      "maxhp": "",
+      "hp": "",
+      "maxsp": "",
+      "sp": "",
+      "str": "0",
+      "int": "0",
+      "dex": "0",
+      "spd": "0",
+      "luk": "0",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1000
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "itemtable": [],
+      "monster": "1",
+      "no": "1900"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2773,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    },
+    "availability": "catalog_only",
+    "exclusion_reason": "Unreferenced incomplete source prototype with blank level, HP and SP; no combat stats invented."
+  },
+  "2000": {
+    "id": "2000",
+    "data": {
+      "name": "暗黑龙",
+      "img": "mon_013r.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "250",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 30000,
+        "per_account": 400
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 30000,
+        "per_account": 400
+      },
+      "maxsp": "3000",
+      "sp": "3000",
+      "str": "200",
+      "int": "180",
+      "dex": "100",
+      "spd": "150",
+      "luk": "50",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1940,
+        1201,
+        1101,
+        1920,
+        1405,
+        1920,
+        1940,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        50,
+        30,
+        30,
+        1,
+        2,
+        2,
+        30,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        3011,
+        2091,
+        9000,
+        1116,
+        9000,
+        5030,
+        2024,
+        5014,
+        5038
+      ],
+      "atk": [
+        100,
+        70
+      ],
+      "def": [
+        60,
+        30,
+        50,
+        30
+      ],
+      "itemtable": {
+        "6800": "5000",
+        "6801": "5000"
+      },
+      "SPECIAL": {
+        "PoisonResist": 50
+      },
+      "cycle": 259200,
+      "Slave": {
+        "1028": [
+          100,
+          0
+        ],
+        "1030": [
+          100,
+          0
+        ],
+        "1031": [
+          100,
+          0
+        ],
+        "1032": [
+          100,
+          0
+        ],
+        "1033": [
+          100,
+          0
+        ]
+      },
+      "land": "swamp",
+      "UnionName": "龙之军团",
+      "LevelLimit": "250",
+      "monster": "1",
+      "no": "2000"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2802,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2001": {
+    "id": "2001",
+    "data": {
+      "name": "牛头怪",
+      "img": "mon_014.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "82",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 15000,
+        "per_account": 200
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 15000,
+        "per_account": 200
+      },
+      "maxsp": "1000",
+      "sp": "1000",
+      "str": "250",
+      "int": "30",
+      "dex": "50",
+      "spd": "80",
+      "luk": "50",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1201,
+        1100,
+        1401,
+        1101,
+        1700,
+        1710,
+        1101,
+        1902,
+        1000
+      ],
+      "quantity": [
+        30,
+        20,
+        1,
+        30,
+        0,
+        3,
+        80,
+        1,
+        0
+      ],
+      "action": [
+        3011,
+        9000,
+        1018,
+        9000,
+        9000,
+        1023,
+        9000,
+        3111,
+        1017
+      ],
+      "atk": [
+        150,
+        20
+      ],
+      "def": [
+        80,
+        50,
+        50,
+        70
+      ],
+      "itemtable": {
+        "5500": "3000",
+        "5501": "3000",
+        "5600": "4000"
+      },
+      "SPECIAL": {
+        "PoisonResist": 50
+      },
+      "cycle": 28800,
+      "Slave": {
+        "1023": [
+          300,
+          0
+        ],
+        "1024": [
+          100,
+          0
+        ]
+      },
+      "land": "mount",
+      "UnionName": "金牛冲锋队",
+      "LevelLimit": "200",
+      "monster": "1",
+      "no": "2001"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2844,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2002": {
+    "id": "2002",
+    "data": {
+      "name": "假英雄",
+      "img": "hero.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "90",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 10000,
+        "per_account": 150
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 10000,
+        "per_account": 150
+      },
+      "maxsp": "700",
+      "sp": "700",
+      "str": "200",
+      "int": "130",
+      "dex": "50",
+      "spd": "90",
+      "luk": "50",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1200,
+        1401,
+        1200,
+        1940,
+        1560,
+        1940,
+        1401,
+        1101,
+        1000
+      ],
+      "quantity": [
+        60,
+        60,
+        1,
+        50,
+        50,
+        1,
+        50,
+        1,
+        10,
+        0
+      ],
+      "action": [
+        2091,
+        9000,
+        2056,
+        9000,
+        2040,
+        9000,
+        2111,
+        9000,
+        1024,
+        5019
+      ],
+      "atk": [
+        180,
+        80
+      ],
+      "def": [
+        70,
+        50,
+        40,
+        40
+      ],
+      "itemtable": {
+        "1021": "9000",
+        "6802": "1000"
+      },
+      "SPECIAL": {
+        "PoisonResist": 50
+      },
+      "cycle": 43200,
+      "Slave": {
+        "1095": [
+          100,
+          0
+        ],
+        "1096": [
+          100,
+          0
+        ],
+        "1097": [
+          100,
+          0
+        ],
+        "1098": [
+          100,
+          0
+        ]
+      },
+      "land": "pavement01",
+      "UnionName": "假英雄",
+      "LevelLimit": "250",
+      "monster": "1",
+      "no": "2002"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2883,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2003": {
+    "id": "2003",
+    "data": {
+      "name": "土匪头",
+      "img": "mon_216.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "76",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 5000,
+        "per_account": 100
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 5000,
+        "per_account": 100
+      },
+      "maxsp": "500",
+      "sp": "500",
+      "str": "120",
+      "int": "100",
+      "dex": "50",
+      "spd": "150",
+      "luk": "50",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1405,
+        1920,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        3,
+        1,
+        50,
+        0
+      ],
+      "action": [
+        3011,
+        9000,
+        5061,
+        1204,
+        5062
+      ],
+      "atk": [
+        60,
+        20
+      ],
+      "def": [
+        60,
+        40,
+        40,
+        40
+      ],
+      "itemtable": {
+        "5510": "2000",
+        "5515": "2000",
+        "5520": "2000",
+        "5525": "2000",
+        "5530": "2000"
+      },
+      "SPECIAL": {
+        "PoisonResist": 50
+      },
+      "cycle": 36000,
+      "Slave": {
+        "1092": [
+          100,
+          0
+        ],
+        "1093": [
+          100,
+          0
+        ],
+        "1094": [
+          100,
+          0
+        ]
+      },
+      "land": "sand",
+      "SlaveAmount": "6",
+      "UnionName": "土匪",
+      "LevelLimit": "200",
+      "monster": "1",
+      "no": "2003"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2924,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2004": {
+    "id": "2004",
+    "data": {
+      "name": "早餐时间",
+      "img": "mon_054rz.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "30",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 1000,
+        "per_account": 20
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 1000,
+        "per_account": 20
+      },
+      "maxsp": "400",
+      "sp": "400",
+      "str": "40",
+      "int": "40",
+      "dex": "40",
+      "spd": "40",
+      "luk": "40",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        9000,
+        1450,
+        1902,
+        9000,
+        1450,
+        1902,
+        9000,
+        1450,
+        1902,
+        1206,
+        1201,
+        1902,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        2,
+        1,
+        25,
+        2,
+        1,
+        20,
+        2,
+        1,
+        20,
+        30,
+        1,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        9000,
+        5070,
+        9000,
+        9000,
+        5071,
+        9000,
+        9000,
+        5073,
+        3101,
+        3102,
+        1021,
+        1017,
+        2000
+      ],
+      "atk": [
+        30,
+        30
+      ],
+      "def": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "itemtable": [],
+      "SPECIAL": {
+        "PoisonResist": 50
+      },
+      "SlaveSpecify": [
+        1099
+      ],
+      "SlaveAmount": "3",
+      "Slave": {
+        "1000": [
+          100,
+          0
+        ],
+        "1001": [
+          100,
+          0
+        ],
+        "1002": [
+          100,
+          0
+        ],
+        "1003": [
+          100,
+          0
+        ],
+        "1004": [
+          100,
+          0
+        ],
+        "1005": [
+          100,
+          0
+        ],
+        "1006": [
+          100,
+          0
+        ],
+        "1007": [
+          100,
+          0
+        ],
+        "1008": [
+          100,
+          0
+        ],
+        "1009": [
+          100,
+          0
+        ],
+        "1099": [
+          100,
+          0
+        ]
+      },
+      "land": "grass",
+      "UnionName": "早餐时间",
+      "LevelLimit": "50",
+      "cycle": {
+        "kind": "hour_match",
+        "hour": 7,
+        "matching_seconds": 7200,
+        "otherwise_seconds": 259200,
+        "timezone": "UTC"
+      },
+      "monster": "1",
+      "no": "2004"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 2965,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2005": {
+    "id": "2005",
+    "data": {
+      "name": "午餐时间",
+      "img": "mon_054ry.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "30",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 1000,
+        "per_account": 20
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 1000,
+        "per_account": 20
+      },
+      "maxsp": "400",
+      "sp": "400",
+      "str": "40",
+      "int": "40",
+      "dex": "40",
+      "spd": "40",
+      "luk": "40",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        9000,
+        1450,
+        1902,
+        9000,
+        1450,
+        1902,
+        9000,
+        1450,
+        1902,
+        1206,
+        1201,
+        1902,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        2,
+        1,
+        25,
+        2,
+        1,
+        20,
+        2,
+        1,
+        20,
+        30,
+        1,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        9000,
+        5070,
+        9000,
+        9000,
+        5071,
+        9000,
+        9000,
+        5073,
+        3101,
+        3102,
+        1021,
+        1017,
+        2000
+      ],
+      "atk": [
+        30,
+        30
+      ],
+      "def": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "itemtable": [],
+      "SPECIAL": {
+        "PoisonResist": 50
+      },
+      "SlaveSpecify": [
+        1099
+      ],
+      "SlaveAmount": "3",
+      "Slave": {
+        "1000": [
+          100,
+          0
+        ],
+        "1001": [
+          100,
+          0
+        ],
+        "1002": [
+          100,
+          0
+        ],
+        "1003": [
+          100,
+          0
+        ],
+        "1004": [
+          100,
+          0
+        ],
+        "1005": [
+          100,
+          0
+        ],
+        "1006": [
+          100,
+          0
+        ],
+        "1007": [
+          100,
+          0
+        ],
+        "1008": [
+          100,
+          0
+        ],
+        "1009": [
+          100,
+          0
+        ],
+        "1099": [
+          100,
+          0
+        ]
+      },
+      "land": "grass",
+      "UnionName": "午餐时间",
+      "LevelLimit": "50",
+      "cycle": {
+        "kind": "hour_match",
+        "hour": 12,
+        "matching_seconds": 7200,
+        "otherwise_seconds": 259200,
+        "timezone": "UTC"
+      },
+      "monster": "1",
+      "no": "2005"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3019,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2006": {
+    "id": "2006",
+    "data": {
+      "name": "晚餐时间",
+      "img": "mon_054r.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "30",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 1000,
+        "per_account": 30
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 1000,
+        "per_account": 30
+      },
+      "maxsp": "400",
+      "sp": "400",
+      "str": "40",
+      "int": "40",
+      "dex": "40",
+      "spd": "50",
+      "luk": "40",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        9000,
+        1450,
+        1902,
+        9000,
+        1450,
+        1902,
+        9000,
+        1450,
+        1902,
+        1206,
+        1201,
+        1902,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        2,
+        1,
+        25,
+        2,
+        1,
+        20,
+        2,
+        1,
+        20,
+        30,
+        1,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        9000,
+        5070,
+        9000,
+        9000,
+        5071,
+        9000,
+        9000,
+        5073,
+        3101,
+        3102,
+        1021,
+        1017,
+        2000
+      ],
+      "atk": [
+        30,
+        30
+      ],
+      "def": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "itemtable": [],
+      "SPECIAL": {
+        "PoisonResist": 50
+      },
+      "SlaveSpecify": [
+        1099
+      ],
+      "SlaveAmount": "3",
+      "Slave": {
+        "1000": [
+          100,
+          0
+        ],
+        "1001": [
+          100,
+          0
+        ],
+        "1002": [
+          100,
+          0
+        ],
+        "1003": [
+          100,
+          0
+        ],
+        "1004": [
+          100,
+          0
+        ],
+        "1005": [
+          100,
+          0
+        ],
+        "1006": [
+          100,
+          0
+        ],
+        "1007": [
+          100,
+          0
+        ],
+        "1008": [
+          100,
+          0
+        ],
+        "1009": [
+          100,
+          0
+        ],
+        "1099": [
+          100,
+          0
+        ]
+      },
+      "land": "grass01",
+      "UnionName": "晚餐时间",
+      "LevelLimit": "50",
+      "cycle": {
+        "kind": "hour_match",
+        "hour": 19,
+        "matching_seconds": 7200,
+        "otherwise_seconds": 259200,
+        "timezone": "UTC"
+      },
+      "monster": "1",
+      "no": "2006"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3073,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2007": {
+    "id": "2007",
+    "data": {
+      "name": "猴王",
+      "img": "mon_008r.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "54",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 3000,
+        "per_account": 60
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 3000,
+        "per_account": 60
+      },
+      "maxsp": "600",
+      "sp": "600",
+      "str": "120",
+      "int": "50",
+      "dex": "70",
+      "spd": "130",
+      "luk": "100",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1206,
+        1920,
+        1401,
+        1940,
+        1401,
+        1940,
+        1000
+      ],
+      "quantity": [
+        49,
+        1,
+        2,
+        50,
+        2,
+        50,
+        0
+      ],
+      "action": [
+        5066,
+        5067,
+        9000,
+        5068,
+        5069,
+        5064,
+        5065
+      ],
+      "atk": [
+        40,
+        40
+      ],
+      "def": [
+        40,
+        10,
+        40,
+        20
+      ],
+      "itemtable": {
+        "6601": "7000",
+        "6602": "3000"
+      },
+      "SPECIAL": {
+        "PoisonResist": 50
+      },
+      "cycle": {
+        "kind": "hour_match",
+        "hour": 19,
+        "matching_seconds": 7200,
+        "otherwise_seconds": 259200,
+        "timezone": "UTC"
+      },
+      "Slave": {
+        "1100": [
+          100,
+          0
+        ],
+        "1101": [
+          100,
+          0
+        ]
+      },
+      "land": "jungle",
+      "UnionName": "猿猴的愤怒",
+      "LevelLimit": "100",
+      "monster": "1",
+      "no": "2007"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3127,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2008": {
+    "id": "2008",
+    "data": {
+      "name": "雷鸟王",
+      "img": "mon_208r.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "70",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 10000,
+        "per_account": 100
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 10000,
+        "per_account": 100
+      },
+      "maxsp": "1000",
+      "sp": "1000",
+      "str": "170",
+      "int": "130",
+      "dex": "80",
+      "spd": "210",
+      "luk": "150",
+      "guard": "never",
+      "position": "back",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        70,
+        50
+      ],
+      "def": [
+        60,
+        30,
+        30,
+        200
+      ],
+      "itemtable": [],
+      "SPECIAL": {
+        "PoisonResist": 50
+      },
+      "cycle": 97200,
+      "Slave": {
+        "1092": [
+          100,
+          0
+        ],
+        "1093": [
+          100,
+          0
+        ],
+        "1094": [
+          100,
+          0
+        ]
+      },
+      "land": "nest",
+      "UnionName": "鸟巢",
+      "LevelLimit": "150",
+      "monster": "1",
+      "no": "2008"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3172,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2009": {
+    "id": "2009",
+    "data": {
+      "name": "徘徊幽灵",
+      "img": "mon_238.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "120",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 5000,
+        "per_account": 30
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 5000,
+        "per_account": 30
+      },
+      "maxsp": "9990",
+      "sp": "9990",
+      "str": "30",
+      "int": "230",
+      "dex": "50",
+      "spd": "160",
+      "luk": "500",
+      "guard": "never",
+      "position": "back",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        20,
+        120
+      ],
+      "def": [
+        90,
+        150,
+        40,
+        70
+      ],
+      "itemtable": [],
+      "SPECIAL": {
+        "PoisonResist": 80
+      },
+      "cycle": 75600,
+      "Slave": {
+        "1092": [
+          100,
+          0
+        ],
+        "1093": [
+          100,
+          0
+        ],
+        "1094": [
+          100,
+          0
+        ]
+      },
+      "land": "build01",
+      "UnionName": "冥界斗士",
+      "LevelLimit": "150",
+      "monster": "1",
+      "no": "2009"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3212,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2010": {
+    "id": "2010",
+    "data": {
+      "name": "人鱼将军",
+      "img": "mon_117r.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "67",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 10000,
+        "per_account": 70
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 10000,
+        "per_account": 70
+      },
+      "maxsp": "700",
+      "sp": "700",
+      "str": "150",
+      "int": "150",
+      "dex": "150",
+      "spd": "160",
+      "luk": "80",
+      "guard": "never",
+      "position": "back",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        90,
+        40
+      ],
+      "def": [
+        50,
+        50,
+        50,
+        50
+      ],
+      "itemtable": [],
+      "SPECIAL": {
+        "PoisonResist": 60
+      },
+      "cycle": 61200,
+      "Slave": {
+        "1092": [
+          100,
+          0
+        ],
+        "1093": [
+          100,
+          0
+        ],
+        "1094": [
+          100,
+          0
+        ]
+      },
+      "land": "ocean",
+      "UnionName": "蓝色哨兵",
+      "LevelLimit": "150",
+      "monster": "1",
+      "no": "2010"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3252,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "2011": {
+    "id": "2011",
+    "data": {
+      "name": "食人魔埃德加",
+      "img": "mon_168.gif",
+      "exphold": {
+        "formula": "round_hp_divide",
+        "divisor": 2
+      },
+      "moneyhold": {
+        "formula": "round_hp_divide",
+        "divisor": 3
+      },
+      "level": "99",
+      "maxhp": {
+        "formula": "population_hp",
+        "base": 10000,
+        "per_account": 80
+      },
+      "hp": {
+        "formula": "population_hp",
+        "base": 10000,
+        "per_account": 80
+      },
+      "maxsp": "600",
+      "sp": "600",
+      "str": "170",
+      "int": "80",
+      "dex": "80",
+      "spd": "140",
+      "luk": "50",
+      "guard": "never",
+      "position": "back",
+      "judge": [],
+      "quantity": [],
+      "action": [],
+      "atk": [
+        150,
+        20
+      ],
+      "def": [
+        60,
+        40,
+        50,
+        50
+      ],
+      "itemtable": [],
+      "SPECIAL": {
+        "PoisonResist": 50
+      },
+      "cycle": 68400,
+      "Slave": {
+        "1092": [
+          100,
+          0
+        ],
+        "1093": [
+          100,
+          0
+        ],
+        "1094": [
+          100,
+          0
+        ]
+      },
+      "land": "mount",
+      "UnionName": "食人魔军团",
+      "LevelLimit": "150",
+      "monster": "1",
+      "no": "2011"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3292,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5000": {
+    "id": "5000",
+    "data": {
+      "name": "治愈兔",
+      "img": "mon_111.gif",
+      "level": "15",
+      "maxhp": "80",
+      "hp": "80",
+      "maxsp": "50",
+      "sp": "50",
+      "str": "5",
+      "int": "5",
+      "dex": "5",
+      "spd": "1",
+      "luk": "1",
+      "guard": "never",
+      "judge": [
+        1201,
+        1000
+      ],
+      "quantity": [
+        10,
+        0
+      ],
+      "action": [
+        3010,
+        5007
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        5,
+        0,
+        15,
+        0
+      ],
+      "monster": "1",
+      "no": "5000"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3347,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5001": {
+    "id": "5001",
+    "data": {
+      "name": "天使",
+      "img": "mon_049.gif",
+      "level": "15",
+      "maxhp": "180",
+      "hp": "180",
+      "maxsp": "160",
+      "sp": "160",
+      "str": "5",
+      "int": "36",
+      "dex": "15",
+      "spd": "20",
+      "luk": "1",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1126,
+        1226,
+        1000
+      ],
+      "quantity": [
+        30,
+        70,
+        70,
+        0
+      ],
+      "action": [
+        3011,
+        3003,
+        3102,
+        2101
+      ],
+      "atk": [
+        10,
+        20
+      ],
+      "def": [
+        5,
+        10,
+        30,
+        20
+      ],
+      "monster": "1",
+      "no": "5001"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3369,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5002": {
+    "id": "5002",
+    "data": {
+      "name": "模仿者",
+      "img": "mon_065.gif",
+      "level": "20",
+      "maxhp": "300",
+      "hp": "300",
+      "maxsp": "10",
+      "sp": "10",
+      "str": "500",
+      "int": "1",
+      "dex": "1",
+      "spd": "1",
+      "luk": "1",
+      "guard": "never",
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        10,
+        20
+      ],
+      "def": [
+        40,
+        30,
+        70,
+        10
+      ],
+      "itemtable": {
+        "8002": "3000"
+      },
+      "monster": "1",
+      "no": "5002"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3392,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5003": {
+    "id": "5003",
+    "data": {
+      "name": "骷髅",
+      "img": "mon_143.gif",
+      "exphold": "60",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "200",
+      "hp": "200",
+      "maxsp": "50",
+      "sp": "50",
+      "str": "25",
+      "int": "1",
+      "dex": "10",
+      "spd": "10",
+      "luk": "1",
+      "guard": "never",
+      "position": "front",
+      "judge": [
+        1200,
+        1000
+      ],
+      "quantity": [
+        30,
+        0
+      ],
+      "action": [
+        1003,
+        1000
+      ],
+      "atk": [
+        20,
+        10
+      ],
+      "def": [
+        0,
+        20,
+        0,
+        0
+      ],
+      "monster": "1",
+      "no": "5003"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3414,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5004": {
+    "id": "5004",
+    "data": {
+      "name": "僵尸",
+      "img": "mon_141.gif",
+      "level": "5",
+      "maxhp": "260",
+      "hp": "260",
+      "maxsp": "0",
+      "sp": "0",
+      "str": "100",
+      "int": "1",
+      "dex": "1",
+      "spd": "1",
+      "luk": "1",
+      "guard": "never",
+      "position": "front",
+      "SPECIAL": {
+        "Undead": true
+      },
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        10
+      ],
+      "def": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "monster": "1",
+      "no": "5004"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3439,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5005": {
+    "id": "5005",
+    "data": {
+      "name": "食尸鬼",
+      "img": "mon_142.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "340",
+      "hp": "340",
+      "maxsp": "0",
+      "sp": "0",
+      "str": "200",
+      "int": "1",
+      "dex": "1",
+      "spd": "10",
+      "luk": "1",
+      "guard": "never",
+      "position": "front",
+      "SPECIAL": {
+        "Undead": true
+      },
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        10
+      ],
+      "def": [
+        10,
+        10,
+        0,
+        0
+      ],
+      "monster": "1",
+      "no": "5005"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3462,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5006": {
+    "id": "5006",
+    "data": {
+      "name": "木乃伊",
+      "img": "mon_146.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "450",
+      "hp": "450",
+      "maxsp": "0",
+      "sp": "0",
+      "str": "450",
+      "int": "1",
+      "dex": "1",
+      "spd": "10",
+      "luk": "1",
+      "guard": "prob50",
+      "position": "front",
+      "SPECIAL": {
+        "Undead": true
+      },
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        10
+      ],
+      "def": [
+        10,
+        10,
+        0,
+        0
+      ],
+      "monster": "1",
+      "no": "5006"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3487,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5007": {
+    "id": "5007",
+    "data": {
+      "name": "木乃伊囚犯",
+      "img": "mon_146r.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "650",
+      "hp": "650",
+      "maxsp": "0",
+      "sp": "0",
+      "str": "800",
+      "int": "1",
+      "dex": "1",
+      "spd": "10",
+      "luk": "1",
+      "guard": "prob50",
+      "position": "front",
+      "SPECIAL": {
+        "Undead": true
+      },
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        1000
+      ],
+      "atk": [
+        20,
+        10
+      ],
+      "def": [
+        10,
+        10,
+        0,
+        0
+      ],
+      "monster": "1",
+      "no": "5007"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3512,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5008": {
+    "id": "5008",
+    "data": {
+      "name": "小猪",
+      "img": "mon_095r.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "300",
+      "hp": "300",
+      "maxsp": "0",
+      "sp": "0",
+      "str": "50",
+      "int": "20",
+      "dex": "10",
+      "spd": "20",
+      "luk": "10",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1000
+      ],
+      "quantity": [
+        0
+      ],
+      "action": [
+        5008
+      ],
+      "atk": [
+        50,
+        10
+      ],
+      "def": [
+        40,
+        20,
+        30,
+        10
+      ],
+      "monster": "1",
+      "no": "5008"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3537,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5009": {
+    "id": "5009",
+    "data": {
+      "name": "疯猪",
+      "img": "mon_078r.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "600",
+      "hp": "600",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "80",
+      "int": "20",
+      "dex": "10",
+      "spd": "20",
+      "luk": "10",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1940,
+        1200,
+        1000
+      ],
+      "quantity": [
+        50,
+        20,
+        0
+      ],
+      "action": [
+        9000,
+        5000,
+        5008
+      ],
+      "atk": [
+        50,
+        10
+      ],
+      "def": [
+        45,
+        30,
+        30,
+        10
+      ],
+      "monster": "1",
+      "no": "5009"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3561,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5010": {
+    "id": "5010",
+    "data": {
+      "name": "地恐龙",
+      "img": "mon_228.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "900",
+      "hp": "900",
+      "maxsp": "150",
+      "sp": "150",
+      "str": "120",
+      "int": "20",
+      "dex": "10",
+      "spd": "10",
+      "luk": "30",
+      "guard": "always",
+      "position": "front",
+      "judge": [
+        1940,
+        1902,
+        1101,
+        1200,
+        1940,
+        1200,
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        1,
+        50,
+        20,
+        50,
+        20,
+        50,
+        0
+      ],
+      "action": [
+        9000,
+        5005,
+        9000,
+        3121,
+        9000,
+        5000,
+        5019,
+        5008
+      ],
+      "atk": [
+        100,
+        10
+      ],
+      "def": [
+        45,
+        60,
+        35,
+        30
+      ],
+      "monster": "1",
+      "no": "5010"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3586,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5011": {
+    "id": "5011",
+    "data": {
+      "name": "驯化狮",
+      "img": "mon_114r.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "350",
+      "hp": "350",
+      "maxsp": "60",
+      "sp": "60",
+      "str": "80",
+      "int": "10",
+      "dex": "10",
+      "spd": "30",
+      "luk": "10",
+      "guard": "prob25",
+      "position": "front",
+      "judge": [
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        0
+      ],
+      "action": [
+        5009,
+        5010
+      ],
+      "atk": [
+        70,
+        10
+      ],
+      "def": [
+        30,
+        20,
+        20,
+        0
+      ],
+      "monster": "1",
+      "no": "5011"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3611,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5012": {
+    "id": "5012",
+    "data": {
+      "name": "驯化熊",
+      "img": "mon_085r.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "500",
+      "hp": "500",
+      "maxsp": "80",
+      "sp": "80",
+      "str": "130",
+      "int": "20",
+      "dex": "10",
+      "spd": "35",
+      "luk": "20",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1940,
+        1000
+      ],
+      "quantity": [
+        50,
+        0
+      ],
+      "action": [
+        5011,
+        5012
+      ],
+      "atk": [
+        60,
+        10
+      ],
+      "def": [
+        30,
+        20,
+        25,
+        20
+      ],
+      "monster": "1",
+      "no": "5012"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3636,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5013": {
+    "id": "5013",
+    "data": {
+      "name": "奇美拉",
+      "img": "mon_208.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "600",
+      "hp": "600",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "120",
+      "int": "100",
+      "dex": "30",
+      "spd": "20",
+      "luk": "30",
+      "guard": "prob25",
+      "position": "front",
+      "judge": [
+        1940,
+        1200,
+        1000
+      ],
+      "quantity": [
+        50,
+        30,
+        0
+      ],
+      "action": [
+        9000,
+        5013,
+        5014
+      ],
+      "atk": [
+        60,
+        20
+      ],
+      "def": [
+        10,
+        5,
+        10,
+        0
+      ],
+      "monster": "1",
+      "no": "5013"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3661,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5014": {
+    "id": "5014",
+    "data": {
+      "name": "雪人",
+      "img": "mon_164.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "350",
+      "hp": "350",
+      "maxsp": "100",
+      "sp": "100",
+      "str": "50",
+      "int": "100",
+      "dex": "20",
+      "spd": "20",
+      "luk": "20",
+      "guard": "prob25",
+      "position": "back",
+      "judge": [
+        1201,
+        1000
+      ],
+      "quantity": [
+        31,
+        0
+      ],
+      "action": [
+        3010,
+        5015
+      ],
+      "atk": [
+        40,
+        40
+      ],
+      "def": [
+        0,
+        10,
+        30,
+        0
+      ],
+      "monster": "1",
+      "no": "5014"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3686,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5015": {
+    "id": "5015",
+    "data": {
+      "name": "调皮鬼",
+      "img": "mon_124.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "200",
+      "hp": "200",
+      "maxsp": "50",
+      "sp": "50",
+      "str": "10",
+      "int": "30",
+      "dex": "10",
+      "spd": "20",
+      "luk": "10",
+      "guard": "never",
+      "position": "back",
+      "judge": [
+        1201,
+        1121,
+        1000
+      ],
+      "quantity": [
+        20,
+        70,
+        0
+      ],
+      "action": [
+        3010,
+        5007,
+        5016
+      ],
+      "atk": [
+        20,
+        20
+      ],
+      "def": [
+        10,
+        10,
+        30,
+        10
+      ],
+      "monster": "1",
+      "no": "5015"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3711,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5016": {
+    "id": "5016",
+    "data": {
+      "name": "飞河马",
+      "img": "mon_172r.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "300",
+      "hp": "300",
+      "maxsp": "150",
+      "sp": "150",
+      "str": "40",
+      "int": "30",
+      "dex": "30",
+      "spd": "20",
+      "luk": "10",
+      "guard": "prob50",
+      "position": "back",
+      "judge": [
+        1201,
+        1405,
+        1126,
+        1000
+      ],
+      "quantity": [
+        40,
+        1,
+        70,
+        0
+      ],
+      "action": [
+        3011,
+        5063,
+        3002,
+        5008
+      ],
+      "atk": [
+        10,
+        10
+      ],
+      "def": [
+        10,
+        40,
+        40,
+        40
+      ],
+      "monster": "1",
+      "no": "5016"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3736,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5017": {
+    "id": "5017",
+    "data": {
+      "name": "龙",
+      "img": "mon_013.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "10",
+      "maxhp": "700",
+      "hp": "700",
+      "maxsp": "200",
+      "sp": "200",
+      "str": "120",
+      "int": "120",
+      "dex": "80",
+      "spd": "30",
+      "luk": "40",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1940,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        50,
+        0
+      ],
+      "action": [
+        5019,
+        5018,
+        5014
+      ],
+      "atk": [
+        60,
+        60
+      ],
+      "def": [
+        20,
+        20,
+        25,
+        30
+      ],
+      "monster": "1",
+      "no": "5017"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3761,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5100": {
+    "id": "5100",
+    "data": {
+      "name": "天使长",
+      "img": "mon_239.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "80",
+      "maxhp": "1000",
+      "hp": "1000",
+      "maxsp": "1600",
+      "sp": "1600",
+      "str": "200",
+      "int": "300",
+      "dex": "200",
+      "spd": "200",
+      "luk": "100",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1201,
+        1405,
+        1200,
+        1920,
+        1200,
+        1000
+      ],
+      "quantity": [
+        30,
+        2,
+        30,
+        1,
+        20,
+        0
+      ],
+      "action": [
+        3102,
+        9000,
+        5030,
+        9000,
+        5022,
+        5025
+      ],
+      "atk": [
+        50,
+        100
+      ],
+      "def": [
+        20,
+        20,
+        20,
+        60
+      ],
+      "monster": "1",
+      "no": "5100"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3786,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5101": {
+    "id": "5101",
+    "data": {
+      "name": "堕落天使",
+      "img": "mon_239r.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "80",
+      "maxhp": "1100",
+      "hp": "1100",
+      "maxsp": "800",
+      "sp": "800",
+      "str": "200",
+      "int": "300",
+      "dex": "200",
+      "spd": "200",
+      "luk": "100",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1201,
+        1902,
+        1940,
+        1000
+      ],
+      "quantity": [
+        30,
+        1,
+        50,
+        0
+      ],
+      "action": [
+        2091,
+        5023,
+        5026,
+        5028
+      ],
+      "atk": [
+        100,
+        50
+      ],
+      "def": [
+        20,
+        40,
+        10,
+        30
+      ],
+      "monster": "1",
+      "no": "5101"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3811,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5102": {
+    "id": "5102",
+    "data": {
+      "name": "托尔",
+      "img": "mon_240r.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "90",
+      "maxhp": "1500",
+      "hp": "1500",
+      "maxsp": "1500",
+      "sp": "1500",
+      "str": "400",
+      "int": "200",
+      "dex": "100",
+      "spd": "200",
+      "luk": "100",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1902,
+        1200,
+        1000
+      ],
+      "quantity": [
+        1,
+        10,
+        0
+      ],
+      "action": [
+        5024,
+        5029,
+        1000
+      ],
+      "atk": [
+        100,
+        10
+      ],
+      "def": [
+        30,
+        20,
+        30,
+        20
+      ],
+      "monster": "1",
+      "no": "5102"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3836,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5103": {
+    "id": "5103",
+    "data": {
+      "name": "伊弗里特",
+      "img": "mon_170rz.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "70",
+      "maxhp": "1300",
+      "hp": "1300",
+      "maxsp": "800",
+      "sp": "800",
+      "str": "250",
+      "int": "200",
+      "dex": "100",
+      "spd": "200",
+      "luk": "100",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1902,
+        1200,
+        1000
+      ],
+      "quantity": [
+        1,
+        10,
+        0
+      ],
+      "action": [
+        5020,
+        1017,
+        1115
+      ],
+      "atk": [
+        100,
+        100
+      ],
+      "def": [
+        20,
+        50,
+        20,
+        10
+      ],
+      "monster": "1",
+      "no": "5103"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3861,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  },
+  "5104": {
+    "id": "5104",
+    "data": {
+      "name": "利维坦",
+      "img": "mon_120.gif",
+      "exphold": "0",
+      "moneyhold": "0",
+      "level": "70",
+      "maxhp": "1200",
+      "hp": "1200",
+      "maxsp": "1000",
+      "sp": "1000",
+      "str": "150",
+      "int": "150",
+      "dex": "200",
+      "spd": "170",
+      "luk": "100",
+      "guard": "prob50",
+      "position": "front",
+      "judge": [
+        1201,
+        1902,
+        1000
+      ],
+      "quantity": [
+        20,
+        1,
+        0
+      ],
+      "action": [
+        3010,
+        5021,
+        5027
+      ],
+      "atk": [
+        70,
+        70
+      ],
+      "def": [
+        20,
+        10,
+        20,
+        50
+      ],
+      "monster": "1",
+      "no": "5104"
+    },
+    "source": {
+      "path": "data/data.monster.php",
+      "line": 3886,
+      "sha256": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e"
+    }
+  }
+}

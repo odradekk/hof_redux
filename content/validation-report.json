@@ -1,0 +1,32 @@
+{
+  "checks": 4498,
+  "issues": [],
+  "warnings": [
+    {
+      "code": "inactive_missing_asset",
+      "where": "areas/blow01",
+      "detail": "other/land_aband.gif"
+    },
+    {
+      "code": "inactive_missing_asset",
+      "where": "areas/blow01",
+      "detail": "other/bg_aband.gif"
+    }
+  ],
+  "counts": {
+    "items": 181,
+    "skills": 268,
+    "jobs": 15,
+    "monsters": 147,
+    "base_characters": 4,
+    "areas": 24,
+    "conditions": 117,
+    "class_changes": 11,
+    "recipes": 90,
+    "enchants": 134,
+    "enchant_pools": 12,
+    "economy_rules": 3,
+    "skill_tree": 163
+  },
+  "content_version": "1494586a7a59c1eed94ca3f4c4dd573c0beaa874f1df7fb625e44d39d7e375d5"
+}

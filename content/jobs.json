@@ -1,0 +1,419 @@
+{
+  "100": {
+    "id": "100",
+    "data": {
+      "name_male": "战士",
+      "name_female": "战士",
+      "img_male": "mon_079.gif",
+      "img_female": "mon_080r.gif",
+      "equip": [
+        "剑",
+        "双手剑",
+        "盾",
+        "甲",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        3,
+        0.5
+      ],
+      "change": [
+        101,
+        102,
+        103
+      ],
+      "no": "100"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 11,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "101": {
+    "id": "101",
+    "data": {
+      "name_male": "皇家卫士",
+      "name_female": "皇家卫士",
+      "img_male": "mon_199r.gif",
+      "img_female": "mon_234r.gif",
+      "equip": [
+        "剑",
+        "双手剑",
+        "盾",
+        "甲",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        4,
+        0.7
+      ],
+      "no": "101"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 21,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "102": {
+    "id": "102",
+    "data": {
+      "name_male": "狂战士",
+      "name_female": "狂战士",
+      "img_male": "mon_100r.gif",
+      "img_female": "mon_012.gif",
+      "equip": [
+        "剑",
+        "双手剑",
+        "盾",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        5.0,
+        0.2
+      ],
+      "no": "102"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 30,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "103": {
+    "id": "103",
+    "data": {
+      "name_male": "魔女狩",
+      "name_female": "魔女狩",
+      "img_male": "mon_150.gif",
+      "img_female": "mon_234.gif",
+      "equip": [
+        "剑",
+        "匕首",
+        "盾",
+        "甲",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        3.7,
+        1
+      ],
+      "no": "103"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 39,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "200": {
+    "id": "200",
+    "data": {
+      "name_male": "巫师",
+      "name_female": "巫师",
+      "img_male": "mon_106.gif",
+      "img_female": "mon_018.gif",
+      "equip": [
+        "魔杖",
+        "杖",
+        "书",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        1.5,
+        1
+      ],
+      "change": [
+        201,
+        202,
+        203
+      ],
+      "no": "200"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 48,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "201": {
+    "id": "201",
+    "data": {
+      "name_male": "术士",
+      "name_female": "术士",
+      "img_male": "mon_196z.gif",
+      "img_female": "mon_246r.gif",
+      "equip": [
+        "魔杖",
+        "杖",
+        "书",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        2.1,
+        2
+      ],
+      "no": "201"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 58,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "202": {
+    "id": "202",
+    "data": {
+      "name_male": "召唤师",
+      "name_female": "召唤师",
+      "img_male": "mon_196y.gif",
+      "img_female": "mon_246z.gif",
+      "equip": [
+        "魔杖",
+        "杖",
+        "书",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        1.5,
+        2.5
+      ],
+      "no": "202"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 67,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "203": {
+    "id": "203",
+    "data": {
+      "name_male": "死灵法师",
+      "name_female": "死灵法师",
+      "img_male": "mon_196x.gif",
+      "img_female": "mon_246y.gif",
+      "equip": [
+        "魔杖",
+        "杖",
+        "书",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        2.1,
+        1.5
+      ],
+      "no": "203"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 76,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "300": {
+    "id": "300",
+    "data": {
+      "name_male": "牧师",
+      "name_female": "女祭司",
+      "img_male": "mon_213.gif",
+      "img_female": "mon_214.gif",
+      "equip": [
+        "魔杖",
+        "书",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        2,
+        0.8
+      ],
+      "change": [
+        301,
+        302
+      ],
+      "no": "300"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 85,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "301": {
+    "id": "301",
+    "data": {
+      "name_male": "主教",
+      "name_female": "主教",
+      "img_male": "mon_213r.gif",
+      "img_female": "mon_214r.gif",
+      "equip": [
+        "魔杖",
+        "书",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        2.7,
+        1.4
+      ],
+      "no": "301"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 95,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "302": {
+    "id": "302",
+    "data": {
+      "name_male": " 德鲁伊",
+      "name_female": " 德鲁伊",
+      "img_male": "mon_213rz.gif",
+      "img_female": "mon_214rz.gif",
+      "equip": [
+        "魔杖",
+        "书",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        2.5,
+        1.2
+      ],
+      "no": "302"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 104,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "400": {
+    "id": "400",
+    "data": {
+      "name_male": " 猎人",
+      "name_female": " 猎人",
+      "img_male": "mon_219rr.gif",
+      "img_female": "mon_219r.gif",
+      "equip": [
+        "弓",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        2.2,
+        0.7
+      ],
+      "change": [
+        401,
+        402,
+        403
+      ],
+      "no": "400"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 113,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "401": {
+    "id": "401",
+    "data": {
+      "name_male": "神射手",
+      "name_female": "神射手",
+      "img_male": "mon_076z.gif",
+      "img_female": "mon_042z.gif",
+      "equip": [
+        "弓",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        3.0,
+        0.8
+      ],
+      "no": "401"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 123,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "402": {
+    "id": "402",
+    "data": {
+      "name_male": "驯兽师",
+      "name_female": "驯兽师",
+      "img_male": "mon_216z.gif",
+      "img_female": "mon_217z.gif",
+      "equip": [
+        "弓",
+        "鞭",
+        "衣服",
+        "长袍",
+        "道具"
+      ],
+      "coe": [
+        3.2,
+        1.0
+      ],
+      "no": "402"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 132,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  },
+  "403": {
+    "id": "403",
+    "data": {
+      "name_male": "刺客",
+      "name_female": "刺客",
+      "img_male": "mon_216y.gif",
+      "img_female": "mon_217rz.gif",
+      "equip": [
+        "匕首",
+        "弓",
+        "甲",
+        "衣服",
+        "道具"
+      ],
+      "coe": [
+        3.6,
+        0.7
+      ],
+      "no": "403"
+    },
+    "source": {
+      "path": "data/data.job.php",
+      "line": 141,
+      "sha256": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14"
+    }
+  }
+}
