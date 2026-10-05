@@ -1,0 +1,5 @@
+@extends('layouts.app')
+@section('content')<h4>密码设置</h4><form method="post" action="{{ route('account.password') }}">@csrf
+<label>Current password <input type="password" name="current_password" required autocomplete="current-password"></label>
+<label>New password <input type="password" name="password" required minlength="12" maxlength="72" autocomplete="new-password"></label>
+<label>Confirm password <input type="password" name="password_confirmation" required minlength="12" maxlength="72" autocomplete="new-password"></label><button type="submit">保存</button></form><h4>删除账号</h4><p>Deleting your account permanently removes your team, characters, and inventory.</p><form method="post" action="{{ url('/account/delete') }}">@csrf<label>Current password <input type="password" name="current_password" required autocomplete="current-password"></label><label>Type DELETE to confirm <input name="confirm" required pattern="DELETE"></label><button type="submit">Delete account permanently</button></form>@endsection

@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "content_version": "1494586a7a59c1eed94ca3f4c4dd573c0beaa874f1df7fb625e44d39d7e375d5",
+  "sources": {
+    "setting.reference.php": "f25f30e0083ceb3fa4d3f0e354737552b8aa2b618ff1dbebc0922ac4ba374075",
+    "data/data.item.php": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06",
+    "data/data.skill.php": "aefbfca0ff04816b84dafe40625133da1433da71ec919d5bd68a024761d5e83c",
+    "data/data.job.php": "447d7971c57a8e1a3109f0aae29f4f92e7811e258533088ef6e482ca60fe8b14",
+    "data/data.monster.php": "15f0f490563ba4a70efbc610b1f45b94bfa9270e22c99c98ee00471a6169078e",
+    "data/data.base_char.php": "5624707fcdf20e4eb5071d8304862b4e70bf1ded4f59e09ac8359db6be2902a0",
+    "data/data.land_info.php": "db01cb9e5f7ef330555d452d9bfe524869770edfda252b8acd5a0015f4f3d4d1",
+    "data/data.judge_setup.php": "17efb33af4962d473e0edccaafb5df2e0988ab8eb47623326dc94f17aa122178",
+    "data/data.judge.php": "9e8556086d8ea913887384012751f1a99ee65f7bf450f5a42f275b5d303c4b7e",
+    "data/data.classchange.php": "a2335264109f47ff8de889ff26d9c74bdfc123278e3ed2005c26e0020bb3f7ab",
+    "data/data.create.php": "67bb1ad59632564e26f76212cb27f32eb5381d778ad9b59da914dc243b4eb788",
+    "data/data.enchant.php": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5",
+    "class/global.php": "b194ffbd1076baaab23b515ca18299fb0f6acacbcddd4797ddc9534e44334204",
+    "data/data.skilltree.php": "b71727d4575bfe9fb00f91bb733c90d4aa04bc320450354bcce2e6913615206c",
+    "data/data.land_appear.php": "e8b2d40b2d8d6cbd15eacb769bbba44f11c2fc1c94e2df73cfa9c63f483d0293"
+  },
+  "adjustments": [
+    {
+      "catalog": "items",
+      "id": "7500",
+      "field": "img",
+      "before": "item_035z.png",
+      "after": "item_035.png",
+      "reason": "Missing source asset; reuse existing generic token icon"
+    },
+    {
+      "catalog": "economy_rules",
+      "id": "shop",
+      "field": "values",
+      "removed": 8012,
+      "reason": "Source stock references undefined item; do not invent content"
+    },
+    {
+      "catalog": "skills",
+      "id": "7000",
+      "field": "P_MAXHP",
+      "before_field": "p_maxhp",
+      "reason": "Description-backed passive +30 HP; normalize recognized effect field"
+    },
+    {
+      "catalog": "skills",
+      "id": "7001",
+      "field": "P_MAXHP",
+      "before_field": "p_maxhp",
+      "reason": "Description-backed passive +80 HP; normalize recognized effect field"
+    },
+    {
+      "catalog": "monsters",
+      "id": "1055",
+      "field": "guard",
+      "before": "pro50",
+      "after": "prob50",
+      "reason": "Correct misspelled probabilistic guard policy; no invalid-enum fallback"
+    },
+    {
+      "catalog": "economy_rules",
+      "id": "shop",
+      "field": "values",
+      "added": [
+        7510,
+        7511,
+        7512,
+        7513,
+        7520
+      ],
+      "reason": "Approved completed stat and skill reset access at existing item prices"
+    }
+  ],
+  "counts": {
+    "items": 181,
+    "skills": 268,
+    "jobs": 15,
+    "monsters": 147,
+    "base_characters": 4,
+    "areas": 24,
+    "conditions": 117,
+    "class_changes": 11,
+    "recipes": 90,
+    "enchants": 134,
+    "enchant_pools": 12,
+    "economy_rules": 3,
+    "skill_tree": 163
+  },
+  "extraction_warnings": [
+    {
+      "kind": "identical_duplicate",
+      "catalog": "skills",
+      "id": "7005",
+      "line": 3455
+    }
+  ],
+  "duplicate_array_keys_last_value_wins": [
+    {
+      "key": "need",
+      "previous": [],
+      "replacement": {
+        "6002": "5",
+        "6003": "10",
+        "6800": "1"
+      },
+      "catalog": "items",
+      "id": "1120",
+      "source": "data/data.item.php"
+    },
+    {
+      "key": "exp",
+      "previous": "HP回复",
+      "replacement": "",
+      "catalog": "skills",
+      "id": "3000",
+      "source": "data/data.skill.php"
+    },
+    {
+      "key": "exp",
+      "previous": "突击命令",
+      "replacement": "突击命令",
+      "catalog": "skills",
+      "id": "5006",
+      "source": "data/data.skill.php"
+    },
+    {
+      "key": "charge",
+      "previous": [
+        0,
+        0
+      ],
+      "replacement": [
+        0,
+        70
+      ],
+      "catalog": "skills",
+      "id": "5057",
+      "source": "data/data.skill.php"
+    },
+    {
+      "key": "charge",
+      "previous": [
+        0,
+        0
+      ],
+      "replacement": [
+        0,
+        40
+      ],
+      "catalog": "skills",
+      "id": "5058",
+      "source": "data/data.skill.php"
+    },
+    {
+      "key": "support",
+      "previous": "1",
+      "replacement": "1",
+      "catalog": "skills",
+      "id": "5066",
+      "source": "data/data.skill.php"
+    },
+    {
+      "key": "itemtable",
+      "previous": {
+        "8002": "2000"
+      },
+      "replacement": {
+        "6003": "1000"
+      },
+      "catalog": "monsters",
+      "id": "1022",
+      "source": "data/data.monster.php"
+    },
+    {
+      "key": "itemtable",
+      "previous": [],
+      "replacement": {
+        "6601": "7000",
+        "6602": "3000"
+      },
+      "catalog": "monsters",
+      "id": "2007",
+      "source": "data/data.monster.php"
+    },
+    {
+      "key": "name",
+      "previous": "掠夺者的沙漠",
+      "replacement": "Plunderer's Sandland",
+      "catalog": "areas",
+      "id": "des01",
+      "source": "data/data.land_info.php"
+    }
+  ],
+  "semantics": {
+    "status": "definitions_extracted_not_effect_implementation_certification",
+    "monster_money_under_2000": 100,
+    "monster_unset_position": "random_front_back_at_instantiation",
+    "drop_weights": "ordered additive per 10000; first matching interval wins",
+    "inactive_areas": "preserved with unavailable unlock",
+    "duplicate_skill_7005": "identical later switch case unreachable; first definition retained"
+  }
+}

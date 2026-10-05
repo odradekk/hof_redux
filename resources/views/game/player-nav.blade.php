@@ -1,0 +1,1 @@
+<nav aria-label="Player navigation"><a href="{{ route('player.roster') }}">角色 / 招募</a> · <a href="{{ route('player.inventory') }}">道具</a> · <a href="{{ route('player.shop') }}">商店 / 工作</a> · <a href="{{ route('player.crafting') }}">制作 / 精炼</a> · <a href="{{ route('player.preferences') }}">设置</a></nav>

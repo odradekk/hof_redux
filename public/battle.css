@@ -1,0 +1,17 @@
+.battle-scene{padding:20px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.battle-team{background:rgba(255,255,255,.85);padding:12px;color:#202935}.battle-unit{margin:10px 0}.battle-unit-dead{opacity:.5}
+.battle-background-build01{background-image:url("image/other/bg_build01.gif")}
+.battle-background-cave{background-image:url("image/other/bg_cave.gif")}
+.battle-background-colosseum{background-image:url("image/other/bg_colosseum.gif")}
+.battle-background-grass{background-image:url("image/other/bg_grass.gif")}
+.battle-background-grass01{background-image:url("image/other/bg_grass01.gif")}
+.battle-background-jungle{background-image:url("image/other/bg_jungle.gif")}
+.battle-background-lava{background-image:url("image/other/bg_lava.gif")}
+.battle-background-mount{background-image:url("image/other/bg_mount.gif")}
+.battle-background-nest{background-image:url("image/other/bg_nest.gif")}
+.battle-background-ocean{background-image:url("image/other/bg_ocean.gif")}
+.battle-background-pavement01{background-image:url("image/other/bg_pavement01.gif")}
+.battle-background-sand{background-image:url("image/other/bg_sand.gif")}
+.battle-background-sea{background-image:url("image/other/bg_sea.gif")}
+.battle-background-snow{background-image:url("image/other/bg_snow.gif")}
+.battle-background-swamp{background-image:url("image/other/bg_swamp.gif")}
+.battle-events{line-height:1.8;padding-left:24px}.battle-message-damage{color:#e89b90}.battle-message-recovery{color:#9dceab}

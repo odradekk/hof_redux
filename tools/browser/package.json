@@ -1,0 +1,6 @@
+{
+  "name": "hof-browser-smoke",
+  "private": true,
+  "scripts": { "test": "node smoke.mjs" },
+  "devDependencies": { "playwright": "1.57.0" }
+}

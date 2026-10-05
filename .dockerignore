@@ -1,0 +1,15 @@
+*
+!composer.json
+!composer.lock
+!artisan
+!app/**
+!bootstrap/**
+!config/**
+!content/**
+!database/**
+!public/**
+!resources/**
+!routes/**
+!docker/**
+!Dockerfile
+bootstrap/cache/*.php

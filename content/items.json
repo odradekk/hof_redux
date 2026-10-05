@@ -1,0 +1,4111 @@
+{
+  "1000": {
+    "id": "1000",
+    "data": {
+      "name": "短剑",
+      "type": "剑",
+      "buy": "500",
+      "img": "we_sword026.png",
+      "atk": [
+        10,
+        0
+      ],
+      "handle": "1",
+      "need": {
+        "6001": "4"
+      },
+      "type2": "WEAPON",
+      "no": "1000"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 65,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1001": {
+    "id": "1001",
+    "data": {
+      "name": "长刀",
+      "type": "剑",
+      "buy": "1000",
+      "img": "we_sword026.png",
+      "atk": [
+        15,
+        0
+      ],
+      "handle": "2",
+      "need": {
+        "6001": "6",
+        "6002": "2"
+      },
+      "type2": "WEAPON",
+      "no": "1001"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 75,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1002": {
+    "id": "1002",
+    "data": {
+      "name": "重剑",
+      "type": "剑",
+      "buy": "3000",
+      "img": "we_sword026.png",
+      "atk": [
+        20,
+        0
+      ],
+      "handle": "2",
+      "need": {
+        "6001": "4",
+        "6002": "4"
+      },
+      "type2": "WEAPON",
+      "no": "1002"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 85,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1003": {
+    "id": "1003",
+    "data": {
+      "name": "刺剑",
+      "type": "剑",
+      "buy": "5000",
+      "img": "we_sword026.png",
+      "atk": [
+        25,
+        0
+      ],
+      "handle": "3",
+      "need": {
+        "6001": "2",
+        "6002": "8"
+      },
+      "type2": "WEAPON",
+      "no": "1003"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 95,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1004": {
+    "id": "1004",
+    "data": {
+      "name": "砍刀",
+      "type": "剑",
+      "buy": "8000",
+      "img": "we_sword026.png",
+      "atk": [
+        30,
+        0
+      ],
+      "handle": "4",
+      "need": {
+        "6002": "8",
+        "6003": "2"
+      },
+      "type2": "WEAPON",
+      "no": "1004"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 105,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1005": {
+    "id": "1005",
+    "data": {
+      "name": "长剑",
+      "type": "剑",
+      "buy": "14000",
+      "img": "we_sword026.png",
+      "atk": [
+        40,
+        0
+      ],
+      "handle": "5",
+      "need": {
+        "6003": "12"
+      },
+      "type2": "WEAPON",
+      "no": "1005"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 115,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1006": {
+    "id": "1006",
+    "data": {
+      "name": "宽剑",
+      "type": "剑",
+      "buy": "20000",
+      "img": "we_sword026.png",
+      "atk": [
+        50,
+        0
+      ],
+      "handle": "6",
+      "need": {
+        "6002": "4",
+        "6003": "16"
+      },
+      "type2": "WEAPON",
+      "no": "1006"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 125,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1007": {
+    "id": "1007",
+    "data": {
+      "name": "弯刀",
+      "type": "剑",
+      "buy": "35000",
+      "img": "we_sword026.png",
+      "atk": [
+        60,
+        0
+      ],
+      "handle": "7",
+      "need": {
+        "6003": "24"
+      },
+      "type2": "WEAPON",
+      "no": "1007"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 135,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1008": {
+    "id": "1008",
+    "data": {
+      "name": "波形刀",
+      "type": "剑",
+      "buy": "60000",
+      "img": "we_sword026.png",
+      "atk": [
+        80,
+        0
+      ],
+      "handle": "10",
+      "need": {
+        "6003": "32"
+      },
+      "type2": "WEAPON",
+      "no": "1008"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 145,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1020": {
+    "id": "1020",
+    "data": {
+      "name": "戮龙剑",
+      "type": "剑",
+      "buy": "70000",
+      "img": "we_sword026.png",
+      "atk": [
+        20,
+        0
+      ],
+      "handle": "8",
+      "P_PIERCE": [
+        30,
+        0
+      ],
+      "need": {
+        "6002": "15",
+        "6800": "1"
+      },
+      "option": "无视物理防御+30 ,",
+      "type2": "WEAPON",
+      "no": "1020"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 155,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1021": {
+    "id": "1021",
+    "data": {
+      "name": "权天使",
+      "type": "剑",
+      "buy": "100000",
+      "img": "we_sword026.png",
+      "atk": [
+        3,
+        0
+      ],
+      "handle": "1",
+      "type2": "WEAPON",
+      "no": "1021"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 167,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1022": {
+    "id": "1022",
+    "data": {
+      "name": "光天使",
+      "type": "剑",
+      "buy": "160000",
+      "img": "we_sword026.png",
+      "atk": [
+        80,
+        0
+      ],
+      "def": [
+        5,
+        0,
+        5,
+        0
+      ],
+      "P_SPD": 5,
+      "handle": "9",
+      "option": "Def/Mdef+5 ,SPD+5 ,",
+      "need": {
+        "6002": "30",
+        "6003": "10",
+        "6802": "1"
+      },
+      "type2": "WEAPON",
+      "no": "1022"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 176,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1023": {
+    "id": "1023",
+    "data": {
+      "name": "香蕉剑",
+      "type": "剑",
+      "buy": "1000",
+      "img": "banana.png",
+      "atk": [
+        3,
+        0
+      ],
+      "P_SPD": 1,
+      "handle": "0",
+      "option": "SPD+1 ,",
+      "need": {
+        "6600": "3",
+        "6602": "1"
+      },
+      "type2": "WEAPON",
+      "no": "1023"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 189,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1100": {
+    "id": "1100",
+    "data": {
+      "name": "杀手剑",
+      "type": "双手剑",
+      "dh": true,
+      "buy": "1000",
+      "img": "we_sword006.png",
+      "atk": [
+        30,
+        0
+      ],
+      "handle": "2",
+      "need": {
+        "6001": "8"
+      },
+      "type2": "WEAPON",
+      "no": "1100"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 202,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1101": {
+    "id": "1101",
+    "data": {
+      "name": "大剑",
+      "type": "双手剑",
+      "dh": true,
+      "buy": "5000",
+      "img": "we_sword006.png",
+      "atk": [
+        45,
+        0
+      ],
+      "handle": "3",
+      "need": {
+        "6001": "6",
+        "6002": "4"
+      },
+      "type2": "WEAPON",
+      "no": "1101"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 213,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1102": {
+    "id": "1102",
+    "data": {
+      "name": "小型大剑",
+      "type": "双手剑",
+      "dh": true,
+      "buy": "16000",
+      "img": "we_sword006.png",
+      "atk": [
+        65,
+        0
+      ],
+      "handle": "5",
+      "need": {
+        "6001": "6",
+        "6002": "8"
+      },
+      "type2": "WEAPON",
+      "no": "1102"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 224,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1103": {
+    "id": "1103",
+    "data": {
+      "name": "巨剑",
+      "type": "双手剑",
+      "dh": true,
+      "buy": "30000",
+      "img": "we_sword006.png",
+      "atk": [
+        80,
+        0
+      ],
+      "handle": "6",
+      "need": {
+        "6001": "2",
+        "6002": "6",
+        "6003": "8"
+      },
+      "type2": "WEAPON",
+      "no": "1103"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 235,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1104": {
+    "id": "1104",
+    "data": {
+      "name": "斩首剑",
+      "type": "双手剑",
+      "dh": true,
+      "buy": "70000",
+      "img": "we_sword006.png",
+      "atk": [
+        100,
+        0
+      ],
+      "handle": "8",
+      "need": {
+        "6002": "10",
+        "6003": "20"
+      },
+      "type2": "WEAPON",
+      "no": "1104"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 246,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1120": {
+    "id": "1120",
+    "data": {
+      "name": "斩龙剑",
+      "type": "双手剑",
+      "dh": true,
+      "buy": "80000",
+      "img": "we_sword006.png",
+      "atk": [
+        10,
+        0
+      ],
+      "handle": "10",
+      "need": {
+        "6002": "5",
+        "6003": "10",
+        "6800": "1"
+      },
+      "P_PIERCE": [
+        50,
+        0
+      ],
+      "option": "无视物理防御+50 ,",
+      "type2": "WEAPON",
+      "no": "1120"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 257,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1200": {
+    "id": "1200",
+    "data": {
+      "name": "短剑",
+      "type": "匕首",
+      "buy": "1000",
+      "img": "we_sword010.png",
+      "atk": [
+        7,
+        0
+      ],
+      "handle": "1",
+      "type2": "WEAPON",
+      "no": "1200"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 271,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1201": {
+    "id": "1201",
+    "data": {
+      "name": "Kukuri",
+      "type": "匕首",
+      "buy": "10000",
+      "img": "we_sword010.png",
+      "atk": [
+        21,
+        0
+      ],
+      "handle": "3",
+      "need": {
+        "6001": 12,
+        "6020": 4
+      },
+      "type2": "WEAPON",
+      "no": "1201"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 280,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1202": {
+    "id": "1202",
+    "data": {
+      "name": "斯巴达短剑",
+      "type": "匕首",
+      "buy": "20000",
+      "img": "we_sword010.png",
+      "atk": [
+        28,
+        0
+      ],
+      "handle": "4",
+      "need": {
+        "6001": 16,
+        "6020": 4
+      },
+      "type2": "WEAPON",
+      "no": "1202"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 290,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1203": {
+    "id": "1203",
+    "data": {
+      "name": "古罗马短剑",
+      "type": "匕首",
+      "buy": "40000",
+      "img": "we_sword010.png",
+      "atk": [
+        34,
+        0
+      ],
+      "handle": "5",
+      "need": {
+        "6002": 12,
+        "6020": 4
+      },
+      "type2": "WEAPON",
+      "no": "1203"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 300,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1204": {
+    "id": "1204",
+    "data": {
+      "name": "暗杀匕首",
+      "type": "匕首",
+      "buy": "50000",
+      "img": "we_sword010.png",
+      "atk": [
+        40,
+        0
+      ],
+      "handle": "6",
+      "need": {
+        "6003": 10,
+        "6020": 4
+      },
+      "type2": "WEAPON",
+      "no": "1204"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 310,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1205": {
+    "id": "1205",
+    "data": {
+      "name": "破甲剑",
+      "type": "匕首",
+      "buy": "50000",
+      "img": "we_sword010.png",
+      "atk": [
+        20,
+        0
+      ],
+      "handle": "6",
+      "P_PIERCE": [
+        20,
+        0
+      ],
+      "option": "无视物理防御+20 ,",
+      "need": {
+        "6003": 20,
+        "6022": 4
+      },
+      "type2": "WEAPON",
+      "no": "1205"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 320,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1220": {
+    "id": "1220",
+    "data": {
+      "name": "香蕉匕首",
+      "type": "匕首",
+      "buy": "1000",
+      "img": "banana.png",
+      "atk": [
+        1,
+        0
+      ],
+      "P_SPD": 1,
+      "handle": "0",
+      "option": "SPD+1 ,",
+      "need": {
+        "6600": "3",
+        "6602": "1"
+      },
+      "type2": "WEAPON",
+      "no": "1220"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 333,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1300": {
+    "id": "1300",
+    "data": {
+      "name": "战戟",
+      "type": "枪",
+      "dh": true,
+      "buy": "1000",
+      "img": "we_spear016.png",
+      "atk": [
+        28,
+        0
+      ],
+      "handle": "2",
+      "type2": "其他",
+      "no": "1300"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 346,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1400": {
+    "id": "1400",
+    "data": {
+      "name": "投枪",
+      "type": "矛",
+      "buy": "1000",
+      "img": "we_spear012.png",
+      "atk": [
+        14,
+        0
+      ],
+      "handle": "2",
+      "type2": "其他",
+      "no": "1400"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 356,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1500": {
+    "id": "1500",
+    "data": {
+      "name": "大型斧",
+      "type": "斧",
+      "dh": true,
+      "buy": "1000",
+      "img": "we_axe013b.png",
+      "atk": [
+        35,
+        0
+      ],
+      "handle": "2",
+      "type2": "其他",
+      "no": "1500"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 365,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1600": {
+    "id": "1600",
+    "data": {
+      "name": "战斧",
+      "type": "短柄斧",
+      "buy": "1000",
+      "img": "we_axe003.png",
+      "atk": [
+        17,
+        0
+      ],
+      "handle": "2",
+      "type2": "其他",
+      "no": "1600"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 375,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1700": {
+    "id": "1700",
+    "data": {
+      "name": "棒",
+      "type": "魔杖",
+      "buy": "1000",
+      "img": "we_staff002.png",
+      "atk": [
+        1,
+        5
+      ],
+      "handle": "1",
+      "need": {
+        "6020": "2",
+        "6001": "1"
+      },
+      "type2": "WEAPON",
+      "no": "1700"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 384,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1701": {
+    "id": "1701",
+    "data": {
+      "name": "短棒",
+      "type": "魔杖",
+      "buy": "2000",
+      "img": "we_staff002.png",
+      "atk": [
+        5,
+        10
+      ],
+      "handle": "2",
+      "need": {
+        "6020": "4",
+        "6001": "1"
+      },
+      "type2": "WEAPON",
+      "no": "1701"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 394,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1702": {
+    "id": "1702",
+    "data": {
+      "name": "木棍",
+      "type": "魔杖",
+      "buy": "4000",
+      "img": "we_staff002.png",
+      "atk": [
+        8,
+        15
+      ],
+      "handle": "3",
+      "need": {
+        "6020": "8",
+        "6002": "1"
+      },
+      "type2": "WEAPON",
+      "no": "1702"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 404,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1703": {
+    "id": "1703",
+    "data": {
+      "name": "银棍",
+      "type": "魔杖",
+      "buy": "6000",
+      "img": "we_staff002.png",
+      "atk": [
+        6,
+        20
+      ],
+      "handle": "4",
+      "need": {
+        "6002": "8",
+        "6020": "2"
+      },
+      "type2": "WEAPON",
+      "no": "1703"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 414,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1704": {
+    "id": "1704",
+    "data": {
+      "name": "战斗棍",
+      "type": "魔杖",
+      "buy": "10000",
+      "img": "we_staff002.png",
+      "atk": [
+        10,
+        26
+      ],
+      "handle": "5",
+      "need": {
+        "6020": "10",
+        "6002": "4"
+      },
+      "type2": "WEAPON",
+      "no": "1704"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 424,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1705": {
+    "id": "1705",
+    "data": {
+      "name": "漂亮的棍",
+      "type": "魔杖",
+      "buy": "18000",
+      "img": "we_staff002.png",
+      "atk": [
+        5,
+        32
+      ],
+      "handle": "6",
+      "need": {
+        "6021": "6",
+        "6002": "4"
+      },
+      "type2": "WEAPON",
+      "no": "1705"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 434,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1706": {
+    "id": "1706",
+    "data": {
+      "name": "巫师棍",
+      "type": "魔杖",
+      "buy": "25000",
+      "img": "we_staff002.png",
+      "atk": [
+        2,
+        40
+      ],
+      "handle": "7",
+      "need": {
+        "6021": "10",
+        "6002": "4"
+      },
+      "type2": "WEAPON",
+      "no": "1706"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 444,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1800": {
+    "id": "1800",
+    "data": {
+      "name": "杖",
+      "type": "杖",
+      "dh": true,
+      "buy": "2000",
+      "img": "we_staff008b.png",
+      "atk": [
+        8,
+        25
+      ],
+      "handle": "2",
+      "need": {
+        "6002": "2",
+        "6020": "4"
+      },
+      "type2": "WEAPON",
+      "no": "1800"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 454,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1801": {
+    "id": "1801",
+    "data": {
+      "name": "长杖",
+      "type": "杖",
+      "dh": true,
+      "buy": "5000",
+      "img": "we_staff008b.png",
+      "atk": [
+        4,
+        37
+      ],
+      "handle": "3",
+      "need": {
+        "6021": "8"
+      },
+      "type2": "WEAPON",
+      "no": "1801"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 465,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1802": {
+    "id": "1802",
+    "data": {
+      "name": "魔术杖",
+      "type": "杖",
+      "dh": true,
+      "buy": "14000",
+      "img": "we_staff008b.png",
+      "atk": [
+        15,
+        49
+      ],
+      "handle": "5",
+      "need": {
+        "6002": "2",
+        "6021": "8"
+      },
+      "type2": "WEAPON",
+      "no": "1802"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 476,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1803": {
+    "id": "1803",
+    "data": {
+      "name": "银杖",
+      "type": "杖",
+      "dh": true,
+      "buy": "20000",
+      "img": "we_staff008b.png",
+      "atk": [
+        10,
+        60
+      ],
+      "handle": "6",
+      "need": {
+        "6002": "12",
+        "6022": "1"
+      },
+      "type2": "WEAPON",
+      "no": "1803"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 487,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1804": {
+    "id": "1804",
+    "data": {
+      "name": "金杖",
+      "type": "杖",
+      "dh": true,
+      "buy": "30000",
+      "img": "we_staff008b.png",
+      "atk": [
+        10,
+        72
+      ],
+      "handle": "7",
+      "type2": "WEAPON",
+      "no": "1804"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 498,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1805": {
+    "id": "1805",
+    "data": {
+      "name": "水晶杖",
+      "type": "杖",
+      "dh": true,
+      "buy": "35000",
+      "img": "we_staff008b.png",
+      "atk": [
+        12,
+        84
+      ],
+      "handle": "8",
+      "type2": "WEAPON",
+      "no": "1805"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 508,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1810": {
+    "id": "1810",
+    "data": {
+      "name": "魔法杖",
+      "type": "杖",
+      "dh": true,
+      "buy": "20000",
+      "img": "we_staff008b.png",
+      "atk": [
+        3,
+        24
+      ],
+      "handle": "4",
+      "P_MAXSP": "60",
+      "option": "SP+60 ,",
+      "need": {
+        "6020": 8,
+        "6021": 8
+      },
+      "type2": "WEAPON",
+      "no": "1810"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 519,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1811": {
+    "id": "1811",
+    "data": {
+      "name": "天堂杖",
+      "type": "杖",
+      "dh": true,
+      "buy": "35000",
+      "img": "we_staff008b.png",
+      "atk": [
+        12,
+        32
+      ],
+      "handle": "6",
+      "P_MAXSP": "90",
+      "option": "SP+90 ,",
+      "need": {
+        "6020": 12,
+        "6021": 12
+      },
+      "type2": "WEAPON",
+      "no": "1811"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 532,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1812": {
+    "id": "1812",
+    "data": {
+      "name": "四季",
+      "type": "杖",
+      "dh": true,
+      "buy": "60000",
+      "img": "we_staff008b.png",
+      "atk": [
+        12,
+        40
+      ],
+      "handle": "8",
+      "P_MAXSP": "130",
+      "option": "SP+130 ,",
+      "need": {
+        "6020": 16,
+        "6021": 16
+      },
+      "type2": "WEAPON",
+      "no": "1812"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 545,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "1900": {
+    "id": "1900",
+    "data": {
+      "name": "青铜锤",
+      "type": "锤",
+      "buy": "1000",
+      "img": "we_axe015b.png",
+      "atk": [
+        5,
+        5
+      ],
+      "handle": "2",
+      "type2": "其他",
+      "no": "1900"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 558,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2000": {
+    "id": "2000",
+    "data": {
+      "name": "短弓",
+      "type": "弓",
+      "dh": true,
+      "buy": "1000",
+      "img": "we_bow001.png",
+      "atk": [
+        20,
+        0
+      ],
+      "handle": "2",
+      "need": {
+        "6020": "6",
+        "6181": "1"
+      },
+      "type2": "WEAPON",
+      "no": "2000"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 567,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2001": {
+    "id": "2001",
+    "data": {
+      "name": "复合弓",
+      "type": "弓",
+      "dh": true,
+      "buy": "4000",
+      "img": "we_bow001.png",
+      "atk": [
+        30,
+        0
+      ],
+      "handle": "6",
+      "need": {
+        "6020": "9",
+        "6181": "2"
+      },
+      "type2": "WEAPON",
+      "no": "2001"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 578,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2002": {
+    "id": "2002",
+    "data": {
+      "name": "大型弓",
+      "type": "弓",
+      "dh": true,
+      "buy": "8000",
+      "img": "we_bow001.png",
+      "atk": [
+        40,
+        0
+      ],
+      "handle": "12",
+      "need": {
+        "6021": "6",
+        "6181": "2"
+      },
+      "type2": "WEAPON",
+      "no": "2002"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 589,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2003": {
+    "id": "2003",
+    "data": {
+      "name": "猎手弓",
+      "type": "弓",
+      "dh": true,
+      "buy": "14000",
+      "img": "we_bow001.png",
+      "atk": [
+        50,
+        0
+      ],
+      "handle": "16",
+      "need": {
+        "6020": "4",
+        "6021": "4",
+        "6181": "4"
+      },
+      "type2": "WEAPON",
+      "no": "2003"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 600,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2004": {
+    "id": "2004",
+    "data": {
+      "name": "银弓",
+      "type": "弓",
+      "dh": true,
+      "buy": "20000",
+      "img": "we_bow001.png",
+      "atk": [
+        60,
+        0
+      ],
+      "handle": "20",
+      "need": {
+        "6002": "4",
+        "6021": "6",
+        "6182": "2"
+      },
+      "type2": "WEAPON",
+      "no": "2004"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 611,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2005": {
+    "id": "2005",
+    "data": {
+      "name": "锋利射手",
+      "type": "弓",
+      "dh": true,
+      "buy": "30000",
+      "img": "we_bow001.png",
+      "atk": [
+        70,
+        0
+      ],
+      "handle": "24",
+      "need": {
+        "6021": "12",
+        "6182": "4"
+      },
+      "type2": "WEAPON",
+      "no": "2005"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 622,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2006": {
+    "id": "2006",
+    "data": {
+      "name": "罗宾汉弓",
+      "type": "弓",
+      "dh": true,
+      "buy": "45000",
+      "img": "we_bow001.png",
+      "atk": [
+        80,
+        0
+      ],
+      "handle": "28",
+      "need": {
+        "6021": "4",
+        "6022": "14",
+        "6182": "6"
+      },
+      "type2": "WEAPON",
+      "no": "2006"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 633,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2007": {
+    "id": "2007",
+    "data": {
+      "name": "变阻弓",
+      "type": "弓",
+      "dh": true,
+      "buy": "60000",
+      "img": "we_bow001.png",
+      "atk": [
+        90,
+        0
+      ],
+      "handle": "30",
+      "type2": "WEAPON",
+      "no": "2007"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 644,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2008": {
+    "id": "2008",
+    "data": {
+      "name": "亚特米斯弓",
+      "type": "弓",
+      "dh": true,
+      "buy": "100000",
+      "img": "we_bow001.png",
+      "atk": [
+        140,
+        0
+      ],
+      "handle": "40",
+      "type2": "WEAPON",
+      "no": "2008"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 654,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2020": {
+    "id": "2020",
+    "data": {
+      "name": "龙翼弓",
+      "type": "弓",
+      "dh": true,
+      "buy": "120000",
+      "img": "we_bow001.png",
+      "atk": [
+        40,
+        0
+      ],
+      "handle": "30",
+      "P_PIERCE": [
+        40,
+        0
+      ],
+      "need": {
+        "6022": "10",
+        "6182": "5",
+        "6801": "1"
+      },
+      "option": "无视物理防御+40 ,",
+      "type2": "WEAPON",
+      "no": "2020"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 664,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2100": {
+    "id": "2100",
+    "data": {
+      "name": "弩手",
+      "type": "弩",
+      "dh": true,
+      "buy": "1000",
+      "img": "we_bow013.png",
+      "atk": [
+        25,
+        0
+      ],
+      "handle": "2",
+      "type2": "其他",
+      "no": "2100"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 679,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2200": {
+    "id": "2200",
+    "data": {
+      "name": "驯兽鞭",
+      "type": "鞭",
+      "buy": "1000",
+      "img": "we_other007.png",
+      "atk": [
+        20,
+        0
+      ],
+      "handle": "4",
+      "P_SUMMON": "10",
+      "need": {
+        "6181": "8"
+      },
+      "type2": "WEAPON",
+      "no": "2200"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 690,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2201": {
+    "id": "2201",
+    "data": {
+      "name": "长鞭",
+      "type": "鞭",
+      "buy": "20000",
+      "img": "we_other007.png",
+      "atk": [
+        30,
+        0
+      ],
+      "handle": "8",
+      "P_SUMMON": "15",
+      "need": {
+        "6040": "4",
+        "6181": "12"
+      },
+      "type2": "WEAPON",
+      "no": "2201"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 701,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2202": {
+    "id": "2202",
+    "data": {
+      "name": "蟒鞭",
+      "type": "鞭",
+      "buy": "30000",
+      "img": "we_other007.png",
+      "atk": [
+        40,
+        0
+      ],
+      "handle": "12",
+      "P_SUMMON": "20",
+      "need": {
+        "6040": "6",
+        "6181": "16"
+      },
+      "type2": "WEAPON",
+      "no": "2202"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 712,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2203": {
+    "id": "2203",
+    "data": {
+      "name": "蝎鞭",
+      "type": "鞭",
+      "buy": "50000",
+      "img": "we_other007.png",
+      "atk": [
+        50,
+        0
+      ],
+      "handle": "16",
+      "P_SUMMON": "25",
+      "need": {
+        "6040": "12",
+        "6181": "24",
+        "6000": "24"
+      },
+      "type2": "WEAPON",
+      "no": "2203"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 723,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2210": {
+    "id": "2210",
+    "data": {
+      "name": "金属鞭",
+      "type": "鞭",
+      "buy": "50000",
+      "img": "we_other007.png",
+      "atk": [
+        70,
+        0
+      ],
+      "handle": "8",
+      "P_SUMMON": "4",
+      "need": {
+        "6040": "4",
+        "6001": "24"
+      },
+      "type2": "WEAPON",
+      "no": "2210"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 735,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "2211": {
+    "id": "2211",
+    "data": {
+      "name": "银尾鞭",
+      "type": "鞭",
+      "buy": "70000",
+      "img": "we_other007.png",
+      "atk": [
+        100,
+        0
+      ],
+      "handle": "10",
+      "P_SUMMON": "8",
+      "need": {
+        "6040": "12",
+        "6002": "32"
+      },
+      "type2": "WEAPON",
+      "no": "2211"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 746,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3000": {
+    "id": "3000",
+    "data": {
+      "name": "木盾",
+      "type": "盾",
+      "buy": "1000",
+      "img": "shield_001m.png",
+      "def": [
+        5,
+        5,
+        0,
+        0
+      ],
+      "handle": "1",
+      "need": {
+        "6001": "1",
+        "6020": "4"
+      },
+      "type2": "GUARD",
+      "no": "3000"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 758,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3001": {
+    "id": "3001",
+    "data": {
+      "name": "Baccrar",
+      "type": "盾",
+      "buy": "2000",
+      "img": "shield_001m.png",
+      "def": [
+        8,
+        8,
+        3,
+        3
+      ],
+      "handle": "2",
+      "need": {
+        "6001": "4",
+        "6020": "2"
+      },
+      "type2": "GUARD",
+      "no": "3001"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 768,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3002": {
+    "id": "3002",
+    "data": {
+      "name": "铁盾",
+      "type": "盾",
+      "buy": "4000",
+      "img": "shield_001m.png",
+      "def": [
+        12,
+        5,
+        5,
+        5
+      ],
+      "handle": "3",
+      "need": {
+        "6003": "6"
+      },
+      "type2": "GUARD",
+      "no": "3002"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 778,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3003": {
+    "id": "3003",
+    "data": {
+      "name": "鸢盾",
+      "type": "盾",
+      "buy": "5000",
+      "img": "shield_001m.png",
+      "def": [
+        5,
+        20,
+        10,
+        5
+      ],
+      "handle": "3",
+      "need": {
+        "6001": "2",
+        "6002": "6"
+      },
+      "type2": "GUARD",
+      "no": "3003"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 788,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3004": {
+    "id": "3004",
+    "data": {
+      "name": "强力盾",
+      "type": "盾",
+      "buy": "8000",
+      "img": "shield_001m.png",
+      "def": [
+        0,
+        0,
+        20,
+        15
+      ],
+      "handle": "4",
+      "need": {
+        "6002": "8",
+        "6021": "4"
+      },
+      "type2": "GUARD",
+      "no": "3004"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 798,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3005": {
+    "id": "3005",
+    "data": {
+      "name": "重盾",
+      "type": "盾",
+      "buy": "8000",
+      "img": "shield_001m.png",
+      "def": [
+        15,
+        10,
+        8,
+        8
+      ],
+      "handle": "4",
+      "need": {
+        "6002": "8",
+        "6003": "8"
+      },
+      "type2": "GUARD",
+      "no": "3005"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 808,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3006": {
+    "id": "3006",
+    "data": {
+      "name": "圆盾",
+      "type": "盾",
+      "buy": "10000",
+      "img": "shield_001m.png",
+      "def": [
+        15,
+        20,
+        10,
+        10
+      ],
+      "handle": "5",
+      "need": {
+        "6002": "4",
+        "6003": "16"
+      },
+      "type2": "GUARD",
+      "no": "3006"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 818,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3007": {
+    "id": "3007",
+    "data": {
+      "name": "塔盾",
+      "type": "盾",
+      "buy": "15000",
+      "img": "shield_001m.png",
+      "def": [
+        18,
+        15,
+        15,
+        10
+      ],
+      "handle": "6",
+      "need": {
+        "6002": "8",
+        "6003": "20"
+      },
+      "type2": "GUARD",
+      "no": "3007"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 828,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3008": {
+    "id": "3008",
+    "data": {
+      "name": "精灵盾",
+      "type": "盾",
+      "buy": "18000",
+      "img": "shield_001m.png",
+      "def": [
+        0,
+        0,
+        30,
+        20
+      ],
+      "handle": "6",
+      "need": {
+        "6002": "32"
+      },
+      "type2": "GUARD",
+      "no": "3008"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 838,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3100": {
+    "id": "3100",
+    "data": {
+      "name": "课本",
+      "type": "书",
+      "buy": "200",
+      "img": "book_002.png",
+      "atk": [
+        0,
+        2
+      ],
+      "def": [
+        0,
+        5,
+        0,
+        0
+      ],
+      "handle": "1",
+      "type2": "GUARD",
+      "no": "3100"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 848,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3101": {
+    "id": "3101",
+    "data": {
+      "name": "咒语字典",
+      "type": "书",
+      "buy": "5000",
+      "img": "book_002.png",
+      "atk": [
+        0,
+        5
+      ],
+      "def": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "handle": "2",
+      "need": {
+        "6182": "28"
+      },
+      "type2": "GUARD",
+      "no": "3101"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 858,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3102": {
+    "id": "3102",
+    "data": {
+      "name": "咒语日记",
+      "type": "书",
+      "buy": "8000",
+      "img": "book_002.png",
+      "atk": [
+        0,
+        7
+      ],
+      "def": [
+        2,
+        0,
+        2,
+        0
+      ],
+      "handle": "3",
+      "need": {
+        "6182": "28"
+      },
+      "type2": "GUARD",
+      "no": "3102"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 869,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3103": {
+    "id": "3103",
+    "data": {
+      "name": "圣经",
+      "type": "书",
+      "buy": "10000",
+      "img": "book_002.png",
+      "atk": [
+        0,
+        4
+      ],
+      "def": [
+        0,
+        0,
+        8,
+        3
+      ],
+      "handle": "3",
+      "need": {
+        "6182": "36"
+      },
+      "type2": "GUARD",
+      "no": "3103"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 880,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3104": {
+    "id": "3104",
+    "data": {
+      "name": "召唤之书",
+      "type": "书",
+      "buy": "12000",
+      "img": "book_002.png",
+      "atk": [
+        0,
+        3
+      ],
+      "def": [
+        0,
+        0,
+        4,
+        5
+      ],
+      "handle": "3",
+      "P_SUMMON": "10",
+      "need": {
+        "6182": "36"
+      },
+      "type2": "GUARD",
+      "no": "3104"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 891,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "3105": {
+    "id": "3105",
+    "data": {
+      "name": "世界百科全书",
+      "type": "书",
+      "buy": "20000",
+      "img": "book_002.png",
+      "atk": [
+        5,
+        0
+      ],
+      "def": [
+        10,
+        5,
+        7,
+        0
+      ],
+      "handle": "5",
+      "need": {
+        "6182": "58"
+      },
+      "type2": "GUARD",
+      "no": "3105"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 903,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5000": {
+    "id": "5000",
+    "data": {
+      "name": "皮甲",
+      "type": "甲",
+      "buy": "1000",
+      "img": "armor_016b.png",
+      "def": [
+        18,
+        15,
+        7,
+        0
+      ],
+      "handle": "1",
+      "need": {
+        "6040": "8"
+      },
+      "type2": "GUARD",
+      "no": "5000"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 914,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5001": {
+    "id": "5001",
+    "data": {
+      "name": "板甲",
+      "type": "甲",
+      "buy": "2000",
+      "img": "armor_016b.png",
+      "def": [
+        20,
+        15,
+        10,
+        5
+      ],
+      "handle": "2",
+      "need": {
+        "6040": "10",
+        "6001": "2"
+      },
+      "type2": "GUARD",
+      "no": "5001"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 924,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5002": {
+    "id": "5002",
+    "data": {
+      "name": "链甲",
+      "type": "甲",
+      "buy": "5000",
+      "img": "armor_016b.png",
+      "def": [
+        25,
+        15,
+        13,
+        10
+      ],
+      "handle": "3",
+      "need": {
+        "6001": "14"
+      },
+      "type2": "GUARD",
+      "no": "5002"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 934,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5003": {
+    "id": "5003",
+    "data": {
+      "name": "锁子甲",
+      "type": "甲",
+      "buy": "6000",
+      "img": "armor_016b.png",
+      "def": [
+        30,
+        20,
+        15,
+        5
+      ],
+      "handle": "4",
+      "need": {
+        "6001": "16",
+        "6002": "2"
+      },
+      "type2": "GUARD",
+      "no": "5003"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 944,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5004": {
+    "id": "5004",
+    "data": {
+      "name": "银甲",
+      "type": "甲",
+      "buy": "8000",
+      "img": "armor_016b.png",
+      "def": [
+        35,
+        25,
+        18,
+        10
+      ],
+      "handle": "5",
+      "need": {
+        "6002": "18"
+      },
+      "type2": "GUARD",
+      "no": "5004"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 954,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5005": {
+    "id": "5005",
+    "data": {
+      "name": "半铠甲",
+      "type": "甲",
+      "buy": "10000",
+      "img": "armor_016b.png",
+      "def": [
+        15,
+        70,
+        24,
+        15
+      ],
+      "handle": "5",
+      "need": {
+        "6002": "12",
+        "6003": "6"
+      },
+      "type2": "GUARD",
+      "no": "5005"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 964,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5006": {
+    "id": "5006",
+    "data": {
+      "name": "龙甲",
+      "type": "甲",
+      "buy": "14000",
+      "img": "armor_016b.png",
+      "def": [
+        40,
+        30,
+        25,
+        15
+      ],
+      "handle": "6",
+      "type2": "GUARD",
+      "no": "5006"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 974,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5007": {
+    "id": "5007",
+    "data": {
+      "name": "镀铠甲",
+      "type": "甲",
+      "buy": "10000",
+      "img": "armor_016b.png",
+      "def": [
+        20,
+        100,
+        25,
+        20
+      ],
+      "handle": "6",
+      "need": {
+        "6002": "16",
+        "6003": "8"
+      },
+      "type2": "GUARD",
+      "no": "5007"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 983,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5008": {
+    "id": "5008",
+    "data": {
+      "name": "SprintArmor",
+      "type": "甲",
+      "buy": "18000",
+      "img": "armor_016b.png",
+      "def": [
+        42,
+        35,
+        27,
+        20
+      ],
+      "handle": "7",
+      "need": {
+        "6002": "24",
+        "6003": "10"
+      },
+      "type2": "GUARD",
+      "no": "5008"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 993,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5009": {
+    "id": "5009",
+    "data": {
+      "name": "战斗军甲",
+      "type": "甲",
+      "buy": "18000",
+      "img": "armor_016b.png",
+      "def": [
+        60,
+        40,
+        0,
+        0
+      ],
+      "handle": "7",
+      "need": {
+        "6001": "12",
+        "6002": "12",
+        "6003": "12"
+      },
+      "type2": "GUARD",
+      "no": "5009"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1003,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5010": {
+    "id": "5010",
+    "data": {
+      "name": "槽甲",
+      "type": "甲",
+      "buy": "25000",
+      "img": "armor_016b.png",
+      "def": [
+        45,
+        35,
+        28,
+        20
+      ],
+      "handle": "8",
+      "type2": "GUARD",
+      "no": "5010"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1013,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5011": {
+    "id": "5011",
+    "data": {
+      "name": "恶魔甲",
+      "type": "甲",
+      "buy": "20000",
+      "img": "armor_016b.png",
+      "def": [
+        20,
+        140,
+        15,
+        70
+      ],
+      "handle": "8",
+      "type2": "GUARD",
+      "no": "5011"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1022,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5012": {
+    "id": "5012",
+    "data": {
+      "name": "袍甲",
+      "type": "甲",
+      "buy": "25000",
+      "img": "armor_016b.png",
+      "def": [
+        47,
+        35,
+        28,
+        30
+      ],
+      "handle": "9",
+      "type2": "GUARD",
+      "no": "5012"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1031,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5013": {
+    "id": "5013",
+    "data": {
+      "name": "金甲",
+      "type": "甲",
+      "buy": "40000",
+      "img": "armor_016b.png",
+      "def": [
+        50,
+        35,
+        30,
+        35
+      ],
+      "handle": "10",
+      "type2": "GUARD",
+      "no": "5013"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1040,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5014": {
+    "id": "5014",
+    "data": {
+      "name": "白金甲",
+      "type": "甲",
+      "buy": "50000",
+      "img": "armor_016b.png",
+      "def": [
+        52,
+        35,
+        30,
+        40
+      ],
+      "handle": "12",
+      "type2": "GUARD",
+      "no": "5014"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1049,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5015": {
+    "id": "5015",
+    "data": {
+      "name": "水晶甲",
+      "type": "甲",
+      "buy": "80000",
+      "img": "armor_016b.png",
+      "def": [
+        55,
+        35,
+        32,
+        45
+      ],
+      "handle": "13",
+      "type2": "GUARD",
+      "no": "5015"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1058,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5016": {
+    "id": "5016",
+    "data": {
+      "name": "复合板甲",
+      "type": "甲",
+      "buy": "120000",
+      "img": "armor_016b.png",
+      "def": [
+        60,
+        40,
+        35,
+        45
+      ],
+      "handle": "16",
+      "type2": "GUARD",
+      "no": "5016"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1067,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5100": {
+    "id": "5100",
+    "data": {
+      "name": "棉汗衫",
+      "type": "衣服",
+      "buy": "500",
+      "img": "armor_014e.png",
+      "def": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "handle": "1",
+      "need": {
+        "6180": "4"
+      },
+      "type2": "GUARD",
+      "no": "5100"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1076,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5101": {
+    "id": "5101",
+    "data": {
+      "name": "皮夹克",
+      "type": "衣服",
+      "buy": "1000",
+      "img": "armor_014e.png",
+      "def": [
+        10,
+        0,
+        10,
+        0
+      ],
+      "handle": "2",
+      "need": {
+        "6040": "4",
+        "6180": "4"
+      },
+      "type2": "GUARD",
+      "no": "5101"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1086,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5102": {
+    "id": "5102",
+    "data": {
+      "name": "轻夹克",
+      "type": "衣服",
+      "buy": "2000",
+      "img": "armor_014e.png",
+      "def": [
+        15,
+        5,
+        15,
+        5
+      ],
+      "handle": "3",
+      "need": {
+        "6040": "2",
+        "6180": "8"
+      },
+      "type2": "GUARD",
+      "no": "5102"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1096,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5103": {
+    "id": "5103",
+    "data": {
+      "name": "长外套",
+      "type": "衣服",
+      "buy": "5000",
+      "img": "armor_014e.png",
+      "def": [
+        18,
+        5,
+        18,
+        5
+      ],
+      "handle": "4",
+      "need": {
+        "6040": "6",
+        "6180": "10"
+      },
+      "type2": "GUARD",
+      "no": "5103"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1106,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5104": {
+    "id": "5104",
+    "data": {
+      "name": "硬夹克",
+      "type": "衣服",
+      "buy": "9000",
+      "img": "armor_014e.png",
+      "def": [
+        23,
+        7,
+        23,
+        7
+      ],
+      "handle": "5",
+      "need": {
+        "6040": "10",
+        "6180": "10"
+      },
+      "type2": "GUARD",
+      "no": "5104"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1116,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5105": {
+    "id": "5105",
+    "data": {
+      "name": "褶外套",
+      "type": "衣服",
+      "buy": "14000",
+      "img": "armor_014e.png",
+      "def": [
+        25,
+        10,
+        25,
+        10
+      ],
+      "handle": "6",
+      "need": {
+        "6040": "4",
+        "6183": "12"
+      },
+      "type2": "GUARD",
+      "no": "5105"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1126,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5106": {
+    "id": "5106",
+    "data": {
+      "name": "贵族外套",
+      "type": "衣服",
+      "buy": "18000",
+      "img": "armor_014e.png",
+      "def": [
+        28,
+        12,
+        28,
+        12
+      ],
+      "handle": "7",
+      "need": {
+        "6040": "6",
+        "6183": "20"
+      },
+      "type2": "GUARD",
+      "no": "5106"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1136,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5107": {
+    "id": "5107",
+    "data": {
+      "name": "王者外套",
+      "type": "衣服",
+      "buy": "22000",
+      "img": "armor_014e.png",
+      "def": [
+        30,
+        15,
+        30,
+        15
+      ],
+      "handle": "8",
+      "need": {
+        "6040": "4",
+        "6183": "15",
+        "6184": "15"
+      },
+      "type2": "GUARD",
+      "no": "5107"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1146,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5200": {
+    "id": "5200",
+    "data": {
+      "name": "棉长袍",
+      "type": "长袍",
+      "buy": "1000",
+      "img": "armor_012.png",
+      "def": [
+        0,
+        5,
+        30,
+        10
+      ],
+      "handle": "1",
+      "need": {
+        "6180": "4"
+      },
+      "type2": "GUARD",
+      "no": "5200"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1156,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5201": {
+    "id": "5201",
+    "data": {
+      "name": "银长袍",
+      "type": "长袍",
+      "buy": "1500",
+      "img": "armor_012.png",
+      "def": [
+        2,
+        5,
+        35,
+        15
+      ],
+      "handle": "2",
+      "need": {
+        "6002": "1",
+        "6180": "6"
+      },
+      "type2": "GUARD",
+      "no": "5201"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1166,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5202": {
+    "id": "5202",
+    "data": {
+      "name": "小精灵长袍",
+      "type": "长袍",
+      "buy": "3000",
+      "img": "armor_012.png",
+      "def": [
+        3,
+        10,
+        40,
+        20
+      ],
+      "handle": "3",
+      "need": {
+        "6180": "8",
+        "6184": "2"
+      },
+      "type2": "GUARD",
+      "no": "5202"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1176,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5203": {
+    "id": "5203",
+    "data": {
+      "name": "仙女长袍",
+      "type": "长袍",
+      "buy": "5000",
+      "img": "armor_012.png",
+      "def": [
+        4,
+        10,
+        45,
+        25
+      ],
+      "handle": "4",
+      "need": {
+        "6180": "12",
+        "6184": "4"
+      },
+      "type2": "GUARD",
+      "no": "5203"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1186,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5204": {
+    "id": "5204",
+    "data": {
+      "name": "十字长袍",
+      "type": "长袍",
+      "buy": "8000",
+      "img": "armor_012.png",
+      "def": [
+        5,
+        10,
+        48,
+        25
+      ],
+      "handle": "5",
+      "need": {
+        "6180": "14",
+        "6184": "4"
+      },
+      "type2": "GUARD",
+      "no": "5204"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1196,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5205": {
+    "id": "5205",
+    "data": {
+      "name": "白色长袍",
+      "type": "长袍",
+      "buy": "10000",
+      "img": "armor_012.png",
+      "def": [
+        6,
+        10,
+        50,
+        25
+      ],
+      "handle": "6",
+      "need": {
+        "6183": "8",
+        "6184": "8"
+      },
+      "type2": "GUARD",
+      "no": "5205"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1206,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5206": {
+    "id": "5206",
+    "data": {
+      "name": "神圣长袍",
+      "type": "长袍",
+      "buy": "14000",
+      "img": "armor_012.png",
+      "def": [
+        7,
+        10,
+        52,
+        30
+      ],
+      "handle": "7",
+      "need": {
+        "6183": "12",
+        "6184": "12"
+      },
+      "type2": "GUARD",
+      "no": "5206"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1216,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5500": {
+    "id": "5500",
+    "data": {
+      "name": "生命指环",
+      "type": "道具",
+      "buy": "10000",
+      "img": "acce_024.png",
+      "handle": "2",
+      "P_MAXHP": "50",
+      "option": "MAXHP+50, ",
+      "type2": "其他",
+      "no": "5500"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1227,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5501": {
+    "id": "5501",
+    "data": {
+      "name": "魔法指环",
+      "type": "道具",
+      "buy": "10000",
+      "img": "acce_024.png",
+      "handle": "2",
+      "P_MAXSP": "20",
+      "option": "MAXSP+20, ",
+      "type2": "其他",
+      "no": "5501"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1237,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5510": {
+    "id": "5510",
+    "data": {
+      "name": "力量指环",
+      "type": "道具",
+      "buy": "10000",
+      "img": "acce_024.png",
+      "handle": "3",
+      "P_STR": "30",
+      "option": "STR+30, ",
+      "type2": "其他",
+      "no": "5510"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1248,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5515": {
+    "id": "5515",
+    "data": {
+      "name": "智慧指环",
+      "type": "道具",
+      "buy": "10000",
+      "img": "acce_024.png",
+      "handle": "3",
+      "P_INT": "30",
+      "option": "INT+30, ",
+      "type2": "其他",
+      "no": "5515"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1258,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5520": {
+    "id": "5520",
+    "data": {
+      "name": "灵巧指环",
+      "type": "道具",
+      "buy": "10000",
+      "img": "acce_024.png",
+      "handle": "3",
+      "P_DEX": "30",
+      "option": "DEX+30, ",
+      "type2": "其他",
+      "no": "5520"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1268,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5525": {
+    "id": "5525",
+    "data": {
+      "name": "速度指环",
+      "type": "道具",
+      "buy": "10000",
+      "img": "acce_024.png",
+      "handle": "2",
+      "P_SPD": "10",
+      "option": "SPD+10, ",
+      "type2": "其他",
+      "no": "5525"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1278,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5530": {
+    "id": "5530",
+    "data": {
+      "name": "幸运指环",
+      "type": "道具",
+      "buy": "10000",
+      "img": "acce_024.png",
+      "handle": "3",
+      "P_LUK": "30",
+      "option": "LUK+30, ",
+      "type2": "其他",
+      "no": "5530"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1288,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "5600": {
+    "id": "5600",
+    "data": {
+      "name": "狂暴指环",
+      "type": "道具",
+      "buy": "10000",
+      "img": "acce_024.png",
+      "handle": "2",
+      "P_STR": "100",
+      "M_MAXHP": "-50",
+      "option": "STR+100, HP-50% ,",
+      "type2": "其他",
+      "no": "5600"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1298,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6000": {
+    "id": "6000",
+    "data": {
+      "name": "石头",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "5",
+      "img": "item_009z.png",
+      "type2": "其他",
+      "no": "6000"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1310,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6001": {
+    "id": "6001",
+    "data": {
+      "name": "钢",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "mat_001.png",
+      "type2": "其他",
+      "no": "6001"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1318,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6002": {
+    "id": "6002",
+    "data": {
+      "name": "银",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "20",
+      "img": "mat_001.png",
+      "type2": "其他",
+      "no": "6002"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1326,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6003": {
+    "id": "6003",
+    "data": {
+      "name": "铁",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "30",
+      "img": "mat_001.png",
+      "type2": "其他",
+      "no": "6003"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1334,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6020": {
+    "id": "6020",
+    "data": {
+      "name": "木料",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "20",
+      "img": "mat_025.png",
+      "type2": "其他",
+      "no": "6020"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1343,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6021": {
+    "id": "6021",
+    "data": {
+      "name": "橡树",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "30",
+      "img": "mat_025.png",
+      "type2": "其他",
+      "no": "6021"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1351,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6022": {
+    "id": "6022",
+    "data": {
+      "name": "柏树",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "40",
+      "img": "mat_025.png",
+      "type2": "其他",
+      "no": "6022"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1359,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6040": {
+    "id": "6040",
+    "data": {
+      "name": "皮革",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "mat_024.png",
+      "type2": "其他",
+      "no": "6040"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1367,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6060": {
+    "id": "6060",
+    "data": {
+      "name": "骨头",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "mat_016.png",
+      "type2": "其他",
+      "no": "6060"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1375,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6080": {
+    "id": "6080",
+    "data": {
+      "name": "兽牙",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "mat_013.png",
+      "type2": "其他",
+      "no": "6080"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1383,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6100": {
+    "id": "6100",
+    "data": {
+      "name": "羽毛",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "20",
+      "img": "mat_008.png",
+      "type2": "其他",
+      "no": "6100"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1391,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6120": {
+    "id": "6120",
+    "data": {
+      "name": "钻石",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "100",
+      "img": "gem_02.png",
+      "type2": "其他",
+      "no": "6120"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1399,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6140": {
+    "id": "6140",
+    "data": {
+      "name": "噪声",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "other_007.png",
+      "type2": "其他",
+      "no": "6140"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1407,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6160": {
+    "id": "6160",
+    "data": {
+      "name": "金币",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "500",
+      "img": "acce_005.png",
+      "type2": "其他",
+      "no": "6160"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1415,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6161": {
+    "id": "6161",
+    "data": {
+      "name": "银币",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "250",
+      "img": "acce_005b.png",
+      "type2": "其他",
+      "no": "6161"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1423,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6162": {
+    "id": "6162",
+    "data": {
+      "name": "铜币",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "100",
+      "img": "acce_005c.png",
+      "type2": "其他",
+      "no": "6162"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1431,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6180": {
+    "id": "6180",
+    "data": {
+      "name": "棉花",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "other_008.png",
+      "type2": "其他",
+      "no": "6180"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1440,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6181": {
+    "id": "6181",
+    "data": {
+      "name": "藤",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "other_008.png",
+      "type2": "其他",
+      "no": "6181"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1448,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6182": {
+    "id": "6182",
+    "data": {
+      "name": "大麻",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "other_008.png",
+      "type2": "其他",
+      "no": "6182"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1456,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6183": {
+    "id": "6183",
+    "data": {
+      "name": "羊毛",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "other_008.png",
+      "type2": "其他",
+      "no": "6183"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1464,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6184": {
+    "id": "6184",
+    "data": {
+      "name": "丝",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "other_008.png",
+      "type2": "其他",
+      "no": "6184"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1472,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6200": {
+    "id": "6200",
+    "data": {
+      "name": "噪音",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "other_007.png",
+      "type2": "其他",
+      "no": "6200"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1480,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6600": {
+    "id": "6600",
+    "data": {
+      "name": "香蕉",
+      "type": "材料",
+      "buy": "100",
+      "sell": "50",
+      "img": "banana.png",
+      "type2": "其他",
+      "no": "6600"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1488,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6601": {
+    "id": "6601",
+    "data": {
+      "name": "黄金香蕉",
+      "type": "材料",
+      "buy": "100",
+      "sell": "5000",
+      "img": "banana.png",
+      "type2": "其他",
+      "no": "6601"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1496,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6602": {
+    "id": "6602",
+    "data": {
+      "name": "香蕉金属",
+      "type": "材料",
+      "buy": "100",
+      "sell": "50",
+      "img": "banana.png",
+      "type2": "其他",
+      "no": "6602"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1504,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6800": {
+    "id": "6800",
+    "data": {
+      "name": "龙牙",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "mat_013.png",
+      "type2": "其他",
+      "no": "6800"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1512,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6801": {
+    "id": "6801",
+    "data": {
+      "name": "龙翼",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "mat_011.png",
+      "type2": "其他",
+      "no": "6801"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1520,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "6802": {
+    "id": "6802",
+    "data": {
+      "name": "断剑",
+      "type": "材料",
+      "buy": "1000",
+      "sell": "10",
+      "img": "we_sword026.png",
+      "type2": "其他",
+      "no": "6802"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1528,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7000": {
+    "id": "7000",
+    "data": {
+      "name": "力量球",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_019.png",
+      "Add": "X00",
+      "type2": "其他",
+      "no": "7000"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1537,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7001": {
+    "id": "7001",
+    "data": {
+      "name": "魔法球",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_019.png",
+      "Add": "X01",
+      "type2": "其他",
+      "no": "7001"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1546,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7100": {
+    "id": "7100",
+    "data": {
+      "name": "哥布林之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "M01",
+      "type2": "其他",
+      "no": "7100"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1556,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7101": {
+    "id": "7101",
+    "data": {
+      "name": "蝙蝠之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7101"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1565,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7102": {
+    "id": "7102",
+    "data": {
+      "name": "骷髅勇士之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7102"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1574,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7103": {
+    "id": "7103",
+    "data": {
+      "name": "骷髅战士之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7103"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1583,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7104": {
+    "id": "7104",
+    "data": {
+      "name": "骷髅射手之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7104"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1592,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7105": {
+    "id": "7105",
+    "data": {
+      "name": "骨头萨满之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7105"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1601,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7106": {
+    "id": "7106",
+    "data": {
+      "name": "独眼巨人之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7106"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1610,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7107": {
+    "id": "7107",
+    "data": {
+      "name": "哥布林铁匠之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7107"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1619,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7108": {
+    "id": "7108",
+    "data": {
+      "name": "模仿兽之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7108"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1628,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7109": {
+    "id": "7109",
+    "data": {
+      "name": "骷髅队长之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7109"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1637,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7110": {
+    "id": "7110",
+    "data": {
+      "name": "邪恶巫师之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7110"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1646,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7111": {
+    "id": "7111",
+    "data": {
+      "name": "眼球怪之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7111"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1655,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7112": {
+    "id": "7112",
+    "data": {
+      "name": "邪恶佣人之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7112"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1664,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7113": {
+    "id": "7113",
+    "data": {
+      "name": "人马猎手之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7113"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1673,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7114": {
+    "id": "7114",
+    "data": {
+      "name": "人马骑士之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7114"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1682,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7115": {
+    "id": "7115",
+    "data": {
+      "name": "巴风特之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7115"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1691,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7116": {
+    "id": "7116",
+    "data": {
+      "name": "巴风特王之泪",
+      "type": "材料",
+      "buy": "3000",
+      "sell": "100",
+      "img": "item_018.png",
+      "Add": "",
+      "type2": "其他",
+      "no": "7116"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1700,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7500": {
+    "id": "7500",
+    "data": {
+      "name": "重命名卡",
+      "type": "其他",
+      "buy": "0",
+      "sell": "0",
+      "img": "item_035.png",
+      "type2": "其他",
+      "no": "7500"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1710,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    },
+    "adjustments": [
+      {
+        "catalog": "items",
+        "id": "7500",
+        "field": "img",
+        "before": "item_035z.png",
+        "after": "item_035.png",
+        "reason": "Missing source asset; reuse existing generic token icon"
+      }
+    ]
+  },
+  "7510": {
+    "id": "7510",
+    "data": {
+      "name": "重置水晶(状态1)",
+      "type": "其他",
+      "buy": "100000",
+      "sell": "100",
+      "img": "gem_03.png",
+      "type2": "其他",
+      "no": "7510"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1718,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7511": {
+    "id": "7511",
+    "data": {
+      "name": "重置水晶(状态30)",
+      "type": "其他",
+      "buy": "300000",
+      "sell": "100",
+      "img": "gem_03.png",
+      "type2": "其他",
+      "no": "7511"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1726,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7512": {
+    "id": "7512",
+    "data": {
+      "name": "重置水晶(状态50)",
+      "type": "其他",
+      "buy": "500000",
+      "sell": "100",
+      "img": "gem_03.png",
+      "type2": "其他",
+      "no": "7512"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1734,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7513": {
+    "id": "7513",
+    "data": {
+      "name": "重置水晶(状态100)",
+      "type": "其他",
+      "buy": "1000000",
+      "sell": "100",
+      "img": "gem_03.png",
+      "type2": "其他",
+      "no": "7513"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1742,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "7520": {
+    "id": "7520",
+    "data": {
+      "name": "重置水晶(技能)",
+      "type": "其他",
+      "buy": "500000",
+      "sell": "100",
+      "img": "gem_03.png",
+      "type2": "其他",
+      "no": "7520"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1750,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "8000": {
+    "id": "8000",
+    "data": {
+      "name": "古代洞穴",
+      "type": "地图",
+      "buy": "5000",
+      "sell": "100",
+      "img": "book_003.png",
+      "type2": "其他",
+      "no": "8000"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1759,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "8001": {
+    "id": "8001",
+    "data": {
+      "name": "古代洞穴 B2",
+      "type": "钥匙",
+      "buy": "5000",
+      "sell": "100",
+      "img": "item_032.png",
+      "type2": "其他",
+      "no": "8001"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1767,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "8002": {
+    "id": "8002",
+    "data": {
+      "name": "古代洞穴 B3",
+      "type": "钥匙",
+      "buy": "5000",
+      "sell": "100",
+      "img": "item_032.png",
+      "type2": "其他",
+      "no": "8002"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1775,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "8003": {
+    "id": "8003",
+    "data": {
+      "name": "古代洞穴 B4",
+      "type": "钥匙",
+      "buy": "5000",
+      "sell": "100",
+      "img": "item_032.png",
+      "type2": "其他",
+      "no": "8003"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1783,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "8004": {
+    "id": "8004",
+    "data": {
+      "name": "古代洞穴 B5",
+      "type": "钥匙",
+      "buy": "5000",
+      "sell": "100",
+      "img": "item_032.png",
+      "type2": "其他",
+      "no": "8004"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1791,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "8009": {
+    "id": "8009",
+    "data": {
+      "name": "滴冻山入口",
+      "type": "地图",
+      "buy": "500",
+      "sell": "100",
+      "img": "book_003.png",
+      "type2": "其他",
+      "no": "8009"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1799,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "8010": {
+    "id": "8010",
+    "data": {
+      "name": "滴冻山中腹",
+      "type": "地图",
+      "buy": "5000",
+      "sell": "100",
+      "img": "book_003.png",
+      "type2": "其他",
+      "no": "8010"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1807,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "8011": {
+    "id": "8011",
+    "data": {
+      "name": "滴冻山顶上",
+      "type": "地图",
+      "buy": "5000",
+      "sell": "100",
+      "img": "book_003.png",
+      "type2": "其他",
+      "no": "8011"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1815,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  },
+  "9000": {
+    "id": "9000",
+    "data": {
+      "name": "拍卖会员卡",
+      "type": "特殊",
+      "buy": "9999",
+      "sell": "100",
+      "img": "item_035.png",
+      "type2": "其他",
+      "no": "9000"
+    },
+    "source": {
+      "path": "data/data.item.php",
+      "line": 1824,
+      "sha256": "daffd7dbd39d3a8e3b85800b5d41f53d2f8e2f91f43cc6c94d3d7531888c2f06"
+    }
+  }
+}

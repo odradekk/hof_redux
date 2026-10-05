@@ -1,0 +1,3608 @@
+{
+  "100": {
+    "id": "100",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+1, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 7,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "101": {
+    "id": "101",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+2, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 11,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "102": {
+    "id": "102",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+3, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 15,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "103": {
+    "id": "103",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+4, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 19,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "104": {
+    "id": "104",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+5, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 23,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "105": {
+    "id": "105",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+6, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 27,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "106": {
+    "id": "106",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 7
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+7, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 31,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "107": {
+    "id": "107",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+8, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 35,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "108": {
+    "id": "108",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 9
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+9, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 39,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "109": {
+    "id": "109",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+10, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 43,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "110": {
+    "id": "110",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 11
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+11, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 47,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "111": {
+    "id": "111",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+12, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 51,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "112": {
+    "id": "112",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 13
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+13, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 55,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "113": {
+    "id": "113",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 14
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+14, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 59,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "114": {
+    "id": "114",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+15, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 63,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "115": {
+    "id": "115",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 16
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+16, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 67,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "116": {
+    "id": "116",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 17
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+17, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 71,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "117": {
+    "id": "117",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 18
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+18, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 75,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "118": {
+    "id": "118",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 19
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+19, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 79,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "119": {
+    "id": "119",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 20
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+20, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 83,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "150": {
+    "id": "150",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+1, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 88,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "151": {
+    "id": "151",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+2, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 92,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "152": {
+    "id": "152",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+3, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 96,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "153": {
+    "id": "153",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+4, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 100,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "154": {
+    "id": "154",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+5, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 104,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "155": {
+    "id": "155",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+6, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 108,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "156": {
+    "id": "156",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 7
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+7, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 112,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "157": {
+    "id": "157",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+8, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 116,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "158": {
+    "id": "158",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 9
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+9, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 120,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "159": {
+    "id": "159",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+10, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 124,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "160": {
+    "id": "160",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 11
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+11, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 128,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "161": {
+    "id": "161",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 12
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+12, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 132,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "162": {
+    "id": "162",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 13
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+13, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 136,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "163": {
+    "id": "163",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 14
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+14, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 140,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "164": {
+    "id": "164",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 15
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+15, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 144,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "165": {
+    "id": "165",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 16
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+16, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 148,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "166": {
+    "id": "166",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 17
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+17, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 152,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "167": {
+    "id": "167",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 18
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+18, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 156,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "168": {
+    "id": "168",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 19
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+19, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 160,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "169": {
+    "id": "169",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 20
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+20, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 164,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "200": {
+    "id": "200",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "multiply_round",
+          "value": 1.05
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+5%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 169,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "201": {
+    "id": "201",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "multiply_round",
+          "value": 1.1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+10%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 173,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "202": {
+    "id": "202",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "multiply_round",
+          "value": 1.15
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+15%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 177,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "203": {
+    "id": "203",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "multiply_round",
+          "value": 1.2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+20%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 181,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "250": {
+    "id": "250",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "multiply_round",
+          "value": 1.05
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+5%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 186,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "251": {
+    "id": "251",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "multiply_round",
+          "value": 1.1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+10%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 190,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "252": {
+    "id": "252",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "multiply_round",
+          "value": 1.15
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+15%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 194,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "253": {
+    "id": "253",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "multiply_round",
+          "value": 1.2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+20%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 198,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "300": {
+    "id": "300",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "def",
+            "0"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Def+1, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 203,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "301": {
+    "id": "301",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "def",
+            "0"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Def+2, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 207,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "302": {
+    "id": "302",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "def",
+            "0"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Def+3, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 211,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "303": {
+    "id": "303",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "def",
+            "0"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Def+4, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 215,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "304": {
+    "id": "304",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "def",
+            "0"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Def+5, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 219,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "350": {
+    "id": "350",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "def",
+            "2"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Mdef+1, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 224,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "351": {
+    "id": "351",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "def",
+            "2"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Mdef+2, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 228,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "352": {
+    "id": "352",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "def",
+            "2"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Mdef+3, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 232,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "353": {
+    "id": "353",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "def",
+            "2"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Mdef+4, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 236,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "354": {
+    "id": "354",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "def",
+            "2"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Mdef+5, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 240,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "400": {
+    "id": "400",
+    "data": {
+      "operations": []
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 246,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "H00": {
+    "id": "H00",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXHP"
+          ],
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+10, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 249,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "H01": {
+    "id": "H01",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXHP"
+          ],
+          "operation": "add",
+          "value": 20
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+20, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 253,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "H02": {
+    "id": "H02",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXHP"
+          ],
+          "operation": "add",
+          "value": 30
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+30, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 257,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "H03": {
+    "id": "H03",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXHP"
+          ],
+          "operation": "add",
+          "value": 40
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+40, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 261,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "H04": {
+    "id": "H04",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXHP"
+          ],
+          "operation": "add",
+          "value": 50
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+50, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 265,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "H05": {
+    "id": "H05",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXHP"
+          ],
+          "operation": "add",
+          "value": 60
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+60, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 269,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "HM0": {
+    "id": "HM0",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXHP"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+1%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 274,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "HM1": {
+    "id": "HM1",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXHP"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+2%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 278,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "HM2": {
+    "id": "HM2",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXHP"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+3%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 282,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "HM3": {
+    "id": "HM3",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXHP"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+4%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 286,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "HM4": {
+    "id": "HM4",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXHP"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+5%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 290,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "HM5": {
+    "id": "HM5",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXHP"
+          ],
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+6%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 294,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "S00": {
+    "id": "S00",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXSP"
+          ],
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXSP+10, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 299,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "S01": {
+    "id": "S01",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXSP"
+          ],
+          "operation": "add",
+          "value": 20
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXSP+20, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 303,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "S02": {
+    "id": "S02",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXSP"
+          ],
+          "operation": "add",
+          "value": 30
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXSP+30, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 307,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "S03": {
+    "id": "S03",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXSP"
+          ],
+          "operation": "add",
+          "value": 40
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXSP+40, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 311,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "SM0": {
+    "id": "SM0",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXSP"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXSP+1%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 316,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "SM1": {
+    "id": "SM1",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXSP"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXSP+2%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 320,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "SM2": {
+    "id": "SM2",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXSP"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXSP+3%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 324,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "SM3": {
+    "id": "SM3",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXSP"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXSP+4%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 328,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "SM4": {
+    "id": "SM4",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXSP"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXSP+5%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 332,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "SM5": {
+    "id": "SM5",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "M_MAXSP"
+          ],
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXSP+6%, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 336,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "P00": {
+    "id": "P00",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_STR"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "STR+1, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 341,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "P01": {
+    "id": "P01",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_STR"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "STR+2, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 345,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "P02": {
+    "id": "P02",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_STR"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "STR+3, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 349,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "P03": {
+    "id": "P03",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_STR"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "STR+4, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 353,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "P04": {
+    "id": "P04",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_STR"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "STR+5, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 357,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "P05": {
+    "id": "P05",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_STR"
+          ],
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "STR+6, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 361,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "P06": {
+    "id": "P06",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_STR"
+          ],
+          "operation": "add",
+          "value": 7
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "STR+7, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 365,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "P07": {
+    "id": "P07",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_STR"
+          ],
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "STR+8, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 369,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "P08": {
+    "id": "P08",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_STR"
+          ],
+          "operation": "add",
+          "value": 9
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "STR+9, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 373,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "P09": {
+    "id": "P09",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_STR"
+          ],
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "STR+10, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 377,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "I00": {
+    "id": "I00",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_INT"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "INT+1, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 382,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "I01": {
+    "id": "I01",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_INT"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "INT+2, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 386,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "I02": {
+    "id": "I02",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_INT"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "INT+3, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 390,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "I03": {
+    "id": "I03",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_INT"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "INT+4, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 394,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "I04": {
+    "id": "I04",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_INT"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "INT+5, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 398,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "I05": {
+    "id": "I05",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_INT"
+          ],
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "INT+6, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 402,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "I06": {
+    "id": "I06",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_INT"
+          ],
+          "operation": "add",
+          "value": 7
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "INT+7, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 406,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "I07": {
+    "id": "I07",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_INT"
+          ],
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "INT+8, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 410,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "I08": {
+    "id": "I08",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_INT"
+          ],
+          "operation": "add",
+          "value": 9
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "INT+9, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 414,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "I09": {
+    "id": "I09",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_INT"
+          ],
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "INT+10, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 418,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "D00": {
+    "id": "D00",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_DEX"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "DEX+1, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 423,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "D01": {
+    "id": "D01",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_DEX"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "DEX+2, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 427,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "D02": {
+    "id": "D02",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_DEX"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "DEX+3, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 431,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "D03": {
+    "id": "D03",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_DEX"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "DEX+4, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 435,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "D04": {
+    "id": "D04",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_DEX"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "DEX+5, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 439,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "D05": {
+    "id": "D05",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_DEX"
+          ],
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "DEX+6, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 443,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "D06": {
+    "id": "D06",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_DEX"
+          ],
+          "operation": "add",
+          "value": 7
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "DEX+7, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 447,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "D07": {
+    "id": "D07",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_DEX"
+          ],
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "DEX+8, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 451,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "D08": {
+    "id": "D08",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_DEX"
+          ],
+          "operation": "add",
+          "value": 9
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "DEX+9, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 455,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "D09": {
+    "id": "D09",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_DEX"
+          ],
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "DEX+10, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 459,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "A00": {
+    "id": "A00",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_SPD"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "SPD+1, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 464,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "A01": {
+    "id": "A01",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_SPD"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "SPD+2, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 468,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "A02": {
+    "id": "A02",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_SPD"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "SPD+3, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 472,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "A03": {
+    "id": "A03",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_SPD"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "SPD+4, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 476,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "A04": {
+    "id": "A04",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_SPD"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "SPD+5, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 480,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "A05": {
+    "id": "A05",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_SPD"
+          ],
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "SPD+6, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 484,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "A06": {
+    "id": "A06",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_SPD"
+          ],
+          "operation": "add",
+          "value": 7
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "SPD+7, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 488,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "A07": {
+    "id": "A07",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_SPD"
+          ],
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "SPD+8, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 492,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "A08": {
+    "id": "A08",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_SPD"
+          ],
+          "operation": "add",
+          "value": 9
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "SPD+9, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 496,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "A09": {
+    "id": "A09",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_SPD"
+          ],
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "SPD+10, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 500,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "L00": {
+    "id": "L00",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_LUK"
+          ],
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "LUK+1, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 505,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "L01": {
+    "id": "L01",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_LUK"
+          ],
+          "operation": "add",
+          "value": 2
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "LUK+2, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 509,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "L02": {
+    "id": "L02",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_LUK"
+          ],
+          "operation": "add",
+          "value": 3
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "LUK+3, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 513,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "L03": {
+    "id": "L03",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_LUK"
+          ],
+          "operation": "add",
+          "value": 4
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "LUK+4, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 517,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "L04": {
+    "id": "L04",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_LUK"
+          ],
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "LUK+5, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 521,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "L05": {
+    "id": "L05",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_LUK"
+          ],
+          "operation": "add",
+          "value": 6
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "LUK+6, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 525,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "L06": {
+    "id": "L06",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_LUK"
+          ],
+          "operation": "add",
+          "value": 7
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "LUK+7, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 529,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "L07": {
+    "id": "L07",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_LUK"
+          ],
+          "operation": "add",
+          "value": 8
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "LUK+8, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 533,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "L08": {
+    "id": "L08",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_LUK"
+          ],
+          "operation": "add",
+          "value": 9
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "LUK+9, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 537,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "L09": {
+    "id": "L09",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_LUK"
+          ],
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "LUK+10, "
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 541,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "X00": {
+    "id": "X00",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "0"
+          ],
+          "operation": "add",
+          "value": 5,
+          "when_type2": "WEAPON"
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Atk+5, ",
+          "when_type2": "WEAPON"
+        },
+        {
+          "path": [
+            "AddName"
+          ],
+          "operation": "set",
+          "value": "力量",
+          "when_type2": "WEAPON"
+        },
+        {
+          "path": [
+            "def",
+            "0"
+          ],
+          "operation": "add",
+          "value": 2,
+          "when_type2": "GUARD"
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Def+2, ",
+          "when_type2": "GUARD"
+        },
+        {
+          "path": [
+            "AddName"
+          ],
+          "operation": "set",
+          "value": "稳固",
+          "when_type2": "GUARD"
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 546,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "X01": {
+    "id": "X01",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "atk",
+            "1"
+          ],
+          "operation": "add",
+          "value": 5,
+          "when_type2": "WEAPON"
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Matk+5, ",
+          "when_type2": "WEAPON"
+        },
+        {
+          "path": [
+            "AddName"
+          ],
+          "operation": "set",
+          "value": "智慧",
+          "when_type2": "WEAPON"
+        },
+        {
+          "path": [
+            "def",
+            "2"
+          ],
+          "operation": "add",
+          "value": 2,
+          "when_type2": "GUARD"
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "Mdef+2, ",
+          "when_type2": "GUARD"
+        },
+        {
+          "path": [
+            "AddName"
+          ],
+          "operation": "set",
+          "value": "睿智",
+          "when_type2": "GUARD"
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 557,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  },
+  "M01": {
+    "id": "M01",
+    "data": {
+      "operations": [
+        {
+          "path": [
+            "P_MAXHP"
+          ],
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "path": [
+            "option"
+          ],
+          "operation": "append",
+          "value": "MAXHP+10, "
+        },
+        {
+          "path": [
+            "AddName"
+          ],
+          "operation": "set",
+          "value": "哥布林之"
+        }
+      ]
+    },
+    "source": {
+      "path": "data/data.enchant.php",
+      "line": 568,
+      "sha256": "e01317fa8dcad154553a8707a559629d13b6a385a5826f671e0ebaaf130c13f5"
+    }
+  }
+}

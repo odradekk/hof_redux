@@ -1,0 +1,129 @@
+{
+  "shop": {
+    "id": "shop",
+    "data": {
+      "values": [
+        1002,
+        1003,
+        1004,
+        1100,
+        1101,
+        1200,
+        1700,
+        1701,
+        1702,
+        1703,
+        1800,
+        1801,
+        2000,
+        2001,
+        3000,
+        3001,
+        3002,
+        3100,
+        3101,
+        5000,
+        5001,
+        5002,
+        5003,
+        5100,
+        5101,
+        5102,
+        5103,
+        5200,
+        5201,
+        5202,
+        5203,
+        5500,
+        5501,
+        7000,
+        7001,
+        7500,
+        8000,
+        8009,
+        7510,
+        7511,
+        7512,
+        7513,
+        7520
+      ]
+    },
+    "source": {
+      "path": "class/global.php",
+      "line": 4,
+      "sha256": "b194ffbd1076baaab23b515ca18299fb0f6acacbcddd4797ddc9534e44334204"
+    },
+    "adjustments": [
+      {
+        "catalog": "economy_rules",
+        "id": "shop",
+        "field": "values",
+        "removed": 8012,
+        "reason": "Source stock references undefined item; do not invent content"
+      },
+      {
+        "catalog": "economy_rules",
+        "id": "shop",
+        "field": "values",
+        "added": [
+          7510,
+          7511,
+          7512,
+          7513,
+          7520
+        ],
+        "reason": "Approved completed stat and skill reset access at existing item prices"
+      }
+    ]
+  },
+  "auction_types": {
+    "id": "auction_types",
+    "data": {
+      "values": {
+        "剑": "1",
+        "双手剑": "1",
+        "匕首": "1",
+        "魔杖": "1",
+        "杖": "1",
+        "弓": "1",
+        "鞭": "1",
+        "盾": "1",
+        "书": "1",
+        "甲": "1",
+        "衣服": "1",
+        "长袍": "1",
+        "道具": "1",
+        "材料": "1"
+      }
+    },
+    "source": {
+      "path": "class/global.php",
+      "line": 18,
+      "sha256": "b194ffbd1076baaab23b515ca18299fb0f6acacbcddd4797ddc9534e44334204"
+    }
+  },
+  "refine_types": {
+    "id": "refine_types",
+    "data": {
+      "values": [
+        "剑",
+        "双手剑",
+        "匕首",
+        "魔杖",
+        "杖",
+        "弓",
+        "鞭",
+        "盾",
+        "书",
+        "甲",
+        "衣服",
+        "长袍"
+      ]
+    },
+    "source": {
+      "path": "class/global.php",
+      "line": 38,
+      "sha256": "b194ffbd1076baaab23b515ca18299fb0f6acacbcddd4797ddc9534e44334204"
+    }
+  }
+}

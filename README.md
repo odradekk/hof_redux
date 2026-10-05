@@ -1,24 +1,30 @@
-# 旧版只读参考
+# Hall of Fame Redux
 
-此目录用于 HOF Redux 的规则取证、内容提取和素材复用，不是部署产物，也不迁移旧玩家存档。普通源码、内容定义、静态素材和颜色表保持原始字节、编码与换行；废弃实现保留作证据，不因此成为新版功能范围。
+A server-rendered Laravel 13 / PHP 8.4.26 rewrite with PostgreSQL 18, Blade, PHP-FPM and Nginx. The first release is intended to include the complete retained game; do not equate a passing platform test with gameplay release acceptance.
 
-## 配置与凭据
+## Run locally with Docker Compose
 
-两个原始文件仅保留在原本地工作区，由 Git 忽略；仓库提供保留行数的脱敏参考副本：
+1. Copy `.env.example` to `.env`. Set a unique `DB_PASSWORD` and generate an `APP_KEY` (32 random bytes, base64 encoded with the `base64:` prefix). Never commit `.env`.
+2. Run `docker compose build` and `docker compose up -d db`.
+3. Run `docker compose run --rm app php artisan migrate --force`.
+4. Run `docker compose up -d`. Open http://localhost:8080, register, then name the team and choose the first character.
 
-| 旧文件 | 仓库参考文件 | 移除内容 |
-| --- | --- | --- |
-| `setting.php` | [setting.reference.php](setting.reference.php) | `CRYPT_KEY`、`UP_PASS` 的原值 |
-| `admin.php` | [admin.reference.php](admin.reference.php) | `ADMIN_PASSWORD` 的原值 |
+The scheduler runs the same application image. The database port is not published. The web port binds localhost by default. Production requires a TLS reverse proxy, `APP_ENV=production`, `APP_DEBUG=false`, the correct `APP_URL`, and `SESSION_SECURE_COOKIE=true`. In production, all generated links, assets and form actions use the exact configured `APP_URL` origin and scheme; set it to the public HTTPS origin (for example `https://hof.example.com`). The application does not trust forwarded host/protocol headers. Keep the Compose HTTP listener private behind the TLS proxy; the proxy must route that public origin to localhost:8080. Never expose plain HTTP sessions on the public internet. Do not share the test application key from `phpunit.xml` with production. Back up PostgreSQL before upgrading and run migrations deliberately; startup never silently migrates or deletes accounts.
 
-被移除的常量以抛出异常的表达式替换，副本仅供阅读，不提供可使用的默认凭据。玩法常量和其他代码保持原样。历史设计文档引用上述旧文件时，Linux 工作区可按同一行号查看对应参考副本；原始旧源码指纹不能与脱敏副本直接等同。
+## Development and tests
 
-## 未入库内容
+Install PHP 8.4.26 with PDO PostgreSQL, mbstring, intl, bcmath, zip and XML extensions, copy `.env.example` to `.env`, then run `composer install`. Run `composer test`, `composer lint`, and `composer audit`. The default feature suite uses in-memory SQLite for speed; set DB_CONNECTION/DB_HOST/DB_DATABASE/DB_USERNAME/DB_PASSWORD in the environment to run against PostgreSQL. PostgreSQL is required to verify production check constraints and row/advisory lock behavior; SQLite results alone are insufficient for release.
 
-- `user/`、`log/`、`union/` 中的玩家、战报和 Boss 运行状态。
-- 根目录的 `.dat` 文件，包括账号/名称索引、拍卖、排行、留言、公告及管理运行数据。
-- `Thumbs.db` 等系统缓存，以及不在白名单内的其他文件。
+Money is an integer. One stamina equals 86,400 integer units; regeneration adds exactly 500 units per elapsed second, capped at 8,640,000 units. This avoids floating-point drift and represents the legacy 500 stamina/day rate exactly at one-second resolution. Account login IDs are case-insensitive ASCII identifiers; team names and character names are distinct, escaped Unicode text. First-character choices retain warrior/sorcerer; recruitment can use all four base types.
 
-`class/Color.dat` 是静态十六进制颜色表，单独纳入白名单；不能因扩展名相同而把其他 `.dat` 当作内容定义。
+## Archived source and assets
 
-克隆仓库即可取得同步后的参考源码和素材。提取时继续采用明确白名单、来源记录和已批准差异，不执行旧站入口来导出数据，也不将此目录放入新版应用镜像。新增参考文件前仍需检查是否包含凭据或运行数据，不能仅凭扩展名判断可发布。
+`legacy/` is an inert byte-preserved archive of the previous tracked source and assets. Its README documents redacted credentials and omitted runtime data. Never execute it or point a web root at it. It is outside `public/`, excluded by the Docker build allowlist, and not loaded by the application. Static GIF/PNG assets are copied verbatim to `public/`; the original CSS declarations are retained with obsolete non-English comments removed. `public/app.css` contains responsive corrections and `public/battle.css` contains CSP-compatible battle presentation. No existing player saves are imported.
+
+The repository root must never be an HTTP document root. Nginx serves only `public/` and executes only its `index.php`. Composer autoloads only new `App\` classes, not legacy PHP. All state changes use authenticated POST routes with CSRF protection; session IDs rotate after authentication and logout invalidates the session. The production database is the single transactional state store.
+
+## Administrator access
+
+There is no default administrator or shared administrator password. First register an ordinary account through the application. A trusted server operator can then run `docker compose exec app php artisan admin:access LOGIN` and review the confirmation prompt. For an explicitly approved noninteractive operation, run `docker compose exec -T app php artisan admin:access LOGIN --confirm --no-interaction`. Replace `LOGIN` with that existing account's login ID; this command never creates an account.
+
+To remove access, run `docker compose exec app php artisan admin:access LOGIN --revoke`, or add `--confirm --no-interaction` for an explicitly approved noninteractive revoke. Changes are transactional and recorded in the administrator audit log with a null administrator ID and an `operator-console` actor, rather than impersonating the target account. Restrict shell/container access to trusted operators; this command is not exposed over HTTP.

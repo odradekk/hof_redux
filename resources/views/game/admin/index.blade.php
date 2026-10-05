@@ -1,0 +1,12 @@
+@extends('layouts.app')
+@section('title','管理控制台')
+@section('content')
+<h2>管理控制台</h2><p>@foreach($totals as $label=>$value){{ $label }}: {{ number_format($value) }} · @endforeach</p>
+<h3>账号</h3>@foreach($users as $player)<p><a href="{{ route('admin.user',$player) }}">#{{ $player->id }} {{ $player->login }} · {{ $player->name }}</a> · Gold {{ number_format($player->money) }}</p>@endforeach{{ $users->links() }}
+<h3>发布公告</h3><form method="post" action="{{ route('admin.announcement') }}">@csrf<input type="hidden" name="operation_id" value="{{ (string) Str::uuid() }}"><label>标题 <input name="title" maxlength="120" required></label><label>内容 <textarea name="body" maxlength="20000" required></textarea></label><button>发布</button></form>
+<h3>内容审核</h3>@foreach($announcements as $notice)<form method="post" action="{{ route('admin.moderate') }}">@csrf<input type="hidden" name="operation_id" value="{{ (string) Str::uuid() }}"><input type="hidden" name="type" value="announcement"><input type="hidden" name="id" value="{{ $notice->id }}"><strong>{{ $notice->title }}</strong> <label>输入 DELETE <input name="confirm" required pattern="DELETE"></label><button>删除公告</button></form>@endforeach
+@foreach($messages as $message)<form method="post" action="{{ route('admin.moderate') }}">@csrf<input type="hidden" name="operation_id" value="{{ (string) Str::uuid() }}"><input type="hidden" name="type" value="message"><input type="hidden" name="id" value="{{ $message->id }}">{{ $message->author_name }}: {{ $message->body }} <label>输入 DELETE <input name="confirm" required pattern="DELETE"></label><button>删除留言</button></form>@endforeach
+<h3>战报清理</h3><p>只删除战报内容，保留挑战记录、冷却和统计。不自动删除账号。</p><form method="post" action="{{ route('admin.reports') }}">@csrf<input type="hidden" name="operation_id" value="{{ (string) Str::uuid() }}"><select name="type"><option value="pve">普通</option><option value="boss">BOSS</option><option value="pvp">竞技场</option></select><label>早于 <input type="date" name="before" required></label><label>输入 DELETE <input name="confirm" pattern="DELETE" required></label><button>清理</button></form>
+<h3>运行维护</h3><p>初始化缺少的 BOSS、复活已到时间的 BOSS、结算到期拍卖。不会强制重置有效拍卖。</p><form method="post" action="{{ route('admin.maintenance') }}">@csrf<label>输入 RUN <input name="confirm" required pattern="RUN"></label><button>运行</button></form>
+<h3>管理审计</h3>@foreach($audits as $audit)<p>{{ $audit->created_at }} · Admin {{ $audit->admin_id ?? 'self' }} · {{ $audit->action }} · {{ $audit->target }} · {{ json_encode($audit->details,JSON_UNESCAPED_UNICODE) }}</p>@endforeach
+@endsection

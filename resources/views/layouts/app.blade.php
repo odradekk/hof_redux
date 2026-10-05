@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>@yield('title', '荣誉圣殿') · Hall of Fame</title><link rel="stylesheet" href="{{ asset('basis.css') }}"><link rel="stylesheet" href="{{ asset('style.css') }}"><link rel="stylesheet" href="{{ asset('app.css') }}"></head>
+<body><div id="main_frame"><header id="title"><h1>荣誉圣殿 <small>Hall of Fame</small></h1></header>
+<nav id="menu" aria-label="Main navigation">@auth<a href="{{ route('home') }}">主页</a> <a href="{{ url('/town') }}">城镇</a> <a href="{{ url('/hunt') }}">冒险</a> <a href="{{ url('/characters') }}">角色</a> <a href="{{ url('/inventory') }}">道具</a> <a href="{{ url('/auction') }}">拍卖会所</a> <a href="{{ url('/ranking') }}">竞技场</a> <a href="{{ route('account') }}">设置</a>@else<a href="{{ route('login') }}">登录</a> <a href="{{ route('register') }}">注册</a>@endauth <a href="{{ url('/manual') }}">游戏说明</a></nav>
+@auth<div id="menu2">{{ auth()->user()->name ?? auth()->user()->login }} · Gold {{ number_format(auth()->user()->money) }} <form class="inline" method="post" action="{{ route('logout') }}">@csrf<button type="submit">退出</button></form></div>@endauth
+<main id="contents" class="margin15">@if(session('status'))<p role="status" class="result">{{ session('status') }}</p>@endif
+@if($errors->any())<div role="alert" class="error"><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
+@yield('content')</main><footer id="foot">Hall of Fame Redux</footer></div></body></html>
