@@ -1,0 +1,18 @@
+# Only reference source and static assets may enter version control.
+*
+!*/
+!*.php
+!*.css
+!*.gif
+!*.png
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/class/Color.dat
+
+# Keep local credentials and all historical runtime state private.
+/setting.php
+/admin.php
+/user/
+/log/
+/union/
