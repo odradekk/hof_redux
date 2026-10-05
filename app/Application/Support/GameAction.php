@@ -4,6 +4,7 @@ namespace App\Application\Support;
 
 use App\Models\InventoryItem;
 use App\Models\User;
+use Carbon\CarbonImmutable;
 use Closure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -17,7 +18,7 @@ final class GameAction
     public const STAMINA_PER_DAY = 500;
 
     // One stamina point is 86400 units, so units regenerated per second equal points per day.
-    private const STAMINA_UNIT = 86400;
+    public const STAMINA_UNIT = 86400;
 
     public function execute(int $actorId, string $command, string $key, array $payload, Closure $callback): array
     {
@@ -85,12 +86,19 @@ final class GameAction
         $this->ledger($user->id, $operationId, 'money', $delta, $reason);
     }
 
+    /** Compute regenerated raw units without persisting a read-only HUD request. */
+    public static function availableStamina(User $user, CarbonImmutable $now): int
+    {
+        $seconds = max(0, $now->getTimestamp() - $user->stamina_updated_at->getTimestamp());
+
+        return min(self::STAMINA_MAX * self::STAMINA_UNIT, $user->stamina_units + $seconds * self::STAMINA_PER_DAY);
+    }
+
     public function stamina(User $user, int $cost, int $operationId, string $reason): void
     {
         $this->ensure($cost >= 0 && $cost <= self::STAMINA_MAX, 'Invalid stamina cost.');
-        $at = now();
-        $seconds = max(0, $at->getTimestamp() - $user->stamina_updated_at->getTimestamp());
-        $available = min(self::STAMINA_MAX * self::STAMINA_UNIT, $user->stamina_units + $seconds * self::STAMINA_PER_DAY);
+        $at = CarbonImmutable::now();
+        $available = self::availableStamina($user, $at);
         $this->ensure($available >= $cost * self::STAMINA_UNIT, 'Not enough stamina.');
         $user->stamina_units = $available - $cost * self::STAMINA_UNIT;
         $user->stamina_updated_at = $at;

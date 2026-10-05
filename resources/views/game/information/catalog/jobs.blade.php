@@ -1,7 +1,8 @@
-@extends('game.information.layout')
+@extends('layouts.app')
 @section('title', '游戏资料 · 职业')
-@section('info')
-@include('game.information.catalog.nav')
+@section('content')
+@include('game.information.catalog.head')
+<div class="doc">
 <h2 class="sec">职业(Job)</h2>
 <ul class="toc">
 @foreach($jobs as $job)
@@ -13,9 +14,9 @@
 </ul>
 <p class="meta indent">生命 / 魔力系数代入公式：最大生命 = 100 × 生命系数 × (1 + (等级 − 1) ÷ 49) × (1 + (255² − (255 − 力量)²) ÷ 255²)，最大魔力把力量换成智慧。详见 <a href="{{ route('catalog', 'rules') }}#vitals">数值规则</a>。</p>
 @foreach($jobs as $job)
-<h2 class="sec" id="job-{{ $job['id'] }}"><a href="{{ $job['href'] }}">{{ $job['name'] }}</a>@if($job['name_female'] !== $job['name']) / {{ $job['name_female'] }}@endif <span class="sec-aside">{{ $job['from'] ? '高级职业' : '基本职业' }} · <a href="{{ $job['href'] }}">技能树 →</a></span></h2>
+<h2 class="sec" id="job-{{ $job['id'] }}" data-id="jobs-{{ $job['id'] }}"><a href="{{ $job['href'] }}">{{ $job['name'] }}</a>@if($job['name_female'] !== $job['name']) / {{ $job['name_female'] }}@endif <span class="sec-aside">{{ $job['from'] ? '高级职业' : '基本职业' }} · <a href="{{ $job['href'] }}">技能树 →</a></span></h2>
 <div class="entry-head">
-<ul class="units">@foreach($job['images'] as $i => $image)@include('game.information.unit', ['unit' => ['name' => $i ? '女性' : '男性', 'img' => $image['img']]])@endforeach</ul>
+<div class="carpets">@foreach($job['images'] as $i => $image)<x-carpet :unit="array_replace($image, ['name' => $i ? '女性' : '男性', 'href' => null])" />@endforeach</div>
 <div>
 <p>{{ $job['note'] }}</p>
 <dl class="kv">
@@ -29,4 +30,5 @@
 </div>
 </div>
 @endforeach
+</div>
 @endsection

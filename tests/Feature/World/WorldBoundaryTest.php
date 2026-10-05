@@ -96,16 +96,21 @@ final class WorldBoundaryTest extends TestCase
         $this->get('/catalog/rules/1')->assertNotFound();
     }
 
-    public function test_battle_view_uses_external_styles_and_whitelisted_background_classes(): void
+    public function test_battle_view_uses_external_styles_and_whitelisted_svg_assets(): void
     {
         view()->share('errors', new ViewErrorBag);
-        $html = view('game.battle.show', ['report' => ['mode' => 'pve', 'background' => 'grass', 'teams' => [[['id' => 'hero', 'name' => 'Hero', 'state' => 1]], []], 'events' => []]])->render();
+        $report = ['mode' => 'pve', 'background' => 'grass', 'teams' => [[['id' => 'hero', 'name' => 'Hero', 'state' => 1]], []], 'events' => []];
+        $html = view('game.battle.show', ['report' => app(BattleService::class)->publicReport($report)])->render();
         $this->assertStringNotContainsString('style=', $html);
-        $this->assertStringContainsString('battle.css', $html);
-        $this->assertStringContainsString('battle-background-grass', $html);
-        $this->assertStringContainsString('battle-unit-dead', $html);
-        $bad = view('game.battle.show', ['report' => ['background' => 'evil" onmouseover="x', 'teams' => [[], []], 'events' => []]])->render();
-        $this->assertStringContainsString('battle-background-grass', $bad);
+        $this->assertStringContainsString('/css/hof.css?v=', $html);
+        $this->assertStringNotContainsString('battle.css', $html);
+        $this->assertStringContainsString('image/other/bg_grass.gif', $html);
+        $this->assertStringContainsString('is-dead', $html);
+        $this->assertStringContainsString('image/char_rev/mon_145.gif', $html);
+        $this->assertStringContainsString('viewBox="0 0 480 200"', $html);
+        $report = ['background' => 'evil" onmouseover="x', 'teams' => [[], []], 'events' => []];
+        $bad = view('game.battle.show', ['report' => app(BattleService::class)->publicReport($report)])->render();
+        $this->assertStringContainsString('image/other/bg_grass.gif', $bad);
         $this->assertStringNotContainsString('onmouseover', $bad);
     }
 }

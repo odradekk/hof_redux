@@ -1,7 +1,8 @@
-@extends('game.information.layout')
+@extends('layouts.app')
 @section('title', '游戏资料 · 道具')
-@section('info')
-@include('game.information.catalog.nav')
+@section('content')
+@include('game.information.catalog.head')
+<div class="doc">
 <h2 class="sec">道具(Item)</h2>
 <ul class="toc">
 @foreach($groups as $category => $types)
@@ -16,9 +17,10 @@
 <thead><tr><th>道具</th><th>买价</th><th>卖价</th><th>获得</th></tr></thead>
 <tbody>
 @foreach($rows as $line)
-<tr><td class="primary">@include('game.information.item-line')</td><td class="num" data-label="买价">{{ \App\Application\World\GameText::money($line['buy']) }}</td><td class="num" data-label="卖价">{{ \App\Application\World\GameText::money($line['sell']) }}</td><td class="sources" data-label="获得">@foreach($line['sources'] as $source)<span class="badge">{{ $source }}</span>@endforeach</td></tr>
+<tr data-id="items-{{ $line['id'] }}"><td class="primary"><x-item :line="$line" /></td><td class="num" data-label="买价"><x-money :amount="$line['buy']" /></td><td class="num" data-label="卖价"><x-money :amount="$line['sell']" /></td><td data-label="获得">@foreach($line['sources'] as $source)<span class="badge">{{ $source }}</span>@endforeach</td></tr>
 @endforeach
 </tbody></table>
 @endforeach
 @endforeach
+</div>
 @endsection

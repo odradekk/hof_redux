@@ -8,6 +8,8 @@ use App\Application\Multiplayer\AuctionService;
 use App\Application\Player\ItemDetails;
 use App\Application\Player\PlayerRules;
 use App\Domain\Content\ContentCatalog;
+use App\Http\View\Images;
+use App\Http\View\UnitCards;
 
 /**
  * Read-only projections of the content catalog for the public game data pages.
@@ -16,11 +18,6 @@ use App\Domain\Content\ContentCatalog;
  */
 final class GameData
 {
-    public const KINDS = [
-        'jobs' => '职业', 'items' => '道具', 'skills' => '技能', 'monsters' => '怪物',
-        'areas' => '地图', 'conditions' => '行动条件', 'enchants' => '附魔', 'rules' => '数值规则',
-    ];
-
     /** Kinds with one page per record. */
     public const DETAILS = ['jobs', 'items', 'skills', 'monsters'];
 
@@ -123,8 +120,9 @@ final class GameData
     {
         $item = $this->details->resolve(['item_id' => (string) $id]);
 
-        return ['id' => (string) $id, 'name' => $item['name'], 'icon' => 'image/icon/'.basename($item['img']),
-            'type' => $item['type'], 'stats' => $this->text->itemStats($item), 'href' => route('catalog.entry', ['items', $id])];
+        return ['id' => (string) $id, 'name' => $item['name'], 'icon' => 'image/icon/'.basename($item['img']), 'refine' => 0,
+            'type' => $item['type'], 'qty' => 1, 'stats' => $this->text->itemStats($item), 'option' => '', 'note' => '',
+            'href' => route('catalog.entry', ['items', $id])];
     }
 
     public function skillLine(string|int $id): array
@@ -140,9 +138,11 @@ final class GameData
     public function monsterLine(string|int $id): array
     {
         $monster = $this->catalog->get('monsters', $id);
+        $img = 'image/char/'.basename($monster['img'] ?? 'NoImage.gif');
+        [$width, $height] = Images::size($img);
 
-        return ['id' => (string) $id, 'name' => $monster['name'], 'img' => 'image/char/'.basename($monster['img'] ?? 'NoImage.gif'),
-            'level' => (string) ($monster['level'] ?? '?'), 'boss' => isset($monster['UnionName']),
+        return ['id' => (string) $id, 'name' => $monster['name'], 'img' => $img, 'width' => $width, 'height' => $height,
+            'level' => (string) ($monster['level'] ?? '?'), 'label' => '', 'boss' => isset($monster['UnionName']),
             'href' => $this->exists('monsters', (string) $id) ? route('catalog.entry', ['monsters', $id]) : null];
     }
 
@@ -151,8 +151,11 @@ final class GameData
         $job = $this->catalog->get('jobs', $id);
         $key = $gender ? 'female' : 'male';
 
-        return ['id' => (string) $id, 'name' => trim($job['name_'.$key]), 'img' => 'image/char/'.basename($job['img_'.$key]),
-            'href' => route('catalog.entry', ['jobs', $id])];
+        $img = 'image/char/'.basename($job['img_'.$key]);
+        [$width, $height] = Images::size($img);
+
+        return ['id' => (string) $id, 'name' => trim($job['name_'.$key]), 'img' => $img, 'width' => $width, 'height' => $height,
+            'label' => '', 'href' => route('catalog.entry', ['jobs', $id])];
     }
 
     // ---- Jobs --------------------------------------------------------------------------
@@ -205,10 +208,10 @@ final class GameData
 
             return [
                 'type' => (int) $type, 'price' => PlayerRules::RECRUIT_PRICES[(int) $type] ?? null,
-                'stats' => array_map(fn ($key) => (int) $base[$key], array_combine(array_keys(GameText::STATS), array_keys(GameText::STATS))),
+                'stats' => array_combine(GameText::STAT_KEYS, array_map(fn ($key) => (int) $base[$key], GameText::STAT_KEYS)),
                 'skills' => array_map(fn ($skill) => $this->skillLine($skill), $base['skill']),
                 'equipment' => $equipment, 'tactics' => $this->pattern($base),
-                'position' => GameText::POSITIONS[$base['position']], 'guard' => GameText::GUARDS[$base['guard']],
+                'position' => __('hof.positions.'.$base['position']), 'guard' => __('hof.guards.'.$base['guard']),
             ];
         }
 
@@ -455,7 +458,7 @@ final class GameData
         $row['hp'] = $boss ? null : (int) $monster['maxhp'];
         // Shared bosses keep the legacy "????/????" rule: their HP and SP are never published.
         $row['sp'] = $boss ? null : (int) $monster['maxsp'];
-        $row['stats'] = array_map(fn ($key) => (int) $monster[$key], array_combine(array_keys(GameText::STATS), array_keys(GameText::STATS)));
+        $row['stats'] = array_combine(GameText::STAT_KEYS, array_map(fn ($key) => (int) $monster[$key], GameText::STAT_KEYS));
         $row['exp'] = $boss ? null : (int) ($monster['exphold'] ?? 0);
         $row['money'] = $boss ? null : (int) ($monster['moneyhold'] ?? 0);
         $row['drops'] = count($monster['itemtable'] ?? []);
@@ -470,8 +473,8 @@ final class GameData
         $view = $this->monsterRow($id);
         $view['atk'] = array_map('intval', $monster['atk']);
         $view['def'] = array_map('intval', $monster['def']);
-        $view['position'] = isset($monster['position']) ? GameText::POSITIONS[$monster['position']] : '每次出现时随机';
-        $view['guard'] = GameText::GUARDS[$monster['guard']];
+        $view['position'] = isset($monster['position']) ? __('hof.positions.'.$monster['position']) : '每次出现时随机';
+        $view['guard'] = __('hof.guards.'.$monster['guard']);
         $view['specials'] = [];
         foreach ($monster['SPECIAL'] ?? [] as $key => $value) {
             $view['specials'][] = match ($key) {
@@ -491,7 +494,8 @@ final class GameData
         $view['bosses_of'] = array_map(fn ($boss) => $this->monsterLine($boss), $index['bosses_of'][$id] ?? []);
         // Legacy ShowCharWithLand(): bosses stand on their own land, others on their first map's land.
         $land = $monster['land'] ?? ($view['areas'][0]['land'] ?? null);
-        $view['land'] = $land !== null && is_file(public_path('image/other/land_'.$land.'.gif')) ? $land : null;
+        $land = UnitCards::LAND_FALLBACKS[$land] ?? $land;
+        $view['base'] = $land !== null ? 'image/other/land_'.$land.'.gif' : null;
         $view['variants'] = array_map(fn ($img) => 'image/char/'.basename($img), $monster['image_variants'] ?? []);
         $view['union'] = null;
         if ($view['boss']) {
@@ -523,7 +527,8 @@ final class GameData
             }
             $unlock = $area['unlock'];
             $areas[$unlock['kind'] === 'unavailable' ? 'closed' : 'open'][$id] = [
-                'id' => $id, 'name' => $area['name'], 'name0' => $area['name0'] ?? '', 'land' => $area['land'],
+                'id' => $id, 'name' => $area['name'], 'name0' => $area['name0'] ?? '',
+                'base' => 'image/other/land_'.(UnitCards::LAND_FALLBACKS[$area['land']] ?? $area['land']).'.gif',
                 'proper' => $area['proper'], 'encounters' => $encounters,
                 'unlock' => match ($unlock['kind']) {
                     'always' => '随时可进入',

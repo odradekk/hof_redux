@@ -13,15 +13,8 @@ use App\Domain\Content\ContentCatalog;
  */
 final class GameText
 {
-    public const STATS = ['str' => '力量', 'int' => '智慧', 'dex' => '敏捷', 'spd' => '速度', 'luk' => '幸运'];
-
-    public const GUARDS = [
-        'always' => '必定保护', 'never' => '不保护',
-        'life25' => '自己生命高于 25% 时保护', 'life50' => '自己生命高于 50% 时保护', 'life75' => '自己生命高于 75% 时保护',
-        'prob25' => '约 25% 概率保护', 'prob50' => '约 50% 概率保护', 'prob75' => '约 75% 概率保护',
-    ];
-
-    public const POSITIONS = ['front' => '前卫', 'back' => '后卫'];
+    /** Attribute keys in display order; labels come from the hof.stats glossary. */
+    public const STAT_KEYS = ['str', 'int', 'dex', 'spd', 'luk'];
 
     public const TARGET_SIDE = ['enemy' => ['dmg', '敌方'], 'friend' => ['recover', '友方'], 'self' => ['support', '自己'], 'all' => ['charge', '战场全体']];
 
@@ -114,6 +107,16 @@ final class GameText
 
     public function __construct(private ContentCatalog $catalog) {}
 
+    private static function part(array $pair): array
+    {
+        return ['tone' => $pair[0], 'text' => $pair[1]];
+    }
+
+    public static function stats(): array
+    {
+        return array_combine(self::STAT_KEYS, array_map(static fn (string $key): string => __('hof.stats.'.$key), self::STAT_KEYS));
+    }
+
     public static function money(int|string $amount): string
     {
         return '$ '.number_format((int) $amount);
@@ -144,41 +147,41 @@ final class GameText
     {
         $parts = [];
         if (! empty($item['atk'][0])) {
-            $parts[] = ['dmg', '物理攻击 '.$item['atk'][0]];
+            $parts[] = ['tone' => 'dmg', 'text' => '物理攻击 '.$item['atk'][0]];
         }
         if (! empty($item['atk'][1])) {
-            $parts[] = ['spdmg', '魔法攻击 '.$item['atk'][1]];
+            $parts[] = ['tone' => 'spdmg', 'text' => '魔法攻击 '.$item['atk'][1]];
         }
         if (! empty($item['def'])) {
-            $parts[] = ['recover', '物理防御 '.(int) $item['def'][0].'+'.(int) $item['def'][1]];
-            $parts[] = ['support', '魔法防御 '.(int) $item['def'][2].'+'.(int) $item['def'][3]];
+            $parts[] = ['tone' => 'recover', 'text' => '物理防御 '.(int) $item['def'][0].'+'.(int) $item['def'][1]];
+            $parts[] = ['tone' => 'support', 'text' => '魔法防御 '.(int) $item['def'][2].'+'.(int) $item['def'][3]];
         }
         if (! empty($item['P_SUMMON'])) {
-            $parts[] = ['support', '召唤力 +'.$item['P_SUMMON'].'%'];
+            $parts[] = ['tone' => 'support', 'text' => '召唤力 +'.$item['P_SUMMON'].'%'];
         }
         foreach ([0 => '物理', 1 => '魔法'] as $index => $label) {
             if (! empty($item['P_PIERCE'][$index])) {
-                $parts[] = ['dmg', '无视'.$label.'防御伤害 +'.$item['P_PIERCE'][$index]];
+                $parts[] = ['tone' => 'dmg', 'text' => '无视'.$label.'防御伤害 +'.$item['P_PIERCE'][$index]];
             }
         }
         foreach (self::BONUS as $key => $label) {
             if (! empty($item[$key])) {
-                $parts[] = ['charge', $label.' '.self::signed((int) $item[$key])];
+                $parts[] = ['tone' => 'charge', 'text' => $label.' '.self::signed((int) $item[$key])];
             }
         }
         foreach (['M_MAXHP' => '最大生命', 'M_MAXSP' => '最大魔力'] as $key => $label) {
             if (! empty($item[$key])) {
-                $parts[] = ['charge', $label.' '.self::signed((int) $item[$key]).'%'];
+                $parts[] = ['tone' => 'charge', 'text' => $label.' '.self::signed((int) $item[$key]).'%'];
             }
         }
         if (isset($item['handle'])) {
-            $parts[] = ['charge', '重量 '.$item['handle']];
+            $parts[] = ['tone' => 'charge', 'text' => '重量 '.$item['handle']];
         }
         if (! empty($item['dh'])) {
-            $parts[] = ['charge', '双手'];
+            $parts[] = ['tone' => 'charge', 'text' => '双手'];
         }
         if (! empty($item['Add'])) {
-            $parts[] = ['support', '制作时附加「'.$this->enchantName((string) $item['Add']).'」'];
+            $parts[] = ['tone' => 'support', 'text' => '制作时附加「'.$this->enchantName((string) $item['Add']).'」'];
         }
 
         return $parts;
@@ -192,106 +195,106 @@ final class GameText
     {
         $parts = [];
         if (! empty($skill['passive'])) {
-            $parts[] = ['charge', '被动'];
+            $parts[] = ['tone' => 'charge', 'text' => '被动'];
         }
         if (isset($skill['target'])) {
             [$side, $style, $count] = $skill['target'] + [null, null, 1];
-            $parts[] = self::TARGET_SIDE[$side] ?? ['', (string) $side];
-            $parts[] = self::TARGET_STYLE[$style] ?? ['', (string) $style];
+            $parts[] = self::part(self::TARGET_SIDE[$side] ?? ['', (string) $side]);
+            $parts[] = self::part(self::TARGET_STYLE[$style] ?? ['', (string) $style]);
             if ($style === 'multi' && (int) $count > 1) {
-                $parts[] = ['spdmg', (int) $count.' 次'];
+                $parts[] = ['tone' => 'spdmg', 'text' => (int) $count.' 次'];
             }
         }
         if (! empty($skill['sacrifice'])) {
-            $parts[] = ['dmg', '牺牲最大生命的 '.$skill['sacrifice'].'%（后卫时加倍）'];
+            $parts[] = ['tone' => 'dmg', 'text' => '牺牲最大生命的 '.$skill['sacrifice'].'%（后卫时加倍）'];
         }
         if (isset($skill['sp'])) {
-            $parts[] = ['support', '消耗 '.(int) $skill['sp'].' 魔力'];
+            $parts[] = ['tone' => 'support', 'text' => '消耗 '.(int) $skill['sp'].' 魔力'];
         }
         if (! empty($skill['MagicCircleDeleteTeam'])) {
-            $parts[] = ['support', '消耗我方魔法阵 '.$skill['MagicCircleDeleteTeam'].' 个'];
+            $parts[] = ['tone' => 'support', 'text' => '消耗我方魔法阵 '.$skill['MagicCircleDeleteTeam'].' 个'];
         }
         if (! empty($skill['pow'])) {
             $count = ($skill['target'][1] ?? '') === 'multi' ? 1 : (int) ($skill['target'][2] ?? 1);
-            $parts[] = [! empty($skill['support']) ? 'recover' : 'dmg', '威力 '.$skill['pow'].'%'.($count > 1 ? ' × '.$count : '')];
+            $parts[] = ['tone' => ! empty($skill['support']) ? 'recover' : 'dmg', 'text' => '威力 '.$skill['pow'].'%'.($count > 1 ? ' × '.$count : '')];
         }
         if ((int) ($skill['type'] ?? 0) === 1) {
-            $parts[] = ['spdmg', '魔法'];
+            $parts[] = ['tone' => 'spdmg', 'text' => '魔法'];
         } elseif (! empty($skill['pow']) && empty($skill['support'])) {
-            $parts[] = ['dmg', ($skill['inf'] ?? '') === 'dex' ? '物理（敏捷）' : '物理'];
+            $parts[] = ['tone' => 'dmg', 'text' => ($skill['inf'] ?? '') === 'dex' ? '物理（敏捷）' : '物理'];
         }
         if (! empty($skill['support'])) {
-            $parts[] = ['recover', '辅助'];
+            $parts[] = ['tone' => 'recover', 'text' => '辅助'];
         }
         if (! empty($skill['pierce'])) {
-            $parts[] = ['dmg', '无视防御'];
+            $parts[] = ['tone' => 'dmg', 'text' => '无视防御'];
         }
         if (! empty($skill['quick'])) {
-            $parts[] = ['charge', '召唤物立即行动'];
+            $parts[] = ['tone' => 'charge', 'text' => '召唤物立即行动'];
         }
         if (! empty($skill['invalid'])) {
-            $parts[] = ['charge', '前卫无法保护'];
+            $parts[] = ['tone' => 'charge', 'text' => '前卫无法保护'];
         }
         if (isset($skill['priority'])) {
-            $parts[] = ['support', self::PRIORITY[$skill['priority']] ?? (string) $skill['priority']];
+            $parts[] = ['tone' => 'support', 'text' => self::PRIORITY[$skill['priority']] ?? (string) $skill['priority']];
         }
         if (! empty($skill['CurePoison'])) {
-            $parts[] = ['support', '解毒'];
+            $parts[] = ['tone' => 'support', 'text' => '解毒'];
         }
         if (! empty($skill['poison'])) {
-            $parts[] = ['spdmg', '中毒 '.$skill['poison'].'%'];
+            $parts[] = ['tone' => 'spdmg', 'text' => '中毒 '.$skill['poison'].'%'];
         }
         if (! empty($skill['knockback'])) {
-            $parts[] = ['dmg', '击退至后卫'];
+            $parts[] = ['tone' => 'dmg', 'text' => '击退至后卫'];
         }
         if (! empty($skill['move'])) {
-            $parts[] = ['support', '目标移至'.self::POSITIONS[$skill['move']]];
+            $parts[] = ['tone' => 'support', 'text' => '目标移至'.__('hof.positions.'.$skill['move'])];
         }
         if (! empty($skill['umove'])) {
-            $parts[] = ['support', '使用者移至'.self::POSITIONS[$skill['umove']]];
+            $parts[] = ['tone' => 'support', 'text' => '使用者移至'.__('hof.positions.'.$skill['umove'])];
         }
         if (! empty($skill['delay'])) {
-            $parts[] = ['support', '延迟 -'.$skill['delay']];
+            $parts[] = ['tone' => 'support', 'text' => '延迟 -'.$skill['delay']];
         }
         if (! empty($skill['SpRecoveryRate'])) {
-            $parts[] = ['support', '回复魔力 √最大魔力 × '.$skill['SpRecoveryRate']];
+            $parts[] = ['tone' => 'support', 'text' => '回复魔力 √最大魔力 × '.$skill['SpRecoveryRate']];
         }
         foreach (['HpRegen' => '生命', 'SpRegen' => '魔力'] as $key => $label) {
             if (! empty($skill[$key])) {
-                $parts[] = ['recover', '每次行动回复'.$label.' '.$skill[$key].'%'];
+                $parts[] = ['tone' => 'recover', 'text' => '每次行动回复'.$label.' '.$skill[$key].'%'];
             }
         }
         if (! empty($skill['MagicCircleAdd'])) {
-            $parts[] = ['charge', '我方魔法阵 +'.$skill['MagicCircleAdd']];
+            $parts[] = ['tone' => 'charge', 'text' => '我方魔法阵 +'.$skill['MagicCircleAdd']];
         }
         if (! empty($skill['MagicCircleDeleteEnemy'])) {
-            $parts[] = ['dmg', '敌方魔法阵 -'.$skill['MagicCircleDeleteEnemy']];
+            $parts[] = ['tone' => 'dmg', 'text' => '敌方魔法阵 -'.$skill['MagicCircleDeleteEnemy']];
         }
         foreach (['Up' => ['charge', '+'], 'Down' => ['dmg', '-']] as $operation => [$tone, $sign]) {
             foreach (self::MODIFIED as $stat => $label) {
                 if (! empty($skill[$operation.$stat])) {
-                    $parts[] = [$tone, $label.' '.$sign.$skill[$operation.$stat].'%'];
+                    $parts[] = ['tone' => $tone, 'text' => $label.' '.$sign.$skill[$operation.$stat].'%'];
                 }
             }
         }
         foreach (['STR', 'INT', 'DEX', 'SPD', 'LUK'] as $stat) {
             if (! empty($skill['Plus'.$stat])) {
-                $parts[] = ['charge', self::MODIFIED[$stat].' +'.$skill['Plus'.$stat]];
+                $parts[] = ['tone' => 'charge', 'text' => self::MODIFIED[$stat].' +'.$skill['Plus'.$stat]];
             }
         }
         foreach (self::BONUS as $key => $label) {
             if (! empty($skill[$key])) {
-                $parts[] = ['charge', $label.' '.self::signed((int) $skill[$key])];
+                $parts[] = ['tone' => 'charge', 'text' => $label.' '.self::signed((int) $skill[$key])];
             }
         }
         if (! empty($skill['summon'])) {
-            $parts[] = ['support', '召唤 '.implode('、', array_map(fn ($id) => $this->name('monsters', $id), (array) $skill['summon']))];
+            $parts[] = ['tone' => 'support', 'text' => '召唤 '.implode('、', array_map(fn ($id) => $this->name('monsters', $id), (array) $skill['summon']))];
         }
         if (! empty($skill['charge'][0]) || ! empty($skill['charge'][1])) {
-            $parts[] = ['', '（准备 '.(int) ($skill['charge'][0] ?? 0).' : 僵直 '.(int) ($skill['charge'][1] ?? 0).'）'];
+            $parts[] = ['tone' => '', 'text' => '（准备 '.(int) ($skill['charge'][0] ?? 0).' : 僵直 '.(int) ($skill['charge'][1] ?? 0).'）'];
         }
         if (! empty($skill['limit'])) {
-            $parts[] = ['', '需要装备：'.implode('、', array_keys($skill['limit']))];
+            $parts[] = ['tone' => '', 'text' => '需要装备：'.implode('、', array_keys($skill['limit']))];
         }
 
         return $parts;

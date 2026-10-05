@@ -12,6 +12,7 @@ Route::middleware(['auth', 'character'])->group(function () {
     Route::post('/ranking/team', [MultiplayerController::class, 'rankTeam'])->name('ranking.team');
     Route::post('/ranking/challenge', [MultiplayerController::class, 'rankChallenge'])->name('ranking.challenge');
     Route::get('/bosses', [MultiplayerController::class, 'bosses'])->name('bosses');
+    Route::get('/bosses/{boss}', [MultiplayerController::class, 'bosses'])->whereNumber('boss')->name('bosses.show');
     Route::post('/bosses/{boss}/challenge', [MultiplayerController::class, 'bossChallenge'])->name('bosses.challenge');
     Route::get('/multiplayer/reports/{kind}/{report}', [MultiplayerController::class, 'report'])->whereIn('kind', ['ranking', 'boss'])->name('multiplayer.report');
 });

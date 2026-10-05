@@ -1,9 +1,44 @@
 @extends('layouts.app')
-@section('title','竞技场')
+@section('title', '竞技场')
 @section('content')
-<h4>竞技场 · Ranking</h4><p>队伍 1–5 人，每 48 小时可重设 · 胜利后等待 60 秒，失败或平局等待 24 小时 · First place cannot challenge</p>
-<table><tr><th>排位</th><th>队伍</th><th>胜 / 败 / 平 / 防守</th></tr>@forelse($entries as $entry)<tr><td>{{ \App\Application\Multiplayer\RankingService::place($entry->position) }}</td><td>{{ $names[$entry->user_id] ?? '—' }}</td><td>{{ $entry->wins }} / {{ $entry->losses }} / {{ $entry->draws }} / {{ $entry->defenses }}</td></tr>@empty<tr><td colspan="3">No ranking teams yet. Register a party and challenge to establish the ladder.</td></tr>@endforelse</table>
-@auth<h4>竞技队伍 · Team</h4><form method="post" action="{{ route('ranking.team') }}">@csrf<input type="hidden" name="operation_id" value="{{ (string) Str::uuid() }}">@foreach($characters as $character)<label><input type="checkbox" name="party[]" value="{{ $character->id }}" @checked(in_array($character->id,$team?->party??[]))>{{ $character->name }} Lv.{{ $character->level }}</label>@endforeach<button>保存队伍</button></form>
-@if($team)<p>Team changed: {{ $team->party_set_at }} UTC · Next challenge: {{ $team->challenge_at ?? 'Ready' }}</p><form method="post" action="{{ route('ranking.challenge') }}">@csrf<input type="hidden" name="operation_id" value="{{ (string) Str::uuid() }}"><button>挑战上一级随机队伍</button></form>@endif @endauth
-<h4>挑战记录 · History</h4><ul>@foreach($challenges as $challenge)<li>{{ $challenge->created_at }} · {{ $names[$challenge->challenger_id]??'—' }} vs {{ $names[$challenge->defender_id]??'—' }} · {{ $challenge->result }} @auth<a href="{{ route('multiplayer.report',['ranking',$challenge->id]) }}">战报</a>@endauth</li>@endforeach</ul>
+<x-sec as="h1" title="竞技场(Ranking)" />
+<p class="hint">登记1–5名角色，每48小时可重设队伍。胜利后等待60秒，失败或平局等待24小时。第一名不可继续挑战。</p>
+<div class="split split-stack">
+    @foreach($rankings as $ranking)
+        <section>
+            <x-sec :title="$ranking['label']" as="h2" />
+            <table class="tbl">
+                <thead><tr><th scope="col">排位</th><th scope="col">队伍</th></tr></thead>
+                <tbody>
+                    @forelse($ranking['rows'] as $group)
+                        <tr>
+                            <th scope="row" class="c">@if($group['crown'])<img class="icon" src="{{ asset($group['crown']) }}" alt="{{ $group['label'] }}" width="24" height="24">@else{{ $group['label'] }}@endif</th>
+                            <td>@foreach($group['entries'] as $entry)<p><span @class(['bold u' => $entry['own']])>{{ $entry['name'] }}</span><br><span class="meta">{{ $entry['record'] }}</span></p>@endforeach</td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="2" class="empty">暂无竞技场排名</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </section>
+    @endforeach
+</div>
+@auth
+    <x-sec title="登记队伍" as="h2" />
+    @if(!$canRegister)<p class="hint">下次可重设队伍：<x-time :at="$teamReadyAt" mode="relative" /></p>@endif
+    <x-sortie :units="$units" :selected="$selected" :action="route('ranking.team')">
+        <x-slot:actions><button class="btn" type="submit" @disabled(!$canRegister)>保存队伍</button><button class="btn" type="reset">重置</button></x-slot:actions>
+    </x-sortie>
+    @if($team)
+        <x-sec title="挑战" as="h2" />
+        @if($ownPlace === 1)<p class="hint">您已位居第一名，等待其他队伍挑战。</p>
+        @elseif($challengeAt && !$canChallenge)<p>下次可挑战：<x-time :at="$challengeAt" mode="relative" /></p>
+        @else<p>现在可以挑战上一级随机队伍。</p>@endif
+        <form method="post" action="{{ route('ranking.challenge') }}" class="actions">
+            <x-op /><button class="btn btn-lg" type="submit" @disabled(!$canChallenge)>挑战!</button>
+        </form>
+    @endif
+@endauth
+<x-sec title="挑战记录" as="h2" />
+<x-feed :entries="$challenges" />
 @endsection

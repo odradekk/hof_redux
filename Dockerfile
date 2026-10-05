@@ -11,6 +11,7 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-in
 COPY app app
 COPY bootstrap bootstrap
 COPY config config
+COPY lang lang
 COPY content content
 COPY database database
 COPY public public

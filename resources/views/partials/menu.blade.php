@@ -1,0 +1,1 @@
+<nav class="menu" aria-label="主导航">@if($hud['setup'])<p>首次登录游戏，感谢您的加入！</p>@else<ul>@foreach($hud['menu'] as $item)<li><a href="{{ $item['href'] }}" @if($item['active']) aria-current="page" @endif>{{ $item['label'] }}</a></li>@endforeach</ul>@endif</nav>

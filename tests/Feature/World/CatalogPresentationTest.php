@@ -19,9 +19,9 @@ final class CatalogPresentationTest extends TestCase
 
     public function test_every_list_page_renders_named_values_without_engine_keys(): void
     {
-        $this->get('/catalog')->assertOk()->assertSee('游戏资料');
-        foreach (array_keys(GameData::KINDS) as $kind) {
-            $response = $this->get('/catalog/'.$kind)->assertOk()->assertSee('information.css', false);
+        $this->get('/catalog')->assertOk()->assertSee('游戏数据(GameData)');
+        foreach (array_keys(config('hof_ui.catalog_tabs')) as $kind) {
+            $response = $this->get('/catalog/'.$kind)->assertOk();
             foreach (self::RAW_KEYS as $key) {
                 $response->assertDontSee($key, false);
             }

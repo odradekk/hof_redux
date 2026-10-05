@@ -1,7 +1,8 @@
-@extends('game.information.layout')
+@extends('layouts.app')
 @section('title', '游戏资料 · 附魔')
-@section('info')
-@include('game.information.catalog.nav')
+@section('content')
+@include('game.information.catalog.head')
+<div class="doc">
 <h2 class="sec">附魔(Enchant)</h2>
 <div class="indent prose">
 <p>在锻冶屋“制作”装备时，成品会随机获得附加能力。每次制作掷一个 1–9 的数：</p>
@@ -15,7 +16,7 @@
 <h2 class="sec">特殊材料</h2>
 <table class="tbl tbl-stack">
 <thead><tr><th>材料</th><th>附加效果</th></tr></thead>
-<tbody>@foreach($materials as $material)<tr><td class="primary">@include('game.information.item-line', ['line' => $material['item'], 'stats' => false])</td><td data-label="效果">@if($material['enchant']['name'] !== $material['enchant']['effect'])<b>{{ $material['enchant']['name'] }}</b> · @endif{{ $material['enchant']['effect'] }}</td></tr>@endforeach</tbody>
+<tbody>@foreach($materials as $material)<tr><td class="primary"><x-item :line="array_replace($material['item'], ['stats' => []])" /></td><td data-label="效果">@if($material['enchant']['name'] !== $material['enchant']['effect'])<b>{{ $material['enchant']['name'] }}</b> · @endif{{ $material['enchant']['effect'] }}</td></tr>@endforeach</tbody>
 </table>
 <h2 class="sec">各类型的候选表</h2>
 <table class="tbl tbl-stack">
@@ -26,6 +27,7 @@
 <h2 class="sec">全部附魔效果</h2>
 <table class="tbl tbl-stack">
 <thead><tr><th>编号</th><th>效果</th></tr></thead>
-<tbody>@foreach($rows as $row)<tr><td class="primary">{{ $row['id'] }}@if($row['name'] !== $row['effect']) · {{ $row['name'] }}@endif</td><td data-label="效果">{{ $row['effect'] }}</td></tr>@endforeach</tbody>
+<tbody>@foreach($rows as $row)<tr data-id="enchants-{{ $row['id'] }}"><td class="primary">{{ $row['id'] }}@if($row['name'] !== $row['effect']) · {{ $row['name'] }}@endif</td><td data-label="效果">{{ $row['effect'] }}</td></tr>@endforeach</tbody>
 </table>
+</div>
 @endsection

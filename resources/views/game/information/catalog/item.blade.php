@@ -1,10 +1,11 @@
-@extends('game.information.layout')
+@extends('layouts.app')
 @section('title', '道具 · '.$item['name'])
-@section('info')
-@include('game.information.catalog.nav')
+@section('content')
+@include('game.information.catalog.head')
+<div class="doc">
 @php($money = fn ($amount) => \App\Application\World\GameText::money($amount))
 <h2 class="sec">{{ $item['name'] }} <span class="sec-aside">{{ $item['type'] }} · No.{{ $item['id'] }}</span></h2>
-<p class="indent">@include('game.information.item-line', ['line' => $item])</p>
+<p class="indent"><x-item :line="$item" /></p>
 <dl class="kv indent">
 <dt>种类</dt><dd>{{ $item['type'] }}@if($item['slot'])（装备位置：{{ $item['slot'] }}）@endif</dd>
 @if($item['jobs'])<dt>可装备职业</dt><dd>@foreach($item['jobs'] as $job)<a href="{{ $job['href'] }}">{{ $job['name'] }}</a>{{ $loop->last ? '' : '、' }}@endforeach</dd>@endif
@@ -27,16 +28,16 @@
 @endif
 @if($item['recipe'])
 <h2 class="sec">制作配方 <span class="sec-aside">锻冶屋 · 制作费 {{ $money($item['recipe']['fee']) }}</span></h2>
-<ul class="item-list indent">@foreach($item['recipe']['materials'] as $material)<li>@include('game.information.item-line', ['line' => $material['item'], 'qty' => $material['quantity'], 'stats' => false])</li>@endforeach</ul>
+<ul class="item-list indent">@foreach($item['recipe']['materials'] as $material)<li><x-item :line="array_replace($material['item'], ['stats' => []])" :qty="$material['quantity']" /></li>@endforeach</ul>
 <p class="meta indent">制作出的装备会随机获得附加能力，见下方“附魔候选”和 <a href="{{ route('catalog', 'enchants') }}">附魔</a>。</p>
 @endif
 @if($item['used_in'])
 <h2 class="sec">可用于制作 <span class="sec-aside">{{ count($item['used_in']) }} 种</span></h2>
-<ul class="item-list indent">@foreach($item['used_in'] as $use)<li>@include('game.information.item-line', ['line' => $use['item'], 'stats' => false]) <span class="meta">需要 {{ $use['quantity'] }} 个</span></li>@endforeach</ul>
+<ul class="item-list indent">@foreach($item['used_in'] as $use)<li><x-item :line="array_replace($use['item'], ['stats' => []])" /> <span class="meta">需要 {{ $use['quantity'] }} 个</span></li>@endforeach</ul>
 @endif
 @if($item['drops'])
 <h2 class="sec">掉落来源 <span class="sec-aside">击倒该怪物时的掉落率</span></h2>
-<table class="tbl tbl-stack indent">
+<table class="tbl tbl-stack">
 <thead><tr><th>怪物</th><th>等级</th><th>掉落率</th></tr></thead>
 <tbody>@foreach($item['drops'] as $drop)<tr><td class="primary">@if($drop['monster']['href'])<a href="{{ $drop['monster']['href'] }}">{{ $drop['monster']['name'] }}</a>@else{{ $drop['monster']['name'] }}@endif @if($drop['monster']['boss'])<span class="badge">共享首领</span>@endif</td><td class="num" data-label="等级">{{ $drop['monster']['level'] }}</td><td class="num" data-label="掉落率">{{ $drop['rate'] }}</td></tr>@endforeach</tbody>
 </table>
@@ -49,4 +50,5 @@
 <dt>高级（{{ count($item['pool']['high']) }}）</dt><dd>@foreach($item['pool']['high'] as $enchant)<span class="badge" title="{{ $enchant['effect'] }}">{{ $enchant['effect'] }}</span>@endforeach</dd>
 </dl>
 @endif
+</div>
 @endsection

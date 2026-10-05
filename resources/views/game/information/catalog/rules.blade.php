@@ -1,7 +1,8 @@
-@extends('game.information.layout')
+@extends('layouts.app')
 @section('title', '游戏资料 · 数值规则')
-@section('info')
-@include('game.information.catalog.nav')
+@section('content')
+@include('game.information.catalog.head')
+<div class="doc">
 @php($c = $constants)
 @php($money = fn ($amount) => \App\Application\World\GameText::money($amount))
 <h2 class="sec">数值规则</h2>
@@ -20,40 +21,40 @@
 <li>击倒怪物的经验由当时存活的角色平分（向上取整），倒下的角色得不到经验。</li>
 </ul>
 <ol class="exp-grid indent" aria-label="各等级升级所需经验">
-@foreach($rules->experienceTable() as $row)<li><b>Lv.{{ $row['level'] }}</b><span class="num">{{ number_format($row['next']) }}</span></li>@endforeach
+@foreach($rules->experienceTable() as $row)<li><b class="meta">Lv.{{ $row['level'] }}</b><span class="num">{{ number_format($row['next']) }}</span></li>@endforeach
 </ol>
 
 <h2 class="sec" id="vitals">生命与魔力</h2>
 <p class="indent">最大生命与最大魔力由职业系数、等级和能力值决定，加点、升级、转职和重置时重新计算：</p>
-<code class="formula">最大生命 = round(100 × 生命系数 × (1 + (等级 − 1) ÷ 49) × (1 + (255² − (255 − 力量)²) ÷ 255²))
-最大魔力 = round(100 × 魔力系数 × (1 + (等级 − 1) ÷ 49) × (1 + (255² − (255 − 智慧)²) ÷ 255²))</code>
+<pre class="formula">最大生命 = round(100 × 生命系数 × (1 + (等级 − 1) ÷ 49) × (1 + (255² − (255 − 力量)²) ÷ 255²))
+最大魔力 = round(100 × 魔力系数 × (1 + (等级 − 1) ÷ 49) × (1 + (255² − (255 − 智慧)²) ÷ 255²))</pre>
 <p class="indent">战斗时再加上装备与被动技能的加成：先乘以（1 + 百分比加成），再加固定加成。每场战斗开始时生命、魔力全满，战斗中的损伤不会保留。各职业系数见 <a href="{{ route('catalog', 'jobs') }}">职业</a>。</p>
 
 <h2 class="sec" id="patterns">行动模式行数</h2>
 <p class="indent">可设定的行动模式行数由智慧决定，等级 30 以上再加 1 行。</p>
-<table class="tbl tbl-stack indent">
+<table class="tbl tbl-stack">
 <thead><tr><th>智慧</th><th>行数</th><th>等级 30 以上</th></tr></thead>
 <tbody>@foreach($rules->patternTable() as $row)<tr><td class="primary">{{ $row['from'] }}–{{ $row['to'] }}</td><td class="num" data-label="行数">{{ $row['rows'] }}</td><td class="num" data-label="Lv30+">{{ $row['rows30'] }}</td></tr>@endforeach</tbody>
 </table>
 
 <h2 class="sec" id="capacity">负重</h2>
-<code class="formula">负重上限 = 5 + floor(等级 ÷ 10) + floor(敏捷 ÷ 5)</code>
+<pre class="formula">负重上限 = 5 + floor(等级 ÷ 10) + floor(敏捷 ÷ 5)</pre>
 <p class="indent">已装备道具的重量合计不能超过负重上限。装备双手武器时会卸下盾。</p>
 
 <h2 class="sec" id="battle">战斗计算</h2>
-<h3 class="sub indent">行动顺序</h3>
+<h3 class="bold u">行动顺序</h3>
 <p class="indent">所有存活者同时积累行动值，速度越快积累越快（每单位时间 √速度 + 5），先到 100 的人行动，同时到达时随机。行动后行动值归零，技能的“僵直”再从中扣除；“准备”大于 0 的技能先进入蓄力 / 咏唱，行动值再积累“准备”的量后才发动（发动前倒下则中断）。共享首领受到的延迟效果只有三分之一。</p>
-<h3 class="sub indent">伤害</h3>
-<code class="formula">基础 = (√能力 × 10 + 攻击力) × 威力% × 倍率
+<h3 class="bold u">伤害</h3>
+<pre class="formula">基础 = (√能力 × 10 + 攻击力) × 威力% × 倍率
        能力：物理技能用力量（标注“敏捷”的用敏捷），魔法用智慧；攻击力用对应的物理 / 魔法攻击
 伤害 = ceil(max(基础 × 10%, 基础 × (1 − 防御a ÷ 100) − 防御b + 无视防御伤害 × 威力%))
-回复 = ceil((√智慧 × 10 + 魔法攻击) × 威力%)</code>
+回复 = ceil((√智慧 × 10 + 魔法攻击) × 威力%)</pre>
 <p class="indent">“无视防御”的技能跳过防御一步。处于屏障状态的目标，下一次受到的攻击伤害为 0。每次攻击至少造成基础伤害的 10%。</p>
-<h3 class="sub indent">中毒</h3>
+<h3 class="bold u">中毒</h3>
 <p class="indent">中毒的角色每次轮到自己行动时受到 round(最大生命 × 10%) + ceil(等级 ÷ 2) 点伤害，不会因此倒下（最少剩 1）。共享首领改为 min(200, 当前生命的 1% × 50–150% 随机)。毒耐性按百分比降低中毒几率；没有毒耐性时必定中毒。</p>
-<h3 class="sub indent">后卫保护</h3>
+<h3 class="bold u">后卫保护</h3>
 <p class="indent">敌人对后卫使用单体或随机目标的攻击时，生命大于 1 的前卫按随机顺序检查自己的保护方式，第一个满足的人代替后卫承受。“概率”方式掷 1–100，小于 25 / 50 / 75 时保护；“生命”方式要求自己的生命比例高于 25% / 50% / 75%。标注“前卫无法保护”的技能和辅助技能不会被保护。</p>
-<h3 class="sub indent">结束与奖励</h3>
+<h3 class="bold u">结束与奖励</h3>
 <ul class="indent prose">
 <li>一方全员倒下时结束；行动次数达到 {{ $c['actions'] }} 次时也结束（模拟战 {{ $c['simulation_actions'] }} 次）。普通战斗判为平局；竞技场比较存活的角色人数（不含召唤物），多的一方获胜，相同为平局。</li>
 <li>击倒怪物时，经验、金钱和掉落归对方队伍。复活后再次被击倒的怪物只给一半经验，不再给金钱和道具。</li>
@@ -76,14 +77,14 @@
 <li>商店出售 {{ count($data->shop()) }} 种道具，价格为道具的买价；卖出价格为买价的 1/5（材料等另有设定的除外）。精炼过或带附魔的道具也按基础卖价收购。</li>
 <li>队伍最多 {{ $c['party_max'] }} 名角色，每次出战选择 1–{{ $c['party_max'] }} 名。解雇角色时，其装备回到道具栏。</li>
 </ul>
-<table class="tbl tbl-stack indent">
+<table class="tbl tbl-stack">
 <thead><tr><th>雇佣</th><th>费用</th></tr></thead>
 <tbody>@foreach($rules->recruits() as $recruit)<tr><td class="primary"><a href="{{ route('catalog.entry', ['jobs', $recruit['job']]) }}">{{ $recruit['name'] }}</a>@if($recruit['name_female'] !== $recruit['name']) / {{ $recruit['name_female'] }}@endif</td><td class="num" data-label="费用">{{ $money($recruit['price']) }}</td></tr>@endforeach</tbody>
 </table>
 
 <h2 class="sec" id="refine">精炼</h2>
 <p class="indent">可精炼的类型：{{ implode('、', $c['refinable']) }}。每次尝试收取道具买价的一半，最高 +10。失败时道具损毁。一次最多连续尝试 10 次，资金不足时停止。</p>
-<table class="tbl tbl-stack indent">
+<table class="tbl tbl-stack">
 <thead><tr><th>精炼</th><th>成功率</th><th>攻击力</th><th>防御</th></tr></thead>
 <tbody>@foreach($rules->refineTable() as $row)<tr><td class="primary">+{{ $row['from'] }} → +{{ $row['to'] }}</td><td class="num" data-label="成功率">{{ $row['chance'] }}%</td><td class="num" data-label="攻击力">+{{ $row['atk'] }}</td><td class="num" data-label="防御">+{{ $row['def'] }}</td></tr>@endforeach</tbody>
 <caption>攻击力、防御为精炼到该等级后相对原值的提升，向上取整。</caption>
@@ -126,4 +127,5 @@
 @foreach($rules->resetItems() as $reset)<dt><a href="{{ route('catalog.entry', ['items', $reset['id']]) }}">{{ $data->text()->name('items', $reset['id']) }}</a></dt><dd>重置{{ $reset['effect'] }}</dd>@endforeach
 <dt>广场留言</dt><dd>保留最新 {{ $c['board'] }} 条，每条 1–200 字</dd>
 </dl>
+</div>
 @endsection

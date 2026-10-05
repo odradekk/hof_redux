@@ -1,2 +1,0 @@
-{{-- One item in legacy ShowItemDetail() order. $line: GameData::itemLine(); optional $qty. --}}
-<span class="item"><img class="icon" src="{{ asset($line['icon']) }}" alt="" width="24" height="24"><a class="item-name" href="{{ $line['href'] }}">{{ $line['name'] }}</a> <span class="item-type">({{ $line['type'] }})</span>@isset($qty) x<b>{{ $qty }}</b>@endisset @if($line['stats'] && ($stats ?? true))<span class="item-stats"> / @foreach($line['stats'] as [$tone, $text])<span class="{{ $tone }}">{{ $text }}</span>@endforeach</span>@endif</span>

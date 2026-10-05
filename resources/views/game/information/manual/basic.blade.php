@@ -1,10 +1,10 @@
-@extends('game.information.layout')
+@extends('layouts.app')
 @section('title', '规则和手册')
-@section('info')
-@include('game.information.manual.nav')
+@section('content')
+@include('game.information.manual.head')
+<div class="doc">
 @php($c = $constants)
 @php($text = $data->text())
-@php($top = '<a class="top-link" href="#content" aria-label="回到目录">↑</a>')
 {{-- Section order and anchors follow legacy data/data.manual0.php; other pages link to these anchors. --}}
 <h2 class="sec" id="content">目录</h2>
 <ul class="toc">
@@ -30,7 +30,7 @@
 <li><a href="#cr">使用的图像</a></li>
 </ul>
 
-<h2 class="sec" id="rule">规则(Rule) {!! $top !!}</h2>
+<h2 class="sec" id="rule">规则(Rule) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent prose">
 <p>本游戏的目的，就是爬到排行榜的第一名，并持续维持住排名。<br>并没有什么剧情式的冒险要素。</p>
 <p>自己组建 1–{{ $c['party_max'] }} 人的队伍进行战斗，让它登上排行榜。</p>
@@ -38,7 +38,7 @@
 <p>每个角色都可以按技能的使用条件进行详细的设定。<br>要调整出无懈可击的战术配置，不是一件简单的事情。</p>
 </div>
 
-<h2 class="sec" id="menus">菜单(Menu) {!! $top !!}</h2>
+<h2 class="sec" id="menus">菜单(Menu) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <p class="indent"><span class="u">登录后会显示如下菜单</span></p>
 @include('game.information.manual.menu-map')
 <p class="indent">另外，<span class="u">菜单的下面</span>显示：</p>
@@ -48,7 +48,7 @@
 <li><b>退出</b> - 注销登录。</li>
 </ul>
 
-<h2 class="sec" id="btl">战斗流程 {!! $top !!}</h2>
+<h2 class="sec" id="btl">战斗流程 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
 <p>战斗过程完全由电脑处理，战斗中不能下达指令。</p>
 <ol class="flow">
@@ -63,16 +63,16 @@
 <p>每场战斗开始时，所有角色的生命和魔力都是满的；战斗中受到的伤害不会带到下一场。</p>
 </div>
 
-<h2 class="sec" id="char">人物设定 {!! $top !!}</h2>
+<h2 class="sec" id="char">人物设定 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
 <p>登录后，点击主页中的人物形象，会显示该人物的角色页。</p>
-<figure class="figure"><img src="{{ asset('image/manual/001.gif') }}" width="153" height="143" alt="原版示意图：点击角色形象"><figcaption>原版示意图：点击图中箭头所指的角色形象。</figcaption></figure>
+<figure><img src="{{ asset('image/manual/001.gif') }}" width="153" height="143" alt="原版示意图：点击角色形象"><figcaption>原版示意图：点击图中箭头所指的角色形象。</figcaption></figure>
 <p>角色页的各项内容说明如下。</p>
 </div>
 
-<h2 class="sec" id="charstat">人物的基础能力值 {!! $top !!}</h2>
+<h2 class="sec" id="charstat">人物的基础能力值 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
-<figure class="figure"><img src="{{ asset('image/manual/002.gif') }}" width="325" height="196" alt="原版示意图：角色能力值面板"><figcaption>原版示意图：角色能力值面板。</figcaption></figure>
+<figure><img src="{{ asset('image/manual/002.gif') }}" width="325" height="196" alt="原版示意图：角色能力值面板"><figcaption>原版示意图：角色能力值面板。</figcaption></figure>
 <ul>
 <li><b>经验(Exp)</b>：当前经验 / 升级所需经验。</li>
 <li><b>最大生命(MaxHP)</b>：降到 0 则战斗不能。由职业、等级和力量决定。</li>
@@ -86,21 +86,21 @@
 <p class="meta">计算公式见 <a href="{{ route('catalog', 'rules') }}#vitals">数值规则</a>。</p>
 </div>
 
-<h2 class="sec" id="statup">能力值上升 {!! $top !!}</h2>
+<h2 class="sec" id="statup">能力值上升 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent prose">
 <p>角色持续战斗获得经验值，<span class="u">升级</span>时会得到 3 个属性点和 1 个技能点。<br>属性点可以在角色页自由分配到各项能力值上。</p>
 <p>最高等级为 {{ $c['max_level'] }}，每项能力值最高为 {{ $c['stat_cap'] }}。一次获得的经验最多升 1 级，多出的部分不保留。各等级所需经验见 <a href="{{ route('catalog', 'rules') }}#growth">经验表</a>。</p>
 </div>
 
-<h2 class="sec" id="jdg">人物在战斗中的命令 {!! $top !!}</h2>
+<h2 class="sec" id="jdg">人物在战斗中的命令 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
 <p>基本上，人物都是依据玩家设定的行动模式逐步行动的。</p>
 <table class="tbl sample">
 <thead><tr><th>No</th><th>判定</th><th>使用技能</th></tr></thead>
 <tbody>
-<tr><td>1</td><td>{{ $text->condition(1902, 1) }}</td><td>@include('game.information.skill-line', ['line' => $data->skillLine(3110), 'parts' => false, 'exp' => false])</td></tr>
-<tr><td>2</td><td>{{ $text->condition(1200, 50) }}</td><td>@include('game.information.skill-line', ['line' => $data->skillLine(1001), 'parts' => false, 'exp' => false])</td></tr>
-<tr><td>3</td><td>{{ $text->condition(1000) }}</td><td>@include('game.information.skill-line', ['line' => $data->skillLine(1000), 'parts' => false, 'exp' => false])</td></tr>
+<tr><td>1</td><td>{{ $text->condition(1902, 1) }}</td><td><x-skill :line="array_replace($data->skillLine(3110), ['parts' => [], 'exp' => ''])" /></td></tr>
+<tr><td>2</td><td>{{ $text->condition(1200, 50) }}</td><td><x-skill :line="array_replace($data->skillLine(1001), ['parts' => [], 'exp' => ''])" /></td></tr>
+<tr><td>3</td><td>{{ $text->condition(1000) }}</td><td><x-skill :line="array_replace($data->skillLine(1000), ['parts' => [], 'exp' => ''])" /></td></tr>
 </tbody></table>
 <p>这是一个战士的设定例子。<br>
 轮到角色行动时，从 <b>No</b> 1 开始依次检查<b>判定</b>，<br>
@@ -117,11 +117,11 @@
 <p>所有判定的种类见 <a href="{{ route('catalog', 'conditions') }}">游戏资料 · 行动条件</a>。只有已经学会的、可以主动使用的技能才能设为行动。没有任何一行满足时，这次行动什么也不做，所以最后一行通常设为“必定”。</p>
 </div>
 
-<h2 class="sec" id="posi">人物的位置关系及后卫保护 {!! $top !!}</h2>
+<h2 class="sec" id="posi">人物的位置关系及后卫保护 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
 <dl class="kv">
 <dt>配置</dt><dd>前卫(Front) / 后卫(Back)</dd>
-<dt>后卫保护方式</dt><dd>@foreach($text::GUARDS as $label)<span class="badge">{{ $label }}</span>@endforeach</dd>
+<dt>后卫保护方式</dt><dd>@foreach(__('hof.guards') as $label)<span class="badge">{{ $label }}</span>@endforeach</dd>
 </dl>
 <p>在角色页决定人物战斗时站在前卫还是后卫。<br>
 设为前卫的角色，在敌方攻击我方后卫时，<br>
@@ -130,14 +130,14 @@
 <p>生命只剩 1 的前卫不会保护。部分技能（标注“前卫无法保护”）可以直接攻击后卫；辅助技能不受保护影响。详细的判定方法见 <a href="{{ route('catalog', 'rules') }}#battle">数值规则 · 后卫保护</a>。</p>
 </div>
 
-<h2 class="sec" id="equip">人物装备 {!! $top !!}</h2>
+<h2 class="sec" id="equip">人物装备 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
 <p>在角色页会显示当前装备及可以装备的物品。装备位置有<b>武器</b>、<b>盾</b>、<b>甲</b>、<b>道具</b>四个，能装备哪些种类由职业决定。</p>
 <p>各装备都有 <span class="charge">重量</span>，角色有 <span class="charge">负重上限</span>，<br>
 装备的重量合计不能超过负重上限。这是装备的限制设定。<br>
 等级和敏捷上升的话，负重上限也会随之上升（5 + 等级 ÷ 10 + 敏捷 ÷ 5，均舍去小数）。</p>
 <ul class="item-list">
-@foreach([1000, 1700, 5000] as $sample)<li>@include('game.information.item-line', ['line' => $data->itemLine($sample)])</li>@endforeach
+@foreach([1000, 1700, 5000] as $sample)<li><x-item :line="$data->itemLine($sample)" /></li>@endforeach
 </ul>
 <ul>
 <li><span class="dmg">物理攻击</span> - 物理攻击力</li>
@@ -149,10 +149,10 @@
 <p>双手武器不能与盾同时装备。全部道具的数据见 <a href="{{ route('catalog', 'items') }}">游戏资料 · 道具</a>。</p>
 </div>
 
-<h2 class="sec" id="skill">人物技能 {!! $top !!}</h2>
+<h2 class="sec" id="skill">人物技能 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
 <ul class="item-list">
-@foreach([1000, 1001, 1002, 2300, 3000, 3110] as $sample)<li>@include('game.information.skill-line', ['line' => $data->skillLine($sample)])</li>@endforeach
+@foreach([1000, 1001, 1002, 2300, 3000, 3110] as $sample)<li><x-skill :line="$data->skillLine($sample)" /></li>@endforeach
 </ul>
 <p class="meta">（图标）技能名称 / 对象 - 范围 / 消耗魔力 / 威力%×次数 / 属性 / …… /（准备 : 僵直）/ 说明</p>
 <ul>
@@ -167,13 +167,13 @@
 <p>另外，升级之后可以获得技能点，<br>消耗一定的技能点就能习得新的技能。可以学习的技能由职业和已经学会的技能决定，见各职业的 <a href="{{ route('catalog', 'jobs') }}">技能树</a>。</p>
 </div>
 
-<h2 class="sec" id="elem">攻击属性 {!! $top !!}</h2>
+<h2 class="sec" id="elem">攻击属性 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
 <p>没有“火怕水”之类的属性相克设定。</p>
 <p>只有<b>物理</b>和<b>魔法</b>两种属性：物理技能用物理攻击力对抗物理防御，魔法技能用魔法攻击力对抗魔法防御。</p>
 </div>
 
-<h2 class="sec" id="state">人物状态 {!! $top !!}</h2>
+<h2 class="sec" id="state">人物状态 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <ul class="indent">
 <li><span class="recover">生存</span> - 生命在 1 以上的状态。</li>
 <li><span class="dmg">战斗不能</span> - 生命为 0 的状态。可以被复活技能救起。</li>
@@ -181,7 +181,7 @@
 <li><span class="charge">蓄力 / 咏唱</span> - 正在准备需要“准备”时间的技能（物理为蓄力，魔法为咏唱）。</li>
 </ul>
 
-<h2 class="sec" id="jobchange">转职(职业转换) {!! $top !!}</h2>
+<h2 class="sec" id="jobchange">转职(职业转换) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
 <p>满足转职条件后，会显示在角色页的最下面。转职时会卸下全部装备，已学会的技能保留。</p>
 <table class="tbl tbl-stack">
@@ -190,20 +190,20 @@
 </table>
 </div>
 
-<h2 class="sec" id="sacrier">狂战士(Sacrier)的攻击方式 {!! $top !!}</h2>
+<h2 class="sec" id="sacrier">狂战士(Sacrier)的攻击方式 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
-<ul class="units"><li class="unit"><div class="carpet-stage"><img src="{{ asset('image/char/mon_100r.gif') }}" alt="狂战士（男）"></div></li><li class="unit"><div class="carpet-stage"><img src="{{ asset('image/char/mon_012.gif') }}" alt="狂战士（女）"></div></li></ul>
+<div class="carpets"><x-carpet :unit="['name' => '狂战士（男）', 'img' => 'image/char/mon_100r.gif']" /><x-carpet :unit="['name' => '狂战士（女）', 'img' => 'image/char/mon_012.gif']" /></div>
 <p>狂战士的大部分技能要消耗生命（最大生命的一定百分比）。<br>
 人物处在<b class="u">后卫</b>时，生命消耗为平常的 <b class="u">2 倍</b>。</p>
 </div>
 
-<h2 class="sec" id="time">体力(Time) {!! $top !!}</h2>
+<h2 class="sec" id="time">体力(Time) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent prose">
 <p>狩猎和挑战首领时会消耗体力；体力会随时间流逝逐渐恢复，离线时也一样。</p>
 <p>体力上限 {{ $c['stamina_max'] }}，每天恢复 {{ $c['stamina_day'] }}（约每 {{ round($c['stamina_seconds']) }} 秒 1 点）。普通狩猎每次消耗 {{ $c['hunt'] }}，共享首领每次消耗 {{ $c['boss_stamina'] }}。在商店打工可以用 {{ $c['work_stamina'] }} 体力换 {{ \App\Application\World\GameText::money($c['work_pay']) }}。模拟战和竞技场不消耗体力。</p>
 </div>
 
-<h2 class="sec" id="town">城镇(Town) {!! $top !!}</h2>
+<h2 class="sec" id="town">城镇(Town) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <ul class="indent prose">
 <li><b>商店(Shop)</b> - 买(Buy)、卖(Sell)道具；打工(Work)消耗体力换取金钱。</li>
 <li><b>人才介绍所(Recruit)</b> - 雇佣新的同伴，队伍最多 {{ $c['party_max'] }} 人。初期可以雇佣的人物见 <a href="{{ route('manual', 'tutorial') }}#first">教学</a>。</li>
@@ -214,13 +214,13 @@
 </ul>
 <p class="meta indent">费用和成功率见 <a href="{{ route('catalog', 'rules') }}#economy">数值规则</a>。</p>
 
-<h2 class="sec" id="union">共享首领(Union) {!! $top !!}</h2>
+<h2 class="sec" id="union">共享首领(Union) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent prose">
 <p>强大的首领与随从一起出现，所有玩家共同削减它的生命。首领的生命和魔力不公开。</p>
 <p>每次挑战消耗 {{ $c['boss_stamina'] }} 体力，两次挑战至少间隔 {{ $c['boss_cooldown'] }} 分钟，出战角色的等级合计不能超过首领的限制。按造成的伤害获得经验，击倒首领的队伍还能得到击倒奖励和掉落。首领被击倒后，经过一段时间会重新出现。</p>
 </div>
 
-<h2 class="sec" id="ranking">排行 {!! $top !!}</h2>
+<h2 class="sec" id="ranking">排行 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent">
 <p>排行榜上：<br>
 <img class="vcent" src="{{ asset('image/icon/crown01.png') }}" alt="" width="24" height="24">第一名 1 人<br>
@@ -234,8 +234,9 @@
 <p>竞技场的战斗不消耗体力，也没有奖励。行动达到 {{ $c['actions'] }} 次时比较存活的角色人数，多的一方获胜。获胜后 {{ $c['rank_win'] }} 秒可以再次挑战，失败或平局要等 {{ \App\Application\World\GameText::duration($c['rank_other']) }}；登记的队伍每 {{ $c['rank_team_hours'] }} 小时可以更换一次。</p>
 </div>
 
-<h2 class="sec" id="cr">使用的图像 {!! $top !!}</h2>
+<h2 class="sec" id="cr">使用的图像 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <p class="indent">Whitecat 様 - 武器与技能图标<br>
 R ド 様 - 人物<br>
 <span class="meta">沿用原版 Hall of Fame 的素材。</span></p>
+</div>
 @endsection

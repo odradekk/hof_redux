@@ -9,13 +9,16 @@ use Illuminate\Http\Request;
 
 final class InformationController
 {
-    public const MANUAL = ['basic' => '规则和手册', 'advanced' => '高级指南', 'tutorial' => '教学'];
-
     public function manual(GameData $data, GameRules $rules, string $section = 'basic')
     {
-        abort_unless(isset(self::MANUAL[$section]), 404);
+        $registry = config('hof_ui.manual_tabs', []);
+        abort_unless(isset($registry[$section]), 404);
+        $tabs = [...$this->tabs($registry, $section), ['label' => '游戏数据', 'href' => route('catalog'), 'active' => false]];
 
-        return view('game.information.manual.'.$section, ['section' => $section, 'data' => $data, 'rules' => $rules, 'constants' => $rules->constants()]);
+        return view('game.information.manual.'.$section, [
+            'title' => $registry[$section]['label'], 'tabs' => $tabs,
+            'data' => $data, 'rules' => $rules, 'constants' => $rules->constants(),
+        ]);
     }
 
     public function updates()
@@ -25,13 +28,15 @@ final class InformationController
 
     public function catalog(Request $request, GameData $data, GameRules $rules, ?string $kind = null)
     {
+        $registry = config('hof_ui.catalog_tabs', []);
+        abort_unless($kind === null || isset($registry[$kind]), 404);
         $input = $request->validate(['q' => ['sometimes', 'nullable', 'string', 'max:100']]);
+        $shared = ['kind' => $kind, 'data' => $data, 'tabs' => $this->catalogTabs($kind), 'labels' => array_map(static fn (array $tab): string => $tab['label'], $registry)];
         if ($kind === null) {
             $query = trim($input['q'] ?? '');
 
-            return view('game.information.catalog.index', ['kind' => null, 'data' => $data, 'counts' => $data->counts(), 'query' => $query, 'results' => $query === '' ? [] : $data->search($query)]);
+            return view('game.information.catalog.index', $shared + ['counts' => $data->counts(), 'query' => $query, 'results' => $query === '' ? [] : $data->search($query)]);
         }
-        abort_unless(isset(GameData::KINDS[$kind]), 404);
         $view = match ($kind) {
             'jobs' => ['jobs' => $data->jobs()],
             'items' => ['groups' => $data->items()],
@@ -43,7 +48,7 @@ final class InformationController
             'rules' => ['rules' => $rules, 'constants' => $rules->constants()],
         };
 
-        return view('game.information.catalog.'.$kind, $view + ['kind' => $kind, 'data' => $data]);
+        return view('game.information.catalog.'.$kind, $view + $shared);
     }
 
     public function entry(GameData $data, GameRules $rules, string $kind, string $id)
@@ -56,6 +61,22 @@ final class InformationController
             'monsters' => ['monster' => $data->monster($id)],
         };
 
-        return view('game.information.catalog.'.rtrim($kind, 's'), $view + ['kind' => $kind, 'data' => $data, 'rules' => $rules]);
+        return view('game.information.catalog.'.rtrim($kind, 's'), $view + ['kind' => $kind, 'data' => $data, 'rules' => $rules, 'tabs' => $this->catalogTabs($kind)]);
+    }
+
+    /** The legacy "| 职业(Job) | 道具(item) | 判定 |" switcher, led by the overview page. */
+    private function catalogTabs(?string $kind): array
+    {
+        return [['label' => '总览', 'href' => route('catalog'), 'active' => $kind === null], ...$this->tabs(config('hof_ui.catalog_tabs', []), $kind)];
+    }
+
+    private function tabs(array $registry, ?string $active): array
+    {
+        $tabs = [];
+        foreach ($registry as $key => $tab) {
+            $tabs[] = ['label' => $tab['label'], 'href' => route($tab['route'], $tab['parameters'] ?? []), 'active' => $key === $active];
+        }
+
+        return $tabs;
     }
 }

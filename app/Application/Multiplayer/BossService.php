@@ -22,6 +22,20 @@ final class BossService
 
     public function __construct(private GameAction $actions, private ContentCatalog $content, private BattleService $battles) {}
 
+    /** Return display-only values; never expose the boss definition or resources. */
+    public function summaries(): array
+    {
+        return BossInstance::orderBy('id')->get(['id', 'definition', 'hp', 'respawns_at'])
+            ->map(static fn (BossInstance $boss): array => [
+                'id' => $boss->id,
+                'name' => (string) $boss->definition['UnionName'],
+                'limit' => (int) $boss->definition['LevelLimit'],
+                'alive' => $boss->hp > 0,
+                'respawns_at' => $boss->respawns_at,
+                'img' => 'image/char/'.basename($boss->definition['img']),
+            ])->all();
+    }
+
     public function bootstrap(): int
     {
         return DB::transaction(function () {

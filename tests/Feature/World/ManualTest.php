@@ -14,7 +14,7 @@ final class ManualTest extends TestCase
 
     public function test_manual_keeps_every_legacy_section_anchor_and_current_numbers(): void
     {
-        $response = $this->get('/manual')->assertOk()->assertSee('information.css', false);
+        $response = $this->get('/manual')->assertOk();
         // Anchors from legacy data.manual0.php ("menu" became "menus": the layout already owns id="menu").
         foreach (['content', 'rule', 'menus', 'btl', 'char', 'charstat', 'statup', 'jdg', 'posi', 'equip', 'skill', 'elem', 'state', 'jobchange', 'sacrier', 'ranking', 'cr'] as $anchor) {
             $response->assertSee('id="'.$anchor.'"', false);

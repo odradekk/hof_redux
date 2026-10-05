@@ -1,13 +1,14 @@
-@extends('game.information.layout')
+@extends('layouts.app')
 @section('title', '教学')
-@section('info')
-@include('game.information.manual.nav')
+@section('content')
+@include('game.information.manual.head')
+<div class="doc">
 @php($c = $constants)
 {{-- Content and order follow legacy data/data.tutorial.php. --}}
 <h2 class="sec">教程</h2>
 <div class="indent">
 <p>战斗基本攻略（下图）</p>
-<figure class="figure"><img src="{{ asset('image/manual/t001.gif') }}" width="398" height="183" alt="想象图：敌人攻击前卫；前卫保护后卫；后卫的法师强力攻击，牧师为前卫回复"><figcaption>想象图（原版图片）：左侧为敌方，右侧为我方。前卫（战士）守护，后卫的法师进行强力攻击，牧师为前卫回复。</figcaption></figure>
+<figure><img src="{{ asset('image/manual/t001.gif') }}" width="398" height="183" alt="想象图：敌人攻击前卫；前卫保护后卫；后卫的法师强力攻击，牧师为前卫回复"><figcaption>想象图（原版图片）：左侧为敌方，右侧为我方。前卫（战士）守护，后卫的法师进行强力攻击，牧师为前卫回复。</figcaption></figure>
 <p>基本上来说，应该把<b>战士</b>(Warrior)类适合进攻、能抗打的人物放在<b>前卫(Front)</b>位置上，<br>
 使用<b>魔法</b>(Sorcerer)、抗击打能力弱的人物放在<b>后卫(Back)</b>位置上。</p>
 <p>前卫保护后卫，攻击力强的后卫又可以打到敌人，<br>
@@ -19,11 +20,11 @@
 <p>战士(Warrior)、巫师(Sorcerer) 以及牧师(Priest)<br>
 都可以从菜单的<b>城镇(Town)</b> → <a href="{{ route('player.roster') }}">招募</a>（人才介绍所）中雇佣。<br>
 雇佣了以后，就可以在角色页对其进行战斗上的设定。</p>
-<ul class="units">
-<li class="unit"><div class="carpet-stage"><img src="{{ asset('image/char_rev/mon_079.gif') }}" alt=""></div><span class="unit-name">守护的人</span><span class="meta">前卫 · 战士</span></li>
-<li class="unit"><div class="carpet-stage"><img src="{{ asset('image/char_rev/mon_018.gif') }}" alt=""></div><span class="unit-name">强力攻击的人</span><span class="meta">后卫 · 巫师</span></li>
-<li class="unit"><div class="carpet-stage"><img src="{{ asset('image/char_rev/mon_214.gif') }}" alt=""></div><span class="unit-name">治疗的人</span><span class="meta">后卫 · 牧师</span></li>
-</ul>
+<div class="carpets">
+<x-carpet :unit="['name' => '守护的人', 'label' => '前卫 · 战士', 'img' => 'image/char_rev/mon_079.gif']" />
+<x-carpet :unit="['name' => '强力攻击的人', 'label' => '后卫 · 巫师', 'img' => 'image/char_rev/mon_018.gif']" />
+<x-carpet :unit="['name' => '治疗的人', 'label' => '后卫 · 牧师', 'img' => 'image/char_rev/mon_214.gif']" />
+</div>
 <p>那么，赶快进入战斗吧。<br>
 菜单中的冒险(Hunt) → <a href="{{ route('hunt.area', 'gb0') }}">{{ $data->areas()['open']['gb0']['name'] ?? '哥布林' }}</a><br>
 用雇佣来的同伴试试看，<br>

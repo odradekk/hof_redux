@@ -1,1 +1,5 @@
-<nav aria-label="Player navigation"><a href="{{ route('player.roster') }}">角色 / 招募</a> · <a href="{{ route('player.inventory') }}">道具</a> · <a href="{{ route('player.shop') }}">商店 / 工作</a> · <a href="{{ route('player.crafting') }}">制作 / 精炼</a> · <a href="{{ route('player.preferences') }}">设置</a></nav>
+<nav aria-label="角色和城镇"><ul class="inline-list">
+    <li><a href="{{ route('home') }}">同伴</a></li>
+    <li><a href="{{ route('player.roster') }}">人材斡旋所</a></li>
+    <li><a href="{{ route('town') }}">返回城镇</a></li>
+</ul></nav>
