@@ -14,3 +14,4 @@
 .battle-background-sea{background-image:url("image/other/bg_sea.gif")}
 .battle-background-snow{background-image:url("image/other/bg_snow.gif")}
 .battle-background-swamp{background-image:url("image/other/bg_swamp.gif")}
+.battle-events{line-height:1.8;padding-left:24px}.battle-message-damage{color:#e89b90}.battle-message-recovery{color:#9dceab}

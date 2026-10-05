@@ -26,7 +26,9 @@ final class InformationController
         abort_unless(in_array($kind, ['jobs', 'items', 'conditions', 'monsters', 'skills', 'enchants'], true), 404);
         $input = $request->validate(['q' => ['sometimes', 'nullable', 'string', 'max:200'], 'page' => ['sometimes', 'integer', 'min:1', 'max:1000000']]);
         $query = trim($input['q'] ?? '');
-        $records = $catalog->all($kind);
+        $records = match ($kind) {
+            'skills' => $catalog->playableSkills(), 'monsters' => $catalog->playableMonsters(), default => $catalog->all($kind)
+        };
         if ($query !== '') {
             $records = array_filter($records, static fn (array $row, $id): bool => str_contains((string) $id, $query) || mb_stripos(json_encode($row, JSON_UNESCAPED_UNICODE), $query) !== false, ARRAY_FILTER_USE_BOTH);
         }

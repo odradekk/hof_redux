@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Content\ContentCatalog;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SetupController;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +17,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/setup', [SetupController::class, 'store']);
     Route::view('/account', 'account.settings')->name('account');
     Route::post('/account/password', [AuthController::class, 'password'])->middleware('throttle:authentication')->name('account.password');
-    Route::get('/', fn () => view('home', ['characters' => auth()->user()->characters()->with('equipment')->get()]))->middleware('character')->name('home');
+    Route::get('/', fn (ContentCatalog $catalog) => view('home', [
+        'characters' => auth()->user()->characters()->get(),
+        'jobs' => $catalog->all('jobs'),
+    ]))->middleware('character')->name('home');
 });
 foreach (['player', 'multiplayer', 'world'] as $module) {
     if (file_exists(__DIR__."/{$module}.php")) {

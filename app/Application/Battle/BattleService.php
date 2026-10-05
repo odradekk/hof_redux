@@ -199,6 +199,7 @@ final class BattleService
 
     public function publicReport(array $report): array
     {
+        $report['presentation'] = (new BattlePresenter($this->catalog))->present($report);
         unset($report['seed'],$report['random'],$report['rewards']);
         if (($report['mode'] ?? '') !== 'boss') {
             return $report;
