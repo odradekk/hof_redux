@@ -1,0 +1,626 @@
+/*
+ * HOF Redux shared theme.
+ *
+ * Faithful port of legacy/basis.css + legacy/style.css (palette, h4 bar, carpets,
+ * td1–td9 cells, btn_bk01 buttons, battle colours) with responsive components.
+ * Prototype asset root is ../image/; replace it with ../image/
+ * when this file moves to public/css/.
+ *
+ * Rules that keep the sheet extensible:
+ * - Colours exist only as role-named tokens in :root; no raw hex below it.
+ * - Reusable patterns live in the components layer under generic names.
+ *   The pages layer holds layouts that exist on exactly one screen.
+ * - Content-driven imagery (sprites, lands, battle backgrounds, icons) is
+ *   rendered as <img>/<image> in markup, never as one CSS class per asset,
+ *   so new content needs no CSS change.
+ * - CSP style-src 'self' forbids inline style attributes: every visual state
+ *   is a class, an attribute, :has(), or a native element (meter, svg).
+ */
+@layer reset, base, layout, components, pages, responsive;
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body, h1, h2, h3, h4, p, ul, ol, dl, dd, figure, fieldset { margin: 0; }
+  fieldset { padding: 0; border: 0; min-width: 0; }
+  ul, ol { padding-left: 1.5em; }
+  img, svg { max-width: 100%; height: auto; border: 0; vertical-align: middle; }
+  table { border-collapse: collapse; border-spacing: 0; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  [hidden] { display: none !important; }
+}
+
+@layer base {
+  :root {
+    /* Surfaces (legacy/style.css source in comments) */
+    --c-backdrop: #98a0a5;        /* body background around the frame */
+    --c-bg: #10151b;              /* div#main_frame, .bgcolor */
+    --c-edge: #070b0e;            /* frame borders, .divide, .break */
+    --c-bar: #304052;             /* #menu */
+    --c-bar-sub: #202935;         /* #menu2 */
+    --c-foot: #1b222c;            /* #foot */
+    --c-panel: #242f3c;           /* .td1 */
+    --c-panel-line: #afbdcf;      /* .td1-.td3 bottom border */
+    --c-band-a: #4a6380;          /* .td4 */
+    --c-band-b: #6f8baa;          /* .td5 (use --c-field-ink text on it) */
+    --c-line: #304052;            /* .td7/.td8 grid lines, .td6 header */
+    --c-hairline: #1d2631;        /* dotted list separators */
+    --c-selected: #202935;        /* .tdToggleBg */
+    --c-sunken: #141b23;          /* notices, hovered rows, stacked cards */
+
+    /* Text */
+    --c-text: #bdc8d7;            /* body */
+    --c-text-muted: #7d90ab;      /* replaces .light #40526a (2.3:1 -> 5.6:1) */
+    --c-text-dim: #6f84a3;        /* replaces .unselect #506685 (3.1:1 -> 4.8:1) */
+    --c-decor: #40526a;           /* legacy .light, separators only */
+    --c-heading-rule: #cad3df;    /* h4 bar */
+    --c-link: #8a9cb7;
+    --c-link-hover: #cbd3de;
+    --c-bar-link: #a3b3c8;        /* menu links; legacy #8a9cb7 is 3.8:1 on the bar */
+    --c-accent: #c69500;          /* .a0 help links */
+    --c-accent-hover: #ffcc33;    /* .a0:hover, focus ring */
+
+    /* Controls */
+    --c-field: #91a2bb;           /* .text, select */
+    --c-field-focus: #a9b7cb;
+    --c-field-alt: #768bab;       /* .select0 option groups */
+    --c-field-ink: #10151b;
+    --c-field-edge: #1a232d;
+    --c-btn-bg: #c4ccd5;          /* fallback under btn_bk01.gif */
+    --c-btn-ink: #181818;
+    --c-btn-edge: #334357;
+    --c-danger-ink: #7a1600;
+    --c-danger-edge: #5c2416;
+    --c-danger-zone: #3a2420;
+    --c-meter-track: #0b0f14;
+    --c-band-ink: #ffffff;
+    --tone-dmg-panel: #ef774f;
+    --tone-recover-panel: #7395ff;
+    --tone-spdmg-panel: #ce83ce;
+
+    /* Tones: legacy battle colours, AA-adjusted where the original failed */
+    --tone-dmg: #e0653d;          /* legacy #cc3300 */
+    --tone-recover: #6b8cff;      /* legacy #3366ff */
+    --tone-support: #66cc66;
+    --tone-spdmg: #c27ac2;        /* legacy #993399 */
+    --tone-charge: #ffcc33;
+    --tone-levelup: #ffff33;
+    --tone-error: #ff6b5e;        /* legacy red */
+    --tone-ok: #66cc66;           /* legacy .result */
+    --side-foe: #6b2f20;          /* battle log side bar, phone layout */
+    --side-ally: #2f4a7a;
+    --side-ally-bg: #121a26;
+
+    /* Type */
+    --font: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB",
+      "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei", system-ui, sans-serif;
+    --fs-xs: 12px;
+    --fs-sm: 13px;
+    --fs-base: 14px;
+    --fs-md: 16px;
+    --fs-xl: 28px;
+
+    /* Space and size: legacy uses 15px page margins and 20px indents */
+    --sp-page: 15px;
+    --sp-indent: 20px;
+    --frame-w: 780px;
+    --tap: 32px;
+
+    color-scheme: dark;
+    accent-color: var(--c-link);
+  }
+
+  body {
+    background: var(--c-backdrop);
+    color: var(--c-text);
+    font: 400 var(--fs-base)/1.6 var(--font);
+    font-kerning: normal;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--c-link); font-weight: 700; text-decoration: none; }
+  a:hover { color: var(--c-link-hover); text-decoration: underline; }
+  :focus-visible { outline: 2px solid var(--c-accent-hover); outline-offset: 2px; }
+
+  h1, h2, h3, h4 { font-size: var(--fs-base); line-height: 1.5; }
+  p + p { margin-top: 0.75em; }
+  code, kbd { font-family: ui-monospace, Consolas, monospace; font-size: 0.92em; }
+
+  /* Legacy utility and tone classes, kept by name for template parity */
+  .bold { font-weight: 700; }
+  .u { text-decoration: underline; }
+  .align-right { text-align: right; }
+  .align-center { text-align: center; }
+  .vcent { vertical-align: middle; margin: 0 5px; }
+  .light { color: var(--c-text-muted); font-size: var(--fs-sm); }
+  .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .dmg { color: var(--tone-dmg); }
+  .recover { color: var(--tone-recover); }
+  .support { color: var(--tone-support); }
+  .spdmg { color: var(--tone-spdmg); }
+  .charge { color: var(--tone-charge); }
+  .levelup { color: var(--tone-levelup); font-weight: 700; }
+  .error { color: var(--tone-error); font-weight: 700; }
+  .result { color: var(--tone-ok); font-weight: 700; }
+  .a0, .help { color: var(--c-accent); font-weight: 700; }
+  .a0:hover, .help:hover { color: var(--c-accent-hover); }
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  }
+}
+
+@layer layout {
+  /* div#main_frame: fixed 780px column on desktop, full width on phones */
+  .frame {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: var(--frame-w);
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0 auto;
+    background: var(--c-bg);
+    border: solid var(--c-edge);
+    border-width: 0 1px 1px;
+  }
+
+  .skip-link { position: absolute; left: -999px; top: 0; }
+  .skip-link:focus { left: 8px; top: 8px; z-index: 10; background: var(--c-bg); padding: 4px 8px; }
+
+  /* #title */
+  .title { padding: 15px; display: flex; align-items: center; gap: 12px; }
+  .title h1 { margin: 0; line-height: 0; }
+  .title img { display: block; width: 218px; }
+
+  /* #menu with legacy .divide separators */
+  .menu { background: var(--c-bar); border-top: 1px solid var(--c-edge); padding: 7px 10px 5px; }
+  .menu ul { display: flex; flex-wrap: wrap; align-items: center; list-style: none; margin: 0; padding: 0; row-gap: 4px; }
+  .menu li { display: flex; align-items: center; }
+  .menu li + li::before { content: ""; align-self: stretch; border-left: 1px solid var(--c-edge); margin: 3px 15px; }
+  .menu a { color: var(--c-bar-link); padding: 2px 0; }
+  .menu a:hover { color: var(--c-link-hover); }
+  .menu a[aria-current="page"] { color: var(--c-link-hover); box-shadow: inset 0 -2px 0 var(--c-heading-rule); text-decoration: none; }
+
+  /* #menu2: team, money, stamina */
+  .status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 28px;
+    background: var(--c-bar-sub);
+    border-top: 1px dotted var(--c-edge);
+    border-bottom: 1px solid var(--c-edge);
+    padding: 5px 10px 4px;
+  }
+  .status-team { flex: 1 1 auto; font-weight: 700; min-width: 8em; }
+  .status-item { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .status form { margin: 0; }
+
+  .contents { flex: 1 0 auto; padding: 0 var(--sp-page) 40px; }
+
+  /* #foot: stays at the bottom through flex, not absolute positioning */
+  .foot {
+    background: var(--c-foot);
+    border-top: 1px solid var(--c-edge);
+    color: var(--c-text-muted);
+    text-align: center;
+    padding: 8px 10px 6px;
+    font-size: var(--fs-sm);
+  }
+  .foot a + a::before { content: "-"; color: var(--c-text-muted); font-weight: 400; margin: 0 8px; display: inline-block; }
+}
+
+@layer components {
+  /* Ranking table: legacy ShowRanking() */
+  .rank td:first-child { width: 4.5em; text-align: center; white-space: nowrap; }
+  .rank .me { text-decoration: underline; font-weight: 700; }
+
+  .recruit-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .recruit-card { display: flex; flex-direction: column; align-items: center; padding: 8px 0 0; cursor: pointer; text-align: center; }
+  .recruit-card:has(:checked) { outline: 2px solid var(--c-accent-hover); }
+  .recruit-sprites { display: flex; justify-content: center; align-items: end; min-height: 100px; width: 100%; }
+  .recruit-sprites img { max-width: 48%; }
+  .recruit-name { align-self: stretch; padding: 3px 4px; margin-top: 6px; background: var(--c-band-a); color: var(--c-band-ink); }
+  .recruit-card:nth-child(even) .recruit-name { background: var(--c-band-b); color: var(--c-field-ink); }
+  .color-grid { display: grid; grid-template-columns: repeat(18, minmax(0, 1fr)); gap: 3px; max-width: 540px; }
+  .color-choice { display: flex; align-items: center; justify-content: center; min-height: 28px; cursor: pointer; position: relative; }
+  .color-choice > span { display: block; width: 100%; height: 28px; border: 1px solid var(--c-panel-line); }
+  .color-choice input { position: absolute; margin: 0; }
+  .color-choice:has(:checked) { outline: 2px solid var(--c-accent-hover); z-index: 1; }
+  .prose { max-width: 40em; overflow-wrap: anywhere; }
+  .prose img { display: block; margin: 12px auto; }
+  .catalog-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .catalog-card { min-width: 0; overflow-wrap: anywhere; padding: 14px; background: var(--c-selected); border: 1px solid var(--c-decor); }
+  .catalog-images { display: flex; gap: 16px; align-items: end; flex-wrap: wrap; }
+  .catalog-images figure { text-align: center; }
+  .catalog-images figcaption { font-size: var(--fs-xs); margin-top: 5px; }
+  .catalog-card dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 12px; }
+  .catalog-card dt { color: var(--c-link); }
+  .manual { max-width: 40em; overflow-wrap: anywhere; }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  /* ---- Headings and text blocks ---- */
+
+  /* Legacy h4: 15px left bar + bottom rule. Use on h1/h2 for semantics. */
+  .sec {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 18px 0 10px;
+    padding: 1px 0 1px 6px;
+    border-left: 15px solid var(--c-heading-rule);
+    border-bottom: 1px solid var(--c-heading-rule);
+    font-size: var(--fs-base);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .sec:first-child { margin-top: 15px; }
+  .sec-aside { margin-left: auto; font-size: var(--fs-sm); font-weight: 400; }
+  .sec .help { font-size: var(--fs-sm); }
+  .page-title { margin: 15px 0 2px; font-size: var(--fs-md); font-weight: 700; }
+  .page-title .meta { font-weight: 400; margin-left: 8px; }
+  .indent { margin: 0 var(--sp-indent); }
+  .meta { color: var(--c-text-muted); font-size: var(--fs-sm); }
+  .hint { color: var(--c-text-muted); font-size: var(--fs-sm); }
+  .empty { color: var(--c-text-muted); padding: 10px 0; }
+  .divider { border: 0; border-top: 1px solid var(--c-edge); margin: 14px 0; }
+
+  /* ---- Generic layout patterns ---- */
+
+  /* Inline link list with wide gaps: hunt maps, character switcher, page toc */
+  .inline-list { display: flex; flex-wrap: wrap; gap: 4px 14px; list-style: none; padding: 0; margin: 0; }
+  .inline-list-wide { gap: 6px 32px; }
+  .inline-list-ruled { padding: 6px 0; border-top: 1px dotted var(--c-line); border-bottom: 1px dotted var(--c-line); font-size: var(--fs-sm); }
+  .inline-list a[aria-current="page"] { color: var(--c-text); text-decoration: underline; }
+
+  /* Two equal panes with the legacy .ttd1 divider: battle header/summary, ranking */
+  .split { display: grid; grid-template-columns: 1fr 1fr; }
+  .split > * { padding: 10px; min-width: 0; }
+  .split > * + * { border-left: 1px solid var(--c-edge); }
+  .split-center > * { text-align: center; }
+
+  /* Feed: dated one-line entries (town BBS, auction log, battle records, audits) */
+  .feed { list-style: none; padding: 0; margin: 0; }
+  .feed > li { padding: 3px 0; border-bottom: 1px dotted var(--c-hairline); overflow-wrap: anywhere; }
+  .feed .who { font-weight: 700; }
+  .feed time { color: var(--c-text-muted); font-size: var(--fs-xs); margin: 0 4px; white-space: nowrap; }
+
+  /* Number grid: N labelled numeric inputs in one row (stat allocation) */
+  .num-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 8px; max-width: 560px; }
+  .num-grid label { display: grid; gap: 2px; text-align: center; }
+  .num-grid .input { width: 100%; text-align: center; }
+
+  /* Media: portrait + body (NPC headers, class-change choices) */
+  .npc { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; align-items: start; max-width: 600px; margin: 0 0 6px var(--sp-indent); }
+  .npc p { margin: 0; }
+
+  /* Panels: legacy .td1 card */
+  .panel .meta, .panel .hint { color: var(--c-text); }
+  .panel, .tbl-stack td.primary, .tbl tbody tr:has(:checked) td { --tone-dmg: var(--tone-dmg-panel); --tone-recover: var(--tone-recover-panel); --tone-spdmg: var(--tone-spdmg-panel); }
+  .panel { background: var(--c-panel); border-bottom: 1px solid var(--c-panel-line); padding: 10px 16px; }
+
+  /* Collapsible block and destructive area */
+  details.more > summary { cursor: pointer; color: var(--c-link); font-weight: 700; list-style-position: inside; }
+  details.more[open] > summary { margin-bottom: 8px; }
+  .danger-zone { border: 1px solid var(--c-danger-zone); padding: 8px 12px; margin-top: 12px; }
+  .danger-zone > summary { color: var(--tone-dmg); }
+
+  /* ---- Controls ---- */
+
+  /* .btn with the original btn_bk01.gif texture */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: var(--tap);
+    padding: 4px 12px 3px;
+    font: 700 var(--fs-xs)/1.4 var(--font);
+    color: var(--c-btn-ink);
+    text-align: center;
+    white-space: nowrap;
+    background: var(--c-btn-bg) url("../image/btn_bk01.gif") repeat-x left top;
+    border: 1px solid var(--c-btn-edge);
+    border-radius: 0;
+    cursor: pointer;
+  }
+  .btn:hover { filter: brightness(1.08); text-decoration: none; color: var(--c-btn-ink); }
+  .btn:active { filter: brightness(0.94); transform: translateY(1px); }
+  .btn:disabled, .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; filter: none; transform: none; }
+  .btn-lg { font-size: var(--fs-base); padding: 6px 28px 5px; min-height: 36px; }
+  .btn-danger { color: var(--c-danger-ink); border-color: var(--c-danger-edge); }
+  .btn-link {
+    background: none; border: 0; padding: 0; min-height: 0;
+    color: var(--c-link); font: 700 var(--fs-base)/1.6 var(--font); cursor: pointer;
+  }
+  .btn-link:hover { color: var(--c-link-hover); text-decoration: underline; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 10px; }
+  .actions-center { justify-content: center; }
+
+  /* .text / select: the light blue legacy fields */
+  .input, .select, .textarea {
+    min-height: 28px;
+    padding: 3px 6px 2px;
+    color: var(--c-field-ink);
+    background: var(--c-field);
+    border: 1px solid var(--c-field-edge);
+    border-radius: 0;
+    line-height: 1.4;
+    max-width: 100%;
+  }
+  .input:focus, .select:focus, .textarea:focus { background: var(--c-field-focus); outline: 2px solid var(--c-accent-hover); outline-offset: 0; }
+  .input[aria-invalid="true"], .select[aria-invalid="true"] { border-color: var(--tone-error); box-shadow: inset 0 0 0 1px var(--tone-error); }
+  .input-sm { width: 5.5em; }
+  .input-md { width: 12em; }
+  .input-lg { width: 22em; }
+  .textarea { width: 100%; min-height: 6em; }
+  .select option.select0 { background: var(--c-field-alt); }
+
+  /* Form grid: right-aligned labels like the legacy ID:/PASS: tables.
+     <x-field> renders label + control + .field-note per row. */
+  .form-grid { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 10px; align-items: center; justify-items: start; }
+  .form-grid > label:not(.check), .form-grid > .label { text-align: right; justify-self: end; }
+  .form-grid > .full { grid-column: 1 / -1; justify-self: stretch; }
+  .field-note { grid-column: 2; margin-top: -4px; font-size: var(--fs-sm); color: var(--c-text-muted); }
+  .field-note.error { color: var(--tone-error); }
+  .check { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  .check input { width: 15px; height: 15px; margin: 0; }
+  .choice-row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+
+  /* Notices: legacy .result / .error lines */
+  .notice { margin: 12px 0 0; padding: 6px 10px; background: var(--c-sunken); border-left: 3px solid currentColor; font-weight: 700; }
+  .notice-ok { color: var(--tone-ok); }
+  .notice-err { color: var(--tone-error); }
+  .notice ul { margin: 0; padding-left: 1.2em; font-weight: 400; }
+
+  /* ---- Data display ---- */
+
+  /* Tables: legacy .td6 header + .td7/.td8 grid lines */
+  .tbl { width: 100%; }
+  .tbl th, .tbl td { border: 1px solid var(--c-line); padding: 4px 8px; vertical-align: middle; }
+  .tbl th { background: var(--c-bar); font-weight: 700; text-align: center; white-space: nowrap; }
+  .tbl th a { color: var(--c-bar-link); }
+  .tbl td.num, .tbl th.num { text-align: right; }
+  .tbl td.c { text-align: center; }
+  .tbl tbody tr:hover td { background: var(--c-sunken); }
+  .tbl tbody tr:has(input[type="checkbox"]:checked) td,
+  .tbl tbody tr:has(input[type="radio"]:checked) td { background: var(--c-selected); }
+  .tbl-wrap { overflow-x: auto; }
+  .tbl caption { text-align: left; color: var(--c-text-muted); padding: 4px 0; caption-side: bottom; font-size: var(--fs-sm); }
+
+  /* Tabs / sub navigation in the legacy "买 / 卖 / 打工" style */
+  .tabs { display: flex; flex-wrap: wrap; gap: 4px 0; list-style: none; padding: 0; margin: 0 0 8px; }
+  .tabs li + li::before { content: "/"; color: var(--c-text-muted); margin: 0 10px; }
+  .tabs a[aria-current="page"] { color: var(--c-text); text-decoration: none; cursor: default; }
+
+  /* Pagination (replaces Laravel's unstyled Tailwind view) */
+  .pager { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; padding: 0; margin: 14px 0 0; font-size: var(--fs-sm); }
+  .pager a, .pager span {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 30px; min-height: 28px; padding: 0 8px;
+    border: 1px solid var(--c-line);
+  }
+  .pager [aria-current="page"] { background: var(--c-bar); color: var(--c-link-hover); font-weight: 700; }
+  .pager .disabled { color: var(--c-decor); }
+
+  /* Stamina / progress: native meter, no inline width */
+  .meter { width: 72px; height: 7px; vertical-align: middle; }
+  .meter::-webkit-meter-bar { background: var(--c-meter-track); border: 1px solid var(--c-edge); border-radius: 0; height: 7px; }
+  .meter::-webkit-meter-optimum-value { background: var(--tone-support); border-radius: 0; }
+  .meter::-webkit-meter-suboptimum-value { background: var(--tone-charge); border-radius: 0; }
+  .meter::-webkit-meter-even-less-good-value { background: var(--tone-dmg); border-radius: 0; }
+  .meter::-moz-meter-bar { background: var(--tone-support); }
+
+  /* Key/value lists: legacy right-aligned "经验 : 0/30" tables */
+  .kv { display: grid; grid-template-columns: max-content auto; gap: 1px 6px; }
+  .kv dt { text-align: right; }
+  .kv dt::after { content: " :"; }
+  .kv dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .kv .plus { color: var(--tone-support); }
+
+  /* ---- Game objects ---- */
+
+  /* Unit tile (<x-carpet>): sprite standing on a carpet or on a land image.
+     Carpets alternate by position (fixed decoration -> CSS); lands come from
+     content (-> <img class="carpet-base">), so new maps need no CSS. */
+  .carpets { display: grid; grid-template-columns: repeat(auto-fill, minmax(138px, 1fr)); gap: 4px 0; list-style: none; padding: 0; margin: 0; }
+  .carpets-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .carpet { text-align: center; word-break: break-all; line-height: 1.45; }
+  .carpet-stage {
+    display: grid;
+    justify-items: center;
+    align-items: end;
+    min-height: 112px;
+    margin: 8px 0 3px;
+  }
+  .carpet-stage > img { grid-area: 1 / 1; }
+  .carpet-stage:not(.has-base) { padding-bottom: 12px; background: url("../image/carpet011.gif") no-repeat bottom center; }
+  .carpet:nth-child(even) .carpet-stage:not(.has-base) { background-image: url("../image/carpet010.gif"); }
+  .has-base > img:not(.carpet-base) { margin-bottom: 12px; }
+  .carpet-name { font-weight: 700; }
+  .carpet-name .star { color: var(--tone-charge); }
+  .carpet .meta { display: block; }
+  .carpet-vitals { display: block; font-size: var(--fs-xs); color: var(--c-text-muted); font-variant-numeric: tabular-nums; word-break: normal; }
+
+  /* Unit picker (<x-unit-picker>): the whole tile toggles its checkbox */
+  .pick { cursor: pointer; display: block; padding-bottom: 6px; }
+  .pick .carpet-name, .pick .meta { color: var(--c-text-dim); transition: color 0.12s; }
+  .pick input { width: 16px; height: 16px; margin: 4px auto 0; display: block; }
+  .pick:has(input:checked) .carpet-name { color: var(--c-text); }
+  .pick:has(input:checked) .meta { color: var(--c-text-muted); }
+  .pick:has(input:focus-visible) { outline: 2px solid var(--c-accent-hover); outline-offset: -2px; }
+
+  /* Item / skill line (<x-item>, <x-skill>): legacy ShowItemDetail() */
+  .item { line-height: 1.7; }
+  .icon { width: 24px; height: 24px; margin: 0 5px 0 0; vertical-align: -6px; }
+  .item-name { font-weight: 700; color: var(--c-text); }
+  .item-refine { color: var(--tone-charge); font-weight: 700; }
+  .item-type { color: var(--c-text-muted); font-size: var(--fs-sm); }
+  .item-qty { font-size: var(--fs-xs); font-weight: 700; }
+  .item-stats { font-size: var(--fs-sm); }
+  .item-stats > span + span::before { content: " / "; color: var(--c-decor); }
+  .item-option { font-size: var(--fs-xs); color: var(--c-text-muted); }
+  .item-list { list-style: none; padding: 0; margin: 0; }
+  .item-list > li { padding: 3px 0; border-bottom: 1px dotted var(--c-hairline); }
+
+  /* Battle unit status (<x-battle.hpsp>): legacy ShowHpSp() */
+  .hpsp { padding: 2px 0 6px; line-height: 1.45; }
+  .hpsp-name { font-weight: 700; }
+  .hpsp-vals { padding-left: 20px; font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+  .is-dead .hpsp-name, .is-dead .hpsp-vals span { color: var(--tone-dmg); }
+  .is-poison .hpsp-name { color: var(--tone-spdmg); }
+}
+
+@layer pages {
+  /* Single-screen layouts only. Anything used twice moves to components. */
+
+  /* Guest landing: legacy LoginForm() two columns */
+  .landing { display: grid; grid-template-columns: 1fr 1fr; gap: 0 30px; align-items: start; }
+  .landing-art { text-align: center; padding-top: 16px; }
+  .landing-art img { margin-bottom: 18px; }
+  .landing-intro { text-align: left; margin-left: 20px; }
+  .landing-intro dt { text-decoration: underline; margin-top: 6px; }
+  .landing-intro dd { margin: 2px 0 6px 1.4em; }
+  .landing-intro dd::before { content: "• "; color: var(--c-text-muted); }
+
+  /* Town: legacy .town with town02.gif at the top right */
+  .town { min-height: 220px; padding-right: 360px; background: url("../image/other/town02.gif") no-repeat top right; }
+  .town > ul { list-style: none; padding: 0; margin: 0; }
+  .town > ul > li { padding: 3px 0; }
+  .town > ul > li > ul { list-style: none; padding-left: 1.4em; }
+  .town .place-en { color: var(--c-text-muted); font-weight: 400; font-size: var(--fs-sm); }
+  .bbs-form { display: flex; gap: 6px; margin-bottom: 10px; }
+  .bbs-form .input { flex: 1 1 auto; max-width: 320px; }
+
+  /* Battle report: legacy BattleState / Action / BattleResult */
+  .btl-img { position: relative; background: var(--c-edge); padding: 3px; }
+  .stage { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; aspect-ratio: 12 / 5; }
+  .btl-jump { position: absolute; right: 6px; bottom: 4px; font-size: var(--fs-xs); }
+  .btl-jump a { margin-left: 6px; }
+  .btl-state { border-bottom: 1px solid var(--c-edge); }
+  .btl-state > * { display: grid; grid-template-columns: 1fr 1fr; padding: 6px 10px 0; }
+  .btl-log { list-style: none; padding: 0; margin: 0; }
+  .btl-row { display: grid; grid-template-columns: 1fr 1fr; }
+  .btl-row > .act { grid-column: 1; padding: 4px 10px 6px; }
+  .btl-row.ally > .act { grid-column: 2; border-left: 1px solid var(--c-edge); }
+  .btl-row.foe::after { content: ""; grid-column: 2; grid-row: 1; border-left: 1px solid var(--c-edge); }
+  .act-head { text-decoration: underline; font-weight: 700; }
+  .act-head .icon { margin: 0 4px; }
+  .act p { margin: 0; font-size: var(--fs-sm); }
+  .btl-result { text-align: center; padding: 18px 0 10px; border-top: 1px solid var(--c-edge); border-bottom: 1px solid var(--c-edge); }
+  .btl-result strong { font-size: var(--fs-xl); line-height: 1.3; display: block; }
+  .btl-result .draw { font-size: 21px; }
+
+  /* Character page */
+  .char-head { display: grid; grid-template-columns: 160px max-content minmax(0, 1fr); gap: 0 24px; align-items: start; }
+  .char-head .carpet-stage { margin-top: 0; }
+  .tactics td:first-child { width: 2.5em; text-align: center; }
+  .tactics .select-judge { width: 100%; min-width: 12em; }
+  .tactics .input { width: 4.5em; }
+  .slots td:first-child, .slots th { width: 4em; text-align: right; white-space: nowrap; }
+
+}
+
+/* Breakpoint overrides, last layer so they win without longer selectors.
+   Group rules by component in the same order as the components layer. */
+@layer responsive {
+  /* ---- Responsive: tablet (fluid frame) ---- */
+  @media (max-width: 819px) {
+    .frame { border-width: 0; }
+  }
+
+  /* ---- Responsive: phone ---- */
+  @media (max-width: 599px) {
+    :root { --sp-page: 12px; --sp-indent: 4px; --tap: 40px; }
+    body { font-size: 15px; }
+
+    .recruit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .color-grid { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+    .color-choice, .color-choice > span { min-height: 40px; }
+    .catalog-grid { grid-template-columns: 1fr; }
+    .split-stack { grid-template-columns: 1fr; }
+    .split-stack > * + * { border-left: 0; border-top: 1px solid var(--c-edge); }
+    .title { padding: 12px; }
+    .title img { width: 164px; }
+
+    .menu { padding: 0; }
+    .menu ul { display: grid; grid-template-columns: repeat(3, 1fr); row-gap: 0; }
+    .menu li + li::before { display: none; }
+    .menu li { justify-content: center; border-right: 1px solid var(--c-edge); border-bottom: 1px solid var(--c-edge); }
+    .menu li:nth-child(3n) { border-right: 0; }
+    .menu a { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 42px; }
+    .menu a[aria-current="page"] { background: var(--c-bar-sub); box-shadow: inset 0 -2px 0 var(--c-heading-rule); }
+
+    .status { gap: 2px 16px; padding: 6px 12px; }
+    .status-team { flex-basis: 100%; }
+
+    .input, .select, .textarea { font-size: 16px; min-height: 40px; } /* prevents iOS zoom on focus */
+    .btn { font-size: 13px; padding: 6px 14px; }
+    .btn-lg { width: 100%; }
+
+    .form-grid { grid-template-columns: 1fr; gap: 4px; justify-items: stretch; }
+    .form-grid > label:not(.check), .form-grid > .label { text-align: left; justify-self: start; margin-top: 6px; }
+    .field-note { grid-column: 1; margin-top: 0; }
+
+    /* Stacked tables: td.primary becomes the card title, other cells share one row */
+    .tbl-stack thead { display: none; }
+    .tbl-stack, .tbl-stack tbody { display: block; width: 100%; }
+    .tbl-stack tr { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; border: 1px solid var(--c-line); margin-bottom: 8px; padding: 0 10px 8px; background: var(--c-sunken); }
+    .tbl-stack td { border: 0; padding: 0; display: inline-flex; align-items: center; gap: 6px; text-align: left; }
+    .tbl-stack td::before { content: attr(data-label); color: var(--c-text-muted); font-weight: 400; font-size: var(--fs-sm); }
+    .tbl-stack td.primary { order: -1; flex: 1 0 100%; display: block; margin: 0 -10px; padding: 6px 10px; background: var(--c-selected); border-bottom: 1px solid var(--c-line); }
+    .tbl-stack td.primary::before { content: none; }
+    .tbl-stack tbody tr:has(input[type="checkbox"]:checked) { border-color: var(--c-band-a); }
+    .tbl-stack tbody tr:has(input[type="checkbox"]:checked) td:not(.primary) { background: transparent; }
+
+    .carpets, .carpets-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .carpet-stage { background-size: 100% auto; min-height: 104px; }
+    .carpet-stage > img { max-width: 88%; }
+
+    .split > * { padding: 8px 4px; font-size: var(--fs-sm); }
+    .num-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+    .num-grid .input { padding: 2px; }
+
+    .landing { grid-template-columns: 1fr; }
+    .landing-login { order: -1; }
+    .landing-intro { margin-left: 0; }
+
+    .town { padding-right: 0; padding-top: 62.2%; background-size: 100% auto; background-position: top center; min-height: 0; }
+    .bbs-form .input { max-width: none; }
+
+    .char-head { grid-template-columns: 120px minmax(0, 1fr); gap: 0 14px; }
+    .char-head .specials { grid-column: 1 / -1; }
+
+    .btl-state > * { grid-template-columns: 1fr; padding: 6px 6px 0; }
+    .btl-row, .btl-row.ally { grid-template-columns: 1fr; }
+    .btl-row.foe::after { content: none; }
+    .btl-row > .act, .btl-row.ally > .act { grid-column: 1; border-left: 3px solid transparent; padding: 4px 8px 6px; }
+    .btl-row.foe > .act { border-left-color: var(--side-foe); }
+    .btl-row.ally > .act { border-left-color: var(--side-ally); background: var(--side-ally-bg); }
+
+    /* Tactics rows: No | condition (full) / quantity + action | row radio */
+    .tactics thead { display: none; }
+    .tactics, .tactics tbody { display: block; }
+    .tactics tr { display: grid; grid-template-columns: 24px 5.5em minmax(0, 1fr) 28px; gap: 6px; padding: 6px; border: 1px solid var(--c-line); margin-bottom: 6px; }
+    .tactics td, .tactics td:first-child { border: 0; padding: 0; width: auto; }
+    .tactics td:nth-child(1) { grid-row: 1 / span 2; align-self: center; text-align: center; }
+    .tactics td:nth-child(2) { grid-column: 2 / 4; }
+    .tactics td:nth-child(3) { grid-column: 2; }
+    .tactics td:nth-child(4) { grid-column: 3; }
+    .tactics td:nth-child(5) { grid-column: 4; grid-row: 1 / span 2; align-self: center; }
+    .tactics .select, .tactics .input, .tactics .select-judge { width: 100%; min-width: 0; }
+    .tactics tbody tr:hover td { background: transparent; }
+    .tactics tbody tr:has(input[type="radio"]:checked) { background: var(--c-selected); }
+    .tactics tbody tr:has(input[type="radio"]:checked) td { background: transparent; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; scroll-behavior: auto !important; }
+  }
+
+  @media print {
+    :root { color-scheme: light; }
+    body, .frame { background: Canvas; color: CanvasText; border: 0; }
+    .menu, .status, .foot, .actions { display: none; }
+  }
+}

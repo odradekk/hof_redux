@@ -14,7 +14,7 @@ final class CatalogPresentationTest extends TestCase
     public function test_jobs_are_readable_cards_with_character_sprites(): void
     {
         $response = $this->get('/catalog/jobs');
-        $response->assertOk()->assertSee('战士')->assertSee('皇家卫士')->assertSee('可用装备')->assertSee('生命成长')->assertSee('进阶职业')->assertSee('image/char/mon_079.gif', false)->assertSee('男性 · 战士');
+        $response->assertOk()->assertSee('战士')->assertSee('皇家卫士')->assertSee('可用装备')->assertSee('生命成长')->assertSee('进阶职业')->assertSee('image/char/mon_079.gif', false)->assertSee('男性 · 战士')->assertSee('data-id="jobs-100"', false);
         foreach (['name_male', 'img_male', 'name_female', 'coe', 'equip', 'Content version', '"change"', '"no"'] as $key) {
             $response->assertDontSee($key);
         }
@@ -35,13 +35,10 @@ final class CatalogPresentationTest extends TestCase
 
     public function test_incomplete_reference_only_content_is_not_a_playable_catalog_card(): void
     {
-        $catalog = app(ContentCatalog::class);
         foreach (['1079', '1900', '1010', '1011'] as $id) {
-            $name = $catalog->get('monsters', $id)['name'];
-            $this->get('/catalog/monsters?q='.$id)->assertOk()->assertDontSee('<h3>'.$name.'</h3>', false);
+            $this->get('/catalog/monsters?q='.$id)->assertOk()->assertDontSee('data-id="monsters-'.$id.'"', false);
         }
-        $name = $catalog->get('skills', '3113')['name'];
-        $this->get('/catalog/skills?q=3113')->assertOk()->assertDontSee('<h3>'.$name.'</h3>', false);
+        $this->get('/catalog/skills?q=3113')->assertOk()->assertDontSee('data-id="skills-3113"', false);
     }
 
     public function test_every_catalog_card_can_be_presented_without_raw_arrays(): void

@@ -1,0 +1,1 @@
+<footer class="foot"><a href="{{ route('updates') }}">UpDate</a><a href="{{ route('manual') }}">手册</a><a href="{{ route('manual', ['section'=>'tutorial']) }}">教学</a><a href="{{ route('catalog') }}">游戏数据</a><a href="#top">Top</a></footer>

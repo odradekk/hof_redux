@@ -4,6 +4,7 @@ namespace App\Application\Support;
 
 use App\Models\InventoryItem;
 use App\Models\User;
+use Carbon\CarbonImmutable;
 use Closure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -77,12 +78,19 @@ final class GameAction
         $this->ledger($user->id, $operationId, 'money', $delta, $reason);
     }
 
+    /** Compute regenerated raw units without persisting a read-only HUD request. */
+    public static function availableStamina(User $user, CarbonImmutable $now): int
+    {
+        $seconds = max(0, $now->getTimestamp() - $user->stamina_updated_at->getTimestamp());
+
+        return min(8640000, $user->stamina_units + $seconds * 500);
+    }
+
     public function stamina(User $user, int $cost, int $operationId, string $reason): void
     {
         $this->ensure($cost >= 0 && $cost <= 100, 'Invalid stamina cost.');
-        $at = now();
-        $seconds = max(0, $at->getTimestamp() - $user->stamina_updated_at->getTimestamp());
-        $available = min(8640000, $user->stamina_units + $seconds * 500);
+        $at = CarbonImmutable::now();
+        $available = self::availableStamina($user, $at);
         $this->ensure($available >= $cost * 86400, 'Not enough stamina.');
         $user->stamina_units = $available - $cost * 86400;
         $user->stamina_updated_at = $at;

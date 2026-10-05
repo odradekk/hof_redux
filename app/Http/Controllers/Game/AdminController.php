@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Game;
 use App\Application\Community\AccountDeletion;
 use App\Application\Multiplayer\AuctionService;
 use App\Application\Multiplayer\BossService;
+use App\Application\Player\ItemDetails;
 use App\Application\Support\GameAction;
+use App\Domain\Content\ContentCatalog;
+use App\Http\View\ItemLines;
+use App\Http\View\UnitCards;
 use App\Models\AdminAudit;
 use App\Models\Announcement;
 use App\Models\BattleReport;
@@ -23,14 +27,39 @@ final class AdminController
     {
         abort_unless($request->user()->is_admin, 403);
 
-        return view('game.admin.index', ['users' => User::orderBy('id')->paginate(30), 'totals' => ['accounts' => User::count(), 'money' => User::sum('money'), 'characters' => Character::count(), 'inventory' => InventoryItem::sum('quantity')], 'audits' => AdminAudit::latest()->limit(30)->get(), 'announcements' => Announcement::latest()->get(), 'messages' => BoardMessage::latest()->get()]);
+        $totals = [
+            ['label' => '账号数', 'value' => number_format(User::count())],
+            ['label' => '总资金', 'value' => '$ '.number_format(User::sum('money'))],
+            ['label' => '角色数', 'value' => number_format(Character::count())],
+            ['label' => '道具数量', 'value' => number_format(InventoryItem::sum('quantity'))],
+        ];
+        $actions = ['account.balance' => '资金修正', 'account.delete' => '删除账号', 'announcement.publish' => '发布公告', 'moderation.delete' => '内容审核', 'reports.prune' => '战报清理', 'maintenance.run' => '运行维护'];
+        $audits = AdminAudit::latest()->limit(30)->get()->map(static fn (AdminAudit $audit): array => [
+            'at' => $audit->created_at, 'admin' => $audit->admin_id ?? '用户本人',
+            'action' => $actions[$audit->action] ?? $audit->action, 'target' => $audit->target ?? '—',
+            'details' => json_encode($audit->details, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
+        ])->all();
+
+        return view('game.admin.index', [
+            'users' => User::orderBy('id')->paginate(30), 'totals' => $totals, 'audits' => $audits,
+            'announcements' => Announcement::latest()->get(), 'messages' => BoardMessage::latest()->get(),
+        ]);
     }
 
-    public function user(Request $request, User $user)
+    public function user(Request $request, User $user, ContentCatalog $catalog, ItemDetails $details)
     {
         abort_unless($request->user()->is_admin, 403);
 
-        return view('game.admin.user', ['player' => $user->load('characters', 'inventory')]);
+        $user->load('characters', 'inventory');
+        $units = $user->characters->map(static fn (Character $character): array => UnitCards::character($character->toArray(), $catalog->get('jobs', $character->job_id)))->all();
+        $locations = ['backpack' => '背包', 'equipped' => '已装备', 'auction' => '拍卖托管'];
+        $items = $user->inventory->map(static function (InventoryItem $item) use ($details, $locations): array {
+            $row = $item->toArray();
+
+            return ['id' => $item->id, 'line' => ItemLines::fromInventory($row, $details->resolve($row)), 'location' => $locations[$item->location] ?? '其他'];
+        })->all();
+
+        return view('game.admin.user', ['player' => $user, 'units' => $units, 'items' => $items]);
     }
 
     public function updateUser(Request $request, User $user, GameAction $actions)
@@ -47,7 +76,7 @@ final class AdminController
             return ['ok' => true];
         });
 
-        return back()->with('status', 'Balance corrected and audited.');
+        return back()->with('status', '资金已修正，并记录审计。');
     }
 
     public function deleteUser(Request $request, User $user, AccountDeletion $deletion)
@@ -56,7 +85,7 @@ final class AdminController
         $request->validate(['confirm' => 'required|in:DELETE', 'current_password' => ['bail', 'required', 'string', 'max:72', 'not_regex:/\x00/', 'current_password']]);
         $deletion->delete($user->id, $request->user()->id);
 
-        return redirect()->route('admin.index')->with('status', 'Account deleted.');
+        return redirect()->route('admin.index')->with('status', '账号已删除。');
     }
 
     public function announcement(Request $request, GameAction $actions)
@@ -71,7 +100,7 @@ final class AdminController
             return ['id' => $notice->id];
         });
 
-        return back()->with('status', 'Announcement published.');
+        return back()->with('status', '公告已发布。');
     }
 
     public function moderate(Request $request, GameAction $actions)
@@ -87,7 +116,7 @@ final class AdminController
             return ['ok' => true];
         });
 
-        return back()->with('status', 'Content removed.');
+        return back()->with('status', '内容已删除。');
     }
 
     public function reports(Request $request, GameAction $actions)
@@ -109,7 +138,7 @@ final class AdminController
             return ['count' => $count];
         });
 
-        return back()->with('status', 'Reports removed; challenge history preserved.');
+        return back()->with('status', '战报已清理，挑战记录、冷却和统计已保留。');
     }
 
     public function maintenance(Request $request, BossService $bosses, AuctionService $auctions, GameAction $actions)
@@ -121,7 +150,7 @@ final class AdminController
         $settled = $auctions->settleDue();
         $this->audit($request->user(), 'maintenance.run', null, compact('created', 'respawned', 'settled'));
 
-        return back()->with('status', "Maintenance completed: $created bosses initialized, $respawned respawned, $settled auctions settled.");
+        return back()->with('status', "维护完成：初始化$created个首领，复活$respawned个首领，结算$settled场拍卖。");
     }
 
     private function audit(User $admin, string $action, ?string $target, array $details): void

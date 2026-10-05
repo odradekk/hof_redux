@@ -56,7 +56,7 @@ final class PlayerService
             'work' => [],
             'craft' => ['item_id' => ['required', 'integer', 'min:1'], 'material' => ['nullable', 'string', 'regex:/^7[0-1][0-9]{2}$/']],
             'refine' => ['inventory_id' => ['required', 'integer', 'min:1'], 'times' => ['required', 'integer', 'between:1,10']],
-            'preferences' => ['record_battle_log' => ['required', 'boolean'], 'no_js_inventory' => ['required', 'boolean'], 'color' => ['required', 'regex:/^[a-fA-F0-9]{6}$/']],
+            'preferences' => ['record_battle_log' => ['required', 'boolean'], 'no_js_inventory' => ['required', 'boolean'], 'color' => ['present', 'nullable', 'regex:/^(?:00|33|66|99|cc|ff){3}$/i']],
             'party' => ['characters' => ['required', 'array', 'between:1,5'], 'characters.*' => ['required', 'integer', 'distinct', 'min:1']],
             'team-name' => ['name' => $name],
             'dismiss', 'memo', 'unequip-all' => $character,
@@ -70,13 +70,13 @@ final class PlayerService
             'unequip' => $character + ['slot' => ['required', Rule::in(['weapon', 'shield', 'armor', 'item'])]],
             'tactics' => $character + ['tactics' => ['required', 'array', 'between:1,11'], 'tactics.*.judge' => ['required', 'integer'], 'tactics.*.quantity' => ['required', 'integer', 'between:0,9999'], 'tactics.*.action' => ['required', 'integer']],
             'tactics-insert', 'tactics-delete' => $character + ['row' => ['required', 'integer', 'between:0,10']],
-            default => throw ValidationException::withMessages(['command' => 'Unknown player action.']),
+            default => throw ValidationException::withMessages(['command' => '无法识别此操作。']),
         };
         $data = Validator::make($input, $rules)->validate();
         if (isset($data['name'])) {
             $data['name'] = trim($data['name']);
             if ($data['name'] === '') {
-                Inventory::reject('Name cannot be empty.');
+                Inventory::reject('名字不能为空。');
             }
         }
         foreach (['item_id' => 'items', 'job_id' => 'jobs', 'skill_id' => 'skills'] as $field => $kind) {
@@ -85,10 +85,10 @@ final class PlayerService
             }
         }
         if ($command === 'craft' && ! $this->catalog->has('recipes', $data['item_id'])) {
-            Inventory::reject('This recipe is unavailable.');
+            Inventory::reject('此配方不可用。');
         }
         if (! empty($data['material']) && ! $this->catalog->has('items', $data['material'])) {
-            Inventory::reject('Unknown special material.');
+            Inventory::reject('追加材料不存在。');
         }
 
         return $data;
@@ -102,7 +102,7 @@ final class PlayerService
             $this->actions->ledger($user->id, $operation, 'item', 1, 'recruit starter equipment', $item->item_id, ['inventory_id' => $item->id]);
         }
 
-        return ['message' => 'Character recruited.', 'character_id' => $character->id];
+        return ['message' => '已雇佣新的同伴。', 'character_id' => $character->id];
     }
 
     private function buy(User $user, array $items, int $operation): array
@@ -112,7 +112,7 @@ final class PlayerService
         foreach ($items as $selection) {
             $id = (string) $selection['id'];
             if (! in_array($id, $stock, true)) {
-                Inventory::reject('This item is not sold here.');
+                Inventory::reject('本店不出售此道具。');
             }
             $total += (int) $this->catalog->get('items', $id)['buy'] * (int) $selection['quantity'];
         }
@@ -121,7 +121,7 @@ final class PlayerService
             $this->actions->addItem($user, (string) $selection['id'], (int) $selection['quantity'], $operation, 'shop buy');
         }
 
-        return ['message' => 'Purchase completed.', 'total' => $total];
+        return ['message' => '购买完成。', 'total' => $total];
     }
 
     private function sell(User $user, array $items, int $operation): array
@@ -134,7 +134,7 @@ final class PlayerService
         }
         $this->actions->money($user, $total, $operation, 'shop sell');
 
-        return ['message' => 'Sale completed.', 'total' => $total];
+        return ['message' => '出售完成。', 'total' => $total];
     }
 
     private function work(User $user, int $operation): array
@@ -142,45 +142,45 @@ final class PlayerService
         $this->actions->stamina($user, 100, $operation, 'work');
         $this->actions->money($user, 500, $operation, 'work');
 
-        return ['message' => 'Work completed: 100 stamina exchanged for 500 gold.'];
+        return ['message' => '打工完成：消耗 100 体力，获得 $ 500。'];
     }
 
     private function preferences(User $user, array $data): array
     {
         $user->preferences = array_merge($user->preferences ?? [], [
             'record_battle_log' => (bool) $data['record_battle_log'],
-            'no_js_inventory' => (bool) $data['no_js_inventory'], 'color' => strtolower($data['color']),
+            'no_js_inventory' => (bool) $data['no_js_inventory'], 'color' => strtolower($data['color'] ?? ''),
         ]);
         $user->save();
 
-        return ['message' => 'Preferences saved.'];
+        return ['message' => '显示设置已保存。'];
     }
 
     private function party(User $user, array $ids): array
     {
         $ids = array_map('intval', $ids);
         if ($user->characters()->whereIn('id', $ids)->count() !== count($ids)) {
-            Inventory::reject('Party must contain only your characters.');
+            Inventory::reject('只能选择自己的角色。');
         }
         $user->preferences = array_merge($user->preferences ?? [], ['party' => $ids]);
         $user->save();
 
-        return ['message' => 'Party saved.'];
+        return ['message' => '出战队伍已保存。'];
     }
 
     private function teamName(User $user, string $name, int $operation): array
     {
         if (User::where('name', $name)->where('id', '<>', $user->id)->exists()) {
-            Inventory::reject('That team name is already in use.');
+            Inventory::reject('此队伍名称已被使用。');
         }
         if ($user->name === $name) {
-            Inventory::reject('Choose a different team name.');
+            Inventory::reject('请输入不同的队伍名称。');
         }
         $this->actions->money($user, -100000, $operation, 'team rename');
         $user->name = $name;
         $user->save();
 
-        return ['message' => 'Team renamed.'];
+        return ['message' => '队伍已改名。'];
     }
 
     private function characterCommand(User $user, string $command, array $data, int $operation): array
@@ -189,7 +189,7 @@ final class PlayerService
         switch ($command) {
             case 'dismiss':
                 if ($user->characters()->count() <= 1) {
-                    Inventory::reject('Keep at least one character in your team.');
+                    Inventory::reject('队伍至少需要保留一名角色。');
                 }
                 $this->inventory->unequip($user, $character, $operation);
                 $preferences = $user->preferences ?? [];
@@ -198,10 +198,10 @@ final class PlayerService
                 $user->save();
                 $character->delete();
 
-                return ['message' => 'Character dismissed; equipment returned.'];
+                return ['message' => '角色已离队，装备已返回背包。'];
             case 'rename':
                 if ($character->name === $data['name']) {
-                    Inventory::reject('Choose a different character name.');
+                    Inventory::reject('请输入不同的角色名字。');
                 }
                 $this->inventory->consumeBase($user, '7500', 1, $operation, 'character rename');
                 $character->name = $data['name'];
@@ -210,11 +210,11 @@ final class PlayerService
                 $stats = $character->stats;
                 $spent = array_sum($data['stats']);
                 if ($spent < 1 || $spent > $character->stat_points) {
-                    Inventory::reject('Not enough status points.');
+                    Inventory::reject('剩余属性点不足。');
                 }
                 foreach ($data['stats'] as $stat => $amount) {
                     if ($stats[$stat] + $amount > 255) {
-                        Inventory::reject('A status cannot exceed 255.');
+                        Inventory::reject('单项属性不能超过 255。');
                     }
                     $stats[$stat] += (int) $amount;
                 }
@@ -230,11 +230,11 @@ final class PlayerService
                 $skill = (string) $data['skill_id'];
                 $available = array_map('strval', $this->catalog->availableSkills($character->job_id, $character->level, $character->skills));
                 if (! in_array($skill, $available, true)) {
-                    Inventory::reject('Skill prerequisites are not satisfied.');
+                    Inventory::reject('尚未满足技能学习条件。');
                 }
                 $cost = (int) ($this->catalog->get('skills', $skill)['learn'] ?? 0);
                 if ($cost < 0 || $cost > $character->skill_points) {
-                    Inventory::reject('Not enough skill points.');
+                    Inventory::reject('剩余技能点不足。');
                 }
                 $character->skill_points -= $cost;
                 $skills = [...$character->skills, (int) $skill];
@@ -243,7 +243,7 @@ final class PlayerService
                 break;
             case 'job':
                 if (! $this->catalog->canChangeJob($character->job_id, (string) $data['job_id'], $character->level)) {
-                    Inventory::reject('Job prerequisites are not satisfied.');
+                    Inventory::reject('尚未满足转职条件。');
                 }
                 $this->inventory->unequip($user, $character, $operation);
                 $character->job_id = (string) $data['job_id'];
@@ -275,7 +275,7 @@ final class PlayerService
                     $patterns[] = PlayerRules::defaultTactic($character);
                 }
                 if ((int) $data['row'] >= $max) {
-                    Inventory::reject('Invalid tactic row.');
+                    Inventory::reject('请选择有效的行动模式行。');
                 }
                 if ($command === 'tactics-insert') {
                     array_splice($patterns, (int) $data['row'], 0, [PlayerRules::defaultTactic($character)]);
@@ -287,18 +287,18 @@ final class PlayerService
                 $character->tactics = $patterns;
                 break;
             default:
-                Inventory::reject('Unknown character action.');
+                Inventory::reject('无法识别此角色操作。');
         }
         $character->save();
 
-        return ['message' => 'Character updated.', 'character_id' => $character->id];
+        return ['message' => '角色设置已保存。', 'character_id' => $character->id];
     }
 
     public function validateTactics(Character $character, array $tactics): array
     {
         $max = PlayerRules::maxPatterns((int) $character->stats['int'], $character->level);
         if (count($tactics) < 1 || count($tactics) > $max) {
-            Inventory::reject('Tactic row limit exceeded.');
+            Inventory::reject('行动模式行数超过上限。');
         }
         $known = array_map('strval', $character->skills);
         $result = [];
@@ -306,13 +306,13 @@ final class PlayerService
             $judge = (string) $row['judge'];
             $skill = (string) $row['action'];
             if (! array_key_exists($judge, $this->catalog->selectableConditions())) {
-                Inventory::reject('Unknown battle condition.');
+                Inventory::reject('请选择有效的战斗条件。');
             }
             if (! in_array($skill, $known, true) || ! PlayerRules::isTacticAction((int) $skill)) {
-                Inventory::reject('Action must be a learned active skill.');
+                Inventory::reject('只能选择已经掌握的行动技能。');
             }
             if ((int) $row['quantity'] < 0 || (int) $row['quantity'] > 9999) {
-                Inventory::reject('Invalid condition quantity.');
+                Inventory::reject('条件数值必须介于 0 与 9999 之间。');
             }
             $result[] = ['judge' => (int) $judge, 'quantity' => (int) $row['quantity'], 'action' => (int) $skill];
         }
@@ -328,7 +328,7 @@ final class PlayerService
             $refund = 0;
             $learned = array_diff(array_map('intval', $character->skills), $innate);
             if ($learned === []) {
-                Inventory::reject('No learned skills to reset.');
+                Inventory::reject('没有可重置的已学技能。');
             }
             foreach ($learned as $skill) {
                 $refund += (int) ($this->catalog->get('skills', $skill)['learn'] ?? 0);
@@ -354,7 +354,7 @@ final class PlayerService
             $stats[$stat] = min($stats[$stat], $limit);
         }
         if ($refund === 0) {
-            Inventory::reject('No status points to reset.');
+            Inventory::reject('没有可重置的属性点。');
         }
         $this->inventory->consumeBase($user, (string) $itemId, 1, $operation, 'status reset');
         $this->inventory->unequip($user, $character, $operation);

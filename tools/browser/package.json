@@ -1,6 +1,11 @@
 {
   "name": "hof-browser-smoke",
   "private": true,
-  "scripts": { "test": "node smoke.mjs" },
-  "devDependencies": { "playwright": "1.57.0" }
+  "scripts": {
+    "test": "node smoke.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "playwright": "1.57.0"
+  }
 }

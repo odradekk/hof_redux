@@ -16,7 +16,7 @@ final class AuthController
         $data = $request->validate(['login' => ['required', 'string', 'regex:/\A[a-zA-Z0-9]{4,16}\z/', 'unique:users,login'], 'password' => $this->newPasswordRules()]);
         $data['login'] = strtolower($data['login']);
         if (User::where('login', $data['login'])->exists()) {
-            throw ValidationException::withMessages(['login' => 'This account ID is already in use.']);
+            throw ValidationException::withMessages(['login' => '此账号已被使用。']);
         }
         $user = DB::transaction(function () use ($data) {
             // A transaction-scoped advisory lock makes the account limit safe across concurrent registrations.
@@ -24,13 +24,13 @@ final class AuthController
                 DB::select('SELECT pg_advisory_xact_lock(48464601)');
             }
             if (User::where('login', $data['login'])->exists()) {
-                throw ValidationException::withMessages(['login' => 'This account ID is already in use.']);
+                throw ValidationException::withMessages(['login' => '此账号已被使用。']);
             }
             if (User::count() >= config('hof.max_users', 500)) {
-                throw ValidationException::withMessages(['login' => 'Registration is currently full.']);
+                throw ValidationException::withMessages(['login' => '目前注册人数已满。']);
             }
 
-            return User::create($data + ['stamina_updated_at' => now(), 'preferences' => ['record_battle_log' => true, 'inventory_javascript' => true, 'color' => 'bdc8d7', 'party' => []]]);
+            return User::create($data + ['stamina_updated_at' => now(), 'preferences' => ['record_battle_log' => true, 'no_js_inventory' => false, 'color' => '', 'party' => []]]);
         });
         Auth::login($user);
         $request->session()->regenerate();
@@ -43,7 +43,7 @@ final class AuthController
         $data = $request->validate(['login' => 'required|string|max:16', 'password' => ['bail', 'required', 'string', 'max:72', 'not_regex:/\x00/']]);
         $data['login'] = strtolower($data['login']);
         if (! Auth::attempt($data)) {
-            throw ValidationException::withMessages(['login' => 'The account ID or password is incorrect.']);
+            throw ValidationException::withMessages(['login' => '账号或密码不正确。']);
         }
         $request->session()->regenerate();
         $request->user()->update(['last_login_at' => now()]);
@@ -67,14 +67,14 @@ final class AuthController
         DB::table('sessions')->where('user_id', $request->user()->id)->where('id', '!=', $request->session()->getId())->delete();
         $request->session()->regenerate();
 
-        return back()->with('status', 'Password changed. Other sessions have been signed out.');
+        return back()->with('status', '密码已修改，其他登录会话已退出。');
     }
 
     private function newPasswordRules(): array
     {
         return ['bail', 'required', 'string', 'confirmed', 'max:72', 'not_regex:/\x00/', function ($attribute, $value, $fail) {
             if (strlen($value) > 72) {
-                $fail('Password must not exceed 72 UTF-8 bytes.');
+                $fail('密码不能超过72个UTF-8字节。');
             }
         }, Password::min(12)];
     }

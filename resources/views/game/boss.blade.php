@@ -1,8 +1,35 @@
 @extends('layouts.app')
-@section('title','Union Monster')
+@section('title', '共享首领')
 @section('content')
-<h4>Union Monster · 共享首领</h4><p>每次消耗 10 体力 · 每 20 分钟可挑战一次 · HP/SP 隐藏 · All players share the same boss</p>
-@forelse($bosses as $boss)<section><h4>{{ $boss['name'] }}</h4><p>队伍等级上限: {{ $boss['limit'] }} · {{ $boss['alive']?'存活 · Alive':'已击败 · Defeated' }} @if(!$boss['alive']) · Respawns {{ $boss['respawns_at'] }} UTC @endif</p>
-@if($boss['alive'])<form method="post" action="{{ route('bosses.challenge',$boss['id']) }}">@csrf<input type="hidden" name="operation_id" value="{{ (string) Str::uuid() }}">@foreach($characters as $character)<label><input type="checkbox" name="party[]" value="{{ $character->id }}">{{ $character->name }} Lv.{{ $character->level }}</label>@endforeach<button>战斗!</button></form>@endif</section>@empty<p>No boss instances initialized.</p>@endforelse
-<h4>我的挑战 · My challenges</h4><ul>@foreach($challenges as $challenge)<li><a href="{{ route('multiplayer.report',['boss',$challenge->id]) }}">{{ $challenge->created_at }} · {{ $challenge->killed?'Boss defeated':'Challenge' }}</a></li>@endforeach</ul>
+<x-sec as="h1" title="共享首领(BOSS)">
+    <x-slot:aside><a href="{{ route('hunt') }}">返回狩猎</a></x-slot:aside>
+</x-sec>
+<p class="hint">每次消耗10体力，每20分钟可挑战一次。所有玩家共同挑战首领，首领生命与魔力不会公开。</p>
+@if(!$ready)<p>下次可挑战：<x-time :at="$readyAt" mode="relative" /></p>@endif
+@forelse($bosses as $summary)
+    <section>
+        <x-sec :title="$summary['name']" as="h2" />
+        <div class="split">
+            <x-carpet :unit="$summary['unit']" :href="route('bosses.show', $summary['id'])" />
+            <div>
+                <p>队伍等级上限：<span class="num">{{ $summary['limit'] }}</span></p>
+                @if($summary['alive'])<p class="recover">存活</p>
+                @else<p>已击败，复活时间：<x-time :at="$summary['respawns_at']" mode="relative" /></p>@endif
+            </div>
+        </div>
+        @if($summary['alive'])
+            @if($boss !== null)
+                <x-sortie :units="$units" :selected="$selected" :action="route('bosses.challenge', $summary['id'])">
+                    <x-slot:actions><button class="btn btn-lg" type="submit" @disabled(!$ready)>战斗!</button><button class="btn" type="reset">重置</button></x-slot:actions>
+                </x-sortie>
+            @else
+                <p class="actions"><a class="btn" href="{{ route('bosses.show', $summary['id']) }}">选择出战队伍</a></p>
+            @endif
+        @endif
+    </section>
+@empty
+    <p class="empty">暂无共享首领</p>
+@endforelse
+<x-sec title="我的挑战" as="h2" />
+<x-feed :entries="$challenges" />
 @endsection
