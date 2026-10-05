@@ -51,9 +51,9 @@
         <table class="tbl rank">
           <thead><tr><th>排位</th><th>队伍</th></tr></thead>
           <tbody>
-            <tr><td><img class="crown" src="../../../public/image/icon/crown01.png" alt="第1位"></td><td>黄昏之刃 <span class="meta">(12战 9胜2败 1引 4防 胜率75%)</span></td></tr>
-            <tr><td><img class="crown" src="../../../public/image/icon/crown02.png" alt="第2位"></td><td>银翼骑士团 <span class="meta">(8战 5胜3败 0引 1防 胜率63%)</span></td></tr>
-            <tr><td><img class="crown" src="../../../public/image/icon/crown03.png" alt="第3位"></td><td>北境商会 <span class="meta">(5战 2胜3败 0引 0防 胜率40%)</span></td></tr>
+            <tr><td><img class="icon" src="../../../public/image/icon/crown01.png" alt="第1位"></td><td>黄昏之刃 <span class="meta">(12战 9胜2败 1引 4防 胜率75%)</span></td></tr>
+            <tr><td><img class="icon" src="../../../public/image/icon/crown02.png" alt="第2位"></td><td>银翼骑士团 <span class="meta">(8战 5胜3败 0引 1防 胜率63%)</span></td></tr>
+            <tr><td><img class="icon" src="../../../public/image/icon/crown03.png" alt="第3位"></td><td>北境商会 <span class="meta">(5战 2胜3败 0引 0防 胜率40%)</span></td></tr>
             <tr><td>4位</td><td>星落之塔 <span class="meta">(2战 1胜1败 0引 0防 胜率50%)</span></td></tr>
             <tr><td>底</td><td>无名旅团 <span class="meta">(1战 0胜1败 0引 0防 胜率0%)</span></td></tr>
           </tbody>
@@ -118,8 +118,8 @@
     <form action="#" method="post"><button class="btn-link" type="submit">退出</button></form>
   </div>
   <main class="contents">
-    <nav class="char-links" aria-label="切换角色"><a href="#" aria-current="page">艾琳</a><a href="#">梅林</a><a href="#">苏菲</a><a href="#">罗宾</a><a href="#">加雷斯</a></nav>
-    <ul class="page-toc" aria-label="本页分区">
+    <nav aria-label="切换角色"><ul class="inline-list"><li><a href="#" aria-current="page">艾琳</a></li><li><a href="#">梅林</a></li><li><a href="#">苏菲</a></li><li><a href="#">罗宾</a></li><li><a href="#">加雷斯</a></li></ul></nav>
+    <ul class="inline-list inline-list-ruled" aria-label="本页分区">
       <li><a href="#c-status">人物状态</a></li><li><a href="#c-stat">角色属性</a></li><li><a href="#c-ai">行动模式</a></li><li><a href="#c-pos">位置 &amp; 保护</a></li><li><a href="#c-equip">装备</a></li><li><a href="#c-skill">技能</a></li><li><a href="#c-other">其他</a></li>
     </ul>
 
@@ -142,7 +142,7 @@
 
     <form id="c-stat" action="#" method="post">
       <h2 class="sec">角色属性 <a class="help" href="#">?</a> <span class="sec-aside">剩余属性点：<b class="charge">3</b></span></h2>
-      <div class="stat-alloc indent">
+      <div class="num-grid indent">
         <label>力量 <span class="meta">10</span><input class="input" type="number" min="0" max="3" value="0" name="stats[str]"></label>
         <label>智慧 <span class="meta">2</span><input class="input" type="number" min="0" max="3" value="0" name="stats[int]"></label>
         <label>敏捷 <span class="meta">4</span><input class="input" type="number" min="0" max="3" value="0" name="stats[dex]"></label>
@@ -187,7 +187,7 @@
 
     <h2 class="sec" id="c-equip">装备 <a class="help" href="#">?</a> <span class="sec-aside">负重 <b class="charge num">3 / 5</b></span></h2>
     <div class="indent">
-      <dl class="kv equip-stats">
+      <dl class="kv">
         <dt class="dmg">物理攻击</dt><dd class="dmg">10</dd>
         <dt class="spdmg">魔法攻击</dt><dd class="spdmg">0</dd>
         <dt class="recover">物理防御</dt><dd class="recover">23 + 20</dd>
@@ -275,8 +275,8 @@
     </form>
     <h2 class="sec">出现敌人</h2>
     <ul class="carpets carpets-5">
-      <li class="carpet"><div class="carpet-stage land land-grass"><img src="../../../public/image/char/mon_053.gif" width="56" height="48" alt=""></div><span class="carpet-name">持斧哥布林</span><span class="meta">Lv.1</span></li>
-      <li class="carpet"><div class="carpet-stage land land-grass"><img src="../../../public/image/char/mon_052.gif" width="40" height="48" alt=""></div><span class="carpet-name">哥布林勇士</span><span class="meta">Lv.1</span></li>
+      <li class="carpet"><div class="carpet-stage has-base"><img class="carpet-base" src="../../../public/image/other/land_grass.gif" width="134" height="67" alt=""><img src="../../../public/image/char/mon_053.gif" width="56" height="48" alt=""></div><span class="carpet-name">持斧哥布林</span><span class="meta">Lv.1</span></li>
+      <li class="carpet"><div class="carpet-stage has-base"><img class="carpet-base" src="../../../public/image/other/land_grass.gif" width="134" height="67" alt=""><img src="../../../public/image/char/mon_052.gif" width="40" height="48" alt=""></div><span class="carpet-name">哥布林勇士</span><span class="meta">Lv.1</span></li>
     </ul>
   </main>
   <footer class="foot"><a href="#">UpDate</a><a href="#">手册</a><a href="#">教学</a><a href="#">游戏数据</a><a href="#">Top</a></footer>
@@ -297,9 +297,9 @@
   </div>
   <main class="contents">
     <h1 class="sec">哥布林(最弱) vs 银翼骑士团 <span class="sec-aside">普通战 · 10-05 12:15</span></h1>
-    <div class="btl-teams">
-      <div><div class="team-name">哥布林(最弱)</div>总级别 : 3<br>平均级别 : 1<br>总HP : <span class="num">540/540</span></div>
-      <div><div class="team-name">银翼骑士团</div>总级别 : 6<br>平均级别 : 2<br>总HP : <span class="num">680/687</span></div>
+    <div class="split split-center">
+      <div><div class="bold">哥布林(最弱)</div>总级别 : 3<br>平均级别 : 1<br>总HP : <span class="num">540/540</span></div>
+      <div><div class="bold">银翼骑士团</div>总级别 : 6<br>平均级别 : 2<br>总HP : <span class="num">680/687</span></div>
     </div>
 
     <div class="btl-img" id="s1">
@@ -314,7 +314,7 @@
       </svg>
       <nav class="btl-jump" aria-label="战况跳转"><span class="light">&laquo;</span><a href="#s2">&raquo;</a></nav>
     </div>
-    <div class="btl-state">
+    <div class="btl-state split">
       <div>
         <div></div>
         <div>
@@ -343,7 +343,7 @@
     </ol>
 
     <div class="btl-result"><strong class="recover">银翼骑士团 胜利!</strong></div>
-    <div class="btl-summary">
+    <div class="split split-center">
       <div>残留HP : ????/????<br>存活 : 0/3<br>总伤害 : 412</div>
       <div>残留HP : <span class="num">562/687</span><br>存活 : 3/3<br>总伤害 : 540<br>总经验值 : 63<br>金钱 : <span class="num">$&nbsp;300</span>
         <div class="bold">获得战利品：</div><span class="item"><img class="icon" src="../../../public/image/icon/we_sword026.png" alt="">钢 x 1</span></div>
@@ -422,7 +422,7 @@
       </tbody>
     </table>
     <h2 class="sec" id="a-log">拍卖纪录(AuctionLog)</h2>
-    <ul class="bbs indent">
+    <ul class="feed indent">
       <li><time>10-05 12:15</time> No.1 <b>银翼骑士团</b> 出品 短剑+3 · $&nbsp;1,200</li>
       <li><time>10-05 11:40</time> No.2 <b>黄昏之刃</b> 出价 · $&nbsp;25,000</li>
     </ul>
@@ -458,7 +458,7 @@
     </div>
     <h2 class="sec">广场</h2>
     <form class="bbs-form" action="#" method="post"><input class="input" name="body" maxlength="200" aria-label="留言内容" placeholder="1–200 字"><button class="btn" type="submit">发言</button></form>
-    <ul class="bbs">
+    <ul class="feed">
       <li><span class="who">黄昏之刃</span> &gt; 竞技场见。<time datetime="2026-10-05T12:15:04Z">10-05 12:15</time></li>
       <li><span class="who">银翼骑士团</span> &gt; 大家好，今天去哥布林森林刷经验！<time datetime="2026-10-05T12:14:00Z">10-05 12:14</time></li>
     </ul>
@@ -490,7 +490,8 @@
     </form>
     <h2 class="sec">队伍改名 <span class="sec-aside">费用 $&nbsp;100,000</span></h2>
     <form class="form-grid indent" action="#" method="post">
-      <label for="k-team">新名字</label><input class="input input-md" id="k-team" maxlength="16">
+      <label for="k-team">新名字</label><input class="input input-md" id="k-team" maxlength="16" value="银翼骑士团" aria-invalid="true" aria-describedby="k-team-note">
+      <p class="field-note is-error" id="k-team-note">该队伍名称已被使用。</p>
       <span></span><div class="actions"><button class="btn" type="submit">支付并改名</button></div>
     </form>
     <h2 class="sec">按钮</h2>
@@ -498,7 +499,7 @@
     <h2 class="sec">分页</h2>
     <nav aria-label="分页"><ul class="pager"><li><span class="disabled">&laquo; 上一页</span></li><li><a href="#" aria-current="page">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><span class="disabled">…</span></li><li><a href="#">7</a></li><li><a href="#">下一页 &raquo;</a></li></ul></nav>
     <h2 class="sec">记录 <span class="sec-aside"><ul class="tabs"><li><a href="#" aria-current="page">普通</a></li><li><a href="#">BOSS</a></li><li><a href="#">竞技场</a></li></ul></span></h2>
-    <ul class="bbs indent">
+    <ul class="feed indent">
       <li>[ <a href="#">10/05 12:15:04</a> ] <b>战斗 34</b> 回合 [胜] <span class="recover">银翼骑士团</span> (3:2) vs 哥布林(最弱) (3:1)</li>
       <li>[ <a href="#">10/05 11:02:41</a> ] <b>战斗 100</b> 回合 [平] 银翼骑士团 (5:3) vs 哥布林领主 (4:6)</li>
     </ul>

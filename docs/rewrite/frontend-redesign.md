@@ -10,7 +10,8 @@
 2. **还原度**：桌面端保持 780px 定宽主框架、原菜单顺序和原页面分区；手机端（<600px）变成流式布局：三列菜单网格，表格改为卡片，输入框 16px，点击区域不小于 40px。
 3. **重点改造**：战报改用内联 SVG 场景（移植 `cssimage` 的坐标算法，CSP 安全，并可随屏幕等比缩放），HP/SP 状态每 10 次行动一段，行动按队伍左右分栏；角色页恢复旧版分区顺序；商店、锻冶屋、拍卖恢复 NPC 头图和“买 / 卖 / 打工”子导航。
 4. **先修硬伤**：分页巨型箭头、页头缺体力、中英文混杂、原始字段名外露（`armor`、`P_MAXHP`）、`<link>` 写在 `<body>` 内、标题层级被 `* {font-size:14px}` 抹平、CSS 缺少缓存失效机制。
-5. **交付路径**：分 6 个阶段（F0–F5），先做基础层和组件，再逐页迁移，最后做视觉回归和可访问性验收。每阶段可独立合并，现有功能测试保持绿色。
+5. **可扩展性**：令牌按“角色”命名，样式表中 `:root` 之外不出现颜色值；通用模式统一放在组件层；内容图片（立绘、土地、背景、图标）一律用 `<img>` 渲染，新地图和新怪物不需要改 CSS；组件只接收视图模型，不接收 Eloquent 模型；菜单、城镇设施、道具分类、记录分类、战斗事件都改为注册表。新功能按 §5.8 的做法接入，并由 §5.9 的完整性测试兜底。
+6. **交付路径**：分 6 个阶段（F0–F5），先做基础层和组件，再逐页迁移，最后做视觉回归和可访问性验收。每阶段可独立合并，现有功能测试保持绿色。
 
 ## 1. 现状诊断
 
@@ -41,6 +42,7 @@
 | 中 | 时间显示为原始 UTC 字符串 `2026-10-05 18:15:04`，拍卖“结束 (UTC)”列没有剩余时间 | auction、town、reports |
 | 低 | 视图里有业务调用：`App\Application\Player\PlayerRules::…`、`AuctionService::minimumBid()`、`app(BattlePresenter::class)` | 多个视图 |
 | 低 | `operation_id` 隐藏字段手写了 20 多次，`url()` 与 `route()` 混用 | 全部 POST 表单 |
+| 中 | 战斗引擎发出的 `ActionSkipped`（旧版“陷入沉思结果忘了行动。(无更多行动模式)”）被 `BattlePresenter` 的 `default => null` 静默丢弃；新增事件类型同样会无声消失 | `BattleRun.php:211`、`BattlePresenter.php:58` |
 | 低 | 留言颜色偏好可以保存但从未渲染；注册时默认值 `bdc8d7` 不在旧版 216 色表内；注册写入 `inventory_javascript`，设置页读取 `no_js_inventory`，两者键名不一致 | `AuthController`、`PlayerService` |
 
 ### 1.2 结构性问题
@@ -60,37 +62,42 @@
 
 ## 3. 视觉语言（设计令牌）
 
-候选实现见 `ui-baseline/hof.css` 的 `:root`。
+候选实现见 `ui-baseline/hof.css` 的 `:root`。令牌按**角色**命名（`--c-*` 表示颜色，`--tone-*` 表示语义色），不按出处命名。这样新组件只需挑选角色（底色、线条、弱化文字），不必去查 `#304052` 当初属于哪个旧选择器。旧选择器出处写在注释里。
 
 ### 3.1 颜色
 
-| 令牌 | 值 | 来源 | 对 `#10151b` 对比度 | 用途 |
+| 令牌 | 值 | 旧版出处 | 对 `#10151b` 对比度 | 角色 |
 | --- | --- | --- | --- | --- |
-| `--hof-page` | `#98a0a5` | `style.css body` | — | 页面外底色（框架两侧） |
-| `--hof-frame` | `#10151b` | `#main_frame` | — | 主框架底色 |
-| `--hof-edge` | `#070b0e` | 边框 / `.divide` | — | 框架边线、分隔线 |
-| `--hof-menu` | `#304052` | `#menu`、`.td6` | — | 菜单底色、表头、表格线 |
-| `--hof-menu2` | `#202935` | `#menu2`、`.tdToggleBg` | — | 状态栏、选中行 |
-| `--hof-foot` | `#1b222c` | `#foot` | — | 页脚 |
-| `--hof-text` | `#bdc8d7` | `body color` | 10.8 | 正文 |
-| `--hof-rule` | `#cad3df` | `h4` 边框 | — | 标题竖条与下划线 |
-| `--hof-link` / `-hover` | `#8a9cb7` / `#cbd3de` | `a` | 6.6 / 12.2 | 链接（粗体，悬停时加下划线） |
-| `--hof-help` / `-hover` | `#c69500` / `#ffcc33` | `.a0` | 6.7 | 帮助“?”、焦点环 |
-| `--hof-field` | `#91a2bb`（文字 `#10151b`） | `.text`、`select` | 7.1 | 输入框 |
-| `--hof-cell-1/2/4/5/9` | `#242f3c` 等 | `.td1–.td9` | — | 面板、交替表格 |
+| `--c-backdrop` | `#98a0a5` | `body` | — | 框架两侧的页面底色 |
+| `--c-bg` | `#10151b` | `#main_frame` | — | 主框架底色 |
+| `--c-edge` | `#070b0e` | 框架边线、`.divide` | — | 深色分隔线 |
+| `--c-bar` / `--c-bar-sub` | `#304052` / `#202935` | `#menu` / `#menu2` | — | 菜单栏 / 状态栏 |
+| `--c-line` | `#304052` | `.td6/.td7/.td8` | — | 表格网格线、表头 |
+| `--c-selected` | `#202935` | `.tdToggleBg` | — | 选中行 |
+| `--c-sunken` | `#141b23` | 新增 | — | 提示条、悬停行、手机卡片（替代原型中散落的 3 个近似色） |
+| `--c-hairline` | `#1d2631` | 新增 | — | 列表点线 |
+| `--c-panel` / `--c-panel-line` | `#242f3c` / `#afbdcf` | `.td1` | — | 面板 |
+| `--c-band-a` / `--c-band-b` | `#4a6380` / `#6f8baa` | `.td4` / `.td5` | — | 交替条（`band-b` 上需配深色文字） |
+| `--c-foot` | `#1b222c` | `#foot` | — | 页脚 |
+| `--c-text` | `#bdc8d7` | `body color` | 10.8 | 正文 |
+| `--c-heading-rule` | `#cad3df` | `h4` 边框 | — | 标题竖条与下划线 |
+| `--c-link` / `--c-link-hover` | `#8a9cb7` / `#cbd3de` | `a` | 6.6 / 12.2 | 链接（粗体，悬停加下划线） |
+| `--c-accent` / `--c-accent-hover` | `#c69500` / `#ffcc33` | `.a0` | 6.7 | 帮助“?”、焦点环 |
+| `--c-field*` | `#91a2bb`（文字 `#10151b`） | `.text`、`select`、`.select0` | 7.1 | 输入框 |
+| `--c-btn-*` | `btn_bk01.gif` 上 `#181818` 字 | `.btn` | 11.3 | 按钮 |
 
-**为可读性调整的令牌**（色相不变，只提高亮度；旧值保留为 `--hof-decor` 等，只用于装饰）：
+**为可读性调整的令牌**（色相不变，只提高亮度；旧值保留为 `--c-decor`，只用于装饰）：
 
 | 令牌 | 旧值 → 新值 | 旧 / 新对比度 | 说明 |
 | --- | --- | --- | --- |
-| `--hof-muted` | `.light #40526a` → `#7d90ab` | 2.3 → 5.6 | 旧值几乎看不清，只保留作装饰色 |
-| `--hof-unselect` | `#506685` → `#6f84a3` | 3.1 → 4.8 | 未选中角色名 |
-| `--hof-menu-link` | `#8a9cb7` → `#a3b3c8`（在 `#304052` 上） | 3.8 → 5.0 | 菜单文字 |
-| `--hof-dmg` | `#cc3300` → `#e0653d` | 3.5 → 5.3 | 伤害 / 物攻 |
-| `--hof-recover` | `#3366ff` → `#6b8cff` | 3.9 → 6.0 | 恢复 / 物防 / 生命 |
-| `--hof-spdmg` | `#993399` → `#c27ac2` | 2.9 → 6.0 | 魔攻 / 中毒 |
-| `--hof-support`、`--hof-charge`、`--hof-levelup` | 不变 | 9.1 / 12.2 / 17.1 | 辅助、蓄力、升级 |
-| `--hof-error` | `red` → `#ff6b5e` | 4.6 → 6.6 | 错误 |
+| `--c-text-muted` | `.light #40526a` → `#7d90ab` | 2.3 → 5.6 | 旧值几乎看不清，只保留作装饰色 |
+| `--c-text-dim` | `.unselect #506685` → `#6f84a3` | 3.1 → 4.8 | 未选中角色名 |
+| `--c-bar-link` | `#8a9cb7` → `#a3b3c8`（在 `#304052` 上） | 3.8 → 5.0 | 菜单文字 |
+| `--tone-dmg` | `#cc3300` → `#e0653d` | 3.5 → 5.3 | 伤害 / 物攻 |
+| `--tone-recover` | `#3366ff` → `#6b8cff` | 3.9 → 6.0 | 恢复 / 物防 / 生命 |
+| `--tone-spdmg` | `#993399` → `#c27ac2` | 2.9 → 6.0 | 魔攻 / 中毒 |
+| `--tone-support`、`--tone-charge`、`--tone-levelup` | 不变 | 9.1 / 12.2 / 17.1 | 辅助、蓄力、升级 |
+| `--tone-error` | `red` → `#ff6b5e` | 4.6 → 6.6 | 错误 |
 
 是否采用调整值需要产品负责人确认（§15 D-UI-1）。备选方案是正文用调整值，战报大字号胜负标题保留原色。
 
@@ -179,29 +186,137 @@
 - **专用重排**（行动模式表）：第 1 行放条件下拉框，第 2 行放“数值 + 行动”，右侧是行选择单选框。
 - **横向滚动兜底**（`.tbl-wrap`）：只用于管理审计这类低频宽表。
 
-## 5. 组件清单（Blade 匿名组件，`resources/views/components/`）
+## 5. 组件化与扩展机制
 
-只为重复出现的复杂结构建组件；按钮、输入框这类简单元素直接用 CSS 类，不包装成组件。
+### 5.1 分层
 
-| 组件 | 参数 | 渲染 | 旧版来源 | 替换的现有代码 |
+```
+设计令牌（:root，--c-* / --tone-*）
+  └ CSS 模式（components 层：.sec .btn .tbl .split .feed .inline-list .carpet …）
+      └ Blade 组件（resources/views/components：<x-carpet> <x-item> <x-field> …）
+          └ 页面骨架（<x-facility> 等 4 种，见 §5.6）
+              └ 页面视图（只做组合，不写业务逻辑、不写一次性样式）
+视图模型（app/Http/View/*：UnitCards、ItemLines、Hud、BattleReportView）→ 只向组件提供数组
+注册表（config/hof_ui.php + lang/zh_CN/hof.php）→ 菜单、设施、分类、术语、战斗事件
+```
+
+依赖只能自上而下：页面引用组件，组件引用 CSS 模式，CSS 模式引用令牌。组件不查数据库，也不调用 `ContentCatalog`；视图模型不输出 HTML。
+
+### 5.2 CSS 规则（在原型中已执行）
+
+1. **颜色只在 `:root` 出现**。组件里出现裸色值视为缺陷，由 §5.9 的检查拦截。
+2. **通用模式进组件层，`pages` 层只放只在一个画面出现的布局**。第二个画面要用时，先上提到组件层并改成通用名。原型中已经做了这几次上提：`.bbs` 变成 `.feed`（同时用于广场、拍卖记录、战斗记录、管理审计）；`.btl-teams/.btl-summary` 变成 `.split`；`.char-links/.page-toc/.maps` 变成 `.inline-list`；`.stat-alloc` 变成 `.num-grid`。
+3. **内容驱动的图片用 `<img>` 或 SVG `<image>`**。立绘、土地、战斗背景、图标、NPC 都写在标记里，不为每个素材建一个 CSS 类；新增地图或怪物不需要改样式表。只有固定装饰（毯子奇偶交替、按钮底纹、城镇背景）留在 CSS。原型中土地已改为 `<img class="carpet-base">`；按旧做法需要 14 个 `.land-*` 类，初版原型只写了其中 3 个。
+4. **状态靠属性和伪类**：`[aria-current]`、`[aria-invalid]`、`:disabled`、`:has(:checked)`、`details[open]`，不新增 `.is-active` 一类的类，也不用 JS 切换类。
+5. **不靠加长选择器取胜**：以“组件根 + 子元素”为主，不写 ID 选择器，不写 `!important`（`[hidden]` 和减少动态效果例外）。层级（`@layer reset, base, layout, components, pages, responsive`）决定覆盖关系：页面层天然覆盖组件层，断点规则放在最后的 `responsive` 层，不必叠加选择器。原型里最长的选择器是表格选中行（`.tbl tbody tr:has(:checked) td`）。原型调试中遇到的唯一一次优先级冲突（`:nth-child` 的毯子背景压过土地台座）已改为 `:not(.has-base)` 解决。
+
+### 5.3 CSS 模式清单（components 层）
+
+| 分组 | 类 | 用途 |
+| --- | --- | --- |
+| 标题与文字 | `.sec`、`.page-title`、`.meta`、`.hint`、`.empty`、`.indent` | 区块标题、页标题、次要文字 |
+| 布局 | `.split`、`.inline-list`、`.feed`、`.num-grid`、`.npc`、`.panel`、`details.more`、`.danger-zone` | 双栏、链接行、时间线、数字网格、头像加正文、面板、折叠 |
+| 控件 | `.btn(-lg/-danger/-link)`、`.input/.select/.textarea`、`.form-grid`、`.field-note`、`.check`、`.choice-row`、`.actions` | 按钮、表单 |
+| 数据 | `.tbl(-stack/-wrap)`、`.tabs`、`.pager`、`.meter`、`.kv`、`.notice` | 表格、子导航、分页、进度条、键值、提示 |
+| 游戏对象 | `.carpets/.carpet`、`.pick`、`.item/.icon`、`.item-list`、`.hpsp` | 角色或怪物卡、选择卡、道具或技能行、战斗状态 |
+| 兼容工具类 | `.dmg .recover .support .spdmg .charge .levelup .bold .u .light .num` | 沿用旧模板类名 |
+
+### 5.4 Blade 组件清单与约定
+
+**约定**
+
+- 文件开头写英文注释块，说明 Props、Slots 和一个最小示例（AGENTS 要求注释使用英文）。
+- 参数不超过 4 个；有变体时用**插槽**，不用布尔开关堆叠。例如 `<x-carpet>` 只负责“台座 + 立绘 + 名字 + 一行说明”，选择框由 `<x-unit-picker>` 放进 `footer` 插槽，链接由 `href` 决定。这样就不会出现 `:pick :land :vitals :link` 这类参数组合。
+- 只接收视图模型数组或标量（见 §5.5），不接收 `Character`、`InventoryItem` 模型，也不在组件里查 `ContentCatalog`。
+- 组件用 `$attributes->merge(['class' => …])` 透传 `class`、`id` 和 `aria-*`，页面可以追加类名，但不需要修改组件本身。
+
+| 组件 | 参数 / 插槽 | 渲染 | 旧版来源 | 替换的现有代码 |
 | --- | --- | --- | --- | --- |
-| `<x-sec>` | `title`, `help`（手册锚点）, `as`=h1/h2, slot `aside` | 15px 左竖条标题 + 金色“?” + 右侧附注 | `h4` + `.a0` | 全部 h2/h3/h4 |
-| `<x-op/>` | — | `@csrf` + `operation_id`（UUID） | — | `player-token` 与 20 多处手写隐藏字段 |
-| `<x-carpet>` | `unit`(name, level, job, img), `href?`, `star?`, `land?`, `vitals?` | 毯子 / 土地 + 像素图 + 名字 + Lv/职业 | `ShowChar*`、`ShowCharWithLand` | home、player、party、boss 等 |
-| `<x-party-picker>` | `characters`, `selected`, `name='party[]'`, `positions` | 整张毯子卡是 `<label>`；未选中时名字变暗（`:has(:checked)`） | `ShowCharRadio` + `toggleCheckBox` | 4 套选队实现 |
-| `<x-item>` | `data`, `qty?`, `compact?` | 图标 + `+N` + 名称 + (类型) + x数量 + 彩色属性 + 重量 + 附加能力 | `ShowItemDetail()` | `player-item` |
-| `<x-skill>` | `skill`, `learn?` | 图标 + 名称 + SP + 学习点数 | `ShowSkillDetail()` | 技能下拉框 |
-| `<x-npc>` | `img`, slot | 头像 + 对白 + 子导航 | `ShopHeader`、`AuctionHeader`、`Smithy*Header` | — |
-| `<x-tabs>` | `items`（label, href, active） | “买 / 卖 / 打工”样式子导航 | 旧版 `/` 分隔链接 | `player-nav`、记录分类、资料分类 |
-| `<x-money>` | `amount` | `$ 1,234`（`tabular-nums`） | `MoneyFormat()` | 散落的 `number_format` |
-| `<x-time>` | `at`, `mode`=short/relative/full | `<time datetime>`，显示为 `10-05 12:15` 或“5小时12分” | `date("m/d H:i")` | 原始 UTC 字符串 |
-| `<x-confirm>` | `word`=DELETE/RUN | 输入确认词的危险操作字段 | — | 管理和账号删除 |
-| `<x-kv>` | `rows` | 右对齐“标签 : 值”列表 | `ShowCharDetail` 表格 | — |
-| `battle/stage` | `snapshot` | SVG 战斗场景 | `cssimage::Show` | `battle.css` 白板 |
-| `battle/hpsp` | `unit` | 名称（蓄力 / 咏唱）+ 生命 / 魔力 | `char::ShowHpSp` | — |
-| 分页视图 | — | `vendor/pagination/hof.blade.php`，并在 `AppServiceProvider` 中设置 `Paginator::defaultView()` / `defaultSimpleView()` | — | Tailwind 默认视图 |
+| `<x-sec>` | `title`, `help?`, `as`=h1/h2；插槽 `aside` | 竖条标题 + 金色“?” + 右侧附注 | `h4` + `.a0` | 全部 h2/h3/h4 |
+| `<x-op/>` | — | `@csrf` + `operation_id` | — | `player-token` 和 20 多处手写字段 |
+| `<x-field>` | `label`, `for`, `hint?`；默认插槽放控件 | `.form-grid` 中的一行：标签、控件、提示或错误。自动读取 `$errors->first($for)`，并设置 `aria-describedby` 和 `aria-invalid` | 旧版 `ID:` 表格 | 约 40 处手写的 `<label>` |
+| `<x-carpet>` | `unit`（UnitCard）, `href?`；插槽 `footer` | 台座（毯子，或 `unit.base` 指定的土地）+ 立绘 + 名字 + 说明 + 体力行 | `ShowChar*`、`ShowCharWithLand` | home、player、party、boss |
+| `<x-unit-picker>` | `units`, `selected`, `name`, `type`=checkbox/radio | 组合 `<x-carpet>`，整张卡就是 `<label>`；用于出战选队、竞技场登记、转职、初始职业 | `ShowCharRadio` | 4 套选队实现 |
+| `<x-item>` | `line`（ItemLine）, `qty?` | 图标、`+N`、名称、(类型)、x数量、彩色属性、附加能力 | `ShowItemDetail()` | `player-item` |
+| `<x-skill>` | `line`（SkillLine） | 图标、名称、SP、学习点数 | `ShowSkillDetail()` | 技能下拉框 |
+| `<x-npc>` | `img`, `alt?`；默认插槽 | 头像 + 对白 | `*Header()` | — |
+| `<x-tabs>` | `items`（label, href, active） | “买 / 卖 / 打工”样式子导航 | 旧版 `/` 链接 | `player-nav` 等 |
+| `<x-money>` | `amount` | `$ 1,234` | `MoneyFormat()` | 散落的 `number_format` |
+| `<x-time>` | `at`, `mode`=short/relative/full | `<time datetime>`，可带 `data-countdown` | `date()` | 原始 UTC 字符串 |
+| `<x-confirm>` | `word` | 输入确认词的危险操作字段 | — | 管理、删号 |
+| `<x-kv>` | `rows` | 右对齐键值表 | `ShowCharDetail` | — |
+| `<x-feed>` | `entries`（who, text, at, tone?） | `.feed` 时间线 | `TownBBS`、`BattleLogDetail`、`ShowLog` | 广场、拍卖记录、战斗记录、审计 |
+| `<x-battle.stage>` / `<x-battle.hpsp>` | `snapshot` / `unit` | SVG 场景 / 单位状态 | `cssimage`、`ShowHpSp` | `battle.css` 白板 |
+| 分页视图 | — | `vendor/pagination/hof.blade.php` + `Paginator::defaultView()` | — | Tailwind 默认视图 |
 
-**表现层逻辑的位置**：视图只读取明确的数据。以下逻辑改由控制器或现有应用服务提供：`PlayerRules::slot/capacity/isTacticAction`、`AuctionService::minimumBid`、`BattlePresenter::present`、`CatalogPresenter::card`。道具彩色属性行由 `ItemDetails` 新增的 `summary(array $data): array` 生成，返回 `[{tone, text}]`，并为它写单元测试。槽位名称和属性名称统一从术语表取（§8）。
+**表格的约定（不做表格组件）**：表格结构差异很大，通用的 `<x-table>` 只会变成配置语言，因此不做。约定是：手机端要卡片化的表格加 `.tbl-stack`，主列加 `td.primary`，其余每个 `td` 都写 `data-label`。§5.9 的检查会扫描渲染结果，缺少 `data-label` 即失败。
+
+### 5.5 视图模型（数据形状）
+
+组件只认下面几种数组形状，由 `app/Http/View/` 中的小映射类生成。这些类是纯函数，有单元测试。新功能只要产出同样的形状，就能直接复用组件。
+
+| 形状 | 字段 | 生产者 | 消费者 |
+| --- | --- | --- | --- |
+| `UnitCard` | `id, name, level, label`（如“战士 · 前卫”）`, img, base?`（土地图）`, star?, vitals?, href?` | `UnitCards::character()`、`::monster()`、`::boss()`、`::job()`（招募、转职、初始职业预览） | `<x-carpet>`、`<x-unit-picker>` |
+| `ItemLine` | `icon, name, refine, type, qty, stats[{tone, text}], option, note` | `ItemLines::fromInventory()`、`::fromCatalog()`（内部复用 `ItemDetails`） | `<x-item>`，商店、背包、装备、拍卖、制作、战利品 |
+| `SkillLine` | `icon, name, sp, learn` | `ItemLines::skill()` | `<x-skill>`，技能、战报行动头 |
+| `FeedEntry` | `who, text, at, tone?, href?` | 各控制器的映射 | `<x-feed>` |
+| `Hud` | `team, money, stamina, staminaMax, menu[], isAdmin` | layout composer | 外壳 |
+| `BattleReportView` | `header, segments[], result`（§7.2） | `BattlePresenter` | 战报组件 |
+
+目前职业名、性别和图片的推导在 4 个视图里各写了一遍（`$job['name_'.$gender]`），全部收拢到 `UnitCards`。
+
+### 5.6 页面骨架
+
+新页面先选骨架，再往里填组件。
+
+| 骨架 | 组成 | 现有页面 | 实现方式 |
+| --- | --- | --- | --- |
+| **设施页** | `<x-npc>` 对白 + `<x-tabs>` 子功能 + 若干 `<x-sec>` 区 | 店、锻冶屋、拍卖、人材斡旋所、竞技场 | `<x-facility :npc :tabs>` 布局组件，内容放默认插槽 |
+| **列表页** | 标题 + 筛选（`<x-tabs>` 或 GET 表单）+ `.tbl-stack` 或 `<x-feed>` + 分页 | 背包、战斗记录、更新、资料、管理用户 | 页面直接组合，不另建组件 |
+| **详情页** | 头部（`<x-carpet>` + `<x-kv>`）+ `.inline-list-ruled` 页内目录 + 分区 | 角色、BOSS | 页面直接组合 |
+| **出战页** | 标题行 + `<x-unit-picker>` + 居中操作（战斗!、重置、保存队伍）+ 预览（敌人卡） | 狩猎地图、BOSS、模拟战、竞技场登记 | `<x-sortie :units :selected :action>`，敌人预览放插槽 |
+
+只为前两种重复度最高的骨架建组件（`x-facility`、`x-sortie`），其余靠约定，避免为“可能的复用”提前抽象。
+
+### 5.7 注册表（扩展点）
+
+| 注册表 | 位置 | 内容 | 新增功能时 |
+| --- | --- | --- | --- |
+| 主菜单 | `config/hof_ui.php` → `menu` | label、route、激活规则、可见性（guest/auth/admin） | 加一行 |
+| 城镇设施 | `config/hof_ui.php` → `town` | 分组（店、锻冶屋……）、子入口 route、可选解锁条件名（对应旧版 `TownAppear()` 的条件位） | 加一行，城镇页自动出现 |
+| 道具分类 | `config/hof_ui.php` → `item_categories` | 类型 → 武器、防具、道具、其他（取自 `JS_ItemList::AddItem`） | 新道具类型加一行 |
+| 记录与资料分类 | `config/hof_ui.php` → `report_tabs`、`catalog_tabs` | 标签与路由 | 加一行 |
+| 术语 | `lang/zh_CN/hof.php` | 属性、槽位、护卫策略、道具字段、模式名 | 新字段加一行 |
+| 战斗事件 | `BattlePresenter::EVENTS` 常量 | 每种事件 → 处理方法，或列入 `HIDDEN`（`ActorSelected`、`TargetSelected`、`DelayChanged`、`BattleFinished`） | 新事件必须登记，否则测试失败（§5.9） |
+| 前端行为 | `data-confirm`、`data-countdown`、`data-filter` 属性 | `hof.js` 统一处理 | 新页面只写属性，不写新脚本 |
+
+### 5.8 扩展做法（新增功能时按此执行）
+
+| 场景 | 需要做的 | 不需要做的 |
+| --- | --- | --- |
+| 新城镇设施（如“仓库”） | 路由和控制器；`town` 注册表加一项；页面用 `<x-facility>` 加现有组件 | 改城镇模板，写新 CSS |
+| 新地图或地形 | 放素材，写内容数据（`land` 字段） | 改 CSS（土地是 `<img>`，战斗背景是 SVG `<image>`） |
+| 新道具属性或类型 | `ItemLines` 映射加一条 `{tone, text}`；术语表加名称；必要时在 `item_categories` 加分类 | 改 `<x-item>` |
+| 新战斗事件或效果 | `BattlePresenter::EVENTS` 加处理方法（或列入 `HIDDEN`），加术语 | 改战报模板 |
+| 新列表页 | 列表骨架：`.tbl-stack`（`data-label`）或 `<x-feed>`，加分页 | 写新的表格样式 |
+| 新表单 | 用 `<x-field>` 组合，提交按钮放在 `.actions` 里，POST 表单带 `<x-op/>` | 手写错误提示和 `aria` 属性 |
+| 新的视觉模式 | 先在样式指南页验证；被第二个页面使用时上提到组件层并补令牌 | 在 `pages` 层复制一份 |
+
+### 5.9 防腐护栏（自动检查）
+
+1. **活样式指南**：F2 结束后，用 `resources/views/dev/styleguide.blade.php`（只在 local/testing 环境注册 `/dev/ui` 路由）替代静态原型。页面用固定的视图模型数据渲染每个组件的全部变体，同时作为 Playwright 视觉基线。这样组件只维护一份，不会和原型各自漂移。
+2. **样式检查**（PHPUnit 读取 `public/css/hof.css`，不引入 stylelint）：`:root` 之外没有 `#rrggbb`；没有 `!important`（白名单除外）；`pages` 层每条规则的根类（选择器的第一个类）只在一个视图中使用；用作后代的组件类（如 `.char-head .carpet-stage`）不计。
+3. **渲染检查**（功能测试抓取主要页面）：没有 `style="`、内联 `<style>` 或内联脚本；每个 `.tbl-stack` 的 `td` 都有 `data-label` 或 `.primary`；`<img>` 都有 `alt` 属性。
+4. **完整性检查**（单元测试）：
+   - 引擎的每种事件类型都已在 `BattlePresenter::EVENTS` 或 `HIDDEN` 中登记。类型列表取自 `BattleRun`/`Effects` 中的 `event('…')` 调用；当前漏登的 `ActionSkipped` 将补上旧版文案“X 陷入沉思结果忘了行动。(无更多行动模式)”。
+   - 内容中出现的每个道具字段、类型、槽位和护卫策略都有术语名（防止 `P_MAXHP` 这类原始键外露）。
+   - 内容引用的每个立绘、土地、背景和图标文件都存在。
+   - 注册表中的每个 route 都存在。
+
+### 5.10 刻意不做
+
+主题切换系统、CSS-in-JS、前端组件框架、通用表格或表单生成器、每页独立的 CSS 文件、为单次使用的结构建组件。等真的出现第二套主题或第二个使用者时再抽象。
 
 ## 6. 逐页方案
 
@@ -238,11 +353,11 @@
 
 ### 6.5 狩猎（`HuntShow` / `MonsterShow`）
 - `/hunt`：“普通怪物”区以内联链接列出地图（间距 32px，旧样式），时限地图显示开放时间；“BOSS”区显示存活 BOSS 的毯子加冷却倒计时；“BOSS战记录”区显示最近 15 条，并附“全表示”链接。
-- `/hunt/{area}`：标题行显示地图名、体力消耗和“返回地图列表”链接；`<x-party-picker>`；按钮“战斗!”（大按钮）、“重置”和“保存此队伍”勾选框（居中）；“出现敌人”区以 `land_*.gif` 毯子展示怪物。
+- `/hunt/{area}`：标题行显示地图名、体力消耗和“返回地图列表”链接；`<x-unit-picker>`；按钮“战斗!”（大按钮）、“重置”和“保存此队伍”勾选框（居中）；“出现敌人”区以 `land_*.gif` 毯子展示怪物。
 - 后端：把 `MultiplayerController@bosses` 中只投影展示字段的查询（id、名称、等级上限、存活、复活时间；不含 HP/SP）移到 `BossService::summaries()`，供狩猎页和 BOSS 页共用。隐藏 HP 的规则不变。
 
 ### 6.6 BOSS（`UnionShow`）
-- BOSS 立绘放在 `land_sea` 上，下方显示等级上限、存活或复活时间（`<x-time>`）、冷却，再接 `<x-party-picker>` 和“战斗!”。HP/SP 在服务端过滤，不渲染（`CompetitionTest` 已有断言）。
+- BOSS 立绘放在 `land_sea` 上，下方显示等级上限、存活或复活时间（`<x-time>`）、冷却，再接 `<x-unit-picker>` 和“战斗!”。HP/SP 在服务端过滤，不渲染（`CompetitionTest` 已有断言）。
 
 ### 6.7 战报（见 §7）
 
@@ -273,7 +388,7 @@
 - 测试断言的 `Auction` 文本由标题“拍卖(Auction)”保留。
 
 ### 6.14 竞技场（`RankShow`）
-- 排行表（皇冠图标 / N位 / 底，队伍和“(N战 N胜N败 N引 N防 胜率N%)”，自己队伍加粗并下划线），旧版“RANKING / Nearly”双栏在桌面并排、手机上下排列。下方依次是登记队伍（`<x-party-picker>`）、下次可挑战时间（`<x-time relative>`）、“挑战”按钮和挑战记录。标题“竞技场(Ranking)”满足现有测试断言。
+- 排行表（皇冠图标 / N位 / 底，队伍和“(N战 N胜N败 N引 N防 胜率N%)”，自己队伍加粗并下划线），旧版“RANKING / Nearly”双栏在桌面并排、手机上下排列。下方依次是登记队伍（`<x-unit-picker>`）、下次可挑战时间（`<x-time relative>`）、“挑战”按钮和挑战记录。标题“竞技场(Ranking)”满足现有测试断言。
 
 ### 6.15 城镇与广场（`TownShow` / `TownBBS`）
 - “街”区：设施树（店(Shop) → 买 / 卖 / 打工；人材斡旋所；锻冶屋 → 精炼 / 制作；拍卖会场；竞技场），右上角背景 `town02.gif`。手机端背景改为顶部横幅（按 62.2% 比例留出空间）。
@@ -355,8 +470,9 @@
 ## 9. CSS 架构
 
 - **文件**：`public/css/hof.css`（主样式表，内含全部基础、布局、组件和页面样式）、`public/css/colors.css`（216 色用户颜色类，由脚本从 `legacy/class/Color.dat` 生成，可选）。删除 `public/basis.css`、`style.css`、`app.css`、`battle.css`、`catalog.css`；原始声明可在 `legacy/` 和 git 历史中查到。同步更新 README“Archived source and assets”一节。
-- **分层**：`@layer reset, base, layout, components, pages;`。旧版类名（`.dmg .recover .support .spdmg .charge .levelup .bold .u .light .vcent .align-*`）作为兼容工具类留在 `base` 层，方便对照旧模板迁移。
-- **命名**：组件用短名（`.sec .btn .tbl .carpet .item .npc .pick .hpsp`），修饰类用 `-` 后缀（`.btn-lg`、`.tbl-stack`），状态优先用属性（`[aria-current]`、`:has(:checked)`、`:disabled`），不使用 BEM 长名，也不写工具类堆叠。
+- **分层**：`@layer reset, base, layout, components, pages, responsive;`。断点覆盖统一放在 `responsive` 层，按组件顺序分组。旧版类名（`.dmg .recover .support .spdmg .charge .levelup .bold .u .light .vcent .align-*`）作为兼容工具类留在 `base` 层，方便对照旧模板迁移。
+- **规则**：见 §5.2（`:root` 之外无颜色值、通用模式进组件层、内容图片用 `<img>`、状态靠属性和伪类、选择器不超过两级）。
+- **命名**：组件用短名（`.sec .btn .tbl .split .feed .carpet .item .npc .pick .hpsp`），修饰类用 `-` 后缀（`.btn-lg`、`.tbl-stack`），状态优先用属性（`[aria-current]`、`:has(:checked)`、`:disabled`），不使用 BEM 长名，也不写工具类堆叠。
 - **CSP**：禁止 `style=""` 和内联 `<style>`。动态视觉状态通过类（`.land-grass`、`.uc-ff9900`）、原生元素（`<meter>`）或 SVG 属性表达。增加一个功能测试：抓取主要页面，断言不含 ` style="`、`<style`，以及不带 `src` 的 `<script>`。
 - **缓存失效**：layout 使用 `asset('css/hof.css').'?v='.$assetVersion`。`$assetVersion` 取 `filemtime()`，在容器构建时固化，或由 `APP_ASSET_VERSION` 指定。nginx 现有的 7 天缓存保留。`ProductionUrlTest` 的 `href=".../app.css"` 断言改为前缀匹配。
 - **体量目标**：主样式表压缩前不超过 40KB。不引入预处理器，也不需要构建步骤。
@@ -373,7 +489,7 @@
 ## 11. 可访问性与可用性基线
 
 - 正文和交互文字对比度达到 WCAG AA（4.5:1）。§3.1 的调整令牌已逐项计算。
-- 焦点可见：2px 金色焦点环（`--hof-help-hover`），不在任何元素上移除 outline。
+- 焦点可见：2px 金色焦点环（`--c-accent-hover`），不在任何元素上移除 outline。
 - 语义结构：每页一个 `h1`（视觉上是 h4 竖条样式）、各区为 `h2`；有“跳到正文”链接；菜单用 `<nav aria-label>`；表格有 `<th scope>`；状态提示使用 `role=status/alert`。
 - 图片：纯装饰的像素图写 `alt=""`；表示角色或道具的图片在相邻文字已有名称时也写 `alt=""`，避免读屏重复；SVG 场景提供 `aria-label` 摘要，并且下方的 HP/SP 文字行本身就是完整的文本替代。
 - 表单：每个控件有 `<label>` 或 `aria-label`；错误显示在页顶，可点击跳转到对应字段（`#field-id`）。
@@ -388,11 +504,12 @@
 ## 13. 测试与验收
 
 1. **现有功能测试保持绿色**。需要随视图修改同步更新的断言：`ProductionUrlTest`（CSS href）、`HomePresentationTest`（HP/SP 文本、链接）、`CompetitionTest`（`Auction`/`Ranking`/`共享首领`）、`CatalogPresentationTest`（`<h3>` 断言改为 `data-id` 断言，防止假通过）、`PlayerWebTest`（分区文案、`value="9000"`）、`WorldTest`（`/town` 转义、`/reports/{id}` 名称）。
-2. **新增单元测试**：`BattleStage` 坐标（对照旧算法手算值）、`BattlePresenter` 分段和隐藏 HP、`ItemDetails::summary`、`availableStamina`、术语映射完整性（每个槽位和属性键都有中文名）。
-3. **新增功能测试**：分页视图不含 `<svg`；全站无内联 style 或内联脚本；HUD 显示体力；手机端不需要的数据不额外泄露（例如 BOSS HP）。
-4. **视觉回归**（Playwright，CI 中运行 `php:8.4` 容器 + 种子数据）：覆盖 `feature-inventory.md` 要求的页面，即登录 / 初始设置、首页、狩猎、角色（AI / 装备）、道具、商店、锻冶屋、BOSS、拍卖、竞技场、战报、管理，在 1280 / 768 / 390 三种宽度截图，对照 `ui-baseline/screens` 人工批准后作为基线。另外检查每页都没有横向滚动（`scrollWidth ≤ innerWidth`）。
-5. **可访问性检查**：axe-core（通过 Playwright 注入，作为开发依赖）检查主要页面，0 个 serious/critical 问题。
-6. **人工检查清单**：Chrome、Firefox、Safari（iOS）、Android Chrome；200% 缩放；键盘完整走一遍狩猎到战报；关闭 JS 后完成购买、出价、狩猎、修改行动模式。
+2. **新增单元测试**：`BattleStage` 坐标（对照旧算法手算值）、`BattlePresenter` 分段和隐藏 HP、`UnitCards` 与 `ItemLines` 映射、`availableStamina`、术语映射完整性（每个槽位和属性键都有中文名）。
+3. **防腐护栏**：§5.9 列出的样式检查、渲染检查和完整性检查全部纳入 `composer test`。
+4. **新增功能测试**：分页视图不含 `<svg`；全站无内联 style 或内联脚本；HUD 显示体力；手机端不需要的数据不额外泄露（例如 BOSS HP）。
+5. **视觉回归**（Playwright，CI 中运行 `php:8.4` 容器 + 种子数据）：覆盖 `feature-inventory.md` 要求的页面，即登录 / 初始设置、首页、狩猎、角色（AI / 装备）、道具、商店、锻冶屋、BOSS、拍卖、竞技场、战报、管理，在 1280 / 768 / 390 三种宽度截图，对照 `ui-baseline/screens` 人工批准后作为基线。`/dev/ui` 样式指南页也纳入基线。另外检查每页都没有横向滚动（`scrollWidth ≤ innerWidth`）。
+6. **可访问性检查**：axe-core（通过 Playwright 注入，作为开发依赖）检查主要页面，0 个 serious/critical 问题。
+7. **人工检查清单**：Chrome、Firefox、Safari（iOS）、Android Chrome；200% 缩放；键盘完整走一遍狩猎到战报；关闭 JS 后完成购买、出价、狩猎、修改行动模式。
 
 ## 14. 实施阶段与工作拆分
 
@@ -402,12 +519,12 @@
 | --- | --- | --- | --- |
 | **F0 基线确认** | 评审本方案和原型，确认 §15 的决策，批准视觉基线截图 | `docs/rewrite/*` | 决策记录在案 |
 | **F1 基础层** | `public/css/hof.css`（由原型样式表落地，替换素材路径）、布局拆分、HUD composer、`availableStamina`、分页视图、`<x-op>`、`<x-sec>`、flash、缓存失效、CSP 测试；删除旧 CSS | `resources/views/layouts|partials`、`app/Providers`、`app/Application/Support/GameAction.php`、`public/css` | 所有页面套用新外壳，分页修复，测试通过 |
-| **F2 组件** | `x-carpet`、`x-party-picker`、`x-item`（加 `ItemDetails::summary`）、`x-skill`、`x-npc`、`x-tabs`、`x-money`、`x-time`、`x-confirm`、`x-kv`、术语表 | `resources/views/components`、`lang/zh_CN`、`app/Application/Player/ItemDetails.php` | 组件有渲染测试，并在一个页面上验证 |
+| **F2 组件与扩展点** | §5.4 全部组件（含 `x-field`、`x-feed`、`x-facility`、`x-sortie`）；§5.5 视图模型映射类；§5.7 注册表与术语表；`/dev/ui` 样式指南；§5.9 样式检查和渲染检查 | `resources/views/components`、`resources/views/dev`、`app/Http/View`、`config/hof_ui.php`、`lang/zh_CN` | 样式指南覆盖全部组件变体；护栏测试通过 |
 | **F3 单人页面** | 登录、注册、初始设置、首页、角色详情、道具、店（买 / 卖 / 打工路由拆分）、锻冶屋、人材斡旋所、设置合并 | `resources/views/{auth,account,game/player*}`、`PlayerController`、`routes/player.php` | 对应页面视觉基线批准 |
-| **F4 战斗与多人页面** | `BattleStage`、`BattlePresenter` 分段、战报视图；狩猎（合并 BOSS）、BOSS、竞技场、拍卖、城镇、广场颜色（若 D-UI-3 通过，加迁移） | `app/Application/Battle`、`resources/views/game/{battle,world,boss,ranking,auction,community}`、相关控制器 | 战报单元测试，隐藏 HP 测试 |
+| **F4 战斗与多人页面** | `BattleStage`、`BattlePresenter` 分段与 `EVENTS` 注册（补上 `ActionSkipped`）、战报视图；狩猎（合并 BOSS）、BOSS、竞技场、拍卖、城镇、广场颜色（若 D-UI-3 通过，加迁移） | `app/Application/Battle`、`resources/views/game/{battle,world,boss,ranking,auction,community}`、相关控制器 | 战报单元测试，隐藏 HP 测试 |
 | **F5 资料、管理与收尾** | 手册 / 教学 / 更新 / 资料 / 管理；`hof.js`（可选）；视觉回归和 axe 接入 CI；README 更新 | `resources/views/game/{information,admin,reports}`、`tests/Browser`、`README.md` | §13 全部完成；未运行项明确列出 |
 
-参考工作量（单人）：F1 约 1.5 天，F2 约 2 天，F3 约 3 天，F4 约 3–4 天，F5 约 2 天，合计约 12 个工作日，不含评审往返。
+参考工作量（单人）：F1 约 1.5 天，F2 约 3 天，F3 约 3 天，F4 约 3–4 天，F5 约 2 天，合计约 13 个工作日，不含评审往返。F2 比初稿多 1 天，用于视图模型、注册表和护栏；F3 到 F5 的页面迁移因此只做组合工作。
 
 ## 15. 需要产品负责人确认的决策
 
@@ -446,9 +563,11 @@
 | `.text` / `select` / `.select0` | `.input` / `.select` / `option.select0` | |
 | `.btn` | `.btn`（`-lg`、`-danger`、`-link`） | 保留 `btn_bk01.gif` |
 | `.carpet_frame` `.carpet0/1` | `.carpet` `.carpet-stage`（奇偶交替） | |
-| `.land_*` | `.carpet-stage.land.land-*` | |
+| `.land_*`（每种地形一个类） | `<img class="carpet-base">` 放在 `.carpet-stage.has-base` 中 | 内容图片放进标记，新地形不改 CSS |
 | `.btl_img` + 内联坐标 | `.btl-img` + `<svg class="stage">` | CSP 安全 |
-| `.teams` `.ttd1` `.ttd2` | `.btl-teams` `.btl-row.foe/.ally` | |
+| `.teams` `.ttd1` `.ttd2` | `.split` / `.btl-row.foe/.ally` | `.split` 通用于双栏 |
+| `.bl` `.br`（左右浮动） | `.split` | |
+| 广场、拍卖记录、`BattleLogDetail` 各自拼接 | `.feed` / `<x-feed>` | 一种时间线 |
 | `.hpsp` | `.hpsp` `.hpsp-vals` | |
 | `.town` | `.town` | |
 | `.a0` | `.a0` / `.help` | |
