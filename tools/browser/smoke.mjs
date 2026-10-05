@@ -79,6 +79,11 @@ try {
   const character = await page.locator('a[href*="/characters/"]').first().getAttribute('href');
   assert.ok(character, 'First character detail link');
   await checkPage(new URL(character, base).pathname, 'character-detail');
+  await Promise.all([
+    page.waitForURL(url => /^\/reports\/\d+$/.test(url.pathname)),
+    page.locator('form[action$="/simulation"] button').click(),
+  ]);
+  await checkPage(new URL(page.url()).pathname, 'battle-report');
   await page.setViewportSize({ width: 390, height: 844 });
   await checkPage('/', 'home-mobile');
   assert.deepEqual(errors, [], 'Browser, HTTP, or asset errors');
