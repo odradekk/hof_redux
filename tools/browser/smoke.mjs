@@ -63,10 +63,6 @@ async function capture(page, path, name, width, { audit = true } = {}) {
   });
   const id = `${name}-${width}`;
   const screenshot = `actual/${id}.png`;
-  await page.screenshot({ path: `${output}/${screenshot}`, fullPage: true, animations: 'disabled' });
-  const frameScreenshot = `actual/${id}-frame.png`;
-  await page.locator('.frame').screenshot({ path: `${output}/${frameScreenshot}`, animations: 'disabled' });
-  captures.push({ name, width, path, screenshot, frameScreenshot });
   const problems = [];
   const policy = response.headers()['content-security-policy'] ?? '';
   if (!policy.includes("script-src 'self'") || !policy.includes("style-src 'self'") || /unsafe-inline|unsafe-eval/.test(policy)) problems.push('Missing or weakened CSP');
@@ -116,6 +112,12 @@ async function capture(page, path, name, width, { audit = true } = {}) {
     await writeFile(`${output}/axe/${id}.json`, JSON.stringify({ url: result.url, testEngine: result.testEngine, violations: result.violations, incomplete: result.incomplete }, null, 2));
     if (violations.length) problems.push(`axe serious/critical: ${violations.map(violation => `${violation.id} (${violation.nodes.map(node => node.target.join(' ')).join(', ')})`).join('; ')}`);
   }
+  // Inspect application markup before screenshot caret hiding or axe can mutate it.
+  // Playwright restores caret-color but can leave an empty style attribute behind.
+  await page.screenshot({ path: `${output}/${screenshot}`, fullPage: true, animations: 'disabled' });
+  const frameScreenshot = `actual/${id}-frame.png`;
+  await page.locator('.frame').screenshot({ path: `${output}/${frameScreenshot}`, animations: 'disabled' });
+  captures.push({ name, width, path, screenshot, frameScreenshot });
   checks.push({ name, path, width, health, seriousOrCritical: violations.length, problems });
   for (const problem of problems) failures.push(`${id}: ${problem}`);
   console.log(`${problems.length ? 'FAIL' : 'PASS'} ${path} at ${width}: assets, CSP, overflow${audit ? ', axe' : ''}`);

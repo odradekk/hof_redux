@@ -140,4 +140,34 @@ final class BattleReportFrontendTest extends TestCase
         $this->actingAs($user)->get('/hunt/gb0')->assertOk()->assertSee('队伍')->assertSee('出现敌人')->assertSee('carpet-stage', false)->assertSee('image/other/land_grass.gif', false)->assertSee('checked', false)->assertDontSee(' · front');
         $this->get('/simulation')->assertOk()->assertSee('模拟战')->assertSee('不消耗体力');
     }
+
+    public function test_status_groups_have_valid_accessible_names_and_empty_rows_are_placeholders(): void
+    {
+        $html = $this->get('/dev/ui')->assertOk()->getContent();
+        $dom = new \DOMDocument;
+        @$dom->loadHTML('<?xml encoding="UTF-8">'.$html);
+        $xpath = new \DOMXPath($dom);
+        $state = '//div[contains(concat(" ", normalize-space(@class), " "), " btl-state ")]';
+        self::assertSame(0, $xpath->query($state.'//div[@aria-label and not(@role="group")]')->length);
+        self::assertSame(2, $xpath->query($state.'/div[@role="group"]')->length);
+        self::assertGreaterThan(0, $xpath->query($state.'/div/div[@aria-hidden="true" and not(@aria-label)]')->length);
+        self::assertGreaterThan(0, $xpath->query($state.'/div/div[@role="group" and @aria-label]')->length);
+    }
+
+    public function test_browser_integrity_scan_precedes_audit_and_screenshot_mutations(): void
+    {
+        $script = file_get_contents(base_path('tools/browser/smoke.mjs'));
+        $start = strpos($script, 'async function capture(');
+        $end = strpos($script, 'async function matrix(', $start);
+        $capture = substr($script, $start, $end - $start);
+        $integrity = strpos($capture, "for (const field of ['inlineStyles', 'inlineScripts', 'paginationSvg'])");
+        $audit = strpos($capture, 'await page.evaluate(axeSource)');
+        $screenshot = strpos($capture, 'await page.screenshot(');
+        self::assertNotFalse($integrity);
+        self::assertNotFalse($audit);
+        self::assertNotFalse($screenshot);
+        self::assertLessThan($audit, $integrity);
+        self::assertLessThan($screenshot, $audit);
+        self::assertStringContainsString("inlineStyles: document.querySelectorAll('[style], style').length", $capture);
+    }
 }

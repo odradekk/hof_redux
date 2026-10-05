@@ -10,9 +10,9 @@
     </div>
     <div class="btl-state split">
         @foreach($segment['units'] as $side => $rows)
-            <div aria-label="{{ $side === 'foe' ? '对手' : '我方' }}状态">
+            <div role="group" aria-label="{{ $side === 'foe' ? '对手' : '我方' }}状态">
                 @foreach($rows as $position => $units)
-                    <div aria-label="{{ $position === 'front' ? '前卫' : '后卫' }}">
+                    <div @if(count($units)) role="group" aria-label="{{ $position === 'front' ? '前卫' : '后卫' }}" @else aria-hidden="true" @endif>
                         @foreach($units as $unit)<x-battle.hpsp :unit="$unit" />@endforeach
                     </div>
                 @endforeach
