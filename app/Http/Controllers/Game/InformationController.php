@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Game;
 
+use App\Application\World\CatalogPresenter;
 use App\Domain\Content\ContentCatalog;
+use App\Http\View\Images;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -13,7 +15,11 @@ final class InformationController
     {
         abort_unless(in_array($section, ['basic', 'advanced', 'tutorial'], true), 404);
 
-        return view('game.information.manual', compact('section'));
+        $tabs = array_map(static fn (string $key, string $label): array => [
+            'label' => $label, 'href' => route('manual', $key === 'basic' ? [] : ['section' => $key]), 'active' => $section === $key,
+        ], ['basic', 'advanced', 'tutorial'], ['基本说明', '进阶说明', '新手教程']);
+
+        return view('game.information.manual', compact('section', 'tabs'));
     }
 
     public function updates()
@@ -21,9 +27,14 @@ final class InformationController
         return view('game.information.updates', ['announcements' => Announcement::where('published', true)->latest()->paginate(20)]);
     }
 
-    public function catalog(Request $request, ContentCatalog $catalog, string $kind = 'jobs')
+    public function catalog(Request $request, ContentCatalog $catalog, CatalogPresenter $presenter, string $kind = 'jobs')
     {
-        abort_unless(in_array($kind, ['jobs', 'items', 'conditions', 'monsters', 'skills', 'enchants'], true), 404);
+        $registry = config('hof_ui.catalog_tabs', []);
+        abort_unless(isset($registry[$kind]), 404);
+        $tabs = [];
+        foreach ($registry as $key => $tab) {
+            $tabs[] = ['label' => $tab['label'], 'href' => route($tab['route'], $tab['parameters'] ?? ['kind' => $key]), 'active' => $key === $kind];
+        }
         $input = $request->validate(['q' => ['sometimes', 'nullable', 'string', 'max:200'], 'page' => ['sometimes', 'integer', 'min:1', 'max:1000000']]);
         $query = trim($input['q'] ?? '');
         $records = match ($kind) {
@@ -35,6 +46,20 @@ final class InformationController
         $page = (int) ($input['page'] ?? 1);
         $records = new LengthAwarePaginator(array_slice($records, ($page - 1) * 30, 30, true), count($records), 30, $page, ['path' => $request->url(), 'query' => $request->query()]);
 
-        return view('game.information.catalog', ['kind' => $kind, 'records' => $records, 'query' => $query, 'version' => $catalog->version()]);
+        $records->setCollection($records->getCollection()->map(static function (array $record, int|string $id) use ($presenter, $kind): array {
+            $card = $presenter->card($kind, $id, $record);
+            $card['images'] = array_map(static function (array $image): array {
+                [$width, $height] = Images::size($image['path']);
+
+                return $image + compact('width', 'height');
+            }, $card['images']);
+
+            return ['id' => (string) $id, ...$card];
+        }));
+
+        return view('game.information.catalog', [
+            'kind' => $kind, 'label' => $registry[$kind]['label'], 'tabs' => $tabs,
+            'records' => $records, 'query' => $query,
+        ]);
     }
 }

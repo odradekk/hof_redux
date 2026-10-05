@@ -66,6 +66,8 @@ jobs:
           docker compose up -d --wait db
           docker compose run --rm app php artisan migrate --force
           docker compose run --rm app php artisan game:maintain --bootstrap
+          docker compose run --rm -e HOF_BROWSER_TESTS=1 -e HOF_APP_ROOT=/var/www/html \
+            -v "$PWD/tools/browser:/tmp/hof-browser:ro" app php /tmp/hof-browser/seed.php > tools/browser/fixtures.json
           docker compose up -d app web
           curl --fail --retry 30 --retry-connrefused --retry-all-errors --retry-delay 2 http://127.0.0.1:8080/up
       - name: Check application and scheduler
@@ -82,9 +84,16 @@ jobs:
         run: |
           npm ci --ignore-scripts
           npx playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends fonts-noto-cjk
+          fc-match 'Noto Sans CJK SC'
       - name: Exercise browser flow and capture screenshots
         working-directory: tools/browser
         run: npm test
+      - name: Verify native form retries persisted exactly once
+        run: |
+          docker compose run --rm -e HOF_BROWSER_TESTS=1 -e HOF_APP_ROOT=/var/www/html \
+            -v "$PWD/tools/browser:/tmp/hof-browser:ro" app php /tmp/hof-browser/verify.php | tee tools/browser/screenshots/database-acceptance.txt
       - name: Verify database backup and restore into a separate disposable database
         run: bash tools/browser/backup-smoke.sh
       - name: Save container diagnostics

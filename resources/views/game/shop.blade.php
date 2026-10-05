@@ -1,27 +1,39 @@
 @extends('layouts.app')
-@section('title', '商店')
+@section('title', '店')
 @section('content')
-@include('game.player-nav')
-<h2>道具商店</h2>
-<p>Gold: {{ number_format(auth()->user()->money) }}</p>
-<form method="post" action="{{ route('player.command', 'buy') }}">
-@include('game.player-token')
-<table><thead><tr><th>道具</th><th>单价</th><th>购买数量</th></tr></thead><tbody>
-@foreach($stock as $id => $data)<tr><td>@include('game.player-item')</td><td>{{ number_format($data['buy']) }}</td><td><input type="hidden" name="items[{{ $loop->index }}][id]" value="{{ $id }}"><input aria-label="{{ $data['name'] }} 数量" name="items[{{ $loop->index }}][quantity]" type="number" min="0" max="999" value="0"></td></tr>
-@endforeach
-
-</tbody></table><button>购买选中道具</button>
-</form>
-<h2>出售道具</h2>
-<form method="post" action="{{ route('player.command', 'sell') }}">
-@include('game.player-token')
-<table><thead><tr><th>道具</th><th>卖价</th><th>持有</th><th>出售数量</th></tr></thead><tbody>
-@forelse($items as $entry)<tr><td>@include('game.player-item', ['data' => $entry['data']])</td><td>{{ number_format($entry['data']['sell_price']) }}</td><td>{{ $entry['row']->quantity }}</td><td><input type="hidden" name="items[{{ $loop->index }}][id]" value="{{ $entry['row']->id }}"><input aria-label="{{ $entry['data']['name'] }} 出售数量" name="items[{{ $loop->index }}][quantity]" type="number" min="0" max="{{ min(999, $entry['row']->quantity) }}" value="0"></td></tr>
-@empty
-<tr><td colspan="4">没有可出售的道具</td></tr>
-@endforelse
-
-</tbody></table><button>出售选中道具</button></form>
-<h2>工作</h2><p>100 体力 → 500 Gold。体力每天恢复 500，上限 100。</p>
-<form method="post" action="{{ route('player.command', 'work') }}">@include('game.player-token')<button>打工</button></form>
+<x-sec title="店" as="h1" />
+<x-facility :npc="$npc" :tabs="$tabs">
+@if($mode === 'work')
+    <x-sec title="打工" />
+    <p class="indent">100 体力 → <x-money :amount="500" />。体力每天恢复 500，上限 100。</p>
+    <form method="post" action="{{ route('player.command', 'work') }}">
+        <x-op />
+        <div class="actions indent"><button class="btn btn-lg" type="submit" @disabled($stamina < 100)>打工</button>
+            @if($stamina < 100)<span class="hint">当前体力 {{ $stamina }} / 100，体力恢复到 100 后才能打工</span>@endif
+        </div>
+    </form>
+@else
+    <x-sec :title="$mode === 'buy' ? '购买' : '出售'"><x-slot:aside>勾选并填写数量</x-slot:aside></x-sec>
+    <form method="post" action="{{ route('player.command', $mode) }}">
+        <x-op /><input type="hidden" name="selection_mode" value="checked">
+        <table class="tbl tbl-stack">
+            <thead><tr><th scope="col">选择</th><th scope="col">{{ $mode === 'buy' ? '价格' : '卖价' }}</th>@if($mode === 'sell')<th scope="col">持有</th>@endif<th scope="col">数</th><th scope="col">道具</th></tr></thead>
+            <tbody>
+            @forelse($items as $i => $entry)
+                <tr>
+                    <td class="c" data-label="选择"><input type="hidden" name="items[{{ $i }}][id]" value="{{ $entry['id'] }}"><input type="hidden" name="items[{{ $i }}][on]" value="0"><input type="checkbox" name="items[{{ $i }}][on]" value="1" @checked(old('items.'.$i.'.on', false)) aria-label="选择 {{ $entry['line']['name'] }}"></td>
+                    <td class="num" data-label="{{ $mode === 'buy' ? '价格' : '卖价' }}"><x-money :amount="$entry['price']" /></td>
+                    @if($mode === 'sell')<td class="num" data-label="持有">{{ $entry['quantity'] }}</td>@endif
+                    <td data-label="数量"><input class="input input-sm" aria-label="{{ $entry['line']['name'] }} 数量" name="items[{{ $i }}][quantity]" type="number" min="1" max="{{ min(999, $entry['quantity']) }}" value="{{ old('items.'.$i.'.quantity', 1) }}" required></td>
+                    <td class="primary"><x-item :line="$entry['line']" :qty="1" /></td>
+                </tr>
+            @empty
+                <tr><td class="primary" colspan="5">没有可出售的道具</td></tr>
+            @endforelse
+            </tbody>
+        </table>
+        <div class="actions"><button class="btn" type="submit" @disabled(! $items)>{{ $mode === 'buy' ? '买' : '卖' }}</button><span class="hint">合计以服务器结算为准</span></div>
+    </form>
+@endif
+</x-facility>
 @endsection

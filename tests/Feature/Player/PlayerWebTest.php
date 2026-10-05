@@ -19,7 +19,7 @@ final class PlayerWebTest extends PlayerTestCase
         $character->save();
         $this->item($user, '1000');
         $this->actingAs($user);
-        foreach (['/characters', '/characters/'.$character->id, '/inventory', '/shop', '/crafting', '/preferences'] as $path) {
+        foreach (['/characters', '/characters/'.$character->id, '/inventory', '/shop', '/shop/sell', '/shop/work', '/smithy/refine', '/smithy/create', '/account'] as $path) {
             $response = $this->get($path)->assertOk();
             $response->assertDontSee('<script>x</script>', false);
         }
@@ -34,8 +34,8 @@ final class PlayerWebTest extends PlayerTestCase
         $this->actingAs($user)->post('/player/work')->assertSessionHasErrors('operation_id');
         $this->get('/player/work')->assertStatus(405);
         $key = (string) Str::uuid();
-        $this->post('/player/work', ['operation_id' => $key])->assertRedirect('/shop');
-        $this->post('/player/work', ['operation_id' => $key])->assertRedirect('/shop');
+        $this->post('/player/work', ['operation_id' => $key])->assertRedirect('/shop/work');
+        $this->post('/player/work', ['operation_id' => $key])->assertRedirect('/shop/work');
         $this->assertSame(10500, $user->fresh()->money);
     }
 

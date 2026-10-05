@@ -96,12 +96,12 @@ final class EconomyTest extends PlayerTestCase
         $user = $this->player();
         $character = $this->character($user);
         $this->command($user, 'party', ['characters' => [$character->id]]);
-        $this->command($user, 'preferences', ['record_battle_log' => false, 'no_js_inventory' => true, 'color' => 'AbC123']);
+        $this->command($user, 'preferences', ['record_battle_log' => false, 'no_js_inventory' => true, 'color' => '99CC33']);
         $preferences = $user->fresh()->preferences;
         $this->assertSame([$character->id], $preferences['party']);
         $this->assertFalse($preferences['record_battle_log']);
         $this->assertTrue($preferences['no_js_inventory']);
-        $this->assertSame('abc123', $preferences['color']);
+        $this->assertSame('99cc33', $preferences['color']);
         $other = $this->character($this->player('other'));
         $this->expectException(ValidationException::class);
         $this->command($user, 'party', ['characters' => [$other->id]]);

@@ -34,10 +34,11 @@ final class BattlePresentationTest extends TestCase
         $report = $this->report();
         $html = view('game.battle.show', ['report' => app(BattleService::class)->publicReport($report)])->render();
         $name = app(ContentCatalog::class)->get('skills', '1000')['name'];
-        $this->assertStringContainsString('勇士 使用「'.$name.'」', $html);
-        $this->assertStringContainsString('勇士 开始咏唱', $html);
+        $this->assertSame(1, preg_match('/<div class="act-head">(.*?)<\/div>/s', $html, $heading));
+        $this->assertSame('勇士'.$name, trim(strip_tags($heading[1])));
+        $this->assertStringContainsString('勇士 开始蓄力', $html);
         $this->assertStringContainsString('哥布林 受到 37 点伤害', $html);
-        $this->assertStringContainsString('勇士 恢复了 12 点HP', $html);
+        $this->assertStringContainsString('勇士 恢复了 12 点生命', $html);
         $this->assertStringContainsString('哥布林 中毒', $html);
         $this->assertStringContainsString('哥布林 被打倒', $html);
         $this->assertStringContainsString('模拟战', $html);
@@ -59,9 +60,10 @@ final class BattlePresentationTest extends TestCase
         $html = view('game.battle.show', ['report' => $safe])->render();
         foreach (['987654321', '998877665', '665544332', '776655443', '987654316'] as $hidden) {
             $this->assertStringNotContainsString($hidden, json_encode($safe));
+            $this->assertStringNotContainsString(number_format((int) $hidden), $html);
         }
         $this->assertStringContainsString('&lt;script&gt;boss&lt;/script&gt;', $html);
         $this->assertStringNotContainsString('<script>boss</script>', $html);
-        $this->assertStringContainsString('恢复了 5 点HP', $html);
+        $this->assertStringContainsString('恢复了 5 点生命', $html);
     }
 }

@@ -19,7 +19,7 @@ final class ProductionUrlTest extends TestCase
             ->get('/login')
             ->assertOk()
             ->assertSee('action="https://hof.example.test/login"', false)
-            ->assertSee('href="https://hof.example.test/app.css"', false)
+            ->assertSee('href="https://hof.example.test/css/hof.css?v=', false)
             ->assertDontSee('attacker.invalid')
             ->assertHeader('Strict-Transport-Security', 'max-age=31536000');
     }
