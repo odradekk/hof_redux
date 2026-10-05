@@ -10,6 +10,8 @@ use App\Models\User;
 
 final class WorldService
 {
+    public const HUNT_STAMINA = 1;
+
     public function __construct(private GameAction $actions, private ContentCatalog $catalog, private BattleService $battles) {}
 
     public function areas(User $user): array
@@ -26,7 +28,7 @@ final class WorldService
         return $this->actions->execute($userId, 'world.hunt', $key, compact('areaId', 'party', 'remember'), function (User $user, int $operation, int $seed) use ($areaId, $party, $remember) {
             $areas = $this->areas($user);
             $this->actions->ensure(isset($areas[$areaId]), 'This map is not available.');
-            $this->actions->stamina($user, 1, $operation, 'ordinary hunt');
+            $this->actions->stamina($user, self::HUNT_STAMINA, $operation, 'ordinary hunt');
             $report = $this->battles->fight($user, $party, $areas[$areaId], $operation, $seed);
             if ($remember) {
                 $user->preferences = [...($user->preferences ?? []), 'party' => $party];

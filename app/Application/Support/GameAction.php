@@ -11,6 +11,14 @@ use Illuminate\Validation\ValidationException;
 
 final class GameAction
 {
+    /** Stamina cap and daily regeneration, in whole stamina points. */
+    public const STAMINA_MAX = 100;
+
+    public const STAMINA_PER_DAY = 500;
+
+    // One stamina point is 86400 units, so units regenerated per second equal points per day.
+    private const STAMINA_UNIT = 86400;
+
     public function execute(int $actorId, string $command, string $key, array $payload, Closure $callback): array
     {
         $this->ensure(Str::isUuid($key), 'A valid operation ID is required.');
@@ -79,12 +87,12 @@ final class GameAction
 
     public function stamina(User $user, int $cost, int $operationId, string $reason): void
     {
-        $this->ensure($cost >= 0 && $cost <= 100, 'Invalid stamina cost.');
+        $this->ensure($cost >= 0 && $cost <= self::STAMINA_MAX, 'Invalid stamina cost.');
         $at = now();
         $seconds = max(0, $at->getTimestamp() - $user->stamina_updated_at->getTimestamp());
-        $available = min(8640000, $user->stamina_units + $seconds * 500);
-        $this->ensure($available >= $cost * 86400, 'Not enough stamina.');
-        $user->stamina_units = $available - $cost * 86400;
+        $available = min(self::STAMINA_MAX * self::STAMINA_UNIT, $user->stamina_units + $seconds * self::STAMINA_PER_DAY);
+        $this->ensure($available >= $cost * self::STAMINA_UNIT, 'Not enough stamina.');
+        $user->stamina_units = $available - $cost * self::STAMINA_UNIT;
         $user->stamina_updated_at = $at;
         $user->save();
         $this->ledger($user->id, $operationId, 'stamina', -$cost, $reason);

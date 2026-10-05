@@ -11,7 +11,7 @@ final class CommunityController
 {
     public function town()
     {
-        return view('game.community.town', ['messages' => BoardMessage::orderByDesc('id')->limit(50)->get(), 'announcements' => Announcement::where('published', true)->latest()->limit(5)->get()]);
+        return view('game.community.town', ['messages' => BoardMessage::orderByDesc('id')->limit(CommunityService::KEEP_MESSAGES)->get(), 'announcements' => Announcement::where('published', true)->latest()->limit(5)->get()]);
     }
 
     public function post(Request $request, CommunityService $service)

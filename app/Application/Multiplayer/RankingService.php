@@ -13,6 +13,12 @@ use App\Models\User;
 
 final class RankingService
 {
+    public const TEAM_CHANGE_HOURS = 48;
+
+    public const WIN_COOLDOWN_SECONDS = 60;
+
+    public const OTHER_COOLDOWN_SECONDS = 86400;
+
     public function __construct(private GameAction $actions, private ContentCatalog $content, private BattleService $battles) {}
 
     public static function place(int $position): int
@@ -27,7 +33,7 @@ final class RankingService
         return $this->actions->execute($userId, 'ranking.register', $key, compact('party'), function (User $user) use ($party) {
             $this->validateParty($user->id, $party);
             $entry = RankingEntry::where('user_id', $user->id)->lockForUpdate()->first();
-            $this->actions->ensure(! $entry || $entry->party_set_at->addHours(48)->lessThanOrEqualTo(now()), 'The ranking team can be changed once every 48 hours.');
+            $this->actions->ensure(! $entry || $entry->party_set_at->addHours(self::TEAM_CHANGE_HOURS)->lessThanOrEqualTo(now()), 'The ranking team can be changed once every 48 hours.');
             if (! $entry) {
                 $entry = new RankingEntry(['user_id' => $user->id]);
             }
@@ -103,7 +109,7 @@ final class RankingService
                     $defender->defenses++;
                 }
             }
-            $entry->challenge_at = $winner === 0 ? now()->addMinute() : now()->addDay();
+            $entry->challenge_at = now()->addSeconds($winner === 0 ? self::WIN_COOLDOWN_SECONDS : self::OTHER_COOLDOWN_SECONDS);
             $entry->save();
             $defender->save();
             $challenge = RankingChallenge::create(['challenger_id' => $user->id, 'defender_id' => $opponent->id, 'result' => $result, 'report' => $report]);

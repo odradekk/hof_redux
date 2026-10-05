@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Game;
 
-use App\Domain\Content\ContentCatalog;
+use App\Application\World\GameData;
+use App\Application\World\GameRules;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 final class InformationController
 {
-    public function manual(string $section = 'basic')
-    {
-        abort_unless(in_array($section, ['basic', 'advanced', 'tutorial'], true), 404);
+    public const MANUAL = ['basic' => '规则和手册', 'advanced' => '高级指南', 'tutorial' => '教学'];
 
-        return view('game.information.manual', compact('section'));
+    public function manual(GameData $data, GameRules $rules, string $section = 'basic')
+    {
+        abort_unless(isset(self::MANUAL[$section]), 404);
+
+        return view('game.information.manual.'.$section, ['section' => $section, 'data' => $data, 'rules' => $rules, 'constants' => $rules->constants()]);
     }
 
     public function updates()
@@ -21,20 +23,39 @@ final class InformationController
         return view('game.information.updates', ['announcements' => Announcement::where('published', true)->latest()->paginate(20)]);
     }
 
-    public function catalog(Request $request, ContentCatalog $catalog, string $kind = 'jobs')
+    public function catalog(Request $request, GameData $data, GameRules $rules, ?string $kind = null)
     {
-        abort_unless(in_array($kind, ['jobs', 'items', 'conditions', 'monsters', 'skills', 'enchants'], true), 404);
-        $input = $request->validate(['q' => ['sometimes', 'nullable', 'string', 'max:200'], 'page' => ['sometimes', 'integer', 'min:1', 'max:1000000']]);
-        $query = trim($input['q'] ?? '');
-        $records = match ($kind) {
-            'skills' => $catalog->playableSkills(), 'monsters' => $catalog->playableMonsters(), default => $catalog->all($kind)
-        };
-        if ($query !== '') {
-            $records = array_filter($records, static fn (array $row, $id): bool => str_contains((string) $id, $query) || mb_stripos(json_encode($row, JSON_UNESCAPED_UNICODE), $query) !== false, ARRAY_FILTER_USE_BOTH);
-        }
-        $page = (int) ($input['page'] ?? 1);
-        $records = new LengthAwarePaginator(array_slice($records, ($page - 1) * 30, 30, true), count($records), 30, $page, ['path' => $request->url(), 'query' => $request->query()]);
+        $input = $request->validate(['q' => ['sometimes', 'nullable', 'string', 'max:100']]);
+        if ($kind === null) {
+            $query = trim($input['q'] ?? '');
 
-        return view('game.information.catalog', ['kind' => $kind, 'records' => $records, 'query' => $query, 'version' => $catalog->version()]);
+            return view('game.information.catalog.index', ['kind' => null, 'data' => $data, 'counts' => $data->counts(), 'query' => $query, 'results' => $query === '' ? [] : $data->search($query)]);
+        }
+        abort_unless(isset(GameData::KINDS[$kind]), 404);
+        $view = match ($kind) {
+            'jobs' => ['jobs' => $data->jobs()],
+            'items' => ['groups' => $data->items()],
+            'skills' => ['groups' => $data->skills()],
+            'monsters' => ['groups' => $data->monsters()],
+            'areas' => ['areas' => $data->areas()],
+            'conditions' => ['groups' => $data->conditions()],
+            'enchants' => $data->enchants(),
+            'rules' => ['rules' => $rules, 'constants' => $rules->constants()],
+        };
+
+        return view('game.information.catalog.'.$kind, $view + ['kind' => $kind, 'data' => $data]);
+    }
+
+    public function entry(GameData $data, GameRules $rules, string $kind, string $id)
+    {
+        abort_unless(in_array($kind, GameData::DETAILS, true) && $data->exists($kind, $id), 404);
+        $view = match ($kind) {
+            'jobs' => ['job' => $data->job($id)],
+            'items' => ['item' => $data->item($id)],
+            'skills' => ['skill' => $data->skill($id)],
+            'monsters' => ['monster' => $data->monster($id)],
+        };
+
+        return view('game.information.catalog.'.rtrim($kind, 's'), $view + ['kind' => $kind, 'data' => $data, 'rules' => $rules]);
     }
 }

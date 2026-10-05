@@ -12,7 +12,7 @@
 
 Reports store immutable versions, server seed, initial resolved snapshots, events, results and settled rewards in the transaction. Normal report visibility follows `record_battle_log`; a disabled log remains private to its owner/admin for the POST-redirect result. Simulations are private. Boss and ranking report viewers share the escaped battle renderer. Boss public rendering strips the initial snapshot, true boss HP/SP, damage aggregate and arbitrary event payloads; only a narrow event field whitelist is displayed. Report identifiers are model IDs, never file paths.
 
-Manual, tutorial and advanced-rule pages are rewritten static Blade content. No old PHP manual is executed. Catalog pages read the exact immutable gameplay catalog. Town retains the latest 50 escaped, single-line, Unicode-length-limited messages under the shared transaction lock. Disabled bottom board/external localhost forum are not invented.
+Manual, tutorial and advanced-rule pages are rewritten static Blade content. No old PHP manual is executed. Catalog pages read the exact immutable gameplay catalog: every playable job, item, skill, monster, open map, selectable condition and enchantment is published with derived cross references (drops, encounter rates, skill-tree learners, recipes), and the rules page reads the same service constants and formulas the game uses. Shared-boss HP/SP and HP-derived rewards stay hidden, as in the legacy union display. Town retains the latest 50 escaped, single-line, Unicode-length-limited messages under the shared transaction lock. Disabled bottom board/external localhost forum are not invented.
 
 ## Operator scope
 

@@ -16,6 +16,10 @@ final class BossService
     // Each of these source-defined union encounters receives one fresh instance.
     public const ROSTER = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011];
 
+    public const CHALLENGE_STAMINA = 10;
+
+    public const COOLDOWN_MINUTES = 20;
+
     public function __construct(private GameAction $actions, private ContentCatalog $content, private BattleService $battles) {}
 
     public function bootstrap(): int
@@ -85,8 +89,8 @@ final class BossService
             $characters = Character::where('user_id', $user->id)->whereIn('id', $party)->lockForUpdate()->get();
             $this->actions->ensure($characters->count() === count($party), 'Party contains an unavailable character.');
             $this->actions->ensure($characters->sum('level') <= (int) $boss->definition['LevelLimit'], 'Party level exceeds this boss limit.');
-            $this->actions->ensure(! BossChallenge::where('user_id', $user->id)->where('created_at', '>', now()->subMinutes(20))->exists(), 'Wait 20 minutes between shared-boss challenges.');
-            $this->actions->stamina($user, 10, $op, 'shared boss challenge');
+            $this->actions->ensure(! BossChallenge::where('user_id', $user->id)->where('created_at', '>', now()->subMinutes(self::COOLDOWN_MINUTES))->exists(), 'Wait 20 minutes between shared-boss challenges.');
+            $this->actions->stamina($user, self::CHALLENGE_STAMINA, $op, 'shared boss challenge');
             $before = $boss->hp;
             $report = $this->battles->fightBoss($user, $party, $boss->definition, $boss->hp, $boss->sp, $op, $seed);
             $boss->hp = max(0, min((int) $boss->definition['maxhp'], (int) $report['boss_hp']));

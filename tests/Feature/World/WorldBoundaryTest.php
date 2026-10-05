@@ -88,11 +88,12 @@ final class WorldBoundaryTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $user->id]);
     }
 
-    public function test_catalog_rejects_array_query_and_invalid_page(): void
+    public function test_catalog_rejects_array_or_oversized_query_and_non_numeric_entries(): void
     {
         $this->getJson('/catalog/items?q[]=x')->assertUnprocessable()->assertJsonValidationErrors('q');
-        $this->getJson('/catalog/items?page[]=1')->assertUnprocessable()->assertJsonValidationErrors('page');
-        $this->getJson('/catalog/items?page=-1')->assertUnprocessable()->assertJsonValidationErrors('page');
+        $this->getJson('/catalog?q='.str_repeat('x', 101))->assertUnprocessable()->assertJsonValidationErrors('q');
+        $this->get('/catalog/items/abc')->assertNotFound();
+        $this->get('/catalog/rules/1')->assertNotFound();
     }
 
     public function test_battle_view_uses_external_styles_and_whitelisted_background_classes(): void

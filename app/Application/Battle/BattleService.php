@@ -19,6 +19,11 @@ use App\Models\User;
 
 final class BattleService
 {
+    /** Actions before a battle ends without elimination (draw, or survivor count in the arena). */
+    public const ACTION_LIMIT = 100;
+
+    public const SIMULATION_ACTION_LIMIT = 50;
+
     public function __construct(private ContentCatalog $catalog, private ItemDetails $items, private PlayerService $players, private GameAction $actions) {}
 
     public function party(User $user, array $ids, string $prefix = 'player'): array
@@ -158,7 +163,7 @@ final class BattleService
                 $summons[$id] = $this->summonPrototype($id);
             }
         }
-        $outcome = (new BattleEngine($this->catalog->all('skills'), $summons))->simulate(new BattleSnapshot($teams, $mode, $this->catalog->version(), $actionLimit ?? ($mode === 'simulation' ? 50 : 100)), $random);
+        $outcome = (new BattleEngine($this->catalog->all('skills'), $summons))->simulate(new BattleSnapshot($teams, $mode, $this->catalog->version(), $actionLimit ?? ($mode === 'simulation' ? self::SIMULATION_ACTION_LIMIT : self::ACTION_LIMIT)), $random);
 
         return ['winner' => $outcome->winner, 'reason' => $outcome->reason, 'teams' => $outcome->teams, 'events' => $outcome->events, 'actions' => $outcome->actions, 'random' => $outcome->randomState, 'rewards' => $outcome->rewardCandidates, 'damage' => $outcome->damage, 'mode' => $mode, 'content_version' => $outcome->contentVersion, 'rules_version' => $outcome->rulesVersion, 'seed' => $seed, 'names' => $names, 'initial_teams' => $teams];
     }

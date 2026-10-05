@@ -17,6 +17,12 @@ use Random\Randomizer;
 
 final class PlayerService
 {
+    public const WORK_STAMINA = 100;
+
+    public const WORK_PAY = 500;
+
+    public const TEAM_RENAME_PRICE = 100000;
+
     public function __construct(
         private GameAction $actions, private ContentCatalog $catalog,
         private CharacterFactory $characters, private Inventory $inventory,
@@ -139,8 +145,8 @@ final class PlayerService
 
     private function work(User $user, int $operation): array
     {
-        $this->actions->stamina($user, 100, $operation, 'work');
-        $this->actions->money($user, 500, $operation, 'work');
+        $this->actions->stamina($user, self::WORK_STAMINA, $operation, 'work');
+        $this->actions->money($user, self::WORK_PAY, $operation, 'work');
 
         return ['message' => 'Work completed: 100 stamina exchanged for 500 gold.'];
     }
@@ -176,7 +182,7 @@ final class PlayerService
         if ($user->name === $name) {
             Inventory::reject('Choose a different team name.');
         }
-        $this->actions->money($user, -100000, $operation, 'team rename');
+        $this->actions->money($user, -self::TEAM_RENAME_PRICE, $operation, 'team rename');
         $user->name = $name;
         $user->save();
 

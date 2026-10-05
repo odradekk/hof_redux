@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/manual/{section?}', [InformationController::class, 'manual'])->name('manual');
 Route::get('/updates', [InformationController::class, 'updates'])->name('updates');
 Route::get('/catalog/{kind?}', [InformationController::class, 'catalog'])->name('catalog');
+Route::get('/catalog/{kind}/{id}', [InformationController::class, 'entry'])->where('id', '[0-9]+')->name('catalog.entry');
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 Route::get('/reports/boss/{challenge}', [ReportController::class, 'boss'])->name('reports.boss');
 Route::get('/reports/ranking/{challenge}', [ReportController::class, 'ranking'])->name('reports.ranking');

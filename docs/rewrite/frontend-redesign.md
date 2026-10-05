@@ -35,7 +35,7 @@
 | 中 | 每个 `<label>` 都是块级元素，上下外边距各 14px，表单被拉得很长（商店页 3,747px，角色页 2,745px） | `app.css: label{display:block;margin:14px 0}` |
 | 中 | 输入框改成深色，丢掉了旧版标志性的浅蓝 `.text` 输入框；按钮也丢掉了 `btn_bk01.gif` 底纹 | `app.css` |
 | 中 | 表格没有表头底色和网格线，数字没有右对齐 | 无 `.td6/.td7` 对应样式 |
-| 中 | `<link rel="stylesheet">` 写在 `<body>` 内（battle.css、catalog.css），会引起样式闪烁 | `battle/show`、`information/catalog` |
+| 中 | `<link rel="stylesheet">` 写在 `<body>` 内（battle.css），会引起样式闪烁 | `battle/show`（资料页已改为经 `@stack('styles')` 在 `<head>` 中加载） |
 | 中 | CSS 缓存 7 天（`nginx.conf`），但文件名不带版本号，样式更新后用户看不到 | `docker/nginx.conf` |
 | 中 | 选择出战队伍的界面有 4 套不同实现（狩猎、BOSS、竞技场、角色列表），都是裸复选框 | `world/party`、`boss`、`ranking`、`player` |
 | 中 | 城镇用 166×370 的竖图 `town.gif` 替代了旧版右上角的 `town02.gif` 背景布局 | `community/town.blade.php` |
@@ -48,7 +48,7 @@
 ### 1.2 结构性问题
 
 - 885 行 Blade，没有一个组件；`layouts/app.blade.php` 把整个外壳写在 8 行里。
-- 4 个 CSS 文件规则互相覆盖：旧版 `basis.css`/`style.css`、单行 `app.css`、`battle.css`、`catalog.css`。
+- 4 个 CSS 文件规则互相覆盖：旧版 `basis.css`/`style.css`、单行 `app.css`、`battle.css`（`catalog.css` 已由手册与资料页的过渡样式表 `information.css` 取代）。
 - CSP 为 `style-src 'self'; script-src 'self'`，因此**禁止内联 style 属性和内联脚本**。现有方案没有针对这一约束的策略，例如旧版战斗场景完全依靠内联坐标。
 
 ## 2. 设计原则
@@ -398,9 +398,19 @@
 - 分区依次为：显示设置（记录战斗、展开道具详情、留言颜色：216 色网格单选，以色块预览）、队伍改名（费用 `$ 100,000`）、修改密码、删除账号（`.danger-zone` + `<x-confirm word=DELETE>`）。
 
 ### 6.17 手册 / 教学 / 更新 / 游戏资料
-- 手册和教学：`<x-tabs>` 切换，正文最大行宽约 40 个汉字，h4 风格分节，插图居中（`image/manual/*`）。旧手册内容的翻译和编码问题不在本方案范围内，见 `feature-inventory.md`。
-- 更新公告：时间线（标题、`<x-time>`、正文）。
-- 游戏资料：保留 `CatalogPresenter` 卡片，样式并入主样式表，采用两列网格（手机单列）并使用新分页视图。`CatalogPresentationTest` 用 `assertDontSee('<h3>'.$name.'</h3>')` 判断条目被隐藏，若卡片标题改用 `<x-sec>` 或改变 h3 结构，这些断言会“假通过”，必须同步改为基于稳定 `data-id` 的断言。
+
+**已实现**（先于 F1 落地，标记见下文“过渡样式”）。
+
+- **手册**（`/manual`）、**高级指南**（`/manual/advanced`）、**教学**（`/manual/tutorial`）：章节顺序、锚点和详细程度对应旧版 `data.manual0.php`、`data.manual1.php`、`data.tutorial.php`，正文按现行规则重写为简体中文，不复制旧文件中的乱码。旧版插图 `image/manual/001/002/t001.gif` 保留并加中文说明；日文的菜单示意图 `003.gif` 改为 HTML 列表（`manual/menu-map`）。高级指南在旧版四节之后补充行动顺序、伤害公式、能力变化、召唤、魔法阵、经验与掉落。锚点 `menu` 因与外壳的 `#menu` 冲突改为 `menus`，其余保持旧名。
+- **游戏资料**（`/catalog`）：总览（分类、数量、内容版本、名称 / 编号搜索）+ 8 个分类页 + 4 类详情页（`/catalog/{jobs|items|skills|monsters}/{id}`）。
+  - 职业：男女立绘、旧版职业说明、可装备类型、生命 / 魔力系数（附示例值）、转职条件、雇佣时的初始状态与行动模式、按职业求值的完整技能树和学习条件。
+  - 道具：按类型分组；旧版 `ShowItemDetail()` 一行式性能；买价、卖价、获得途径；详情含可装备职业、精炼 / 拍卖资格、制作配方与制作费、可用于制作、掉落怪物与掉落率、地图解锁、特殊材料效果、附魔候选表。
+  - 技能：按可学习的职业系分组；旧版 `ShowSkillDetail()` 一行式全部字段；详情含按 ID 特殊处理的效果说明（`GameText::SPECIAL_EFFECTS`，测试保证覆盖 `Effects.php` 的每个 `case`）、可学习职业与条件、学会后可学的技能、使用该技能的怪物。
+  - 怪物：按首次出现的可进入地图分组，另有共享首领、首领随从、召唤物、未开放地区；详情含攻防、配置与保护方式、行动模式、掉落率（含不掉落概率）、出现地图与出现率（稀有 / 隐藏怪物如实公开并标注）、召唤来源。共享首领沿用旧版 `????/????`：生命、魔力以及由生命推算的经验和金钱不公开。
+  - 地图、行动条件（旧版“判定(judge)”）、附魔（掷骰规则、特殊材料、各类型候选表）、数值规则（经验表、生命 / 魔力公式、行动模式行数、负重、战斗计算、体力、商店与雇佣、精炼成功率、拍卖、竞技场分阶、共享首领、其他费用）。
+- **单一数据来源**：`GameData`（列表、详情、反向索引）、`GameText`（字段中文化）、`GameRules`（规则表）全部读取 `ContentCatalog` 和游戏服务里的常量；原本写在服务中的字面量（体力、狩猎、打工、首领、竞技场、拍卖、留言板、行动上限）已提取为命名常量。`CatalogPresentationTest` 检查每个内容字段要么被渲染、要么在 `IGNORED_*` 中列明原因，并逐个打开所有可公开记录的详情页。
+- **过渡样式**：`public/information.css` 的类名与 `ui-baseline/hof.css` 一致（`.sec`、`.tabs`、`.tbl`、`.tbl-stack`、`.item`、`.kv`、`.carpet-stage` 等），因旧版 `basis.css` 没有分层，规则暂时限定在 `.info` 作用域内。F1 落地 `hof.css` 时把这些规则并入对应层并删除该文件，模板不需要修改。
+- 更新公告：仍按原计划改为时间线（标题、`<x-time>`、正文）。
 
 ### 6.18 管理控制台
 - 沿用同一外壳，菜单中出现“管理”。页内依次为：统计（`.kv`）、账号表（`.tbl-stack`，可点击进入）、公告发布、审核列表（每条后附 `<x-confirm>`）、战报清理、维护、审计日志（`.tbl-wrap` 横向滚动，`details` 以格式化 JSON 显示，不再直接 `json_encode` 输出单行）。
@@ -469,7 +479,7 @@
 
 ## 9. CSS 架构
 
-- **文件**：`public/css/hof.css`（主样式表，内含全部基础、布局、组件和页面样式）、`public/css/colors.css`（216 色用户颜色类，由脚本从 `legacy/class/Color.dat` 生成，可选）。删除 `public/basis.css`、`style.css`、`app.css`、`battle.css`、`catalog.css`；原始声明可在 `legacy/` 和 git 历史中查到。同步更新 README“Archived source and assets”一节。
+- **文件**：`public/css/hof.css`（主样式表，内含全部基础、布局、组件和页面样式）、`public/css/colors.css`（216 色用户颜色类，由脚本从 `legacy/class/Color.dat` 生成，可选）。删除 `public/basis.css`、`style.css`、`app.css`、`battle.css`、`information.css`（手册与资料页的过渡样式，规则并入 `hof.css`）；原始声明可在 `legacy/` 和 git 历史中查到。同步更新 README“Archived source and assets”一节。
 - **分层**：`@layer reset, base, layout, components, pages, responsive;`。断点覆盖统一放在 `responsive` 层，按组件顺序分组。旧版类名（`.dmg .recover .support .spdmg .charge .levelup .bold .u .light .vcent .align-*`）作为兼容工具类留在 `base` 层，方便对照旧模板迁移。
 - **规则**：见 §5.2（`:root` 之外无颜色值、通用模式进组件层、内容图片用 `<img>`、状态靠属性和伪类、选择器不超过两级）。
 - **命名**：组件用短名（`.sec .btn .tbl .split .feed .carpet .item .npc .pick .hpsp`），修饰类用 `-` 后缀（`.btn-lg`、`.tbl-stack`），状态优先用属性（`[aria-current]`、`:has(:checked)`、`:disabled`），不使用 BEM 长名，也不写工具类堆叠。
@@ -522,7 +532,7 @@
 | **F2 组件与扩展点** | §5.4 全部组件（含 `x-field`、`x-feed`、`x-facility`、`x-sortie`）；§5.5 视图模型映射类；§5.7 注册表与术语表；`/dev/ui` 样式指南；§5.9 样式检查和渲染检查 | `resources/views/components`、`resources/views/dev`、`app/Http/View`、`config/hof_ui.php`、`lang/zh_CN` | 样式指南覆盖全部组件变体；护栏测试通过 |
 | **F3 单人页面** | 登录、注册、初始设置、首页、角色详情、道具、店（买 / 卖 / 打工路由拆分）、锻冶屋、人材斡旋所、设置合并 | `resources/views/{auth,account,game/player*}`、`PlayerController`、`routes/player.php` | 对应页面视觉基线批准 |
 | **F4 战斗与多人页面** | `BattleStage`、`BattlePresenter` 分段与 `EVENTS` 注册（补上 `ActionSkipped`）、战报视图；狩猎（合并 BOSS）、BOSS、竞技场、拍卖、城镇、广场颜色（若 D-UI-3 通过，加迁移） | `app/Application/Battle`、`resources/views/game/{battle,world,boss,ranking,auction,community}`、相关控制器 | 战报单元测试，隐藏 HP 测试 |
-| **F5 资料、管理与收尾** | 手册 / 教学 / 更新 / 资料 / 管理；`hof.js`（可选）；视觉回归和 axe 接入 CI；README 更新 | `resources/views/game/{information,admin,reports}`、`tests/Browser`、`README.md` | §13 全部完成；未运行项明确列出 |
+| **F5 资料、管理与收尾** | 手册 / 教学 / 资料已先行完成（§6.17），剩余：更新公告时间线、管理控制台；`hof.js`（可选）；视觉回归和 axe 接入 CI；README 更新 | `resources/views/game/{information,admin,reports}`、`tests/Browser`、`README.md` | §13 全部完成；未运行项明确列出 |
 
 参考工作量（单人）：F1 约 1.5 天，F2 约 3 天，F3 约 3 天，F4 约 3–4 天，F5 约 2 天，合计约 13 个工作日，不含评审往返。F2 比初稿多 1 天，用于视图模型、注册表和护栏；F3 到 F5 的页面迁移因此只做组合工作。
 
@@ -545,7 +555,7 @@
 - **`:has()` 兼容性**：Chrome 105+、Safari 15.4+、Firefox 121+ 支持；更老的浏览器只失去行高亮效果，功能不受影响。
 - **`<meter>` 样式**：各浏览器渲染略有差异；数值文字始终与进度条并列显示，因此不影响信息传达。
 - **战报体量**：极长战斗的 SVG 段数需要用真实数据评估（D-UI-5）。
-- **旧手册内容**：mojibake 和混合语言问题不属于本方案，按 `feature-inventory.md` 另行处理。
+- **旧手册内容**：手册、高级指南和教学已按现行规则重写（§6.17）。道具名、技能说明等游戏内容中的混合语言与乱码仍原样保留，不做批量翻译。
 
 ## 附录 A：旧类名 → 新类名
 

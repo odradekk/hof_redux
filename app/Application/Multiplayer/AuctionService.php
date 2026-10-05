@@ -14,6 +14,18 @@ final class AuctionService
 {
     public const TYPES = ['剑', '双手剑', '匕首', '魔杖', '杖', '弓', '鞭', '盾', '书', '甲', '衣服', '长袍', '道具', '材料'];
 
+    public const MEMBERSHIP_PRICE = 11000;
+
+    public const LISTING_FEE = 500;
+
+    public const DURATIONS = [1, 3, 6, 12, 18, 24];
+
+    public const MAX_ACTIVE = 100;
+
+    public const LISTING_INTERVAL_SECONDS = 30;
+
+    public const EXTENSION_MINUTES = 15;
+
     public function __construct(private GameAction $actions, private ContentCatalog $content) {}
 
     public static function minimumBid(int $price): int
@@ -30,7 +42,7 @@ final class AuctionService
     {
         return $this->actions->execute($userId, 'auction.join', $key, [], function (User $user, int $op) {
             $this->actions->ensure(! $this->isMember($user->id), 'You are already an auction member.');
-            $this->actions->money($user, -11000, $op, 'auction membership');
+            $this->actions->money($user, -self::MEMBERSHIP_PRICE, $op, 'auction membership');
             $this->actions->addItem($user, '9000', 1, $op, 'auction membership');
 
             return ['message' => 'Auction membership purchased.'];
@@ -43,15 +55,15 @@ final class AuctionService
             $this->settleDueLocked();
             $user->refresh();
             $this->actions->ensure($this->isMember($user->id), 'Auction membership is required.');
-            $this->actions->ensure(in_array($hours, [1, 3, 6, 12, 18, 24], true) && $price >= 0 && $price <= 1000000000000 && mb_strlen($comment) <= 200, 'Invalid listing details.');
-            $this->actions->ensure(AuctionListing::where('status', 'active')->count() < 100, 'The auction is full.');
-            $this->actions->ensure(! AuctionListing::where('seller_id', $user->id)->where('created_at', '>', now()->subSeconds(30))->exists(), 'Wait 30 seconds between listings.');
+            $this->actions->ensure(in_array($hours, self::DURATIONS, true) && $price >= 0 && $price <= 1000000000000 && mb_strlen($comment) <= 200, 'Invalid listing details.');
+            $this->actions->ensure(AuctionListing::where('status', 'active')->count() < self::MAX_ACTIVE, 'The auction is full.');
+            $this->actions->ensure(! AuctionListing::where('seller_id', $user->id)->where('created_at', '>', now()->subSeconds(self::LISTING_INTERVAL_SECONDS))->exists(), 'Wait 30 seconds between listings.');
             $item = InventoryItem::where('user_id', $user->id)->where('location', 'backpack')->lockForUpdate()->findOrFail($inventoryId);
             $definition = $this->content->get('items', $item->item_id);
             $this->actions->ensure(in_array($definition['type'] ?? '', self::TYPES, true), 'This item cannot be auctioned.');
             $this->actions->ensure($quantity > 0 && $quantity <= $item->quantity, 'Invalid listing quantity.');
             $snapshot = ['item_id' => $item->item_id, 'quantity' => $quantity, 'refinement' => $item->refinement, 'enchantments' => $item->enchantments];
-            $this->actions->money($user, -500, $op, 'auction listing fee');
+            $this->actions->money($user, -self::LISTING_FEE, $op, 'auction listing fee');
             if ($quantity === $item->quantity) {
                 $item->location = 'auction';
                 $item->save();
@@ -86,8 +98,8 @@ final class AuctionService
             $listing->escrow = $price;
             $listing->bidder_id = $user->id;
             $listing->bid_count++;
-            if ($listing->ends_at->lessThan(now()->addMinutes(15))) {
-                $listing->ends_at = now()->addMinutes(15);
+            if ($listing->ends_at->lessThan(now()->addMinutes(self::EXTENSION_MINUTES))) {
+                $listing->ends_at = now()->addMinutes(self::EXTENSION_MINUTES);
             }
             $listing->save();
             $this->event($listing, $user->id, 'bid', $price);
