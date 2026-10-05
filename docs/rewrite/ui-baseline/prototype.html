@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>HOF Redux 前端视觉基线原型</title>
+<link rel="stylesheet" href="hof.css">
+</head>
+<body>
+<!--
+  Static visual baseline for docs/rewrite/frontend-redesign.md.
+  Open this file directly from the repository; assets resolve to ../../../public/image/.
+  Markup mirrors the proposed Blade components; sample data is fictional.
+-->
+
+<!-- ===================================================== 1. Guest landing -->
+<p class="proto-label" id="s-landing">① 访客首页 / 登录（legacy LoginForm）</p>
+<div class="frame">
+  <header class="title"><h1><img src="../../../public/image/title03.gif" width="218" height="45" alt="荣誉圣殿 Hall of Fame"></h1></header>
+  <nav class="menu" aria-label="主菜单"><ul>
+    <li><a href="#" aria-current="page">首页</a></li>
+    <li><a href="#">新注册</a></li>
+    <li><a href="#">规则和手册</a></li>
+    <li><a href="#">游戏数据</a></li>
+    <li><a href="#">战斗记录</a></li>
+  </ul></nav>
+  <div class="status"><span class="status-team">欢迎来到 [ 荣誉圣殿 ]</span></div>
+  <main class="contents">
+    <div class="landing">
+      <section class="landing-art">
+        <img src="../../../public/image/top01.gif" width="334" height="138" alt="">
+        <dl class="landing-intro">
+          <dt>这到底是什么游戏?</dt>
+          <dd>游戏的目的是得到第一，并且保持住第一的位置。</dd>
+          <dd>虽然没有冒险的要素，但有点深奥的战斗系统。</dd>
+          <dt>战斗的感觉是什么?</dt>
+          <dd>最多 5 人组成队伍。</dd>
+          <dd>各人物各持不同模式，根据战斗的状况来使用技能。</dd>
+          <dd><a class="a0" href="#">这边</a>可以回览战斗记录。</dd>
+        </dl>
+      </section>
+      <section class="landing-login">
+        <h2 class="sec">登录</h2>
+        <form class="form-grid indent" action="#" method="post">
+          <label for="l-id">ID</label><input class="input input-md" id="l-id" name="login" maxlength="16" autocomplete="username">
+          <label for="l-pw">PASS</label><input class="input input-md" id="l-pw" type="password" name="password" autocomplete="current-password">
+          <span></span><div class="actions"><button class="btn" type="submit">登录</button><a href="#">新玩家?</a></div>
+        </form>
+        <h2 class="sec">排行榜</h2>
+        <table class="tbl rank">
+          <thead><tr><th>排位</th><th>队伍</th></tr></thead>
+          <tbody>
+            <tr><td><img class="crown" src="../../../public/image/icon/crown01.png" alt="第1位"></td><td>黄昏之刃 <span class="meta">(12战 9胜2败 1引 4防 胜率75%)</span></td></tr>
+            <tr><td><img class="crown" src="../../../public/image/icon/crown02.png" alt="第2位"></td><td>银翼骑士团 <span class="meta">(8战 5胜3败 0引 1防 胜率63%)</span></td></tr>
+            <tr><td><img class="crown" src="../../../public/image/icon/crown03.png" alt="第3位"></td><td>北境商会 <span class="meta">(5战 2胜3败 0引 0防 胜率40%)</span></td></tr>
+            <tr><td>4位</td><td>星落之塔 <span class="meta">(2战 1胜1败 0引 0防 胜率50%)</span></td></tr>
+            <tr><td>底</td><td>无名旅团 <span class="meta">(1战 0胜1败 0引 0防 胜率0%)</span></td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+    <h2 class="sec">提示</h2>
+    <p class="indent">用户数：128 / 500<br><span class="meta">14 日中数据没变化的账号不会被自动删除（新版策略，见手册）。</span></p>
+  </main>
+  <footer class="foot"><a href="#">UpDate</a><a href="#">手册</a><a href="#">教学</a><a href="#">游戏数据</a><a href="#">Top</a></footer>
+</div>
+
+<!-- ===================================================== 2. Home -->
+<p class="proto-label" id="s-home">② 首页（登录后，legacy LoginMain + ShowMyCharacters）</p>
+<div class="frame">
+  <header class="title"><h1><img src="../../../public/image/title03.gif" width="218" height="45" alt="荣誉圣殿 Hall of Fame"></h1></header>
+  <nav class="menu" aria-label="主菜单"><ul>
+    <li><a href="#" aria-current="page">首页</a></li>
+    <li><a href="#">狩猎</a></li>
+    <li><a href="#">道具</a></li>
+    <li><a href="#">城镇</a></li>
+    <li><a href="#">设置</a></li>
+    <li><a href="#">记录</a></li>
+  </ul></nav>
+  <div class="status">
+    <span class="status-team">银翼骑士团</span>
+    <span class="status-item"><b>资金</b> <span class="num">$&nbsp;2,488,800</span></span>
+    <span class="status-item"><b>体力</b> <meter class="meter" min="0" max="100" low="20" high="50" optimum="100" value="87">87</meter> <span class="num">87/100</span></span>
+    <form action="#" method="post"><button class="btn-link" type="submit">退出</button></form>
+  </div>
+  <main class="contents">
+    <p class="notice notice-ok" role="status">招募完成：加雷斯 加入了队伍。</p>
+    <p class="indent meta"><a href="#">教程</a> - 战斗的基本（注册后一小时内显示）</p>
+    <h2 class="sec">银翼骑士团 <span class="sec-aside"><a href="#">招募同伴</a></span></h2>
+    <ul class="carpets carpets-5">
+      <li class="carpet"><a class="carpet-stage" href="#"><img src="../../../public/image/char/mon_080r.gif" width="64" height="72" alt="艾琳"></a>
+        <a class="carpet-name" href="#">艾琳<span class="star" title="有未分配属性点">*</span></a><span class="meta">Lv.2 战士</span><span class="carpet-vitals">HP 323 / 330<br>SP 51 / 52</span></li>
+      <li class="carpet"><a class="carpet-stage" href="#"><img src="../../../public/image/char/mon_106.gif" width="64" height="48" alt="梅林"></a>
+        <a class="carpet-name" href="#">梅林</a><span class="meta">Lv.2 巫师</span><span class="carpet-vitals">HP 152 / 155<br>SP 108 / 110</span></li>
+      <li class="carpet"><a class="carpet-stage" href="#"><img src="../../../public/image/char/mon_214.gif" width="24" height="72" alt="苏菲"></a>
+        <a class="carpet-name" href="#">苏菲</a><span class="meta">Lv.2 女祭司</span><span class="carpet-vitals">HP 205 / 209<br>SP 85 / 87</span></li>
+      <li class="carpet"><a class="carpet-stage" href="#"><img src="../../../public/image/char/mon_219rr.gif" width="56" height="88" alt="罗宾"></a>
+        <a class="carpet-name" href="#">罗宾</a><span class="meta">Lv.1 猎人</span><span class="carpet-vitals">HP 223 / 223<br>SP 71 / 71</span></li>
+      <li class="carpet"><a class="carpet-stage" href="#"><img src="../../../public/image/char/mon_079.gif" width="64" height="64" alt="加雷斯"></a>
+        <a class="carpet-name" href="#">加雷斯</a><span class="meta">Lv.1 战士</span><span class="carpet-vitals">HP 323 / 323<br>SP 51 / 51</span></li>
+    </ul>
+  </main>
+  <footer class="foot"><a href="#">UpDate</a><a href="#">手册</a><a href="#">教学</a><a href="#">游戏数据</a><a href="#">Top</a></footer>
+</div>
+
+<!-- ===================================================== 3. Character -->
+<p class="proto-label" id="s-char">③ 角色详情（legacy CharStatShow 分区顺序）</p>
+<div class="frame">
+  <header class="title"><h1><img src="../../../public/image/title03.gif" width="218" height="45" alt="荣誉圣殿 Hall of Fame"></h1></header>
+  <nav class="menu" aria-label="主菜单"><ul>
+    <li><a href="#" aria-current="page">首页</a></li><li><a href="#">狩猎</a></li><li><a href="#">道具</a></li><li><a href="#">城镇</a></li><li><a href="#">设置</a></li><li><a href="#">记录</a></li>
+  </ul></nav>
+  <div class="status">
+    <span class="status-team">银翼骑士团</span>
+    <span class="status-item"><b>资金</b> <span class="num">$&nbsp;2,488,800</span></span>
+    <span class="status-item"><b>体力</b> <meter class="meter" min="0" max="100" low="20" high="50" optimum="100" value="87">87</meter> <span class="num">87/100</span></span>
+    <form action="#" method="post"><button class="btn-link" type="submit">退出</button></form>
+  </div>
+  <main class="contents">
+    <nav class="char-links" aria-label="切换角色"><a href="#" aria-current="page">艾琳</a><a href="#">梅林</a><a href="#">苏菲</a><a href="#">罗宾</a><a href="#">加雷斯</a></nav>
+    <ul class="page-toc" aria-label="本页分区">
+      <li><a href="#c-status">人物状态</a></li><li><a href="#c-stat">角色属性</a></li><li><a href="#c-ai">行动模式</a></li><li><a href="#c-pos">位置 &amp; 保护</a></li><li><a href="#c-equip">装备</a></li><li><a href="#c-skill">技能</a></li><li><a href="#c-other">其他</a></li>
+    </ul>
+
+    <h1 class="sec" id="c-status">人物状态 <a class="help" href="#" title="规则说明">?</a></h1>
+    <div class="char-head">
+      <div class="carpet"><div class="carpet-stage"><img src="../../../public/image/char/mon_080r.gif" width="64" height="72" alt=""></div>
+        <span class="carpet-name">艾琳</span><span class="meta">Lv.2 战士</span></div>
+      <dl class="kv">
+        <dt>经验</dt><dd>12/30</dd>
+        <dt>生命</dt><dd>330 <span class="plus">+ 12</span></dd>
+        <dt>魔力</dt><dd>52</dd>
+        <dt>力量</dt><dd>10 <span class="plus">+ 2</span></dd>
+        <dt>智慧</dt><dd>2</dd>
+        <dt>敏捷</dt><dd>4</dd>
+        <dt>速度</dt><dd>4</dd>
+        <dt>幸运</dt><dd>1</dd>
+      </dl>
+      <div class="specials meta">毒抵抗 +10%<br>无视物理防御伤害 +5</div>
+    </div>
+
+    <form id="c-stat" action="#" method="post">
+      <h2 class="sec">角色属性 <a class="help" href="#">?</a> <span class="sec-aside">剩余属性点：<b class="charge">3</b></span></h2>
+      <div class="stat-alloc indent">
+        <label>力量 <span class="meta">10</span><input class="input" type="number" min="0" max="3" value="0" name="stats[str]"></label>
+        <label>智慧 <span class="meta">2</span><input class="input" type="number" min="0" max="3" value="0" name="stats[int]"></label>
+        <label>敏捷 <span class="meta">4</span><input class="input" type="number" min="0" max="3" value="0" name="stats[dex]"></label>
+        <label>速度 <span class="meta">4</span><input class="input" type="number" min="0" max="3" value="0" name="stats[spd]"></label>
+        <label>幸运 <span class="meta">1</span><input class="input" type="number" min="0" max="3" value="0" name="stats[luk]"></label>
+      </div>
+      <div class="actions indent"><button class="btn" type="submit">升值</button></div>
+    </form>
+
+    <form id="c-ai" action="#" method="post">
+      <h2 class="sec">行动模式 <a class="help" href="#">?</a> <span class="sec-aside">最多 2 行，自上而下判断</span></h2>
+      <div class="tbl-wrap indent">
+        <table class="tbl tactics">
+          <thead><tr><th>No</th><th>条件</th><th>数值</th><th>行动</th><th>选择</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><select class="select select-judge" aria-label="条件 1"><option>自己的SP 以上</option><option class="select0">必定</option></select></td><td><input class="input" aria-label="数值 1" type="number" value="8"></td><td><select class="select" aria-label="行动 1"><option>痛击 - (SP:8)</option><option>攻击</option></select></td><td class="c"><input type="radio" name="row" value="0" aria-label="选择第 1 行"></td></tr>
+            <tr><td>2</td><td><select class="select select-judge" aria-label="条件 2"><option class="select0">必定</option></select></td><td><input class="input" aria-label="数值 2" type="number" value="0"></td><td><select class="select" aria-label="行动 2"><option>攻击</option></select></td><td class="c"><input type="radio" name="row" value="1" checked aria-label="选择第 2 行"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="actions indent">
+        <button class="btn" type="submit">确定模式</button>
+        <button class="btn" type="submit">设置 &amp; 测试</button>
+        <a href="#">模拟战斗</a>
+      </div>
+      <div class="actions indent">
+        <button class="btn" type="submit">切换模式</button>
+        <button class="btn" type="submit">添加</button>
+        <button class="btn" type="submit">删除</button>
+        <span class="hint">添加/删除作用于右侧选中的行</span>
+      </div>
+    </form>
+
+    <form id="c-pos" action="#" method="post">
+      <h2 class="sec">位置 &amp; 保护 <a class="help" href="#">?</a></h2>
+      <div class="form-grid indent">
+        <span class="label">位置</span><div class="choice-row"><label class="check"><input type="radio" name="position" value="front" checked> 前卫</label><label class="check"><input type="radio" name="position" value="back"> 后卫</label></div>
+        <label for="guard">护卫</label><select class="select" id="guard"><option>必定保护</option><option>不保护</option><option>体力25%以上时保护</option></select>
+        <span></span><div class="actions"><button class="btn" type="submit">设置</button></div>
+      </div>
+    </form>
+
+    <h2 class="sec" id="c-equip">装备 <a class="help" href="#">?</a> <span class="sec-aside">负重 <b class="charge num">3 / 5</b></span></h2>
+    <div class="indent">
+      <dl class="kv equip-stats">
+        <dt class="dmg">物理攻击</dt><dd class="dmg">10</dd>
+        <dt class="spdmg">魔法攻击</dt><dd class="spdmg">0</dd>
+        <dt class="recover">物理防御</dt><dd class="recover">23 + 20</dd>
+        <dt class="support">魔法防御</dt><dd class="support">7 + 0</dd>
+      </dl>
+      <form action="#" method="post">
+        <table class="slots">
+          <tbody>
+            <tr><td>武器</td><td><label class="check"><input type="radio" name="slot" value="weapon"><span class="item"><img class="icon" src="../../../public/image/icon/we_sword026.png" alt=""><span class="item-name">短剑</span> <span class="item-type">(剑)</span> <span class="item-stats"><span class="dmg">物理攻击：10</span><span class="charge">重量：1</span></span></span></label></td></tr>
+            <tr><td>盾</td><td><label class="check"><input type="radio" name="slot" value="shield"><span class="item"><img class="icon" src="../../../public/image/icon/shield_001m.png" alt=""><span class="item-name">木盾</span> <span class="item-type">(盾)</span> <span class="item-stats"><span class="recover">物理防御：5+5</span><span class="support">魔法防御：0+0</span><span class="charge">重量：1</span></span></span></label></td></tr>
+            <tr><td>甲</td><td><label class="check"><input type="radio" name="slot" value="armor"><span class="item"><img class="icon" src="../../../public/image/icon/armor_016b.png" alt=""><span class="item-refine">+3</span> <span class="item-name">皮甲</span> <span class="item-type">(甲)</span> <span class="item-stats"><span class="recover">物理防御：18+15</span><span class="support">魔法防御：7+0</span><span class="charge">重量：1</span></span></span></label></td></tr>
+            <tr><td>道具</td><td class="meta">（空）</td></tr>
+          </tbody>
+        </table>
+        <div class="actions"><button class="btn" type="submit">卸下</button><button class="btn" type="submit">全卸</button></div>
+      </form>
+      <details class="more">
+        <summary>可装备道具（3）</summary>
+        <ul class="item-list">
+          <li><label class="check"><input type="radio" name="inventory_id" value="11"><span class="item"><img class="icon" src="../../../public/image/icon/we_sword026.png" alt=""><span class="item-name">长刀</span> <span class="item-type">(剑)</span> <span class="item-qty">x2</span> <span class="item-stats"><span class="dmg">物理攻击：15</span><span class="charge">重量：2</span></span></span></label></li>
+          <li><label class="check"><input type="radio" name="inventory_id" value="12"><span class="item"><img class="icon" src="../../../public/image/icon/armor_016b.png" alt=""><span class="item-name">板甲</span> <span class="item-type">(甲)</span> <span class="item-stats"><span class="recover">物理防御：20+15</span><span class="support">魔法防御：10+5</span><span class="charge">重量：2</span></span></span></label></li>
+        </ul>
+        <div class="actions"><button class="btn" type="submit">装备</button></div>
+      </details>
+    </div>
+
+    <form id="c-skill" action="#" method="post">
+      <h2 class="sec">技能 <a class="help" href="#">?</a> <span class="sec-aside">剩余技能点：<b class="charge">1</b></span></h2>
+      <div class="indent">
+        <p class="bold u">掌握技能</p>
+        <ul class="item-list">
+          <li class="item"><img class="icon" src="../../../public/image/icon/skill_042.png" alt=""><span class="item-name">攻击</span></li>
+          <li class="item"><img class="icon" src="../../../public/image/icon/skill_032.png" alt=""><span class="item-name">痛击</span> <span class="item-stats"><span class="support">SP：8</span></span></li>
+        </ul>
+        <p class="bold u">可学技能</p>
+        <ul class="item-list">
+          <li><label class="check"><input type="radio" name="skill_id" value="1003"><span class="item"><img class="icon" src="../../../public/image/icon/skill_001a.png" alt=""><span class="item-name">双重打击</span> <span class="item-stats"><span class="support">SP：12</span><span class="charge">学习：4 点</span></span></span></label></li>
+        </ul>
+        <div class="actions"><button class="btn" type="submit">习得</button></div>
+      </div>
+    </form>
+
+    <h2 class="sec" id="c-other">其他</h2>
+    <details class="more danger-zone indent">
+      <summary>改名 / 重置 / 离队</summary>
+      <form class="form-grid" action="#" method="post">
+        <label for="rn">改名</label><div class="actions"><input class="input input-md" id="rn" maxlength="16"><button class="btn" type="submit">改名（消耗 重命名卡）</button></div>
+        <label for="rs">重置</label><div class="actions"><select class="select" id="rs"><option>重置水晶(状态1)</option></select><button class="btn" type="submit">消耗道具并重置</button></div>
+        <span class="label">离队</span><div class="actions"><button class="btn btn-danger" type="submit">解雇 艾琳</button><span class="hint">装备返回背包；队伍必须保留一人。</span></div>
+      </form>
+    </details>
+  </main>
+  <footer class="foot"><a href="#">UpDate</a><a href="#">手册</a><a href="#">教学</a><a href="#">游戏数据</a><a href="#">Top</a></footer>
+</div>
+
+<!-- ===================================================== 4. Hunt area -->
+<p class="proto-label" id="s-hunt">④ 狩猎地图：选择队伍（legacy MonsterShow / ShowCharRadio）</p>
+<div class="frame">
+  <header class="title"><h1><img src="../../../public/image/title03.gif" width="218" height="45" alt="荣誉圣殿 Hall of Fame"></h1></header>
+  <nav class="menu" aria-label="主菜单"><ul>
+    <li><a href="#">首页</a></li><li><a href="#" aria-current="page">狩猎</a></li><li><a href="#">道具</a></li><li><a href="#">城镇</a></li><li><a href="#">设置</a></li><li><a href="#">记录</a></li>
+  </ul></nav>
+  <div class="status">
+    <span class="status-team">银翼骑士团</span>
+    <span class="status-item"><b>资金</b> <span class="num">$&nbsp;2,488,800</span></span>
+    <span class="status-item"><b>体力</b> <meter class="meter" min="0" max="100" low="20" high="50" optimum="100" value="12">12</meter> <span class="num">12/100</span></span>
+    <form action="#" method="post"><button class="btn-link" type="submit">退出</button></form>
+  </div>
+  <main class="contents">
+    <h1 class="page-title">哥布林(最弱)<span class="meta">每次战斗消耗 1 体力 · <a href="#">返回地图列表</a></span></h1>
+    <form action="#" method="post">
+      <h2 class="sec">队伍 <span class="sec-aside">选择 1–5 名</span></h2>
+      <ul class="carpets carpets-5">
+        <li class="carpet"><label class="pick"><span class="carpet-stage"><img src="../../../public/image/char/mon_080r.gif" width="64" height="72" alt=""></span><span class="carpet-name">艾琳</span><span class="meta">Lv.2 战士 · 前卫</span><input type="checkbox" name="party[]" value="1" checked></label></li>
+        <li class="carpet"><label class="pick"><span class="carpet-stage"><img src="../../../public/image/char/mon_106.gif" width="64" height="48" alt=""></span><span class="carpet-name">梅林</span><span class="meta">Lv.2 巫师 · 后卫</span><input type="checkbox" name="party[]" value="2" checked></label></li>
+        <li class="carpet"><label class="pick"><span class="carpet-stage"><img src="../../../public/image/char/mon_214.gif" width="24" height="72" alt=""></span><span class="carpet-name">苏菲</span><span class="meta">Lv.2 女祭司 · 后卫</span><input type="checkbox" name="party[]" value="3" checked></label></li>
+        <li class="carpet"><label class="pick"><span class="carpet-stage"><img src="../../../public/image/char/mon_219rr.gif" width="56" height="88" alt=""></span><span class="carpet-name">罗宾</span><span class="meta">Lv.1 猎人 · 后卫</span><input type="checkbox" name="party[]" value="4"></label></li>
+        <li class="carpet"><label class="pick"><span class="carpet-stage"><img src="../../../public/image/char/mon_079.gif" width="64" height="64" alt=""></span><span class="carpet-name">加雷斯</span><span class="meta">Lv.1 战士 · 前卫</span><input type="checkbox" name="party[]" value="5"></label></li>
+      </ul>
+      <div class="actions actions-center">
+        <button class="btn btn-lg" type="submit">战斗!</button>
+        <button class="btn" type="reset">重置</button>
+        <label class="check"><input type="checkbox" name="remember" value="1"> 保存此队伍</label>
+      </div>
+    </form>
+    <h2 class="sec">出现敌人</h2>
+    <ul class="carpets carpets-5">
+      <li class="carpet"><div class="carpet-stage land land-grass"><img src="../../../public/image/char/mon_053.gif" width="56" height="48" alt=""></div><span class="carpet-name">持斧哥布林</span><span class="meta">Lv.1</span></li>
+      <li class="carpet"><div class="carpet-stage land land-grass"><img src="../../../public/image/char/mon_052.gif" width="40" height="48" alt=""></div><span class="carpet-name">哥布林勇士</span><span class="meta">Lv.1</span></li>
+    </ul>
+  </main>
+  <footer class="foot"><a href="#">UpDate</a><a href="#">手册</a><a href="#">教学</a><a href="#">游戏数据</a><a href="#">Top</a></footer>
+</div>
+
+<!-- ===================================================== 5. Battle report -->
+<p class="proto-label" id="s-battle">⑤ 战斗记录（legacy BattleHeader / BattleState / Action / BattleResult）</p>
+<div class="frame">
+  <header class="title"><h1><img src="../../../public/image/title03.gif" width="218" height="45" alt="荣誉圣殿 Hall of Fame"></h1></header>
+  <nav class="menu" aria-label="主菜单"><ul>
+    <li><a href="#">首页</a></li><li><a href="#">狩猎</a></li><li><a href="#">道具</a></li><li><a href="#">城镇</a></li><li><a href="#">设置</a></li><li><a href="#" aria-current="page">记录</a></li>
+  </ul></nav>
+  <div class="status">
+    <span class="status-team">银翼骑士团</span>
+    <span class="status-item"><b>资金</b> <span class="num">$&nbsp;2,488,800</span></span>
+    <span class="status-item"><b>体力</b> <meter class="meter" min="0" max="100" low="20" high="50" optimum="100" value="86">86</meter> <span class="num">86/100</span></span>
+    <form action="#" method="post"><button class="btn-link" type="submit">退出</button></form>
+  </div>
+  <main class="contents">
+    <h1 class="sec">哥布林(最弱) vs 银翼骑士团 <span class="sec-aside">普通战 · 10-05 12:15</span></h1>
+    <div class="btl-teams">
+      <div><div class="team-name">哥布林(最弱)</div>总级别 : 3<br>平均级别 : 1<br>总HP : <span class="num">540/540</span></div>
+      <div><div class="team-name">银翼骑士团</div>总级别 : 6<br>平均级别 : 2<br>总HP : <span class="num">680/687</span></div>
+    </div>
+
+    <div class="btl-img" id="s1">
+      <svg class="stage" viewBox="0 0 480 200" role="img" aria-label="第 1 段战况：左侧哥布林队 2 名存活，右侧银翼骑士团 3 名存活">
+        <image href="../../../public/image/other/bg_grass.gif" width="480" height="200"/>
+        <image href="../../../public/image/char/mon_052.gif" x="160" y="26" width="40" height="48"/>
+        <image href="../../../public/image/char/mon_052.gif" x="140" y="76" width="40" height="48"/>
+        <image href="../../../public/image/char/mon_145.gif" x="116" y="126" width="48" height="48"/>
+        <image href="../../../public/image/char_rev/mon_080r.gif" x="288" y="64" width="64" height="72"/>
+        <image href="../../../public/image/char_rev/mon_018.gif" x="358" y="30" width="56" height="72"/>
+        <image href="../../../public/image/char_rev/mon_214.gif" x="401" y="97" width="24" height="72"/>
+      </svg>
+      <nav class="btl-jump" aria-label="战况跳转"><span class="light">&laquo;</span><a href="#s2">&raquo;</a></nav>
+    </div>
+    <div class="btl-state">
+      <div>
+        <div></div>
+        <div>
+          <div class="hpsp"><span class="hpsp-name">哥布林勇士</span><div class="hpsp-vals"><span class="recover">生命：120/180</span><br><span class="support">魔力：50/50</span></div></div>
+          <div class="hpsp"><span class="hpsp-name">哥布林勇士</span> <span class="charge">(蓄力)</span><div class="hpsp-vals"><span class="recover">生命：180/180</span><br><span class="support">魔力：50/50</span></div></div>
+          <div class="hpsp is-dead"><span class="hpsp-name">哥布林勇士</span><div class="hpsp-vals"><span>生命：0/180</span><br><span>魔力：0/50</span></div></div>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div class="hpsp"><span class="hpsp-name">艾琳</span><div class="hpsp-vals"><span class="recover">生命：240/323</span><br><span class="support">魔力：19/51</span></div></div>
+        </div>
+        <div>
+          <div class="hpsp"><span class="hpsp-name">梅林</span> <span class="charge">(咏唱)</span><div class="hpsp-vals"><span class="recover">生命：152/152</span><br><span class="support">魔力：48/108</span></div></div>
+          <div class="hpsp"><span class="hpsp-name">苏菲</span><div class="hpsp-vals"><span class="recover">生命：205/205</span><br><span class="support">魔力：65/85</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <ol class="btl-log">
+      <li class="btl-row foe"><div class="act"><div class="act-head">哥布林勇士<img class="icon" src="../../../public/image/icon/skill_042.png" alt="">攻击</div><p><b>艾琳</b> 保护 <b>梅林</b>!</p><p><span class="dmg">艾琳 受到 10 点伤害</span> <span class="light">(250 &gt; 240)</span></p></div></li>
+      <li class="btl-row ally"><div class="act"><p class="charge">梅林 开始咏唱.</p></div></li>
+      <li class="btl-row ally"><div class="act"><div class="act-head">苏菲<img class="icon" src="../../../public/image/icon/skill_013a.png" alt="">治疗</div><p><span class="recover">艾琳 恢复了 67 点生命</span> <span class="light">(173 &gt; 240)</span></p></div></li>
+      <li class="btl-row ally"><div class="act"><div class="act-head">梅林<img class="icon" src="../../../public/image/icon/skill_018.png" alt="">火球术</div><p><span class="dmg">哥布林勇士 受到 33 点伤害</span></p><p><span class="dmg">哥布林勇士 受到 33 点伤害</span></p><p class="dmg">哥布林勇士 被打倒.</p></div></li>
+      <li class="btl-row foe"><div class="act"><div class="act-head">哥布林勇士<img class="icon" src="../../../public/image/icon/skill_042.png" alt="">致命突刺</div><p><b>艾琳</b> 保护 <b>苏菲</b>!</p><p><span class="dmg">艾琳 受到 87 点伤害</span></p></div></li>
+    </ol>
+
+    <div class="btl-result"><strong class="recover">银翼骑士团 胜利!</strong></div>
+    <div class="btl-summary">
+      <div>残留HP : ????/????<br>存活 : 0/3<br>总伤害 : 412</div>
+      <div>残留HP : <span class="num">562/687</span><br>存活 : 3/3<br>总伤害 : 540<br>总经验值 : 63<br>金钱 : <span class="num">$&nbsp;300</span>
+        <div class="bold">获得战利品：</div><span class="item"><img class="icon" src="../../../public/image/icon/we_sword026.png" alt="">钢 x 1</span></div>
+    </div>
+    <p class="align-center"><span class="levelup">艾琳 升级!</span> <span class="levelup">梅林 升级!</span> <span class="levelup">苏菲 升级!</span></p>
+    <div class="actions actions-center"><a class="btn" href="#">再战一次</a><a href="#">返回狩猎</a><a href="#">战斗记录</a></div>
+  </main>
+  <footer class="foot"><a href="#">UpDate</a><a href="#">手册</a><a href="#">教学</a><a href="#">游戏数据</a><a href="#">Top</a></footer>
+</div>
+
+<!-- ===================================================== 6. Shop -->
+<p class="proto-label" id="s-shop">⑥ 商店：购买（legacy ShopHeader + ShopBuyShow）</p>
+<div class="frame">
+  <header class="title"><h1><img src="../../../public/image/title03.gif" width="218" height="45" alt="荣誉圣殿 Hall of Fame"></h1></header>
+  <nav class="menu" aria-label="主菜单"><ul>
+    <li><a href="#">首页</a></li><li><a href="#">狩猎</a></li><li><a href="#">道具</a></li><li><a href="#" aria-current="page">城镇</a></li><li><a href="#">设置</a></li><li><a href="#">记录</a></li>
+  </ul></nav>
+  <div class="status">
+    <span class="status-team">银翼骑士团</span>
+    <span class="status-item"><b>资金</b> <span class="num">$&nbsp;2,488,800</span></span>
+    <span class="status-item"><b>体力</b> <meter class="meter" min="0" max="100" low="20" high="50" optimum="100" value="87">87</meter> <span class="num">87/100</span></span>
+    <form action="#" method="post"><button class="btn-link" type="submit">退出</button></form>
+  </div>
+  <main class="contents">
+    <h1 class="sec">店</h1>
+    <div class="npc"><img src="../../../public/image/char/ori_002.gif" width="42" height="66" alt=""><div><p>欢迎光临ー</p><ul class="tabs"><li><a href="#" aria-current="page">买</a></li><li><a href="#">卖</a></li><li><a href="#">打工</a></li></ul></div></div>
+    <h2 class="sec">购买 <span class="sec-aside">勾选并填写数量</span></h2>
+    <form action="#" method="post">
+      <table class="tbl tbl-stack">
+        <thead><tr><th></th><th>价格</th><th>数</th><th>道具</th></tr></thead>
+        <tbody>
+          <tr><td class="c" data-label="选择"><input type="checkbox" name="items[0][on]" checked aria-label="选择 短剑"></td><td class="num" data-label="价格">$&nbsp;500</td><td data-label="数量"><input class="input input-sm" type="number" min="1" max="999" value="2" aria-label="短剑 数量"></td>
+            <td class="primary"><span class="item"><img class="icon" src="../../../public/image/icon/we_sword026.png" alt=""><span class="item-name">短剑</span> <span class="item-type">(剑)</span> <span class="item-stats"><span class="dmg">物理攻击：10</span><span class="charge">重量：1</span></span></span></td></tr>
+          <tr><td class="c" data-label="选择"><input type="checkbox" name="items[1][on]" aria-label="选择 长刀"></td><td class="num" data-label="价格">$&nbsp;1,000</td><td data-label="数量"><input class="input input-sm" type="number" min="1" max="999" value="1" aria-label="长刀 数量"></td>
+            <td class="primary"><span class="item"><img class="icon" src="../../../public/image/icon/we_sword026.png" alt=""><span class="item-name">长刀</span> <span class="item-type">(剑)</span> <span class="item-stats"><span class="dmg">物理攻击：15</span><span class="charge">重量：2</span></span></span></td></tr>
+          <tr><td class="c" data-label="选择"><input type="checkbox" name="items[2][on]" aria-label="选择 木盾"></td><td class="num" data-label="价格">$&nbsp;1,000</td><td data-label="数量"><input class="input input-sm" type="number" min="1" max="999" value="1" aria-label="木盾 数量"></td>
+            <td class="primary"><span class="item"><img class="icon" src="../../../public/image/icon/shield_001m.png" alt=""><span class="item-name">木盾</span> <span class="item-type">(盾)</span> <span class="item-stats"><span class="recover">物理防御：5+5</span><span class="support">魔法防御：0+0</span><span class="charge">重量：1</span></span></span></td></tr>
+          <tr><td class="c" data-label="选择"><input type="checkbox" name="items[3][on]" aria-label="选择 皮甲"></td><td class="num" data-label="价格">$&nbsp;1,000</td><td data-label="数量"><input class="input input-sm" type="number" min="1" max="999" value="1" aria-label="皮甲 数量"></td>
+            <td class="primary"><span class="item"><img class="icon" src="../../../public/image/icon/armor_016b.png" alt=""><span class="item-name">皮甲</span> <span class="item-type">(甲)</span> <span class="item-stats"><span class="recover">物理防御：18+15</span><span class="support">魔法防御：7+0</span><span class="charge">重量：1</span></span></span></td></tr>
+        </tbody>
+      </table>
+      <div class="actions"><button class="btn" type="submit">买</button><span class="hint">合计以服务器结算为准</span></div>
+    </form>
+  </main>
+  <footer class="foot"><a href="#">UpDate</a><a href="#">手册</a><a href="#">教学</a><a href="#">游戏数据</a><a href="#">Top</a></footer>
+</div>
+
+<!-- ===================================================== 7. Auction -->
+<p class="proto-label" id="s-auction">⑦ 拍卖会场（legacy AuctionHeader + ItemShowAuctionList）</p>
+<div class="frame">
+  <header class="title"><h1><img src="../../../public/image/title03.gif" width="218" height="45" alt="荣誉圣殿 Hall of Fame"></h1></header>
+  <nav class="menu" aria-label="主菜单"><ul>
+    <li><a href="#">首页</a></li><li><a href="#">狩猎</a></li><li><a href="#">道具</a></li><li><a href="#" aria-current="page">城镇</a></li><li><a href="#">设置</a></li><li><a href="#">记录</a></li>
+  </ul></nav>
+  <div class="status">
+    <span class="status-team">银翼骑士团</span>
+    <span class="status-item"><b>资金</b> <span class="num">$&nbsp;2,488,800</span></span>
+    <span class="status-item"><b>体力</b> <meter class="meter" min="0" max="100" low="20" high="50" optimum="100" value="87">87</meter> <span class="num">87/100</span></span>
+    <form action="#" method="post"><button class="btn-link" type="submit">退出</button></form>
+  </div>
+  <main class="contents">
+    <h1 class="sec">拍卖(Auction)</h1>
+    <div class="npc"><img src="../../../public/image/char/ori_003.gif" width="45" height="69" alt=""><div><p>您有会员卡么。欢迎您到拍卖场。</p><p class="meta">上架费 $&nbsp;500 · 两次上架间隔 30 秒 · 结束前 15 分钟内出价将延长 · 不可撤回</p><p><a href="#a-log">回顾记录</a> · <a href="#a-new">出品</a></p></div></div>
+    <h2 class="sec">道具拍卖(Item Auction) <span class="sec-aside"><a href="#">只看我的</a></span></h2>
+    <table class="tbl tbl-stack">
+      <thead><tr><th><a href="#">No</a></th><th><a href="#">其余 ▲</a></th><th><a href="#">价格</a></th><th>Item</th><th><a href="#">Bids</a></th><th>投标人</th><th>参展人</th></tr></thead>
+      <tbody>
+        <tr><td class="c" data-label="No">1</td><td data-label="其余"><time datetime="2026-10-05T18:15:04Z">5小时12分</time></td><td class="num" data-label="价格">$&nbsp;1,200</td>
+          <td class="primary"><span class="item"><img class="icon" src="../../../public/image/icon/we_sword026.png" alt=""><span class="item-refine">+3</span> <span class="item-name">短剑</span> <span class="item-type">(剑)</span></span><br><span class="meta">优质短剑，欢迎竞价</span>
+            <form class="actions" action="#" method="post"><input class="input input-sm" type="number" min="1320" value="1320" aria-label="出价金额"><button class="btn" type="submit">出价</button></form></td>
+          <td class="c" data-label="Bids">0</td><td data-label="投标人">—</td><td data-label="参展人">银翼骑士团</td></tr>
+        <tr><td class="c" data-label="No">2</td><td data-label="其余"><time datetime="2026-10-05T13:02:00Z" class="dmg">14分</time></td><td class="num" data-label="价格">$&nbsp;25,000</td>
+          <td class="primary"><span class="item"><img class="icon" src="../../../public/image/icon/armor_016b.png" alt=""><span class="item-name">板甲</span> <span class="item-type">(甲)</span></span>
+            <form class="actions" action="#" method="post"><input class="input input-sm" type="number" min="26250" value="26250" aria-label="出价金额"><button class="btn" type="submit">出价</button></form></td>
+          <td class="c" data-label="Bids">4</td><td data-label="投标人">黄昏之刃</td><td data-label="参展人">北境商会</td></tr>
+      </tbody>
+    </table>
+    <h2 class="sec" id="a-log">拍卖纪录(AuctionLog)</h2>
+    <ul class="bbs indent">
+      <li><time>10-05 12:15</time> No.1 <b>银翼骑士团</b> 出品 短剑+3 · $&nbsp;1,200</li>
+      <li><time>10-05 11:40</time> No.2 <b>黄昏之刃</b> 出价 · $&nbsp;25,000</li>
+    </ul>
+  </main>
+  <footer class="foot"><a href="#">UpDate</a><a href="#">手册</a><a href="#">教学</a><a href="#">游戏数据</a><a href="#">Top</a></footer>
+</div>
+
+<!-- ===================================================== 8. Town -->
+<p class="proto-label" id="s-town">⑧ 城镇 + 广场（legacy TownShow / TownBBS）</p>
+<div class="frame">
+  <header class="title"><h1><img src="../../../public/image/title03.gif" width="218" height="45" alt="荣誉圣殿 Hall of Fame"></h1></header>
+  <nav class="menu" aria-label="主菜单"><ul>
+    <li><a href="#">首页</a></li><li><a href="#">狩猎</a></li><li><a href="#">道具</a></li><li><a href="#" aria-current="page">城镇</a></li><li><a href="#">设置</a></li><li><a href="#">记录</a></li>
+  </ul></nav>
+  <div class="status">
+    <span class="status-team">银翼骑士团</span>
+    <span class="status-item"><b>资金</b> <span class="num">$&nbsp;2,488,800</span></span>
+    <span class="status-item"><b>体力</b> <meter class="meter" min="0" max="100" low="20" high="50" optimum="100" value="87">87</meter> <span class="num">87/100</span></span>
+    <form action="#" method="post"><button class="btn-link" type="submit">退出</button></form>
+  </div>
+  <main class="contents">
+    <h1 class="sec">街</h1>
+    <div class="town">
+      <ul>
+        <li>店 <span class="place-en">(Shop)</span>
+          <ul><li><a href="#">买 <span class="place-en">(Buy)</span></a></li><li><a href="#">卖 <span class="place-en">(Sell)</span></a></li><li><a href="#">打工</a></li></ul></li>
+        <li><a href="#">人材斡旋所 <span class="place-en">(Recruit)</span></a></li>
+        <li>锻冶屋 <span class="place-en">(Smithy)</span>
+          <ul><li><a href="#">精炼工房 <span class="place-en">(Refine)</span></a></li><li><a href="#">制作工房 <span class="place-en">(Create)</span></a></li></ul></li>
+        <li><a href="#">拍卖会场 <span class="place-en">(Auction)</span></a></li>
+        <li><a href="#">竞技场 <span class="place-en">(Colosseum)</span></a></li>
+      </ul>
+    </div>
+    <h2 class="sec">广场</h2>
+    <form class="bbs-form" action="#" method="post"><input class="input" name="body" maxlength="200" aria-label="留言内容" placeholder="1–200 字"><button class="btn" type="submit">发言</button></form>
+    <ul class="bbs">
+      <li><span class="who">黄昏之刃</span> &gt; 竞技场见。<time datetime="2026-10-05T12:15:04Z">10-05 12:15</time></li>
+      <li><span class="who">银翼骑士团</span> &gt; 大家好，今天去哥布林森林刷经验！<time datetime="2026-10-05T12:14:00Z">10-05 12:14</time></li>
+    </ul>
+  </main>
+  <footer class="foot"><a href="#">UpDate</a><a href="#">手册</a><a href="#">教学</a><a href="#">游戏数据</a><a href="#">Top</a></footer>
+</div>
+
+<!-- ===================================================== 9. Components -->
+<p class="proto-label" id="s-kit">⑨ 通用组件（按钮、表单、提示、分页、空状态）</p>
+<div class="frame">
+  <header class="title"><h1><img src="../../../public/image/title03.gif" width="218" height="45" alt="荣誉圣殿 Hall of Fame"></h1></header>
+  <nav class="menu" aria-label="主菜单"><ul>
+    <li><a href="#">首页</a></li><li><a href="#">狩猎</a></li><li><a href="#">道具</a></li><li><a href="#">城镇</a></li><li><a href="#" aria-current="page">设置</a></li><li><a href="#">记录</a></li>
+  </ul></nav>
+  <div class="status">
+    <span class="status-team">银翼骑士团</span>
+    <span class="status-item"><b>资金</b> <span class="num">$&nbsp;2,488,800</span></span>
+    <span class="status-item"><b>体力</b> <meter class="meter" min="0" max="100" low="20" high="50" optimum="100" value="40">40</meter> <span class="num">40/100</span></span>
+    <form action="#" method="post"><button class="btn-link" type="submit">退出</button></form>
+  </div>
+  <main class="contents">
+    <div class="notice notice-err" role="alert">请修正以下问题：<ul><li>新密码至少 12 个字符。</li></ul></div>
+    <h1 class="sec">设置</h1>
+    <form class="form-grid indent" action="#" method="post">
+      <span class="label">战斗记录</span><label class="check"><input type="checkbox" checked> 记录普通战斗</label>
+      <span class="label">道具列表</span><label class="check"><input type="checkbox"> 展开全部道具详情</label>
+      <label for="k-color">留言颜色</label><select class="select" id="k-color"><option>ffffff</option><option>ffcc33</option><option>66cc66</option></select>
+      <span></span><div class="actions"><button class="btn" type="submit">保存</button></div>
+    </form>
+    <h2 class="sec">队伍改名 <span class="sec-aside">费用 $&nbsp;100,000</span></h2>
+    <form class="form-grid indent" action="#" method="post">
+      <label for="k-team">新名字</label><input class="input input-md" id="k-team" maxlength="16">
+      <span></span><div class="actions"><button class="btn" type="submit">支付并改名</button></div>
+    </form>
+    <h2 class="sec">按钮</h2>
+    <div class="actions indent"><button class="btn btn-lg" type="button">战斗!</button><button class="btn" type="button">确定</button><button class="btn" type="button" disabled>不可用</button><button class="btn btn-danger" type="button">删除账号</button><a href="#">普通链接</a><a class="a0" href="#">?</a></div>
+    <h2 class="sec">分页</h2>
+    <nav aria-label="分页"><ul class="pager"><li><span class="disabled">&laquo; 上一页</span></li><li><a href="#" aria-current="page">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><span class="disabled">…</span></li><li><a href="#">7</a></li><li><a href="#">下一页 &raquo;</a></li></ul></nav>
+    <h2 class="sec">记录 <span class="sec-aside"><ul class="tabs"><li><a href="#" aria-current="page">普通</a></li><li><a href="#">BOSS</a></li><li><a href="#">竞技场</a></li></ul></span></h2>
+    <ul class="bbs indent">
+      <li>[ <a href="#">10/05 12:15:04</a> ] <b>战斗 34</b> 回合 [胜] <span class="recover">银翼骑士团</span> (3:2) vs 哥布林(最弱) (3:1)</li>
+      <li>[ <a href="#">10/05 11:02:41</a> ] <b>战斗 100</b> 回合 [平] 银翼骑士团 (5:3) vs 哥布林领主 (4:6)</li>
+    </ul>
+    <p class="empty indent">暂无 BOSS 战记录。</p>
+  </main>
+  <footer class="foot"><a href="#">UpDate</a><a href="#">手册</a><a href="#">教学</a><a href="#">游戏数据</a><a href="#">Top</a></footer>
+</div>
+</body>
+</html>
