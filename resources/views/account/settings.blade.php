@@ -37,13 +37,13 @@
 </form>
 
 <x-sec title="删除账号" />
-<details class="danger-zone indent"><summary>永久删除账号</summary>
+<details class="danger-zone indent" @if($errors->getBag('deleteAccount')->any()) open @endif><summary>永久删除账号</summary>
     <p>删除账号会永久移除队伍、全部角色和道具，无法恢复。</p>
-    <form method="post" action="{{ route('account.delete') }}" data-confirm="确定永久删除账号、角色和道具吗？此操作无法撤销。">
+    <form method="post" action="{{ route('account.delete') }}" data-error-bag="deleteAccount" data-confirm="确定永久删除账号、角色和道具吗？此操作无法撤销。">
         <x-op />
         <div class="form-grid">
-            <x-field label="当前密码" for="delete-password"><input class="input" id="delete-password" type="password" name="current_password" required autocomplete="current-password"></x-field>
-            <x-confirm word="DELETE" />
+            <x-field label="当前密码" for="delete-password" error-bag="deleteAccount"><input class="input" id="delete-password" type="password" name="current_password" required autocomplete="current-password"></x-field>
+            <x-field label="输入 DELETE 确认" for="delete-confirm" error-bag="deleteAccount"><input class="input input-md" id="delete-confirm" name="confirm" required pattern="DELETE" autocomplete="off"></x-field>
         </div>
         <div class="actions"><button class="btn btn-danger" type="submit">永久删除账号</button></div>
     </form>

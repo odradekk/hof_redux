@@ -163,9 +163,10 @@ final class BattleService
                 $summons[$id] = $this->summonPrototype($id);
             }
         }
-        $outcome = (new BattleEngine($this->catalog->all('skills'), $summons))->simulate(new BattleSnapshot($teams, $mode, $this->catalog->version(), $actionLimit ?? ($mode === 'simulation' ? self::SIMULATION_ACTION_LIMIT : self::ACTION_LIMIT)), $random);
+        $actionLimit ??= $mode === 'simulation' ? self::SIMULATION_ACTION_LIMIT : self::ACTION_LIMIT;
+        $outcome = (new BattleEngine($this->catalog->all('skills'), $summons))->simulate(new BattleSnapshot($teams, $mode, $this->catalog->version(), $actionLimit), $random);
 
-        return ['winner' => $outcome->winner, 'reason' => $outcome->reason, 'teams' => $outcome->teams, 'events' => $outcome->events, 'actions' => $outcome->actions, 'random' => $outcome->randomState, 'rewards' => $outcome->rewardCandidates, 'damage' => $outcome->damage, 'mode' => $mode, 'content_version' => $outcome->contentVersion, 'rules_version' => $outcome->rulesVersion, 'seed' => $seed, 'names' => $names, 'initial_teams' => $teams];
+        return ['winner' => $outcome->winner, 'reason' => $outcome->reason, 'teams' => $outcome->teams, 'events' => $outcome->events, 'actions' => $outcome->actions, 'action_limit' => $actionLimit, 'random' => $outcome->randomState, 'rewards' => $outcome->rewardCandidates, 'damage' => $outcome->damage, 'mode' => $mode, 'content_version' => $outcome->contentVersion, 'rules_version' => $outcome->rulesVersion, 'seed' => $seed, 'names' => $names, 'initial_teams' => $teams];
     }
 
     private function settle(User $user, array &$report, int $operationId): void

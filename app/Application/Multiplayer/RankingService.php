@@ -10,6 +10,7 @@ use App\Models\Character;
 use App\Models\RankingChallenge;
 use App\Models\RankingEntry;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 final class RankingService
 {
@@ -49,16 +50,12 @@ final class RankingService
     {
         return $this->actions->execute($userId, 'ranking.challenge', $key, [], function (User $user, int $op, int $seed) {
             $entry = RankingEntry::where('user_id', $user->id)->lockForUpdate()->firstOrFail();
-            $this->validateParty($user->id, $entry->party);
+            // Dismissed members drop out without changing the registered selection or its cooldown.
+            $available = Character::where('user_id', $user->id)->whereIn('id', $entry->party)->pluck('id')->all();
+            $party = array_values(array_intersect($entry->party, $available));
+            $this->validateParty($user->id, $party);
             $this->actions->ensure(! $entry->challenge_at || $entry->challenge_at->lessThanOrEqualTo(now()), 'Ranking challenge cooldown has not expired.');
-            // Repacking mirrors rank2's file reload after deleted accounts leave gaps.
-            $ladder = RankingEntry::whereNotNull('position')->orderBy('position')->lockForUpdate()->get();
-            foreach ($ladder as $i => $rank) {
-                if ($rank->position !== $i + 1) {
-                    $rank->position = $i + 1;
-                    $rank->save();
-                }
-            }
+            $ladder = $this->repackLocked();
             $entry->refresh();
             if (! $entry->position) {
                 $entry->position = $ladder->count() + 1;
@@ -79,7 +76,7 @@ final class RankingService
                 $winner = 0;
                 $result = 'defender_no_party';
             } else {
-                $report = $this->battles->simulateParties($user, $entry->party, $opponent, $defenderParty, 'pvp', $seed);
+                $report = $this->battles->simulateParties($user, $party, $opponent, $defenderParty, 'pvp', $seed);
                 $winner = $report['winner'];
                 $result = $winner === 0 ? 'challenger_win' : ($winner === 1 ? 'defender_win' : 'draw');
             }
@@ -116,6 +113,20 @@ final class RankingService
 
             return ['message' => 'Ranking challenge completed.', 'result' => $result, 'challenge_id' => $challenge->id, 'place' => self::place($entry->position)];
         });
+    }
+
+    /** Repack within the caller's transaction, after it acquires the gameplay advisory lock. */
+    public function repackLocked(): Collection
+    {
+        $ladder = RankingEntry::whereNotNull('position')->orderBy('position')->lockForUpdate()->get();
+        foreach ($ladder as $i => $rank) {
+            if ($rank->position !== $i + 1) {
+                $rank->position = $i + 1;
+                $rank->save();
+            }
+        }
+
+        return $ladder;
     }
 
     private function validateParty(int $userId, array $party): void

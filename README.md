@@ -7,7 +7,8 @@ A server-rendered Laravel 13 / PHP 8.4.26 rewrite with PostgreSQL 18, Blade, PHP
 1. Copy `.env.example` to `.env`. Set a unique `DB_PASSWORD` and generate an `APP_KEY` (32 random bytes, base64 encoded with the `base64:` prefix). Never commit `.env`.
 2. Run `docker compose build` and `docker compose up -d db`.
 3. Run `docker compose run --rm app php artisan migrate --force`.
-4. Run `docker compose up -d`. Open http://localhost:8080, register, then name the team and choose the first character.
+4. Initialize the shared Boss roster once for this fresh installation: `docker compose run --rm app php artisan game:maintain --bootstrap`. Scheduled maintenance afterwards uses `game:maintain` without `--bootstrap`.
+5. Run `docker compose up -d`. Open http://localhost:8080, register, then name the team and choose the first character.
 
 The scheduler runs the same application image. The database port is not published. The web port binds localhost by default. Production requires a TLS reverse proxy, `APP_ENV=production`, `APP_DEBUG=false`, the correct `APP_URL`, and `SESSION_SECURE_COOKIE=true`. In production, all generated links, assets and form actions use the exact configured `APP_URL` origin and scheme; set it to the public HTTPS origin (for example `https://hof.example.com`). The application does not trust forwarded host/protocol headers. Keep the Compose HTTP listener private behind the TLS proxy; the proxy must route that public origin to localhost:8080. Never expose plain HTTP sessions on the public internet. Do not share the test application key from `phpunit.xml` with production. Back up PostgreSQL before upgrading and run migrations deliberately; startup never silently migrates or deletes accounts.
 

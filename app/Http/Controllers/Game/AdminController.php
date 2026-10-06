@@ -127,7 +127,7 @@ final class AdminController
             abort_unless($admin->is_admin, 403);
             // Challenge rows are gameplay history: redact reports without resetting cooldowns/statistics.
             if ($data['type'] === 'pve') {
-                $count = BattleReport::where('created_at', '<', $data['before'])->delete();
+                $count = BattleReport::where('mode', 'pve')->where('created_at', '<', $data['before'])->delete();
             } elseif ($data['type'] === 'pvp') {
                 $count = RankingChallenge::where('created_at', '<', $data['before'])->update(['report' => null]);
             } else {

@@ -13,7 +13,7 @@ final class Hud
     public static function forRequest(Request $request): array
     {
         $user = $request->user();
-        $setup = $user && ! $user->name;
+        $setup = $user && ($user->name === null || $user->name === '');
         $menu = [];
         foreach (config('hof_ui.menu') as $entry) {
             if ($setup || ($entry['visibility'] === 'guest' && $user) || ($entry['visibility'] !== 'guest' && ! $user) || ($entry['visibility'] === 'admin' && ! $user?->is_admin)) {
