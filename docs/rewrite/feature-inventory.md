@@ -57,6 +57,8 @@ Acceptance: new account completes setup exactly once; duplicate/invalid input ne
 
 ### F02 — Team economy, stamina, preferences, and home (R/P)
 
+> Redux change (2026-10-06): stamina is per character, regenerates only while resting, and drives a fatigue penalty; work and shared bosses charge the chosen characters. See `dungeon-design.md`. The legacy description below remains as evidence.
+
 Home shows tutorial prompts and characters. Stamina regenerates continuously from elapsed time, at 500/day capped at 100, not one midnight grant. Team money, party-memory selection, team-name change costing 100,000, battle-log preference, non-JavaScript inventory option, and user color exist. `MAX_CHAR=5`, `MAX_LEVEL=50`, `MAX_STATUS=255`, level-up grants 3 status points and 1 skill point. Existing money/stamina constants are rule evidence, not new tuning permission.
 
 Sources: `setting.reference.php:3–45`; `class.user.php:235–272,393–404`; `class.main.php:2973–3105,3114–3146`.
@@ -80,6 +82,8 @@ Sources: `class.main.php:444–519,1114–1185`; `class.char.php:299–367,514�
 Acceptance: every retained condition/action identifier resolves; order and quantities round-trip; invalid/unknown IDs rejected; row limits and fallback behavior tested; target choice, condition counters, and memo swapping deterministic with seeded randomness. Simulations must not grant money/items/XP or persist combat damage; saving patterns/party memory is separate and intentional. Expose simulation navigation if retained; old URL spelling is not required.
 
 ### F05 — Ordinary exploration and battles (R)
+
+> Redux change (2026-10-06): ordinary hunting is replaced by hand-authored dungeons with persistent injuries and permanent death; the hunt routes and service no longer exist. Map items 8000/8009 gate dungeons, and the areas remain as encounter pools. Acceptance for this section is superseded by `dungeon-design.md` §5. The legacy description below remains as evidence.
 
 Hunting lists available maps, previews visible enemies, selects party and remembers selection. Three maps (`gb0/gb1/gb2`) are unconditional; `ac0–ac4` and `snow0–snow2` are gated by map items; `horh` opens at server time 02:50–02:59. Several additional land entries are explicitly commented out in the availability list. Ordinary fights cost one stamina, select weighted encounters, run battle, save growth, award money and dropped items, and optionally record a report. `ENEMY_INCREASE=0` makes random enemy count equal selected party count, up to five, for this configuration.
 
