@@ -14,6 +14,7 @@
     </form>
 @else
     <x-sec :title="$mode === 'buy' ? '购买' : '出售'"><x-slot:aside>勾选并填写数量</x-slot:aside></x-sec>
+    @if($inventory?->hasPages())<p class="hint">每页最多显示 100 项，仅出售本页勾选的道具。切换页面前请先完成出售。</p>@endif
     <form method="post" action="{{ route('player.command', $mode) }}">
         <x-op /><input type="hidden" name="selection_mode" value="checked">
         <table class="tbl tbl-stack">
@@ -32,8 +33,10 @@
             @endforelse
             </tbody>
         </table>
+        <input type="hidden" name="form_complete" value="1">
         <div class="actions"><button class="btn" type="submit" @disabled(! $items)>{{ $mode === 'buy' ? '买' : '卖' }}</button><span class="hint">合计以服务器结算为准</span></div>
     </form>
+    @if($inventory){{ $inventory->links() }}@endif
 @endif
 </x-facility>
 @endsection

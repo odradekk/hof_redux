@@ -2,6 +2,7 @@
 
 namespace App\Application\Community;
 
+use App\Application\Multiplayer\RankingService;
 use App\Application\Support\GameAction;
 use App\Models\AdminAudit;
 use App\Models\AuctionListing;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 final class AccountDeletion
 {
-    public function __construct(private GameAction $actions) {}
+    public function __construct(private GameAction $actions, private RankingService $ranking) {}
 
     public function delete(int $userId, ?int $administratorId = null): void
     {
@@ -29,6 +30,8 @@ final class AccountDeletion
             InventoryItem::where('user_id', $userId)->delete();
             DB::table('sessions')->where('user_id', $userId)->delete();
             $user->delete();
+            // Commit the vacated slot with deletion, even if the next challenge is rejected.
+            $this->ranking->repackLocked();
         }, 3);
     }
 }

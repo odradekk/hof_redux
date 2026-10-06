@@ -1,13 +1,13 @@
 {{--
-Props: label, for (DOM ID), hint (optional), name (optional validation key).
+Props: label, for (DOM ID), hint (optional), name (optional validation key), errorBag (optional validation bag).
 Slots: Default: one labelled control.
 Example: <x-field label="Name" for="name"><input name="name"></x-field>
 --}}
-@props(['label', 'for', 'hint' => null, 'name' => null])
+@props(['label', 'for', 'hint' => null, 'name' => null, 'errorBag' => 'default'])
 @php
     preg_match('/<(?:input|select|textarea)\b[^>]*\bname=["\']([^"\']+)["\']/i', (string) $slot, $named);
     $errorKey = $name ?? (isset($named[1]) ? str_replace(['[', ']'], ['.', ''], $named[1]) : $for);
-    $error = $errors->first($errorKey);
+    $error = $errors->getBag($errorBag)->first($errorKey);
     $note = $error ?: $hint;
     $control = preg_replace_callback('/<(input|select|textarea)\b[^>]*>/i', function ($match) use ($for, $note, $error) {
         $tag = $match[0];

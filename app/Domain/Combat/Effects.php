@@ -459,6 +459,7 @@ trait Effects
             $id = 'summon:'.$owner->id.':'.++$this->summonSerial;
         } while (isset($this->ids[$id]));
         $this->ids[$id] = true;
+        $data = SnapshotFactory::withMonsterImage($data, $id, $this->rng);
         $unit = new Combatant($id, $owner->team, $data);
         $this->validateTactics($unit);
         if ($quick) {

@@ -10,7 +10,7 @@ final class AccountDeletionController
 {
     public function delete(Request $request, AccountDeletion $service)
     {
-        $request->validate(['current_password' => ['bail', 'required', 'string', 'max:72', 'not_regex:/\x00/', 'current_password'], 'confirm' => 'required|in:DELETE']);
+        $request->validateWithBag('deleteAccount', ['current_password' => ['bail', 'required', 'string', 'max:72', 'not_regex:/\x00/', 'current_password'], 'confirm' => 'required|in:DELETE']);
         $service->delete($request->user()->id);
         Auth::logout();
         $request->session()->invalidate();

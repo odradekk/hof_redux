@@ -182,18 +182,23 @@ final class PlayerController
             $tabs[] = ['label' => $label, 'href' => route($route), 'active' => $mode === $key];
         }
         $items = [];
+        $inventory = null;
         if ($mode === 'buy') {
             foreach ($this->catalog->get('economy_rules', 'shop')['values'] as $id) {
                 $resolved = $this->details->resolve(['item_id' => (string) $id]);
                 $items[] = ['id' => $id, 'line' => ItemLines::fromCatalog($resolved), 'price' => (int) $resolved['buy'], 'quantity' => 999];
             }
         } elseif ($mode === 'sell') {
-            foreach ($this->inventoryRows($request) as $entry) {
-                $items[] = ['id' => $entry['id'], 'line' => $entry['line'], 'price' => $entry['data']['sell_price'], 'quantity' => $entry['quantity']];
+            // At most 404 successful controls, even when all 100 rows are selected.
+            $inventory = $request->user()->inventory()->where('location', 'backpack')->orderBy('item_id')->orderBy('id')->paginate(100);
+            foreach ($inventory as $row) {
+                $resolved = $this->details->resolve($row);
+                $items[] = ['id' => $row->id, 'line' => ItemLines::fromInventory($row->toArray(), $resolved),
+                    'price' => $resolved['sell_price'], 'quantity' => $row->quantity];
             }
         }
 
-        return view('game.shop', compact('mode', 'tabs', 'items') + [
+        return view('game.shop', compact('mode', 'tabs', 'items', 'inventory') + [
             'npc' => ['img' => 'image/char/ori_002.gif', 'alt' => '店员', 'text' => '欢迎光临ー'],
             'stamina' => intdiv(GameAction::availableStamina($request->user(), CarbonImmutable::now()), GameAction::STAMINA_UNIT),
         ]);
@@ -263,9 +268,11 @@ final class PlayerController
             if ($checkedForm) {
                 // Validate every rendered row; the service limits the selected rows after unchecked rows are removed.
                 // Each row includes an unchecked value, so removing the form marker cannot select every row.
-                $request->validate(['selection_mode' => ['sometimes', Rule::in(['checked'])],
+                // The final form field is absent if PHP truncates the submitted input.
+                $request->validate(['form_complete' => ['required', 'accepted'], 'selection_mode' => ['sometimes', Rule::in(['checked'])],
                     'items' => ['required', 'array', 'min:1'], 'items.*.on' => ['required', 'boolean'],
-                    'items.*.id' => ['required', 'integer', 'min:1'], 'items.*.quantity' => ['required', 'integer', 'between:1,999']]);
+                    'items.*.id' => ['required', 'integer', 'min:1'], 'items.*.quantity' => ['required', 'integer', 'between:1,999']],
+                    ['form_complete.required' => '表单未完整提交，未进行交易。请重新打开本页后再试。', 'form_complete.accepted' => '表单未完整提交，未进行交易。请重新打开本页后再试。']);
                 $input['items'] = array_values(array_map(fn ($row) => ['id' => $row['id'], 'quantity' => $row['quantity']],
                     array_filter($input['items'], fn ($row) => (bool) $row['on'])));
             } else {

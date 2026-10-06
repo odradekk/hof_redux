@@ -326,7 +326,7 @@ final class BattlePresenter
             'Summoned' => $actor.' 召唤了 '.$target.'。',
             'SummonBlocked' => $actor.' 无法继续召唤。',
             'AppearanceChanged' => $target.' 完成了变身！',
-            'BarrierConsumed' => $target.' 的屏障抵挡了攻击。',
+            'BarrierConsumed' => $target.' 的屏障抵挡了基础伤害。',
             'EffectResisted' => $target.' 抵抗了效果。',
             'SkillFailed' => $actor.' 的「'.$skill['name'].'」未能生效'.match ($event['reason'] ?? '') {
                 'sp' => '：魔力不足。', 'no_target' => '：没有合适的目标。', 'weapon' => '：武器不适用。',

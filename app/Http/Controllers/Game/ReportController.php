@@ -39,7 +39,13 @@ final class ReportController
         if ($request->user() && $request->user()->id === $report->user_id) {
             $party = $this->party($request, $report->report);
             if ($party && ($report->report['mode'] ?? '') === 'simulation') {
-                $retry = ['action' => route('simulation'), 'party' => $party];
+                // Older capped reports reveal their bound; an early finish alone does not.
+                $limit = $report->report['action_limit'] ?? (($report->report['reason'] ?? '') === 'action_limit' ? ($report->report['actions'] ?? null) : null);
+                if ($limit === 10 && count($party) === 1) {
+                    $retry = ['action' => route('character.simulation', $party[0]), 'party' => $party];
+                } elseif ($limit === BattleService::SIMULATION_ACTION_LIMIT) {
+                    $retry = ['action' => route('simulation'), 'party' => $party];
+                }
             } elseif ($party && ($report->report['mode'] ?? '') === 'pve') {
                 foreach ($world->areas($request->user()) as $id => $area) {
                     if ($area['name'] === ($report->report['names'][1] ?? '') && $area['land'] === ($report->report['background'] ?? '')) {

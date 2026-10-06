@@ -79,6 +79,19 @@ final class SnapshotFactory
         }
 
         // No persistence or external mutation; normalize catalog scalars only at the boundary.
+        return self::withMonsterImage($content, $id, $random);
+    }
+
+    /** Resolve appearance once without advancing the gameplay/drop random stream. */
+    public static function withMonsterImage(array $content, string $id, RandomSource $random): array
+    {
+        if (empty($content['img']) && ! empty($content['image_variants'])) {
+            $variants = array_values($content['image_variants']);
+            $state = json_encode(['monster-image-v1', $random->state(), $id], JSON_THROW_ON_ERROR);
+            $appearance = new SeededRandom((int) hexdec(substr(hash('sha256', $state), 0, 8)));
+            $content['img'] = $variants[$appearance->integer(0, count($variants) - 1)];
+        }
+
         return $content;
     }
 }

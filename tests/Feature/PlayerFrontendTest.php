@@ -26,7 +26,7 @@ final class PlayerFrontendTest extends PlayerTestCase
         $user = $this->player();
         $this->character($user);
         $before = $user->inventory()->sum('quantity');
-        $input = ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'items' => [
+        $input = ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'form_complete' => '1', 'items' => [
             ['id' => 1700, 'quantity' => 1, 'on' => 0], ['id' => 3000, 'quantity' => 2, 'on' => 1],
         ]];
         $this->actingAs($user)->post('/player/buy', $input)->assertRedirect('/shop')->assertSessionHasNoErrors();
@@ -40,7 +40,7 @@ final class PlayerFrontendTest extends PlayerTestCase
         $user = $this->player();
         $this->character($user);
         $before = $user->inventory()->sum('quantity');
-        $this->actingAs($user)->post('/player/buy', ['operation_id' => (string) Str::uuid(), 'items' => [
+        $this->actingAs($user)->post('/player/buy', ['operation_id' => (string) Str::uuid(), 'form_complete' => '1', 'items' => [
             ['id' => 1700, 'quantity' => 1, 'on' => 0], ['id' => 3000, 'quantity' => 1, 'on' => 0],
         ]])->assertSessionHasErrors('items');
         $this->assertSame($before, $user->inventory()->sum('quantity'));
@@ -53,7 +53,7 @@ final class PlayerFrontendTest extends PlayerTestCase
         $this->character($user);
         $this->actingAs($user);
         foreach ([['id' => 1700, 'quantity' => 1], ['id' => 1700, 'quantity' => -1, 'on' => 1], ['id' => 1700, 'quantity' => 1, 'on' => 'yes']] as $row) {
-            $this->post('/player/buy', ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'items' => [$row]])->assertSessionHasErrors();
+            $this->post('/player/buy', ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'form_complete' => '1', 'items' => [$row]])->assertSessionHasErrors();
         }
         $this->assertSame(10000, $user->fresh()->money);
     }
@@ -64,7 +64,7 @@ final class PlayerFrontendTest extends PlayerTestCase
         $this->character($user);
         $first = $this->item($user, '1000', 3);
         $second = $this->item($user, '3000', 4);
-        $this->actingAs($user)->post('/player/sell', ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'items' => [
+        $this->actingAs($user)->post('/player/sell', ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'form_complete' => '1', 'items' => [
             ['id' => $first->id, 'quantity' => 1, 'on' => 0], ['id' => $second->id, 'quantity' => 2, 'on' => 1, 'price' => 900000],
         ]])->assertRedirect('/shop/sell')->assertSessionHasNoErrors();
         $this->assertSame(3, $first->fresh()->quantity);
@@ -82,7 +82,7 @@ final class PlayerFrontendTest extends PlayerTestCase
             $rows[] = ['id' => $item->id, 'quantity' => 1, 'on' => 1];
         }
         $this->actingAs($user)->get('/shop/sell')->assertOk();
-        $this->post('/player/sell', ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'items' => $rows])->assertSessionHasErrors('items');
+        $this->post('/player/sell', ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'form_complete' => '1', 'items' => $rows])->assertSessionHasErrors('items');
         $this->assertSame(202, $user->inventory()->where('location', 'backpack')->sum('quantity'));
         $this->assertSame(10000, $user->fresh()->money);
 
@@ -90,7 +90,7 @@ final class PlayerFrontendTest extends PlayerTestCase
             $row['on'] = $index === 100 ? 1 : 0;
         }
         unset($row);
-        $this->post('/player/sell', ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'items' => $rows])->assertRedirect('/shop/sell')->assertSessionHasNoErrors();
+        $this->post('/player/sell', ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'form_complete' => '1', 'items' => $rows])->assertRedirect('/shop/sell')->assertSessionHasNoErrors();
         $this->assertSame(201, $user->inventory()->where('location', 'backpack')->sum('quantity'));
         $this->assertSame(1, $item->fresh()->quantity);
         $this->assertSame(10100, $user->fresh()->money);
