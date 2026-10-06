@@ -104,6 +104,20 @@ final class DungeonTest extends TestCase
         $this->rejected(fn () => $this->enter($user, [$hero]), 'second active run');
     }
 
+    public function test_returned_plain_items_rejoin_their_warehouse_stack(): void
+    {
+        [$user, $hero] = $this->player();
+        $herbs = $this->item($user, '4100', 5);
+        $refined = $this->item($user, '4100', 1);
+        $refined->forceFill(['refinement' => 1])->save();
+        $this->enter($user, [$hero], [['id' => $herbs->id, 'quantity' => 3]]);
+        $this->act($user, 'retreat');
+        // The split-off pack stack merges back; a non-plain row stays separate.
+        $this->assertSame(5, $herbs->fresh()->quantity);
+        $this->assertSame(2, InventoryItem::where('user_id', $user->id)->where('item_id', '4100')->count());
+        $this->assertSame(1, $refined->fresh()->quantity);
+    }
+
     public function test_locked_dungeon_requires_map_in_warehouse(): void
     {
         [$user, $hero] = $this->player();

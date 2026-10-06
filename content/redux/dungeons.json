@@ -258,7 +258,7 @@
       "proper": "Lv8-20",
       "land": "cave",
       "requires_item": "8000",
-      "summary": "蝙蝠盘踞的古老洞穴，深处传说藏着宝物库。需要持有「古代洞穴」地图。",
+      "summary": "蝙蝠盘踞的古老洞穴，深处传说藏着宝物库。",
       "entrance": "mouth",
       "clear_reward": {
         "money": 3000,
@@ -549,7 +549,7 @@
       "proper": "Lv5-25",
       "land": "snow",
       "requires_item": "8009",
-      "summary": "常年积雪的高山，越往上风雪越大。需要持有「滴冻山入口」地图。",
+      "summary": "常年积雪的高山，越往上风雪越大。",
       "entrance": "foot",
       "clear_reward": {
         "money": 5000,

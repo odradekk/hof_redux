@@ -4,7 +4,7 @@
 <h1 class="page-title">{{ $name }}<span class="meta">第 {{ $steps }} 步 · 战利品 <x-money :amount="$money" /></span></h1>
 
 <figure class="dmap-frame">
-<svg class="dmap" viewBox="0 0 {{ $map['width'] }} {{ $map['height'] }}" role="img" aria-label="地下城地图">
+<svg class="dmap" viewBox="0 0 {{ $map['width'] }} {{ $map['height'] }}" width="{{ $map['width'] }}" height="{{ $map['height'] }}" role="img" aria-label="地下城地图">
     @foreach($map['edges'] as $edge)
         <line @class(['dmap-edge', 'is-known' => $edge['known']]) x1="{{ $edge['x1'] }}" y1="{{ $edge['y1'] }}" x2="{{ $edge['x2'] }}" y2="{{ $edge['y2'] }}" />
     @endforeach

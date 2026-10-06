@@ -22,12 +22,13 @@ final class DungeonMapView
     {
         $visited = array_keys(array_filter($state, static fn (array $room): bool => $room['visited'] ?? false));
         $visible = array_flip($map->visible($visited));
-        $maxX = $maxY = 0;
-        foreach ($map->rooms() as $room) {
-            $maxX = max($maxX, $room['pos'][0]);
-            $maxY = max($maxY, $room['pos'][1]);
+        // Crop to the visible rooms so the drawing does not reveal the dungeon's full extent.
+        $xs = $ys = [];
+        foreach (array_keys($visible) as $id) {
+            [$xs[], $ys[]] = $map->room($id)['pos'];
         }
-        $point = static fn (array $room): array => [self::PAD + $room['pos'][0] * self::CELL_W, self::PAD + $room['pos'][1] * self::CELL_H];
+        [$minX, $minY] = [min($xs), min($ys)];
+        $point = static fn (array $room): array => [self::PAD + ($room['pos'][0] - $minX) * self::CELL_W, self::PAD + ($room['pos'][1] - $minY) * self::CELL_H];
         $rooms = [];
         foreach ($map->rooms() as $id => $room) {
             if (! isset($visible[$id])) {
@@ -50,6 +51,6 @@ final class DungeonMapView
             }
         }
 
-        return ['width' => 2 * self::PAD + $maxX * self::CELL_W, 'height' => 2 * self::PAD + $maxY * self::CELL_H, 'rooms' => $rooms, 'edges' => $edges];
+        return ['width' => 2 * self::PAD + (max($xs) - $minX) * self::CELL_W, 'height' => 2 * self::PAD + (max($ys) - $minY) * self::CELL_H, 'rooms' => $rooms, 'edges' => $edges];
     }
 }

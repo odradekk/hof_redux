@@ -371,7 +371,7 @@
   .field-note { grid-column: 2; margin-top: -4px; font-size: var(--fs-sm); color: var(--c-text-muted); }
   .field-note.error { color: var(--tone-error); }
   .check { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
-  .check input { width: 15px; height: 15px; margin: 0; }
+  .check input:is([type="checkbox"], [type="radio"]) { width: 15px; height: 15px; margin: 0; }
   .choice-row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
 
   /* Notices: legacy .result / .error lines */
@@ -543,9 +543,11 @@
   .dungeon-list { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
   .dungeon-name { font-size: var(--fs-md); margin-bottom: 4px; }
   .dungeon-name .meta { font-size: var(--fs-sm); font-weight: 400; margin-left: 6px; }
+  .dungeon-name a { text-decoration: underline; }
   .dungeon-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 24px; }
   .dmap-frame { margin: 10px 0 0; background: var(--c-sunken); border: 1px solid var(--c-edge); padding: 6px; overflow-x: auto; }
-  .dmap { display: block; min-width: 520px; width: 100%; height: auto; }
+  /* Natural size (1 unit = 1 px); the frame scrolls when the explored area is wider. */
+  .dmap { display: block; margin: 0 auto; max-width: none; height: auto; }
   .dmap-edge { stroke: var(--c-decor); stroke-width: 2; stroke-dasharray: 4 4; }
   .dmap-edge.is-known { stroke: var(--c-text-muted); stroke-dasharray: none; }
   .dmap-room rect { fill: var(--c-panel); stroke: var(--c-line); stroke-width: 2; }

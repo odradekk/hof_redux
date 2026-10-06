@@ -202,7 +202,7 @@ try {
   observe(page);
   await signIn(page);
   const pages = [
-    ['/', 'home'], ['/hunt', 'hunt'], ['/characters', 'characters'],
+    ['/', 'home'], ['/dungeons', 'dungeons'], ['/dungeons/goblin_trail', 'dungeon-party'], ['/characters', 'characters'],
     [`/characters/${fixture.characterIds[0]}`, 'character'], ['/inventory', 'inventory'],
     ['/shop', 'shop-buy'], ['/shop/sell', 'shop-sell'], ['/shop/work', 'shop-work'],
     ['/smithy/refine', 'smithy-refine'], ['/smithy/create', 'smithy-create'],
@@ -212,12 +212,16 @@ try {
     ['/catalog', 'catalog'], ['/simulation', 'simulation'], ['/admin', 'admin'],
     ['/admin?page=2', 'admin-pagination'], [`/admin/users/${fixture.userId}`, 'admin-user'], ['/dev/ui', 'components'],
   ];
-  await open(page, '/hunt');
-  const areaHref = await page.locator('a[href*="/hunt/"]').first().getAttribute('href');
-  assert.ok(areaHref, 'An available hunt area exists');
-  const areaPath = new URL(areaHref, base).pathname;
-  pages.splice(2, 0, [areaPath, 'hunt-party']);
   for (const [path, name] of pages) await matrix(page, path, name);
+  // Capture an active run, then leave it so the town stays usable for the flows below.
+  await open(page, '/dungeons/goblin_trail');
+  await clickSubmit(page, page.locator('form').filter({ has: page.locator('[name="party[]"]') }));
+  assert.equal(new URL(page.url()).pathname, '/dungeon');
+  await matrix(page, '/dungeon', 'dungeon-run');
+  await open(page, '/dungeon');
+  await page.locator('form[action$="/dungeon/retreat"] [name="confirm"]').fill('撤离');
+  await clickSubmit(page, page.locator('form[action$="/dungeon/retreat"]'));
+  assert.match(new URL(page.url()).pathname, /^\/dungeons\/runs\/\d+$/);
   for (const [from, to] of [['/crafting', '/smithy/refine'], ['/preferences', '/account']]) {
     const response = await authenticated.request.get(new URL(from, base).href, { maxRedirects: 0 });
     assert.equal(response.status(), 302, `${from} retains its canonical redirect`);
@@ -259,13 +263,20 @@ try {
   await form.locator('[name="price"]').fill('1100');
   await retryNativeSubmission(native, form, 'bid');
 
-  await open(native, areaPath);
+  await open(native, '/dungeons/goblin_trail');
   for (const input of await native.locator('[name="party[]"]').all()) await input.uncheck();
-  await validation(native, native.locator('form').filter({ has: native.locator('[name="party[]"]') }), 'hunt');
+  await validation(native, native.locator('form').filter({ has: native.locator('[name="party[]"]') }), 'dungeon-enter');
   for (const input of await native.locator('[name="party[]"]').all()) await input.uncheck();
   await native.locator('[name="party[]"]').first().check();
-  await retryNativeSubmission(native, native.locator('form').filter({ has: native.locator('[name="party[]"]') }), 'hunt');
-  assert.match(new URL(native.url()).pathname, /^\/reports\/\d+$/);
+  await retryNativeSubmission(native, native.locator('form').filter({ has: native.locator('[name="party[]"]') }), 'dungeon-enter');
+  assert.equal(new URL(native.url()).pathname, '/dungeon');
+  form = native.locator('form[action$="/dungeon/retreat"]');
+  await form.locator('[name="confirm"]').fill('不撤离');
+  await validation(native, form, 'dungeon-retreat');
+  form = native.locator('form[action$="/dungeon/retreat"]');
+  await form.locator('[name="confirm"]').fill('撤离');
+  await retryNativeSubmission(native, form, 'dungeon-retreat');
+  assert.match(new URL(native.url()).pathname, /^\/dungeons\/runs\/\d+$/);
 
   await open(native, `/characters/${fixture.characterIds[0]}`);
   form = native.locator('form[action$="/player/tactics"]');
@@ -284,7 +295,7 @@ try {
   }
 } finally {
   await browser.close();
-  await writeFile(`${output}/acceptance.json`, JSON.stringify({ checks, captures, failures, manualVisualApproval: 'PENDING', manualChecks: ['Firefox', 'Safari/iOS', 'Android Chrome', '200% zoom', 'keyboard-only hunt to battle', 'proposed-versus-actual visual approval'] }, null, 2));
+  await writeFile(`${output}/acceptance.json`, JSON.stringify({ checks, captures, failures, manualVisualApproval: 'PENDING', manualChecks: ['Firefox', 'Safari/iOS', 'Android Chrome', '200% zoom', 'keyboard-only dungeon entry, move and battle', 'proposed-versus-actual visual approval'] }, null, 2));
   await buildReview(output, captures);
 }
 assert.deepEqual(failures, [], 'Browser acceptance failures; inspect acceptance.json, axe reports, and actual screenshots');

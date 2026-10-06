@@ -435,9 +435,7 @@ final class DungeonService
             $text = '探索失败：背包和战利品全部遗失。';
         } else {
             foreach ($carried as $item) {
-                $from = $item->location;
-                $item->forceFill(['location' => 'warehouse'])->save();
-                $this->actions->ledger($user->id, $operation, 'item_move', $item->quantity, 'dungeon return', $item->item_id, ['inventory_id' => $item->id, 'from' => $from]);
+                $this->returnToWarehouse($user, $item, $operation);
             }
             if ($run->loot_money > 0) {
                 $this->actions->money($user, $run->loot_money, $operation, 'dungeon loot');
@@ -450,6 +448,24 @@ final class DungeonService
         $run->status = $status;
         $run->ended_at = $now;
         $this->log($run, $status, $run->room, $text);
+    }
+
+    /** Plain items rejoin an existing plain warehouse stack; refined or enchanted items keep their row. */
+    private function returnToWarehouse(User $user, InventoryItem $item, int $operation): void
+    {
+        $from = $item->location;
+        $plain = static fn (InventoryItem $row): bool => $row->refinement === 0 && empty($row->enchantments);
+        $stack = $plain($item) ? InventoryItem::where('user_id', $user->id)->where('location', 'warehouse')->where('item_id', $item->item_id)
+            ->where('refinement', 0)->orderBy('id')->lockForUpdate()->get()->first($plain) : null;
+        if ($stack) {
+            $stack->increment('quantity', $item->quantity);
+            $item->delete();
+            $this->actions->ledger($user->id, $operation, 'item_move', $item->quantity, 'dungeon return', $item->item_id, ['inventory_id' => $stack->id, 'merged_from' => $item->id, 'from' => $from]);
+
+            return;
+        }
+        $item->forceFill(['location' => 'warehouse'])->save();
+        $this->actions->ledger($user->id, $operation, 'item_move', $item->quantity, 'dungeon return', $item->item_id, ['inventory_id' => $item->id, 'from' => $from]);
     }
 
     /** Move part or all of a stack to another location; splits keep refinement and enchantments. */
