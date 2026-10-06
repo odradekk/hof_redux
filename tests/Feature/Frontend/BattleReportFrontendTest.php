@@ -6,11 +6,12 @@ namespace Tests\Feature\Frontend;
 
 use App\Application\Battle\BattlePresenter;
 use App\Application\Battle\BattleService;
+use App\Application\Dungeon\DungeonService;
 use App\Application\Multiplayer\BossService;
-use App\Application\World\WorldService;
 use App\Models\BattleReport;
 use App\Models\BossChallenge;
 use App\Models\BossInstance;
+use App\Models\Character;
 use App\Models\User;
 use App\Services\CharacterFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -28,17 +29,24 @@ final class BattleReportFrontendTest extends TestCase
         return [$user, app(CharacterFactory::class)->create($user, 1, '出战者', 0)];
     }
 
-    public function test_real_hunt_report_has_svg_segments_safe_attributes_and_same_party_retry(): void
+    /** One real dungeon battle: enter the goblin trail and step into its first battle room. */
+    private function dungeonBattle(User $user, Character $character): array
+    {
+        app(DungeonService::class)->enter($user->id, (string) Str::uuid(), 'goblin_trail', [$character->id], []);
+
+        return app(DungeonService::class)->move($user->id, (string) Str::uuid(), 'grass');
+    }
+
+    public function test_real_dungeon_report_has_svg_segments_safe_attributes_and_no_retry(): void
     {
         [$user, $character] = $this->player();
-        $result = app(WorldService::class)->hunt($user->id, (string) Str::uuid(), 'gb0', [$character->id], false);
+        $result = $this->dungeonBattle($user, $character);
         $response = $this->actingAs($user)->get(route('reports.show', $result['report_id']))->assertOk()
             ->assertSee('viewBox="0 0 480 200"', false)->assertSee('aria-label="第 1 段战况', false)
-            ->assertSee('再战一次')->assertSee('返回狩猎')->assertSee('name="party[]" value="'.$character->id.'"', false)
+            ->assertSee('返回冒险')->assertDontSee('再战一次')
             ->assertSee('生命：')->assertSee('魔力：')->assertDontSee('battle.css')->assertDontSee(' style="', false)->assertDontSee('<style', false);
         $html = $response->getContent();
         self::assertDoesNotMatchRegularExpression('/<script(?![^>]*\bsrc=)[^>]*>/i', $html);
-        self::assertStringContainsString('action="'.route('hunt.area', 'gb0').'"', $html);
         $report = BattleReport::findOrFail($result['report_id'])->report;
         $selected = count(array_filter($report['events'], static fn (array $event): bool => $event['type'] === 'ActorSelected'));
         self::assertSame(max(1, (int) ceil($selected / 10)), substr_count($html, 'viewBox="0 0 480 200"'));
@@ -109,7 +117,7 @@ final class BattleReportFrontendTest extends TestCase
     public function test_records_render_registered_tabs_and_safe_summaries_for_guests(): void
     {
         [$user, $character] = $this->player();
-        $result = app(WorldService::class)->hunt($user->id, (string) Str::uuid(), 'gb0', [$character->id], false);
+        $result = $this->dungeonBattle($user, $character);
         $this->get('/reports')->assertOk()->assertSee('普通')->assertSee('BOSS')->assertSee('竞技场')->assertSee('战报测试队')->assertSee('平均')->assertDontSee('<svg', false);
         $this->get('/reports?type=boss')->assertOk();
         $this->get('/reports?type=pvp')->assertOk();
@@ -121,23 +129,24 @@ final class BattleReportFrontendTest extends TestCase
         self::assertArrayNotHasKey('events', app(BattlePresenter::class)->summary($report->report));
     }
 
-    public function test_hunt_index_integrates_safe_boss_cards_and_recent_reports_without_writing(): void
+    public function test_boss_list_shows_safe_cards_without_writing(): void
     {
         [$user] = $this->player();
         app(BossService::class)->bootstrap();
         $boss = BossInstance::where('monster_id', '2004')->firstOrFail();
         $boss->forceFill(['hp' => 987654321, 'sp' => 876543219])->save();
         $before = $boss->fresh()->getAttributes();
-        $this->actingAs($user)->get('/hunt')->assertOk()->assertSee('普通怪物')->assertSee('BOSS战记录')->assertSee(route('bosses.show', $boss), false)
+        $this->actingAs($user)->get('/bosses')->assertOk()->assertSee(route('bosses.show', $boss), false)
             ->assertDontSee('987654321', false)->assertDontSee('876543219', false)->assertDontSee('987,654,321', false);
+        $this->get('/dungeons')->assertOk()->assertSee(route('bosses'), false);
         self::assertSame($before, $boss->fresh()->getAttributes());
     }
 
-    public function test_hunt_area_uses_shared_picker_and_does_not_expose_raw_positions(): void
+    public function test_dungeon_preparation_uses_shared_picker_and_does_not_expose_raw_positions(): void
     {
         [$user, $character] = $this->player();
         $user->forceFill(['preferences' => ['party' => [$character->id]]])->save();
-        $this->actingAs($user)->get('/hunt/gb0')->assertOk()->assertSee('队伍')->assertSee('出现敌人')->assertSee('carpet-stage', false)->assertSee('image/other/land_grass.gif', false)->assertSee('checked', false)->assertDontSee(' · front');
+        $this->actingAs($user)->get('/dungeons/goblin_trail')->assertOk()->assertSee('队伍')->assertSee('背包')->assertSee('carpet-stage', false)->assertSee('体力 100 / 100')->assertSee('checked', false)->assertDontSee(' · front');
         $this->get('/simulation')->assertOk()->assertSee('模拟战')->assertSee('不消耗体力');
     }
 

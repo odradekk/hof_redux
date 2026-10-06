@@ -145,15 +145,15 @@ final class VerifiedBattlePresentationTest extends TestCase
         [$user, $character] = $this->player();
         $this->post('/player/buy', ['operation_id' => (string) Str::uuid(), 'items' => [['id' => 8000, 'quantity' => 1]]])->assertRedirect()->assertSessionHasNoErrors();
         $this->assertSame(5000, $user->fresh()->money);
-        $this->get('/hunt/ac0')->assertOk();
+        $this->get('/dungeons/ancient_cave')->assertOk();
         $catalog = app(ContentCatalog::class);
         $variants = $catalog->monster('1012', 1, true)['image_variants'];
         foreach ([1192054935 => false, 2040709929 => true] as $seed => $summoned) {
             // Fix only the server seed at the transaction boundary. The registered starter,
-            // purchased map, encounter weights, monster actions and summon rules are unmodified.
-            $result = app(GameAction::class)->execute($user->id, 'test.seeded_hunt', (string) Str::uuid(), ['seed' => $seed], function (User $actor, int $operation) use ($seed, $character): array {
-                $area = app(WorldService::class)->areas($actor)['ac0'];
-                $report = app(BattleService::class)->fight($actor, [$character->id], $area, $operation, $seed);
+            // encounter weights of the cave's bat room, monster actions and summon rules are unmodified.
+            $result = app(GameAction::class)->execute($user->id, 'test.seeded_dungeon_battle', (string) Str::uuid(), ['seed' => $seed], function (User $actor, int $operation) use ($seed, $character): array {
+                $area = app(ContentCatalog::class)->get('areas', 'ac0');
+                $report = app(BattleService::class)->fightDungeon($actor, [$character->id], $area['encounters'], 1, [], $area['land'], $area['name'], $operation, $seed);
                 $record = BattleReport::create(['user_id' => $actor->id, 'mode' => 'pve', 'public' => true, 'report' => $report]);
 
                 return ['report_id' => $record->id];

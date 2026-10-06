@@ -23,6 +23,9 @@ final class PlayerService
 
     public const TEAM_RENAME_PRICE = 100000;
 
+    /** Character planning stays available inside a dungeon; everything else is a town activity. */
+    public const DUNGEON_COMMANDS = ['stats', 'learn', 'position', 'tactics', 'memo', 'tactics-insert', 'tactics-delete', 'preferences', 'party'];
+
     public function __construct(
         private GameAction $actions, private ContentCatalog $catalog,
         private CharacterFactory $characters, private Inventory $inventory,
@@ -35,6 +38,9 @@ final class PlayerService
 
         return $this->actions->execute($actor, 'player.'.$command, $key, $data,
             function (User $user, int $operation, int $seed) use ($command, $data): array {
+                if (! in_array($command, self::DUNGEON_COMMANDS, true)) {
+                    $this->actions->ensureInTown($user);
+                }
                 $random = new Randomizer(new Mt19937($seed));
 
                 return match ($command) {
@@ -113,7 +119,7 @@ final class PlayerService
 
     private function buy(User $user, array $items, int $operation): array
     {
-        $stock = array_map('strval', $this->catalog->get('economy_rules', 'shop')['values']);
+        $stock = $this->catalog->shopStock();
         $total = 0;
         foreach ($items as $selection) {
             $id = (string) $selection['id'];

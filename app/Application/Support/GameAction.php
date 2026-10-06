@@ -2,6 +2,7 @@
 
 namespace App\Application\Support;
 
+use App\Models\DungeonRun;
 use App\Models\InventoryItem;
 use App\Models\User;
 use Closure;
@@ -55,6 +56,12 @@ final class GameAction
         if (DB::getDriverName() === 'pgsql') {
             DB::select('SELECT pg_advisory_xact_lock(72641001)');
         }
+    }
+
+    /** Town activities are unavailable while the account has an active dungeon run. */
+    public function ensureInTown(User $user): void
+    {
+        $this->ensure(! DungeonRun::where('user_id', $user->id)->where('status', 'active')->exists(), '队伍正在地下城中探索，结束探索前无法使用城镇功能。');
     }
 
     public function ensure(bool $valid, string $message): void

@@ -5,15 +5,17 @@ namespace Tests\Feature\World;
 use App\Application\Battle\BattleService;
 use App\Application\Community\AccountDeletion;
 use App\Application\Community\CommunityService;
+use App\Application\Dungeon\DungeonService;
 use App\Application\Player\PlayerRules;
+use App\Application\Player\PlayerService;
 use App\Application\World\WorldService;
 use App\Domain\Combat\RandomSource;
 use App\Models\AuctionListing;
 use App\Models\BattleReport;
 use App\Models\BoardMessage;
+use App\Models\DungeonRun;
 use App\Models\User;
 use App\Services\CharacterFactory;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -31,22 +33,6 @@ final class WorldTest extends TestCase
         return [$user, $character];
     }
 
-    public function test_hunt_is_atomic_idempotent_and_records_rewards(): void
-    {
-        [$user,$char] = $this->player();
-        $key = (string) Str::uuid();
-        $service = app(WorldService::class);
-        $first = $service->hunt($user->id, $key, 'gb0', [$char->id], true);
-        $this->assertSame($first, $service->hunt($user->id, $key, 'gb0', [$char->id], true));
-        $this->assertDatabaseCount('battle_reports', 1);
-        $this->assertSame(99 * 86400, $char->fresh()->stamina_units);
-        $report = BattleReport::findOrFail($first['report_id'])->report;
-        $this->assertSame('pve', $report['mode']);
-        $this->assertCount(1, $report['teams'][1]);
-        $this->assertSame([$char->id], $user->fresh()->preferences['party']);
-        $this->actingAs($user)->get('/reports/'.$first['report_id'])->assertOk()->assertSee('Hero');
-    }
-
     public function test_simulation_is_reward_free_and_private(): void
     {
         [$user,$char] = $this->player();
@@ -57,32 +43,6 @@ final class WorldTest extends TestCase
         $this->assertSame($money, $user->fresh()->money);
         $this->get('/reports/'.$result['report_id'])->assertNotFound();
         $this->actingAs($user)->get('/reports/'.$result['report_id'])->assertOk();
-    }
-
-    public function test_map_gate_and_invalid_party_roll_back_stamina(): void
-    {
-        [$user,$char] = $this->player();
-        foreach ([['ac0', [$char->id]], ['gb0', [999999]], ['gb0', [$char->id, $char->id]]] as [$area,$party]) {
-            try {
-                app(WorldService::class)->hunt($user->id, (string) Str::uuid(), $area, $party, false);
-                $this->fail('Expected rejection');
-            } catch (ValidationException $e) {
-                $this->assertNotEmpty($e->errors());
-            }
-        }
-        $this->assertDatabaseCount('operations', 0);
-        $this->assertSame(8640000, $char->fresh()->stamina_units);
-    }
-
-    public function test_timed_map_boundaries_and_map_item_ownership(): void
-    {
-        [$user] = $this->player();
-        foreach (['02:49:59' => false, '02:50:00' => true, '02:59:59' => true, '03:00:00' => false] as $time => $open) {
-            $this->travelTo(Carbon::parse('2026-10-05 '.$time, 'UTC'));
-            $this->assertSame($open, isset(app(WorldService::class)->areas($user)['horh']));
-        }
-        $user->inventory()->create(['item_id' => '8000', 'quantity' => 1]);
-        $this->assertArrayHasKey('ac0', app(WorldService::class)->areas($user));
     }
 
     public function test_weighted_choice_excludes_zero_and_covers_boundaries(): void
@@ -126,7 +86,7 @@ final class WorldTest extends TestCase
     {
         [$user] = $this->player();
         $this->actingAs($user)->get('/admin')->assertForbidden();
-        foreach (['/manual', '/manual/advanced', '/manual/tutorial', '/catalog/items', '/catalog/jobs', '/updates', '/reports', '/hunt', '/simulation'] as $url) {
+        foreach (['/manual', '/manual/advanced', '/manual/tutorial', '/catalog/items', '/catalog/jobs', '/updates', '/reports', '/dungeons', '/simulation'] as $url) {
             $this->get($url)->assertOk();
         }
         $user->forceFill(['is_admin' => true])->save();
@@ -156,10 +116,13 @@ final class WorldTest extends TestCase
     public function test_reward_batches_apply_growth_money_and_items_once(): void
     {
         [$user,$char] = $this->player();
-        $char->stats = ['str' => 255, 'int' => 255, 'dex' => 255, 'spd' => 255, 'luk' => 255];
+        $char->stats = array_merge($char->stats, ['str' => 255, 'int' => 255, 'dex' => 255, 'spd' => 255, 'luk' => 255]);
+        app(PlayerService::class)->refreshVitals($char);
+        $char->stats = array_merge($char->stats, ['hp' => $char->stats['maxhp']]);
         $char->save();
+        app(DungeonService::class)->enter($user->id, (string) Str::uuid(), 'goblin_trail', [$char->id], []);
         $key = (string) Str::uuid();
-        $result = app(WorldService::class)->hunt($user->id, $key, 'gb0', [$char->id], false);
+        $result = app(DungeonService::class)->move($user->id, $key, 'grass');
         $report = BattleReport::findOrFail($result['report_id'])->report;
         $this->assertSame(0, $report['winner']);
         $expected = clone $char;
@@ -175,11 +138,14 @@ final class WorldTest extends TestCase
         $this->assertSame($expected->xp, $char->fresh()->xp);
         $this->assertSame($expected->level, $char->fresh()->level);
         $this->assertGreaterThan(0, $report['settlement']['money']);
-        $this->assertSame(10000 + $report['settlement']['money'], $user->fresh()->money);
+        // Dungeon money is held by the run until the party leaves.
+        $this->assertSame(10000, $user->fresh()->money);
+        $this->assertSame($report['settlement']['money'], DungeonRun::activeFor($user->id)->loot_money);
         $count = $user->inventory()->count();
-        app(WorldService::class)->hunt($user->id, $key, 'gb0', [$char->id], false);
+        app(DungeonService::class)->move($user->id, $key, 'grass');
         $this->assertSame($count, $user->inventory()->count());
-        $this->assertSame(10000 + $report['settlement']['money'], $user->fresh()->money);
+        $this->assertSame($report['settlement']['money'], DungeonRun::activeFor($user->id)->loot_money);
+        $this->assertSame($expected->xp, $char->fresh()->xp);
     }
 
     public function test_administrator_balance_correction_and_moderation_are_audited(): void

@@ -433,6 +433,7 @@
   .carpets { display: grid; grid-template-columns: repeat(auto-fill, minmax(138px, 1fr)); gap: 4px 0; list-style: none; padding: 0; margin: 0; }
   .carpets-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .carpet { text-align: center; word-break: break-all; line-height: 1.45; }
+  .carpet.is-fallen img { filter: grayscale(1) brightness(0.6); }
   .carpet-stage {
     display: grid;
     justify-items: center;
@@ -538,7 +539,28 @@
   .judge-list > dd { border-top: 1px solid var(--c-line); }
   .exp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 1px; padding: 0; list-style: none; background: var(--c-line); border: 1px solid var(--c-line); }
   .exp-grid li { display: flex; justify-content: space-between; gap: 6px; padding: 2px 8px; background: var(--c-bg); }
+  /* Dungeons: list, fog-of-war map and run screen */
+  .dungeon-list { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+  .dungeon-name { font-size: var(--fs-md); margin-bottom: 4px; }
+  .dungeon-name .meta { font-size: var(--fs-sm); font-weight: 400; margin-left: 6px; }
+  .dungeon-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 24px; }
+  .dmap-frame { margin: 10px 0 0; background: var(--c-sunken); border: 1px solid var(--c-edge); padding: 6px; overflow-x: auto; }
+  .dmap { display: block; min-width: 520px; width: 100%; height: auto; }
+  .dmap-edge { stroke: var(--c-decor); stroke-width: 2; stroke-dasharray: 4 4; }
+  .dmap-edge.is-known { stroke: var(--c-text-muted); stroke-dasharray: none; }
+  .dmap-room rect { fill: var(--c-panel); stroke: var(--c-line); stroke-width: 2; }
+  .dmap-room text { fill: var(--c-text); font-size: 13px; font-family: var(--font); }
+  .dmap-room .dmap-kind { fill: var(--c-text-muted); font-size: 11px; }
+  .dmap-room.is-unknown rect { fill: var(--c-bg); stroke-dasharray: 3 3; }
+  .dmap-room.is-unknown text { fill: var(--c-text-dim); }
+  .dmap-room.type-battle .dmap-kind, .dmap-room.type-trap .dmap-kind { fill: var(--tone-dmg); }
+  .dmap-room.type-chest .dmap-kind, .dmap-room.type-exit .dmap-kind { fill: var(--tone-charge); }
+  .dmap-room.type-rest .dmap-kind, .dmap-room.type-event .dmap-kind { fill: var(--tone-recover); }
+  .dmap-room.is-cleared rect { fill: var(--c-selected); }
+  .dmap-room.is-current rect { stroke: var(--c-accent-hover); stroke-width: 3; }
+  .inline-form { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
 }
+
 
 /* Breakpoint overrides, last layer so they win without longer selectors.
    Group rules by component in the same order as the components layer. */
@@ -554,6 +576,7 @@
     body { font-size: 15px; }
 
     .recruit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dungeon-grid { grid-template-columns: minmax(0, 1fr); }
     .color-grid { grid-template-columns: repeat(9, minmax(0, 1fr)); }
     .color-choice, .color-choice > span { min-height: 40px; }
     .toc { columns: 1; }

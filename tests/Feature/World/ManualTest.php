@@ -38,7 +38,7 @@ final class ManualTest extends TestCase
     public function test_tutorial_follows_legacy_steps_with_current_recruit_prices(): void
     {
         $response = $this->get('/manual/tutorial')->assertOk()->assertSee('image/manual/t001.gif', false)->assertSee('暂且这样试试吧！')
-            ->assertSee('/hunt/gb0', false)->assertSee('初期能雇佣的人物');
+            ->assertSee('/dungeons/goblin_trail', false)->assertSee('初期能雇佣的人物');
         foreach (PlayerRules::RECRUIT_PRICES as $price) {
             $response->assertSee(GameText::money($price));
         }

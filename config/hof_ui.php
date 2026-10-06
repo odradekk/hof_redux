@@ -5,7 +5,7 @@ return [
     'asset_version' => env('APP_ASSET_VERSION'),
     'menu' => [
         ['label' => '首页', 'route' => 'home', 'active' => ['home', 'player.character'], 'visibility' => 'auth'],
-        ['label' => '狩猎', 'route' => 'hunt', 'active' => ['hunt*', 'bosses*', 'simulation'], 'visibility' => 'auth'],
+        ['label' => '冒险', 'route' => 'dungeons', 'active' => ['dungeon*', 'hunt*', 'bosses*', 'simulation'], 'visibility' => 'auth'],
         ['label' => '仓库', 'route' => 'player.inventory', 'active' => ['player.inventory'], 'visibility' => 'auth'],
         ['label' => '城镇', 'route' => 'town', 'active' => ['town', 'player.roster', 'player.shop*', 'player.smithy*', 'auction*', 'ranking*'], 'visibility' => 'auth'],
         ['label' => '设置', 'route' => 'account', 'active' => ['account', 'player.preferences'], 'visibility' => 'auth'],
@@ -28,6 +28,7 @@ return [
         'weapon' => ['label' => '武器', 'types' => ['剑', '双手剑', '匕首', '矛', '短柄斧', '魔杖', '锤', '枪', '斧', '杖', '弓', '弩', '十字弓', '鞭']],
         'armor' => ['label' => '防具', 'types' => ['盾', 'MainGauche', '书', '甲', '衣服', '长袍']],
         'item' => ['label' => '道具', 'types' => ['道具']],
+        'consumable' => ['label' => '消耗品', 'types' => ['消耗品']],
         'other' => ['label' => '其他', 'types' => ['其他', '地图', '材料', '特殊', '钥匙']],
     ],
     'report_tabs' => [

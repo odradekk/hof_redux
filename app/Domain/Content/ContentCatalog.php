@@ -9,29 +9,47 @@ use DateTimeZone;
 use InvalidArgumentException;
 use RuntimeException;
 
-/** Immutable, versioned, non-executable game definitions. */
+/**
+ * Immutable, versioned, non-executable game definitions. Records extracted from the legacy
+ * source live in the content root; hand-authored Redux records live in `redux/` with their
+ * own manifest. Both layers merge by kind and may never share an ID.
+ */
 final class ContentCatalog
 {
+    public const AUTHORED = 'redux';
+
     private array $manifest;
+
+    private ?array $authored = null;
 
     private array $catalogs = [];
 
     public function __construct(private readonly string $directory)
     {
-        $this->manifest = $this->read('manifest');
+        $this->manifest = $this->read($directory, 'manifest');
         if (($this->manifest['schema_version'] ?? null) !== 1) {
             throw new RuntimeException('Unsupported content schema');
+        }
+        if (is_file($directory.'/'.self::AUTHORED.'/manifest.json')) {
+            $this->authored = $this->read($directory.'/'.self::AUTHORED, 'manifest');
+            if (($this->authored['schema_version'] ?? null) !== 1) {
+                throw new RuntimeException('Unsupported authored content schema');
+            }
         }
     }
 
     public function version(): string
     {
-        return $this->manifest['content_version'];
+        if ($this->authored === null) {
+            return $this->manifest['content_version'];
+        }
+
+        return hash('sha256', $this->manifest['content_version'].':'.$this->authored['content_version']);
     }
 
     public function kinds(): array
     {
-        return array_keys($this->manifest['counts']);
+        return array_values(array_unique([...array_keys($this->manifest['counts']), ...array_keys($this->authored['counts'] ?? [])]));
     }
 
     public function all(string $kind): array
@@ -85,19 +103,40 @@ final class ContentCatalog
     /** Fail if a content file changed without a corresponding immutable version. */
     public function verifyIntegrity(): void
     {
-        $kinds = $this->kinds();
-        sort($kinds, SORT_STRING);
-        $context = hash_init('sha256');
-        foreach ($kinds as $kind) {
-            $this->load($kind);
-            hash_update_file($context, $this->directory.'/'.$kind.'.json');
-            if (count($this->catalogs[$kind]) !== $this->manifest['counts'][$kind]) {
-                throw new RuntimeException("Content count mismatch: {$kind}");
+        $layers = [[$this->directory, $this->manifest]];
+        if ($this->authored !== null) {
+            $layers[] = [$this->directory.'/'.self::AUTHORED, $this->authored];
+        }
+        foreach ($layers as [$directory, $manifest]) {
+            $kinds = array_keys($manifest['counts']);
+            sort($kinds, SORT_STRING);
+            $context = hash_init('sha256');
+            foreach ($kinds as $kind) {
+                hash_update_file($context, $directory.'/'.$kind.'.json');
+                if (count($this->read($directory, $kind)) !== $manifest['counts'][$kind]) {
+                    throw new RuntimeException("Content count mismatch: {$kind}");
+                }
+            }
+            if (! hash_equals($manifest['content_version'], hash_final($context))) {
+                throw new RuntimeException('Content version mismatch');
             }
         }
-        if (! hash_equals($this->version(), hash_final($context))) {
-            throw new RuntimeException('Content version mismatch');
+        foreach ($this->kinds() as $kind) {
+            $this->load($kind);
         }
+    }
+
+    /** IDs the shop sells: the extracted stock followed by authored items marked for sale. */
+    public function shopStock(): array
+    {
+        $stock = array_map('strval', $this->get('economy_rules', 'shop')['values']);
+        foreach ($this->all('items') as $id => $item) {
+            if ($item['shop'] ?? false) {
+                $stock[] = (string) $id;
+            }
+        }
+
+        return $stock;
     }
 
     /** Resolve population scaling; randomness belongs to the caller's explicit RNG. */
@@ -207,15 +246,29 @@ final class ContentCatalog
 
     private function load(string $kind): void
     {
-        if (! array_key_exists($kind, $this->manifest['counts'])) {
+        if (isset($this->catalogs[$kind])) {
+            return;
+        }
+        $extracted = array_key_exists($kind, $this->manifest['counts']);
+        $authored = array_key_exists($kind, $this->authored['counts'] ?? []);
+        if (! $extracted && ! $authored) {
             throw new InvalidArgumentException('Unknown content kind');
         }
-        $this->catalogs[$kind] ??= $this->read($kind);
+        $rows = $extracted ? $this->read($this->directory, $kind) : [];
+        if ($authored) {
+            foreach ($this->read($this->directory.'/'.self::AUTHORED, $kind) as $id => $row) {
+                if (isset($rows[$id])) {
+                    throw new RuntimeException("Authored content reuses an extracted ID: {$kind}/{$id}");
+                }
+                $rows[$id] = $row;
+            }
+        }
+        $this->catalogs[$kind] = $rows;
     }
 
-    private function read(string $file): array
+    private function read(string $directory, string $file): array
     {
-        $path = $this->directory.'/'.$file.'.json';
+        $path = $directory.'/'.$file.'.json';
         if (! is_file($path) || ! is_readable($path)) {
             throw new RuntimeException('Content file unavailable: '.$file);
         }

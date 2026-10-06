@@ -32,6 +32,7 @@ final class RankingService
         $party = array_map('intval', $party);
 
         return $this->actions->execute($userId, 'ranking.register', $key, compact('party'), function (User $user) use ($party) {
+            $this->actions->ensureInTown($user);
             $this->validateParty($user->id, $party);
             $entry = RankingEntry::where('user_id', $user->id)->lockForUpdate()->first();
             $this->actions->ensure(! $entry || $entry->party_set_at->addHours(self::TEAM_CHANGE_HOURS)->lessThanOrEqualTo(now()), 'The ranking team can be changed once every 48 hours.');
@@ -49,6 +50,7 @@ final class RankingService
     public function challenge(int $userId, string $key): array
     {
         return $this->actions->execute($userId, 'ranking.challenge', $key, [], function (User $user, int $op, int $seed) {
+            $this->actions->ensureInTown($user);
             $entry = RankingEntry::where('user_id', $user->id)->lockForUpdate()->firstOrFail();
             // Dismissed members drop out without changing the registered selection or its cooldown.
             $available = Character::where('user_id', $user->id)->whereIn('id', $entry->party)->pluck('id')->all();

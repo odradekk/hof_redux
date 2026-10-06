@@ -68,7 +68,9 @@
 <dt>恢复</dt><dd>在城镇中每天 {{ $c['stamina_day'] }}（约每 {{ round($c['stamina_seconds'], 1) }} 秒 1 点），离线时也会恢复；在地下城中不会自然恢复</dd>
 <dt>HP / SP</dt><dd>战斗伤害会保留；在城镇中每小时恢复上限的 {{ $c['health_hour'] }}%，在地下城中不会自然恢复</dd>
 <dt>疲劳</dt><dd>@foreach($c['fatigue'] as $minimum => $penalty)体力 ≥ {{ $minimum }}：力量、智力、灵巧、速度、幸运 -{{ $penalty }}%@if(! $loop->last)；@endif @endforeach</dd>
-<dt>普通狩猎</dt><dd>每次 {{ $c['hunt'] }}</dd>
+<dt>地下城</dt><dd>每次移动每名成员 {{ $c['dungeon_move'] }}，每场战斗每名存活成员再 {{ $c['dungeon_battle'] }}；宝箱、陷阱和事件按房间而定。体力不足时降到 0 为止，不会阻止行动</dd>
+<dt>背包负重</dt><dd>每名出战成员 {{ $c['carry_base'] }} + floor(力量 ÷ {{ $c['carry_str'] }})，合计为背包上限</dd>
+<dt>陷阱闪避</dt><dd>floor(敏捷 ÷ {{ $c['dodge_dex'] }})%，最多 {{ $c['dodge_max'] }}%</dd>
 <dt>共享首领</dt><dd>每次 {{ $c['boss_stamina'] }}</dd>
 <dt>打工</dt><dd>{{ $c['work_stamina'] }} 体力换 {{ $money($c['work_pay']) }}</dd>
 <dt>模拟战、竞技场</dt><dd>不消耗</dd>

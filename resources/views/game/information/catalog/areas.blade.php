@@ -5,7 +5,7 @@
 <div class="doc">
 <h2 class="sec">地图(Map)</h2>
 <ul class="inline-list indent">@foreach($areas['open'] as $area)<li><a href="#area-{{ $area['id'] }}">{{ $area['name'] }}</a></li>@endforeach</ul>
-<p class="meta indent">每次狩猎出现的敌人数与出战人数相同；每个敌人位独立按下表的出现率抽取，同一种怪物可以重复出现。“隐藏”的怪物不会显示在冒险页的“出现敌人”中。</p>
+<p class="meta indent">地下城的战斗房间按下表抽取敌人：除非房间另有规定，敌人数与出战人数相同，每个敌人位独立按出现率抽取，同一种怪物可以重复出现。“隐藏”只是旧版地图预览的标记。</p>
 @foreach($areas['open'] as $area)
 <h2 class="sec" id="area-{{ $area['id'] }}">{{ $area['name'] }}@if($area['name0'] !== '') <span class="meta">{{ $area['name0'] }}</span>@endif <span class="sec-aside">推荐 {{ $area['proper'] }}</span></h2>
 <dl class="kv indent">

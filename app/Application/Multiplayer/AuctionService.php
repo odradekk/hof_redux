@@ -41,6 +41,7 @@ final class AuctionService
     public function join(int $userId, string $key): array
     {
         return $this->actions->execute($userId, 'auction.join', $key, [], function (User $user, int $op) {
+            $this->actions->ensureInTown($user);
             $this->actions->ensure(! $this->isMember($user->id), 'You are already an auction member.');
             $this->actions->money($user, -self::MEMBERSHIP_PRICE, $op, 'auction membership');
             $this->actions->addItem($user, '9000', 1, $op, 'auction membership');
@@ -52,6 +53,7 @@ final class AuctionService
     public function exhibit(int $userId, string $key, int $inventoryId, int $quantity, int $price, int $hours, string $comment = ''): array
     {
         return $this->actions->execute($userId, 'auction.exhibit', $key, compact('inventoryId', 'quantity', 'price', 'hours', 'comment'), function (User $user, int $op) use ($inventoryId, $quantity, $price, $hours, $comment) {
+            $this->actions->ensureInTown($user);
             $this->settleDueLocked();
             $user->refresh();
             $this->actions->ensure($this->isMember($user->id), 'Auction membership is required.');
@@ -83,6 +85,7 @@ final class AuctionService
     public function bid(int $userId, string $key, int $auctionId, int $price): array
     {
         return $this->actions->execute($userId, 'auction.bid', $key, compact('auctionId', 'price'), function (User $user, int $op) use ($auctionId, $price) {
+            $this->actions->ensureInTown($user);
             $listing = AuctionListing::lockForUpdate()->findOrFail($auctionId);
             $this->actions->ensure($listing->status === 'active' && $listing->ends_at->isAfter(now()), 'This auction has ended.');
             $this->actions->ensure($this->isMember($user->id), 'Auction membership is required.');

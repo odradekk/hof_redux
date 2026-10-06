@@ -191,7 +191,7 @@ final class PlayerController
         $items = [];
         $inventory = null;
         if ($mode === 'buy') {
-            foreach ($this->catalog->get('economy_rules', 'shop')['values'] as $id) {
+            foreach ($this->catalog->shopStock() as $id) {
                 $resolved = $this->details->resolve(['item_id' => (string) $id]);
                 $items[] = ['id' => $id, 'line' => ItemLines::fromCatalog($resolved), 'price' => (int) $resolved['buy'], 'quantity' => 999];
             }

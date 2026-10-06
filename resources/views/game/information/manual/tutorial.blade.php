@@ -26,11 +26,11 @@
 <x-carpet :unit="['name' => '治疗的人', 'label' => '后卫 · 牧师', 'img' => 'image/char_rev/mon_214.gif']" />
 </div>
 <p>那么，赶快进入战斗吧。<br>
-菜单中的冒险(Hunt) → <a href="{{ route('hunt.area', 'gb0') }}">{{ $data->areas()['open']['gb0']['name'] ?? '哥布林' }}</a><br>
+菜单中的冒险 → <a href="{{ route('dungeons.prepare', 'goblin_trail') }}">哥布林小径</a><br>
 用雇佣来的同伴试试看，<br>
 Battle!</p>
 <p>战斗结束后，会显示战斗结果（战报）。<br>
-每次狩猎消耗 {{ $c['hunt'] }} 体力。想先试试阵容的话，可以用不消耗体力、也没有奖励的<a href="{{ route('simulation') }}">模拟战</a>。</p>
+在地下城中每次移动消耗 {{ $c['dungeon_move'] }} 体力，每场战斗再消耗 {{ $c['dungeon_battle'] }} 体力，受到的伤害不会自动恢复。角色 HP 归零会永久死亡，打不过就及时撤离。想先试试阵容的话，可以用不消耗体力、也没有奖励的<a href="{{ route('simulation') }}">模拟战</a>。</p>
 </div>
 
 <h2 class="sec">菜单的构成</h2>

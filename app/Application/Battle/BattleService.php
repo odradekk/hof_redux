@@ -119,13 +119,19 @@ final class BattleService
         return $this->run([$this->party($user, $partyIds), $this->party($opponent, $opponentPartyIds, 'opponent')], $mode, new SeededRandom($seed), $seed, [$user->name, $opponent->name], $actionLimit);
     }
 
-    public function fight(User $user, array $partyIds, array $area, int $operationId, int $seed): array
+    /**
+     * A dungeon battle starts from current HP/SP with fatigue. Experience settles at once;
+     * money is returned in the settlement for the run to hold and items become run loot.
+     */
+    public function fightDungeon(User $user, array $partyIds, array $weights, int $count, array $fixed, string $land, string $name, int $operationId, int $seed): array
     {
         $random = new SeededRandom($seed);
-        $party = $this->party($user, $partyIds, fatigue: true);
-        $report = $this->run([$party, $this->enemies($area['encounters'], count($party), $random)], 'pve', $random, $seed, [$user->name, $area['name']]);
-        $report['background'] = $area['land'];
-        $this->settle($user, $report, $operationId);
+        $party = $this->party($user, $partyIds, wounded: true, fatigue: true);
+        $enemies = $this->enemies($weights, $count, $random, array_map('strval', $fixed));
+        $report = $this->run([$party, $enemies], 'pve', $random, $seed, [$user->name, $name]);
+        $report['background'] = $land;
+        $report['dungeon'] = true;
+        $this->settle($user, $report, $operationId, holdLoot: true);
 
         return $report;
     }
@@ -180,7 +186,7 @@ final class BattleService
         return ['winner' => $outcome->winner, 'reason' => $outcome->reason, 'teams' => $outcome->teams, 'events' => $outcome->events, 'actions' => $outcome->actions, 'action_limit' => $actionLimit, 'random' => $outcome->randomState, 'rewards' => $outcome->rewardCandidates, 'damage' => $outcome->damage, 'mode' => $mode, 'content_version' => $outcome->contentVersion, 'rules_version' => $outcome->rulesVersion, 'seed' => $seed, 'names' => $names, 'initial_teams' => $teams];
     }
 
-    private function settle(User $user, array &$report, int $operationId): void
+    private function settle(User $user, array &$report, int $operationId, bool $holdLoot = false): void
     {
         $summary = ['money' => 0, 'items' => [], 'experience' => []];
         foreach ($report['rewards'][0] ?? [] as $reward) {
@@ -205,11 +211,11 @@ final class BattleService
                 }
             }
         }
-        if ($summary['money']) {
+        if ($summary['money'] && ! $holdLoot) {
             $this->actions->money($user, $summary['money'], $operationId, 'battle reward');
         }
         foreach ($summary['items'] as $id => $quantity) {
-            $this->actions->addItem($user, (string) $id, $quantity, $operationId, 'battle drop');
+            $this->actions->addItem($user, (string) $id, $quantity, $operationId, 'battle drop', location: $holdLoot ? 'loot' : 'warehouse');
         }
         $report['settlement'] = $summary;
     }

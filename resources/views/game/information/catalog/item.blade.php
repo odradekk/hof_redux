@@ -23,7 +23,7 @@
 @if($item['id'] === '7500')<p>在角色页为角色改名时消耗 1 个。</p>@endif
 @if($item['id'] === '9000')<p>拍卖会员卡。持有后才能出品和出价，在拍卖会场以 {{ $money(\App\Application\Multiplayer\AuctionService::MEMBERSHIP_PRICE) }} 购买。</p>@endif
 @if($item['special_material'])<p>在锻冶屋制作装备时作为特殊材料额外放入 1 个，成品固定获得：{{ $item['special_material']['effect'] }}。</p>@endif
-@foreach($item['unlocks'] as $area)<p>持有时可以进入地图 <a href="{{ route('catalog', 'areas') }}#area-{{ $area['id'] }}">{{ $area['name'] }}</a>（不会被消耗）。</p>@endforeach
+@foreach($item['unlocks'] as $dungeon)<p>仓库中持有时可以进入地下城 <a href="{{ route('dungeons') }}">{{ $dungeon['name'] }}</a>（不会被消耗）。</p>@endforeach
 </div>
 @endif
 @if($item['recipe'])

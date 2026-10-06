@@ -36,7 +36,7 @@
             <button class="btn" type="submit">再战一次</button>
         </form>
     @endif
-    <a href="{{ route('hunt') }}">返回狩猎</a>
+    <a href="{{ route('dungeons') }}">返回冒险</a>
     <a href="{{ route('reports.index') }}">战斗记录</a>
 </div>
 @endsection

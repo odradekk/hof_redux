@@ -95,6 +95,7 @@ final class BossService
         $party = array_map('intval', $party);
 
         return $this->actions->execute($userId, 'boss.challenge', $key, compact('bossId', 'party'), function (User $user, int $op, int $seed) use ($bossId, $party) {
+            $this->actions->ensureInTown($user);
             $boss = BossInstance::lockForUpdate()->findOrFail($bossId);
             if ($boss->hp === 0 && $boss->respawns_at && $boss->respawns_at->lessThanOrEqualTo(now())) {
                 $this->respawn($boss);

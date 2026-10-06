@@ -59,7 +59,7 @@ final class CatalogPresentationTest extends TestCase
         $this->get('/catalog/items/1000')->assertOk()->assertSee('制作配方')->assertSee('附魔候选')->assertSee('可装备职业');
         // Goblin 1000 drops item 6000 with weight 1000 of 10000.
         $this->get('/catalog/items/6000')->assertOk()->assertSee('掉落来源')->assertSee('持斧哥布林')->assertSee('10%');
-        $this->get('/catalog/items/8000')->assertOk()->assertSee('持有时可以进入地图');
+        $this->get('/catalog/items/8000')->assertOk()->assertSee('仓库中持有时可以进入地下城')->assertSee('古之洞穴');
         $this->get('/catalog/items/9000')->assertOk()->assertSee(GameText::money(AuctionService::MEMBERSHIP_PRICE));
     }
 

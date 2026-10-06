@@ -6,6 +6,7 @@ namespace App\Application\Player;
 
 use App\Application\Support\GameAction;
 use App\Models\Character;
+use App\Models\DungeonRun;
 use Carbon\CarbonImmutable;
 
 /**
@@ -67,7 +68,15 @@ final class Vitals
     /** Current display values, using the real clock. */
     public static function current(Character $character): array
     {
-        return self::project($character, CarbonImmutable::now(), true);
+        return self::project($character, CarbonImmutable::now(), self::resting($character));
+    }
+
+    /** A character rests unless it belongs to its owner's active dungeon party. */
+    public static function resting(Character $character): bool
+    {
+        $party = DungeonRun::activeFor($character->user_id)?->party ?? [];
+
+        return ! in_array($character->id, $party, true);
     }
 
     /**
