@@ -6,6 +6,7 @@ use App\Application\Community\AccountDeletion;
 use App\Application\Multiplayer\AuctionService;
 use App\Application\Multiplayer\BossService;
 use App\Application\Player\ItemDetails;
+use App\Application\Player\Vitals;
 use App\Application\Support\GameAction;
 use App\Domain\Content\ContentCatalog;
 use App\Http\View\ItemLines;
@@ -51,8 +52,8 @@ final class AdminController
         abort_unless($request->user()->is_admin, 403);
 
         $user->load('characters', 'inventory');
-        $units = $user->characters->map(static fn (Character $character): array => UnitCards::character($character->toArray(), $catalog->get('jobs', $character->job_id)))->all();
-        $locations = ['backpack' => '背包', 'equipped' => '已装备', 'auction' => '拍卖托管'];
+        $units = $user->characters->map(static fn (Character $character): array => UnitCards::character($character->toArray(), $catalog->get('jobs', $character->job_id), Vitals::current($character)))->all();
+        $locations = ['warehouse' => '仓库', 'pack' => '地下城背包', 'loot' => '地下城战利品', 'equipped' => '已装备', 'auction' => '拍卖托管'];
         $items = $user->inventory->map(static function (InventoryItem $item) use ($details, $locations): array {
             $row = $item->toArray();
 

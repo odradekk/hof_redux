@@ -153,7 +153,6 @@ final class VerifiedBattlePresentationTest extends TestCase
             // purchased map, encounter weights, monster actions and summon rules are unmodified.
             $result = app(GameAction::class)->execute($user->id, 'test.seeded_hunt', (string) Str::uuid(), ['seed' => $seed], function (User $actor, int $operation) use ($seed, $character): array {
                 $area = app(WorldService::class)->areas($actor)['ac0'];
-                app(GameAction::class)->stamina($actor, WorldService::HUNT_STAMINA, $operation, 'ordinary hunt');
                 $report = app(BattleService::class)->fight($actor, [$character->id], $area, $operation, $seed);
                 $record = BattleReport::create(['user_id' => $actor->id, 'mode' => 'pve', 'public' => true, 'report' => $report]);
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application\Multiplayer\RankingService;
+use App\Application\Player\Vitals;
 use App\Domain\Content\ContentCatalog;
 use App\Http\View\UnitCards;
 use App\Models\RankingEntry;
@@ -13,7 +14,7 @@ final class HomeController
 {
     public function index(Request $request, ContentCatalog $catalog)
     {
-        $cards = $request->user()->characters()->orderBy('id')->get()->map(fn ($character) => UnitCards::character($character->toArray(), $catalog->get('jobs', $character->job_id)) + ['href' => route('player.character', $character->id)])->all();
+        $cards = $request->user()->characters()->orderBy('id')->get()->map(fn ($character) => UnitCards::character($character->toArray(), $catalog->get('jobs', $character->job_id), Vitals::current($character)) + ['href' => route('player.character', $character->id)])->all();
 
         return view('home', ['cards' => $cards, 'teamName' => $request->user()->name, 'tutorial' => $request->user()->created_at->greaterThan(now()->subHour())]);
     }

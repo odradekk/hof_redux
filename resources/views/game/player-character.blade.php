@@ -120,7 +120,7 @@
     <form method="post" action="{{ route('player.command', 'job') }}">
         <x-op /><input type="hidden" name="character_id" value="{{ $character['id'] }}">
         <x-unit-picker :units="$jobs" :selected="[]" name="job_id" type="radio" />
-        <p class="hint">转职后装备将全部返回背包</p>
+        <p class="hint">转职后装备将全部返回仓库</p>
         <div class="actions"><button class="btn" type="submit">转职</button></div>
     </form>
     @else<p class="empty">尚未满足转职条件</p>@endif
@@ -140,7 +140,7 @@
         <div class="form-grid"><x-field label="重置道具" for="reset-item"><select class="select" id="reset-item" name="item_id">@foreach($resetItems as $item)<option value="{{ $item['id'] }}">{{ $item['name'] }}</option>@endforeach</select></x-field></div>
         <div class="actions"><button class="btn btn-danger" type="submit">消耗道具并重置</button></div>
     </form>
-    <x-sec title="离队" /><p>解雇会永久移除此角色；装备返回背包。队伍必须保留一人。</p>
+    <x-sec title="离队" /><p>解雇会永久移除此角色；装备返回仓库。队伍必须保留一人。</p>
     <form method="post" action="{{ route('player.command', 'dismiss') }}" data-confirm="确定解雇此角色吗？此操作无法撤销。">
         <x-op /><input type="hidden" name="character_id" value="{{ $character['id'] }}">
         <div class="actions"><button class="btn btn-danger" type="submit">解雇 {{ $character['name'] }}</button></div>

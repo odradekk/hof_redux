@@ -30,12 +30,12 @@ final class PlayerWebTest extends PlayerTestCase
     {
         $this->post('/player/work')->assertRedirect('/login');
         $user = $this->player();
-        $this->character($user);
+        $worker = $this->character($user);
         $this->actingAs($user)->post('/player/work')->assertSessionHasErrors('operation_id');
         $this->get('/player/work')->assertStatus(405);
         $key = (string) Str::uuid();
-        $this->post('/player/work', ['operation_id' => $key])->assertRedirect('/shop/work');
-        $this->post('/player/work', ['operation_id' => $key])->assertRedirect('/shop/work');
+        $this->post('/player/work', ['operation_id' => $key, 'character_id' => $worker->id])->assertRedirect('/shop/work');
+        $this->post('/player/work', ['operation_id' => $key, 'character_id' => $worker->id])->assertRedirect('/shop/work');
         $this->assertSame(10500, $user->fresh()->money);
     }
 

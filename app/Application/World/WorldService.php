@@ -3,20 +3,22 @@
 namespace App\Application\World;
 
 use App\Application\Battle\BattleService;
+use App\Application\Player\Vitals;
 use App\Application\Support\GameAction;
 use App\Domain\Content\ContentCatalog;
 use App\Models\BattleReport;
+use App\Models\Character;
 use App\Models\User;
 
 final class WorldService
 {
     public const HUNT_STAMINA = 1;
 
-    public function __construct(private GameAction $actions, private ContentCatalog $catalog, private BattleService $battles) {}
+    public function __construct(private GameAction $actions, private ContentCatalog $catalog, private BattleService $battles, private Vitals $vitals) {}
 
     public function areas(User $user): array
     {
-        $inventory = $user->inventory()->where('location', 'backpack')->get()->groupBy('item_id')->map->sum('quantity')->all();
+        $inventory = $user->inventory()->where('location', 'warehouse')->get()->groupBy('item_id')->map->sum('quantity')->all();
 
         return $this->catalog->availableAreas($inventory, now()->toDateTimeImmutable());
     }
@@ -28,7 +30,11 @@ final class WorldService
         return $this->actions->execute($userId, 'world.hunt', $key, compact('areaId', 'party', 'remember'), function (User $user, int $operation, int $seed) use ($areaId, $party, $remember) {
             $areas = $this->areas($user);
             $this->actions->ensure(isset($areas[$areaId]), 'This map is not available.');
-            $this->actions->stamina($user, self::HUNT_STAMINA, $operation, 'ordinary hunt');
+            $characters = Character::where('user_id', $user->id)->whereIn('id', $party)->lockForUpdate()->get();
+            $this->actions->ensure($characters->count() === count(array_unique($party)), 'Party contains an unavailable character.');
+            foreach ($characters as $character) {
+                $this->vitals->spendStamina($character, self::HUNT_STAMINA, $operation, 'ordinary hunt');
+            }
             $report = $this->battles->fight($user, $party, $areas[$areaId], $operation, $seed);
             if ($remember) {
                 $user->preferences = [...($user->preferences ?? []), 'party' => $party];

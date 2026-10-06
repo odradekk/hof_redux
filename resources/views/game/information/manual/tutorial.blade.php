@@ -47,7 +47,7 @@ Battle!</p>
 <tr><td class="primary"><a href="{{ route('catalog.entry', ['jobs', $recruit['job']]) }}">{{ $recruit['name'] }}</a>@if($recruit['name_female'] !== $recruit['name']) / {{ $recruit['name_female'] }}@endif</td><td data-label="特点">{{ $traits[$recruit['job']] ?? '' }}</td><td class="num" data-label="费用">{{ \App\Application\World\GameText::money($recruit['price']) }}</td></tr>
 @endforeach
 </tbody></table>
-<p>注册时可以从战士和巫师中选择第一位同伴。队伍最多 {{ $c['party_max'] }} 人，初始体力为满值 {{ $c['stamina_max'] }}。</p>
+<p>注册时可以从战士和巫师中选择第一位同伴。队伍最多 {{ $c['party_max'] }} 人，每名角色初始体力为满值 {{ $c['stamina_max'] }}。</p>
 <p>更多说明请看 <a href="{{ route('manual') }}">手册</a>；各职业、道具、怪物的详细数据请看 <a href="{{ route('catalog') }}">游戏资料</a>。</p>
 </div>
 @endsection

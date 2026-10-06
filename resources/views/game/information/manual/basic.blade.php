@@ -199,8 +199,8 @@
 
 <h2 class="sec" id="time">体力(Time) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent prose">
-<p>狩猎和挑战首领时会消耗体力；体力会随时间流逝逐渐恢复，离线时也一样。</p>
-<p>体力上限 {{ $c['stamina_max'] }}，每天恢复 {{ $c['stamina_day'] }}（约每 {{ round($c['stamina_seconds']) }} 秒 1 点）。普通狩猎每次消耗 {{ $c['hunt'] }}，共享首领每次消耗 {{ $c['boss_stamina'] }}。在商店打工可以用 {{ $c['work_stamina'] }} 体力换 {{ \App\Application\World\GameText::money($c['work_pay']) }}。模拟战和竞技场不消耗体力。</p>
+<p>每名角色都有自己的体力。出战和打工会消耗参加角色的体力；角色在城镇中会随时间恢复体力，离线时也一样。体力越低，角色在战斗中的属性越低。</p>
+<p>每名角色体力上限 {{ $c['stamina_max'] }}，每天恢复 {{ $c['stamina_day'] }}（约每 {{ round($c['stamina_seconds']) }} 秒 1 点）。普通狩猎每次消耗 {{ $c['hunt'] }}，共享首领每次消耗 {{ $c['boss_stamina'] }}。在商店打工可以用 {{ $c['work_stamina'] }} 体力换 {{ \App\Application\World\GameText::money($c['work_pay']) }}。模拟战和竞技场不消耗体力。</p>
 </div>
 
 <h2 class="sec" id="town">城镇(Town) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>

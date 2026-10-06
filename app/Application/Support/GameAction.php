@@ -4,7 +4,6 @@ namespace App\Application\Support;
 
 use App\Models\InventoryItem;
 use App\Models\User;
-use Carbon\CarbonImmutable;
 use Closure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -12,14 +11,6 @@ use Illuminate\Validation\ValidationException;
 
 final class GameAction
 {
-    /** Stamina cap and daily regeneration, in whole stamina points. */
-    public const STAMINA_MAX = 100;
-
-    public const STAMINA_PER_DAY = 500;
-
-    // One stamina point is 86400 units, so units regenerated per second equal points per day.
-    public const STAMINA_UNIT = 86400;
-
     public function execute(int $actorId, string $command, string $key, array $payload, Closure $callback): array
     {
         $this->ensure(Str::isUuid($key), 'A valid operation ID is required.');
@@ -86,38 +77,20 @@ final class GameAction
         $this->ledger($user->id, $operationId, 'money', $delta, $reason);
     }
 
-    /** Compute regenerated raw units without persisting a read-only HUD request. */
-    public static function availableStamina(User $user, CarbonImmutable $now): int
-    {
-        $seconds = max(0, $now->getTimestamp() - $user->stamina_updated_at->getTimestamp());
-
-        return min(self::STAMINA_MAX * self::STAMINA_UNIT, $user->stamina_units + $seconds * self::STAMINA_PER_DAY);
-    }
-
-    public function stamina(User $user, int $cost, int $operationId, string $reason): void
-    {
-        $this->ensure($cost >= 0 && $cost <= self::STAMINA_MAX, 'Invalid stamina cost.');
-        $at = CarbonImmutable::now();
-        $available = self::availableStamina($user, $at);
-        $this->ensure($available >= $cost * self::STAMINA_UNIT, 'Not enough stamina.');
-        $user->stamina_units = $available - $cost * self::STAMINA_UNIT;
-        $user->stamina_updated_at = $at;
-        $user->save();
-        $this->ledger($user->id, $operationId, 'stamina', -$cost, $reason);
-    }
-
-    public function addItem(User $user, string $itemId, int $quantity, ?int $operationId, string $reason, array $attributes = []): InventoryItem
+    /** New items enter the warehouse unless a dungeon rule holds them as unsettled loot. */
+    public function addItem(User $user, string $itemId, int $quantity, ?int $operationId, string $reason, array $attributes = [], string $location = 'warehouse'): InventoryItem
     {
         $this->ensure($quantity > 0 && $quantity <= 1000000, 'Invalid item quantity.');
-        $item = InventoryItem::create(['user_id' => $user->id, 'item_id' => $itemId, 'quantity' => $quantity, 'refinement' => $attributes['refinement'] ?? 0, 'enchantments' => $attributes['enchantments'] ?? [], 'location' => 'backpack']);
-        $this->ledger($user->id, $operationId, 'item', $quantity, $reason, $itemId, ['inventory_id' => $item->id, 'refinement' => $item->refinement, 'enchantments' => $item->enchantments]);
+        $this->ensure(in_array($location, ['warehouse', 'loot'], true), 'Invalid item location.');
+        $item = InventoryItem::create(['user_id' => $user->id, 'item_id' => $itemId, 'quantity' => $quantity, 'refinement' => $attributes['refinement'] ?? 0, 'enchantments' => $attributes['enchantments'] ?? [], 'location' => $location]);
+        $this->ledger($user->id, $operationId, 'item', $quantity, $reason, $itemId, ['inventory_id' => $item->id, 'refinement' => $item->refinement, 'enchantments' => $item->enchantments, 'location' => $location]);
 
         return $item;
     }
 
-    public function takeItem(User $user, int $inventoryId, int $quantity, int $operationId, string $reason): array
+    public function takeItem(User $user, int $inventoryId, int $quantity, int $operationId, string $reason, string $location = 'warehouse'): array
     {
-        $item = InventoryItem::query()->where('user_id', $user->id)->where('location', 'backpack')->lockForUpdate()->findOrFail($inventoryId);
+        $item = InventoryItem::query()->where('user_id', $user->id)->where('location', $location)->lockForUpdate()->findOrFail($inventoryId);
         $this->ensure($quantity > 0 && $quantity <= $item->quantity, 'Invalid item quantity.');
         $result = ['item_id' => $item->item_id, 'quantity' => $quantity, 'refinement' => $item->refinement, 'enchantments' => $item->enchantments];
         if ($quantity === $item->quantity) {

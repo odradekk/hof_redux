@@ -6,7 +6,7 @@ return [
     'menu' => [
         ['label' => '首页', 'route' => 'home', 'active' => ['home', 'player.character'], 'visibility' => 'auth'],
         ['label' => '狩猎', 'route' => 'hunt', 'active' => ['hunt*', 'bosses*', 'simulation'], 'visibility' => 'auth'],
-        ['label' => '道具', 'route' => 'player.inventory', 'active' => ['player.inventory'], 'visibility' => 'auth'],
+        ['label' => '仓库', 'route' => 'player.inventory', 'active' => ['player.inventory'], 'visibility' => 'auth'],
         ['label' => '城镇', 'route' => 'town', 'active' => ['town', 'player.roster', 'player.shop*', 'player.smithy*', 'auction*', 'ranking*'], 'visibility' => 'auth'],
         ['label' => '设置', 'route' => 'account', 'active' => ['account', 'player.preferences'], 'visibility' => 'auth'],
         ['label' => '记录', 'route' => 'reports.index', 'active' => ['reports.*', 'multiplayer.report'], 'visibility' => 'auth'],

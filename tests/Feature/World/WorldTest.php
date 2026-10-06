@@ -39,7 +39,7 @@ final class WorldTest extends TestCase
         $first = $service->hunt($user->id, $key, 'gb0', [$char->id], true);
         $this->assertSame($first, $service->hunt($user->id, $key, 'gb0', [$char->id], true));
         $this->assertDatabaseCount('battle_reports', 1);
-        $this->assertSame(99 * 86400, $user->fresh()->stamina_units);
+        $this->assertSame(99 * 86400, $char->fresh()->stamina_units);
         $report = BattleReport::findOrFail($first['report_id'])->report;
         $this->assertSame('pve', $report['mode']);
         $this->assertCount(1, $report['teams'][1]);
@@ -55,7 +55,6 @@ final class WorldTest extends TestCase
         $result = app(WorldService::class)->simulate($user->id, (string) Str::uuid(), [$char->id], false);
         $this->assertSame($before, $char->fresh()->getAttributes());
         $this->assertSame($money, $user->fresh()->money);
-        $this->assertSame(8640000, $user->fresh()->stamina_units);
         $this->get('/reports/'.$result['report_id'])->assertNotFound();
         $this->actingAs($user)->get('/reports/'.$result['report_id'])->assertOk();
     }
@@ -72,7 +71,7 @@ final class WorldTest extends TestCase
             }
         }
         $this->assertDatabaseCount('operations', 0);
-        $this->assertSame(8640000, $user->fresh()->stamina_units);
+        $this->assertSame(8640000, $char->fresh()->stamina_units);
     }
 
     public function test_timed_map_boundaries_and_map_item_ownership(): void

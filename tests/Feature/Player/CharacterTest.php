@@ -90,7 +90,7 @@ final class CharacterTest extends PlayerTestCase
         $this->command($user, 'job', ['character_id' => $character->id, 'job_id' => 101]);
         $this->assertSame('101', $character->fresh()->job_id);
         $this->assertSame(0, $character->equipment()->count());
-        $this->assertSame($before, $user->inventory()->where('location', 'backpack')->sum('quantity'));
+        $this->assertSame($before, $user->inventory()->where('location', 'warehouse')->sum('quantity'));
     }
 
     public function test_two_handed_and_shield_replacement_conserve_inventory(): void
@@ -104,12 +104,12 @@ final class CharacterTest extends PlayerTestCase
         $this->assertSame('1100', $character->equipment()->where('slot', 'weapon')->first()->item_id);
         $this->assertSame(1, $weapon->fresh()->quantity);
         $this->assertSame($before, $user->inventory()->sum('quantity'));
-        $shield = $user->inventory()->where('item_id', '3000')->where('location', 'backpack')->first();
+        $shield = $user->inventory()->where('item_id', '3000')->where('location', 'warehouse')->first();
         $this->command($user, 'equip', ['character_id' => $character->id, 'inventory_id' => $shield->id]);
         $this->assertSame(0, $character->equipment()->where('slot', 'weapon')->count());
         $this->assertSame($before, $user->inventory()->sum('quantity'));
         $this->command($user, 'unequip-all', ['character_id' => $character->id]);
-        $this->assertSame($before, $user->inventory()->where('location', 'backpack')->sum('quantity'));
+        $this->assertSame($before, $user->inventory()->where('location', 'warehouse')->sum('quantity'));
     }
 
     public function test_overweight_equipment_rolls_back_replacement(): void
@@ -127,7 +127,7 @@ final class CharacterTest extends PlayerTestCase
         } catch (ValidationException) {
         }
         $this->assertSame($before, $character->equipment()->pluck('id')->all());
-        $this->assertSame('backpack', $item->fresh()->location);
+        $this->assertSame('warehouse', $item->fresh()->location);
     }
 
     public function test_status_reset_returns_points_and_equipment(): void

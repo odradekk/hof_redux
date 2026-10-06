@@ -7,15 +7,18 @@ namespace App\Application\Battle;
 use App\Application\Player\ItemDetails;
 use App\Application\Player\PlayerRules;
 use App\Application\Player\PlayerService;
+use App\Application\Player\Vitals;
 use App\Application\Support\GameAction;
 use App\Domain\Combat\BattleEngine;
 use App\Domain\Combat\BattleSnapshot;
+use App\Domain\Combat\Fatigue;
 use App\Domain\Combat\RandomSource;
 use App\Domain\Combat\SeededRandom;
 use App\Domain\Combat\SnapshotFactory;
 use App\Domain\Content\ContentCatalog;
 use App\Models\Character;
 use App\Models\User;
+use Carbon\CarbonImmutable;
 
 final class BattleService
 {
@@ -26,7 +29,11 @@ final class BattleService
 
     public function __construct(private ContentCatalog $catalog, private ItemDetails $items, private PlayerService $players, private GameAction $actions) {}
 
-    public function party(User $user, array $ids, string $prefix = 'player'): array
+    /**
+     * Resolve a party. $wounded starts from stored HP/SP (dungeon battles) instead of full
+     * restoration; $fatigue applies the stamina penalty for modes that consume stamina.
+     */
+    public function party(User $user, array $ids, string $prefix = 'player', bool $wounded = false, bool $fatigue = false): array
     {
         $ids = array_map('intval', $ids);
         $this->actions->ensure(count($ids) >= 1 && count($ids) <= 5 && count(array_unique($ids)) === count($ids), 'Choose one to five different characters.');
@@ -37,9 +44,11 @@ final class BattleService
             $character = $characters[$id];
             $this->players->refreshVitals($character);
             $base = $character->stats;
-            // Reference saves growth, never battle injuries; each battle starts restored.
-            $base['hp'] = $base['maxhp'];
-            $base['sp'] = $base['maxsp'];
+            if (! $wounded) {
+                // Reference saves growth, never battle injuries; town battles start restored.
+                $base['hp'] = $base['maxhp'];
+                $base['sp'] = $base['maxsp'];
+            }
             $job = $this->catalog->get('jobs', $character->job_id);
             $base += ['id' => $prefix.':'.$id, 'character_id' => $id, 'gender' => $character->gender, 'name' => $character->name, 'level' => $character->level, 'img' => $job[$character->gender ? 'img_female' : 'img_male'] ?? 'NoImage.gif'];
             $base['exp'] = $character->xp;
@@ -61,7 +70,9 @@ final class BattleService
                     $passives[] = $skill;
                 }
             }
-            $party[] = SnapshotFactory::character($base, $equipment, $passives);
+            $snapshot = SnapshotFactory::character($base, $equipment, $passives);
+            // Dungeon characters do not rest, so their stored stamina is already current.
+            $party[] = $fatigue ? Fatigue::apply($snapshot, Vitals::stamina($character, CarbonImmutable::now(), ! $wounded)) : $snapshot;
         }
 
         return $party;
@@ -111,7 +122,7 @@ final class BattleService
     public function fight(User $user, array $partyIds, array $area, int $operationId, int $seed): array
     {
         $random = new SeededRandom($seed);
-        $party = $this->party($user, $partyIds);
+        $party = $this->party($user, $partyIds, fatigue: true);
         $report = $this->run([$party, $this->enemies($area['encounters'], count($party), $random)], 'pve', $random, $seed, [$user->name, $area['name']]);
         $report['background'] = $area['land'];
         $this->settle($user, $report, $operationId);
@@ -127,7 +138,7 @@ final class BattleService
         $definition['sp'] = $currentSp;
         $boss = SnapshotFactory::monster($definition, 'boss', $random, true);
         array_splice($enemies, intdiv(count($enemies), 2), 0, [$boss]);
-        $report = $this->run([$this->party($user, $partyIds), $enemies], 'boss', $random, $seed, [$user->name, $definition['UnionName'] ?? $definition['name']]);
+        $report = $this->run([$this->party($user, $partyIds, fatigue: true), $enemies], 'boss', $random, $seed, [$user->name, $definition['UnionName'] ?? $definition['name']]);
         foreach ($report['teams'][1] as $unit) {
             if ($unit['id'] === 'boss') {
                 $report['boss_hp'] = $unit['hp'];

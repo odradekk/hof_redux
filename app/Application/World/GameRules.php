@@ -11,7 +11,8 @@ use App\Application\Multiplayer\BossService;
 use App\Application\Multiplayer\RankingService;
 use App\Application\Player\PlayerRules;
 use App\Application\Player\PlayerService;
-use App\Application\Support\GameAction;
+use App\Application\Player\Vitals;
+use App\Domain\Combat\Fatigue;
 use App\Domain\Content\ContentCatalog;
 
 /**
@@ -101,8 +102,9 @@ final class GameRules
     {
         return [
             'party_max' => self::PARTY_MAX, 'max_level' => self::MAX_LEVEL, 'stat_cap' => self::STAT_CAP,
-            'stamina_max' => GameAction::STAMINA_MAX, 'stamina_day' => GameAction::STAMINA_PER_DAY,
-            'stamina_seconds' => 86400 / GameAction::STAMINA_PER_DAY,
+            'stamina_max' => Vitals::STAMINA_MAX, 'stamina_day' => Vitals::STAMINA_PER_DAY,
+            'stamina_seconds' => 86400 / Vitals::STAMINA_PER_DAY, 'health_hour' => Vitals::HEALTH_PERCENT_PER_HOUR,
+            'fatigue' => Fatigue::TIERS,
             'hunt' => WorldService::HUNT_STAMINA, 'work_stamina' => PlayerService::WORK_STAMINA, 'work_pay' => PlayerService::WORK_PAY,
             'rename_team' => PlayerService::TEAM_RENAME_PRICE,
             'actions' => BattleService::ACTION_LIMIT, 'simulation_actions' => BattleService::SIMULATION_ACTION_LIMIT,

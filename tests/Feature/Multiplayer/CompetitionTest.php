@@ -20,7 +20,7 @@ final class CompetitionTest extends TestCase
 
     private function player(string $login): array
     {
-        $user = User::create(['login' => $login, 'name' => $login, 'password' => 'password', 'stamina_updated_at' => now()]);
+        $user = User::create(['login' => $login, 'name' => $login, 'password' => 'password']);
 
         return [$user, app(CharacterFactory::class)->create($user, 1, $login.' hero', 0)];
     }
@@ -101,10 +101,32 @@ final class CompetitionTest extends TestCase
         $result = $service->challenge($user->id, $key, $boss->id, [$character->id]);
         self::assertSame($result, $service->challenge($user->id, $key, $boss->id, [$character->id]));
         self::assertSame(1, BossChallenge::count());
-        self::assertSame(7776000, $user->fresh()->stamina_units);
+        self::assertSame(7776000, $character->fresh()->stamina_units);
         self::assertGreaterThanOrEqual(0, $boss->fresh()->hp);
         $this->expectException(ValidationException::class);
         $service->challenge($user->id, (string) Str::uuid(), $boss->id, [$character->id]);
+    }
+
+    public function test_boss_challenge_charges_every_member_or_nobody(): void
+    {
+        $this->freezeTime();
+        [$user,$first] = $this->player('pair');
+        $second = app(CharacterFactory::class)->create($user, 2, 'Second', 0);
+        $service = app(BossService::class);
+        $service->bootstrap();
+        $boss = BossInstance::where('monster_id', '2004')->firstOrFail();
+        $second->forceFill(['stamina_units' => 9 * 86400 + 86399, 'stamina_updated_at' => now()])->save();
+        try {
+            $service->challenge($user->id, (string) Str::uuid(), $boss->id, [$first->id, $second->id]);
+            self::fail('A member below 10 stamina must block the challenge.');
+        } catch (ValidationException) {
+        }
+        self::assertSame(8640000, $first->fresh()->stamina_units);
+        self::assertSame(0, BossChallenge::count());
+        $this->travel(1)->seconds();
+        $service->challenge($user->id, (string) Str::uuid(), $boss->id, [$first->id, $second->id]);
+        self::assertSame(90 * 86400, $first->fresh()->stamina_units);
+        self::assertSame(499, $second->fresh()->stamina_units);
     }
 
     public function test_multiplayer_pages_render_and_hide_boss_resources(): void

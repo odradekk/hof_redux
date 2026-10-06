@@ -35,7 +35,7 @@ final class AuctionService
 
     public function isMember(int $userId): bool
     {
-        return InventoryItem::where('user_id', $userId)->where('item_id', '9000')->where('location', 'backpack')->exists();
+        return InventoryItem::where('user_id', $userId)->where('item_id', '9000')->where('location', 'warehouse')->exists();
     }
 
     public function join(int $userId, string $key): array
@@ -58,7 +58,7 @@ final class AuctionService
             $this->actions->ensure(in_array($hours, self::DURATIONS, true) && $price >= 0 && $price <= 1000000000000 && mb_strlen($comment) <= 200, 'Invalid listing details.');
             $this->actions->ensure(AuctionListing::where('status', 'active')->count() < self::MAX_ACTIVE, 'The auction is full.');
             $this->actions->ensure(! AuctionListing::where('seller_id', $user->id)->where('created_at', '>', now()->subSeconds(self::LISTING_INTERVAL_SECONDS))->exists(), 'Wait 30 seconds between listings.');
-            $item = InventoryItem::where('user_id', $user->id)->where('location', 'backpack')->lockForUpdate()->findOrFail($inventoryId);
+            $item = InventoryItem::where('user_id', $user->id)->where('location', 'warehouse')->lockForUpdate()->findOrFail($inventoryId);
             $definition = $this->content->get('items', $item->item_id);
             $this->actions->ensure(in_array($definition['type'] ?? '', self::TYPES, true), 'This item cannot be auctioned.');
             $this->actions->ensure($quantity > 0 && $quantity <= $item->quantity, 'Invalid listing quantity.');
@@ -132,7 +132,7 @@ final class AuctionService
                 $this->actions->ledger($recipient, null, 'item', $item->quantity, 'auction won', $item->item_id, ['auction_id' => $listing->id]);
             }
             $item->user_id = $recipient;
-            $item->location = 'backpack';
+            $item->location = 'warehouse';
             $item->save();
             $listing->status = $listing->bidder_id ? 'sold' : 'unsold';
             $listing->escrow = 0;

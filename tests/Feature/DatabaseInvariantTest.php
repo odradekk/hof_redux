@@ -40,6 +40,27 @@ final class DatabaseInvariantTest extends TestCase
         DB::table('users')->where('id', $user->id)->update(['money' => -1]);
     }
 
+    public function test_postgresql_refuses_removed_location_and_stamina_overflow(): void
+    {
+        if (DB::getDriverName() !== 'pgsql') {
+            $this->markTestSkipped('Production constraint is tested on PostgreSQL.');
+        }
+        $user = User::factory()->create();
+        $character = DB::transaction(fn () => app(CharacterFactory::class)->create($user, 1, 'Owned', 0));
+        foreach ([
+            fn () => $user->inventory()->create(['item_id' => '1000', 'location' => 'backpack']),
+            fn () => DB::table('characters')->where('id', $character->id)->update(['stamina_units' => 8640001]),
+            fn () => DB::table('characters')->where('id', $character->id)->update(['stamina_units' => -1]),
+        ] as $write) {
+            try {
+                DB::transaction($write);
+                $this->fail('Constraint accepted an invalid write.');
+            } catch (QueryException) {
+            }
+        }
+        $this->assertSame('warehouse', $user->inventory()->create(['item_id' => '1000'])->fresh()->location);
+    }
+
     public function test_postgresql_refuses_nonpositive_inventory(): void
     {
         if (DB::getDriverName() !== 'pgsql') {

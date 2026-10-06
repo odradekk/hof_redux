@@ -3,6 +3,7 @@
 namespace App\Application\Multiplayer;
 
 use App\Application\Battle\BattleService;
+use App\Application\Player\Vitals;
 use App\Application\Support\GameAction;
 use App\Domain\Content\ContentCatalog;
 use App\Models\BossChallenge;
@@ -20,7 +21,7 @@ final class BossService
 
     public const COOLDOWN_MINUTES = 20;
 
-    public function __construct(private GameAction $actions, private ContentCatalog $content, private BattleService $battles) {}
+    public function __construct(private GameAction $actions, private ContentCatalog $content, private BattleService $battles, private Vitals $vitals) {}
 
     /** Return display-only values; never expose the boss definition or resources. */
     public function summaries(): array
@@ -104,7 +105,9 @@ final class BossService
             $this->actions->ensure($characters->count() === count($party), 'Party contains an unavailable character.');
             $this->actions->ensure($characters->sum('level') <= (int) $boss->definition['LevelLimit'], 'Party level exceeds this boss limit.');
             $this->actions->ensure(! BossChallenge::where('user_id', $user->id)->where('created_at', '>', now()->subMinutes(self::COOLDOWN_MINUTES))->exists(), 'Wait 20 minutes between shared-boss challenges.');
-            $this->actions->stamina($user, self::CHALLENGE_STAMINA, $op, 'shared boss challenge');
+            foreach ($characters as $character) {
+                $this->vitals->spendStamina($character, self::CHALLENGE_STAMINA, $op, 'shared boss challenge');
+            }
             $before = $boss->hp;
             $report = $this->battles->fightBoss($user, $party, $boss->definition, $boss->hp, $boss->sp, $op, $seed);
             $boss->hp = max(0, min((int) $boss->definition['maxhp'], (int) $report['boss_hp']));

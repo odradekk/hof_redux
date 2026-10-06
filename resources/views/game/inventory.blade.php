@@ -1,7 +1,7 @@
 @extends('layouts.app')
-@section('title', '道具')
+@section('title', '仓库')
 @section('content')
-<x-sec title="所持道具" as="h1" />
+<x-sec title="仓库" as="h1"><x-slot:aside>没有容量上限；进入地下城时只能带上背包里的消耗品</x-slot:aside></x-sec>
 <x-tabs :items="$tabs" />
 @foreach($groups as $key => $group)
     <x-sec :title="$group['label']" :id="'inventory-'.$key" />

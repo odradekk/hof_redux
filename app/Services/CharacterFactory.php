@@ -32,7 +32,7 @@ final class CharacterFactory
         foreach ($parts[0] as $i => $judge) {
             $tactics[] = ['judge' => (int) $judge, 'quantity' => (int) $parts[1][$i], 'action' => (int) $parts[2][$i]];
         }
-        $character = $lockedUser->characters()->create(['name' => $name, 'gender' => $gender, 'base_type' => $baseType, 'job_id' => (string) $base['job'], 'stats' => $stats, 'skills' => array_map('intval', $base['skill']), 'tactics' => $tactics, 'position' => $base['position'], 'guard_policy' => ['mode' => $base['guard']]]);
+        $character = $lockedUser->characters()->create(['name' => $name, 'gender' => $gender, 'base_type' => $baseType, 'job_id' => (string) $base['job'], 'stats' => $stats, 'skills' => array_map('intval', $base['skill']), 'tactics' => $tactics, 'position' => $base['position'], 'guard_policy' => ['mode' => $base['guard']], 'stamina_updated_at' => now(), 'health_updated_at' => now()]);
         foreach (['weapon', 'shield', 'armor', 'item'] as $slot) {
             if (! empty($base[$slot])) {
                 $lockedUser->inventory()->create(['item_id' => (string) $base[$slot], 'quantity' => 1, 'location' => 'equipped', 'character_id' => $character->id, 'slot' => $slot]);

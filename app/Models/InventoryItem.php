@@ -9,6 +9,9 @@ final class InventoryItem extends Model
 {
     protected $guarded = ['id'];
 
+    // Matches the PostgreSQL column default; SQLite keeps the pre-rename default in old schemas.
+    protected $attributes = ['location' => 'warehouse'];
+
     protected function casts(): array
     {
         return ['enchantments' => 'array', 'quantity' => 'integer', 'refinement' => 'integer'];

@@ -18,7 +18,7 @@ final class Inventory
 
     public function owned(User $user, int $id): InventoryItem
     {
-        return InventoryItem::where('user_id', $user->id)->where('location', 'backpack')->lockForUpdate()->findOrFail($id);
+        return InventoryItem::where('user_id', $user->id)->where('location', 'warehouse')->lockForUpdate()->findOrFail($id);
     }
 
     public function consumeBase(User $user, string $itemId, int $quantity, int $operation, string $reason): void
@@ -26,7 +26,7 @@ final class Inventory
         if ($quantity < 1) {
             throw new \InvalidArgumentException('Quantity must be positive.');
         }
-        $rows = $user->inventory()->where('location', 'backpack')->where('item_id', $itemId)
+        $rows = $user->inventory()->where('location', 'warehouse')->where('item_id', $itemId)
             ->where('refinement', 0)->orderBy('id')->lockForUpdate()->get()
             ->filter(fn (InventoryItem $item) => empty($item->enchantments));
         if ($rows->sum('quantity') < $quantity) {
@@ -59,7 +59,7 @@ final class Inventory
     private function returnItem(User $user, InventoryItem $item, int $operation): void
     {
         $previous = ['character_id' => $item->character_id, 'slot' => $item->slot];
-        $item->forceFill(['location' => 'backpack', 'character_id' => null, 'slot' => null])->save();
+        $item->forceFill(['location' => 'warehouse', 'character_id' => null, 'slot' => null])->save();
         $this->actions->ledger($user->id, $operation, 'item_move', 1, 'unequip', $item->item_id, $previous + ['inventory_id' => $item->id]);
     }
 
@@ -98,7 +98,7 @@ final class Inventory
             $item = InventoryItem::create([
                 'user_id' => $user->id, 'item_id' => $item->item_id, 'quantity' => 1,
                 'refinement' => $item->refinement, 'enchantments' => $item->enchantments,
-                'location' => 'backpack',
+                'location' => 'warehouse',
             ]);
         }
         $item->forceFill(['location' => 'equipped', 'character_id' => $character->id, 'slot' => $slot])->save();

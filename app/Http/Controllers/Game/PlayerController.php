@@ -7,15 +7,15 @@ namespace App\Http\Controllers\Game;
 use App\Application\Player\ItemDetails;
 use App\Application\Player\PlayerRules;
 use App\Application\Player\PlayerService;
-use App\Application\Support\GameAction;
+use App\Application\Player\Vitals;
 use App\Application\World\WorldService;
+use App\Domain\Combat\Fatigue;
 use App\Domain\Combat\SnapshotFactory;
 use App\Domain\Content\ContentCatalog;
 use App\Http\View\Images;
 use App\Http\View\ItemLines;
 use App\Http\View\UiColors;
 use App\Http\View\UnitCards;
-use Carbon\CarbonImmutable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +29,7 @@ final class PlayerController
     public function roster(Request $request): View
     {
         $characters = $request->user()->characters()->orderBy('id')->get();
-        $units = $characters->map(fn ($character) => UnitCards::character($character->toArray(), $this->catalog->get('jobs', $character->job_id)))->all();
+        $units = $characters->map(fn ($character) => UnitCards::character($character->toArray(), $this->catalog->get('jobs', $character->job_id), Vitals::current($character)))->all();
         $recruits = [];
         foreach (PlayerRules::RECRUIT_PRICES as $type => $price) {
             $base = $this->catalog->get('base_characters', $type);
@@ -79,7 +79,14 @@ final class PlayerController
             }
         }
         $effective = SnapshotFactory::character($model->stats, $resolvedEquipment, $passives);
-        $statusRows = [['label' => '经验', 'value' => $model->xp.' / '.(PlayerRules::experienceRequired($model->level) ?? 'MAX')]];
+        $vitals = Vitals::current($model);
+        $penalty = Fatigue::penalty($vitals['stamina']);
+        $statusRows = [
+            ['label' => 'HP', 'value' => $vitals['hp'].' / '.$vitals['maxhp']],
+            ['label' => 'SP', 'value' => $vitals['sp'].' / '.$vitals['maxsp']],
+            ['label' => '体力', 'value' => $vitals['stamina'].' / '.$vitals['staminaMax'].($penalty ? '（疲劳：属性 -'.$penalty.'%）' : '')],
+            ['label' => '经验', 'value' => $model->xp.' / '.(PlayerRules::experienceRequired($model->level) ?? 'MAX')],
+        ];
         foreach (['maxhp', 'maxsp', ...PlayerRules::STATS] as $stat) {
             $statusRows[] = ['label' => __('hof.stats.'.$stat), 'value' => $model->stats[$stat], 'plus' => $effective[$stat] - $model->stats[$stat]];
         }
@@ -190,7 +197,7 @@ final class PlayerController
             }
         } elseif ($mode === 'sell') {
             // At most 404 successful controls, even when all 100 rows are selected.
-            $inventory = $request->user()->inventory()->where('location', 'backpack')->orderBy('item_id')->orderBy('id')->paginate(100);
+            $inventory = $request->user()->inventory()->where('location', 'warehouse')->orderBy('item_id')->orderBy('id')->paginate(100);
             foreach ($inventory as $row) {
                 $resolved = $this->details->resolve($row);
                 $items[] = ['id' => $row->id, 'line' => ItemLines::fromInventory($row->toArray(), $resolved),
@@ -200,7 +207,9 @@ final class PlayerController
 
         return view('game.shop', compact('mode', 'tabs', 'items', 'inventory') + [
             'npc' => ['img' => 'image/char/ori_002.gif', 'alt' => '店员', 'text' => '欢迎光临ー'],
-            'stamina' => intdiv(GameAction::availableStamina($request->user(), CarbonImmutable::now()), GameAction::STAMINA_UNIT),
+            'workers' => $mode === 'work' ? $request->user()->characters()->orderBy('id')->get()->map(fn ($character) => [
+                'id' => $character->id, 'name' => $character->name, 'stamina' => Vitals::current($character)['stamina'],
+            ])->all() : [],
         ]);
     }
 
@@ -250,7 +259,7 @@ final class PlayerController
 
     private function inventoryRows(Request $request): array
     {
-        return $request->user()->inventory()->where('location', 'backpack')->orderBy('item_id')->orderBy('id')->get()->map(function ($row) {
+        return $request->user()->inventory()->where('location', 'warehouse')->orderBy('item_id')->orderBy('id')->get()->map(function ($row) {
             $resolved = $this->details->resolve($row);
 
             return ['id' => $row->id, 'item_id' => $row->item_id, 'quantity' => $row->quantity,

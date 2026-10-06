@@ -30,7 +30,7 @@ final class AuthController
                 throw ValidationException::withMessages(['login' => '目前注册人数已满。']);
             }
 
-            return User::create($data + ['stamina_updated_at' => now(), 'preferences' => ['record_battle_log' => true, 'no_js_inventory' => false, 'color' => '', 'party' => []]]);
+            return User::create($data + ['preferences' => ['record_battle_log' => true, 'no_js_inventory' => false, 'color' => '', 'party' => []]]);
         });
         Auth::login($user);
         $request->session()->regenerate();

@@ -5,11 +5,17 @@
 <x-facility :npc="$npc" :tabs="$tabs">
 @if($mode === 'work')
     <x-sec title="打工" />
-    <p class="indent">100 体力 → <x-money :amount="500" />。体力每天恢复 500，上限 100。</p>
+    <p class="indent">派一名体力满 100 的角色打工：消耗其 100 体力 → <x-money :amount="500" />。角色在城镇中每天恢复 500 体力，上限 100。</p>
     <form method="post" action="{{ route('player.command', 'work') }}">
         <x-op />
-        <div class="actions indent"><button class="btn btn-lg" type="submit" @disabled($stamina < 100)>打工</button>
-            @if($stamina < 100)<span class="hint">当前体力 {{ $stamina }} / 100，体力恢复到 100 后才能打工</span>@endif
+        <ul class="item-list indent">
+        @foreach($workers as $worker)
+            <li><label class="check"><input type="radio" name="character_id" value="{{ $worker['id'] }}" @checked((int) old('character_id') === $worker['id']) @disabled($worker['stamina'] < 100) required>{{ $worker['name'] }} <span class="meta">体力 {{ $worker['stamina'] }} / 100</span></label></li>
+        @endforeach
+        </ul>
+        @php($ready = collect($workers)->contains(fn ($worker) => $worker['stamina'] >= 100))
+        <div class="actions indent"><button class="btn btn-lg" type="submit" @disabled(! $ready)>打工</button>
+            @unless($ready)<span class="hint">没有体力满 100 的角色，体力恢复到 100 后才能打工</span>@endunless
         </div>
     </form>
 @else

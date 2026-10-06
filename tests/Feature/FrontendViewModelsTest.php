@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Application\Player\ItemDetails;
-use App\Application\Support\GameAction;
+use App\Application\Player\Vitals;
 use App\Domain\Content\ContentCatalog;
 use App\Http\View\FormErrors;
 use App\Http\View\ItemLines;
@@ -12,6 +12,7 @@ use App\Http\View\UiColors;
 use App\Http\View\UnitCards;
 use App\Models\RankingEntry;
 use App\Models\User;
+use App\Services\CharacterFactory;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Blade;
@@ -27,12 +28,28 @@ final class FrontendViewModelsTest extends TestCase
     public function test_stamina_read_projection_preserves_units_and_never_writes(): void
     {
         $at = CarbonImmutable::parse('2026-10-05T12:00:00Z');
-        $user = User::factory()->create(['stamina_units' => 100, 'stamina_updated_at' => $at]);
-        $this->assertSame(600, GameAction::availableStamina($user, $at->addSecond()));
-        $this->assertSame(100, GameAction::availableStamina($user, $at->subSecond()));
-        $this->assertSame(8640000, GameAction::availableStamina($user, $at->addDay()));
-        $this->assertSame(100, $user->fresh()->stamina_units);
-        $this->assertSame($at->getTimestamp(), $user->fresh()->stamina_updated_at->getTimestamp());
+        $character = app(CharacterFactory::class)->create(User::factory()->create(), 1, 'Hero', 0);
+        $character->forceFill(['stamina_units' => 100, 'stamina_updated_at' => $at])->save();
+        $this->assertSame(600, Vitals::staminaUnits($character, $at->addSecond(), true));
+        $this->assertSame(100, Vitals::staminaUnits($character, $at->subSecond(), true));
+        $this->assertSame(8640000, Vitals::staminaUnits($character, $at->addDay(), true));
+        // A character inside a dungeon does not rest.
+        $this->assertSame(100, Vitals::staminaUnits($character, $at->addDay(), false));
+        $this->assertSame(100, $character->fresh()->stamina_units);
+        $this->assertSame($at->getTimestamp(), $character->fresh()->stamina_updated_at->getTimestamp());
+    }
+
+    public function test_resting_health_recovers_twenty_percent_per_hour_and_caps(): void
+    {
+        $at = CarbonImmutable::parse('2026-10-05T12:00:00Z');
+        $character = app(CharacterFactory::class)->create(User::factory()->create(), 1, 'Hero', 0);
+        $character->forceFill(['stats' => ['maxhp' => 1000, 'hp' => 100, 'maxsp' => 37, 'sp' => 0] + $character->stats, 'health_updated_at' => $at])->save();
+        $this->assertSame(['hp' => 300, 'sp' => 7], Vitals::health($character, $at->addHour(), true));
+        // 179 seconds is one HP short of 10 for a 1000 HP maximum (1000 * 179 / 18000 = 9.94).
+        $this->assertSame(['hp' => 109, 'sp' => 0], Vitals::health($character, $at->addSeconds(179), true));
+        $this->assertSame(['hp' => 1000, 'sp' => 37], Vitals::health($character, $at->addHours(5), true));
+        $this->assertSame(['hp' => 100, 'sp' => 0], Vitals::health($character, $at->addHours(5), false));
+        $this->assertSame(['hp' => 100, 'sp' => 0], Vitals::health($character, $at->subHour(), true));
     }
 
     public function test_array_projections_map_gender_refinement_and_chinese_terms(): void

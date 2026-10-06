@@ -8,6 +8,7 @@ use App\Application\Multiplayer\RankingService;
 use App\Models\AuctionListing;
 use App\Models\BossChallenge;
 use App\Models\BossInstance;
+use App\Models\Character;
 use App\Models\InventoryItem;
 use App\Models\RankingChallenge;
 use App\Models\RankingEntry;
@@ -33,10 +34,10 @@ final class PostgresConcurrencyTest extends TestCase
 
     private function player(string $login): User
     {
-        $user = User::create(['login' => $login, 'name' => $login, 'password' => 'password', 'stamina_updated_at' => now()]);
+        $user = User::create(['login' => $login, 'name' => $login, 'password' => 'password']);
         $user->money = 100000;
         $user->save();
-        InventoryItem::create(['user_id' => $user->id, 'item_id' => '9000', 'quantity' => 1, 'location' => 'backpack']);
+        InventoryItem::create(['user_id' => $user->id, 'item_id' => '9000', 'quantity' => 1, 'location' => 'warehouse']);
 
         return $user;
     }
@@ -49,7 +50,7 @@ final class PostgresConcurrencyTest extends TestCase
         $seller = $this->player('seller');
         $a = $this->player('bidder_a');
         $b = $this->player('bidder_b');
-        $item = InventoryItem::create(['user_id' => $seller->id, 'item_id' => '1000', 'quantity' => 1, 'location' => 'backpack']);
+        $item = InventoryItem::create(['user_id' => $seller->id, 'item_id' => '1000', 'quantity' => 1, 'location' => 'warehouse']);
         $id = app(AuctionService::class)->exhibit($seller->id, (string) Str::uuid(), $item->id, 1, 100, 1)['auction_id'];
         $one = $this->worker('bid', [$a->id, (string) Str::uuid(), $id, 200]);
         $two = $this->worker('bid', [$b->id, (string) Str::uuid(), $id, 300]);
@@ -84,7 +85,7 @@ final class PostgresConcurrencyTest extends TestCase
         self::assertSame(1, $first['result']['settled'] + $second['result']['settled']);
         self::assertSame('sold', $listing->fresh()->status);
         self::assertSame(299500, (int) User::sum('money'));
-        self::assertSame(1, InventoryItem::where('item_id', '1000')->where('location', 'backpack')->sum('quantity'));
+        self::assertSame(1, InventoryItem::where('item_id', '1000')->where('location', 'warehouse')->sum('quantity'));
     }
 
     public function test_same_request_on_two_connections_debits_once(): void
@@ -94,7 +95,7 @@ final class PostgresConcurrencyTest extends TestCase
         }
         $seller = $this->player('seller');
         $buyer = $this->player('buyer');
-        $item = InventoryItem::create(['user_id' => $seller->id, 'item_id' => '1000', 'quantity' => 1, 'location' => 'backpack']);
+        $item = InventoryItem::create(['user_id' => $seller->id, 'item_id' => '1000', 'quantity' => 1, 'location' => 'warehouse']);
         $id = app(AuctionService::class)->exhibit($seller->id, (string) Str::uuid(), $item->id, 1, 100, 1)['auction_id'];
         $payload = [$buyer->id, (string) Str::uuid(), $id, 200];
         $one = $this->worker('bid', $payload);
@@ -198,6 +199,7 @@ final class PostgresConcurrencyTest extends TestCase
         self::assertSame(0, $boss->fresh()->hp);
         self::assertSame(1, BossChallenge::where('killed', true)->count());
         self::assertSame(1, BossChallenge::count());
-        self::assertSame(16416000, (int) User::sum('stamina_units'));
+        // Only the winning challenger's character paid 10 stamina.
+        self::assertSame(16416000, (int) Character::sum('stamina_units'));
     }
 }

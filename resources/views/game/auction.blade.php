@@ -51,7 +51,7 @@
     @if($members)
         <x-sec title="出品" as="h2" id="auction-new" />
         @if($items === [])
-            <p class="empty">背包中没有可拍卖的道具。</p>
+            <p class="empty">仓库中没有可拍卖的道具。</p>
         @else
             <form method="post" action="{{ route('auction.exhibit') }}" class="form-grid indent">
                 <x-op />
