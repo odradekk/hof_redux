@@ -9,7 +9,7 @@ No reference PHP is executed. The immutable `ContentCatalog` owns prices, job/sk
 ## Retained source behavior
 
 - Recruitment: `class.main.php:1968–2113`; base types 1–4 cost 2,000 / 2,000 / 2,500 / 4,000; cap five, locked server-side. Starter equipment is included through `CharacterFactory`.
-- Stats: `class.main.php:379+`; allocate only nonnegative integers, maximum 255; 3 status points and 1 skill point per level. `PlayerRules` retains the XP thresholds and the reference's one-level-per-grant/excess-XP-discard rule (`class.char.php:616–666`). It does not silently rebalance progression.
+- Stats: `class.main.php:379+`; allocate only nonnegative integers, maximum 255; 3 status points and 1 skill point per level. Superseded on 2026-10-07 by `attribute-design.md`: six attributes including vitality, no maximum, 5 status points per level, HP from vitality. `PlayerRules` retains the XP thresholds and the reference's one-level-per-grant/excess-XP-discard rule (`class.char.php:616–666`). It does not silently rebalance progression.
 - Jobs and skill tree: `data.classchange.php`, `data.skilltree.php`, skill `learn` prices. Every job change returns all equipment. Existing skills survive a job change.
 - Equipment: `class.char.php:678–759`; job whitelist, four slots, two-handed/shield replacement, capacity `5 + floor(level/10) + floor(DEX/5)`. Replacements are checked before mutation. Stacks are split into a one-unit equipped row.
 - Tactics: ordered condition / quantity / action rows, memo swap, fixed-capacity insert/delete, row count derived from INT and level. Only selectable conditions and learned active skills are accepted. Missing memo starts with ordinary attack. Simulations belong to the battle/web module.

@@ -58,6 +58,8 @@ Acceptance: new account completes setup exactly once; duplicate/invalid input ne
 ### F02 — Team economy, stamina, preferences, and home (R/P)
 
 > Redux change (2026-10-06): stamina is per character, regenerates only while resting, and drives a fatigue penalty; work and shared bosses charge the chosen characters. See `dungeon-design.md`. The legacy description below remains as evidence.
+>
+> Redux change (2026-10-07): a sixth attribute (vitality) sets maximum HP, stamina capacity and regeneration; level-ups grant 5 status points; attributes have no upper limit (`MAX_STATUS=255` is retired); fatigue scales battle output instead of attributes. See `attribute-design.md`.
 
 Home shows tutorial prompts and characters. Stamina regenerates continuously from elapsed time, at 500/day capped at 100, not one midnight grant. Team money, party-memory selection, team-name change costing 100,000, battle-log preference, non-JavaScript inventory option, and user color exist. `MAX_CHAR=5`, `MAX_LEVEL=50`, `MAX_STATUS=255`, level-up grants 3 status points and 1 skill point. Existing money/stamina constants are rule evidence, not new tuning permission.
 
