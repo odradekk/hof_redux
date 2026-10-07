@@ -199,7 +199,7 @@ final class PostgresConcurrencyTest extends TestCase
         self::assertSame(0, $boss->fresh()->hp);
         self::assertSame(1, BossChallenge::where('killed', true)->count());
         self::assertSame(1, BossChallenge::count());
-        // Only the winning challenger's character paid 10 stamina.
-        self::assertSame(16416000, (int) Character::sum('stamina_units'));
+        // Only the winning challenger's character paid 10 of its 108 stamina (warrior, VIT 8).
+        self::assertSame((2 * 108 - 10) * 86400, (int) Character::sum('stamina_units'));
     }
 }

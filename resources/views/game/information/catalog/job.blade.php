@@ -10,8 +10,8 @@
 <p>{{ $job['note'] }}</p>
 <dl class="kv">
 <dt>可装备</dt><dd>@foreach($job['equip'] as $type)<span class="badge">{{ $type }}</span>@endforeach</dd>
-<dt>生命系数</dt><dd>× {{ $job['coe'][0] }}（Lv.1 力量 10：{{ \App\Application\World\GameRules::vital((float) $job['coe'][0], 1, 10) }}，Lv.50 力量 100：{{ \App\Application\World\GameRules::vital((float) $job['coe'][0], 50, 100) }}）</dd>
-<dt>魔力系数</dt><dd>× {{ $job['coe'][1] }}（Lv.1 智慧 10：{{ \App\Application\World\GameRules::vital((float) $job['coe'][1], 1, 10) }}，Lv.50 智慧 100：{{ \App\Application\World\GameRules::vital((float) $job['coe'][1], 50, 100) }}）</dd>
+<dt>生命系数</dt><dd>× {{ $job['coe'][0] }}（Lv.1 体质 10：{{ \App\Domain\Character\Attributes::maxHp((float) $job['coe'][0], 1, 10) }}，Lv.50 体质 100：{{ \App\Domain\Character\Attributes::maxHp((float) $job['coe'][0], 50, 100) }}）</dd>
+<dt>魔力系数</dt><dd>× {{ $job['coe'][1] }}（Lv.1 智慧 10：{{ \App\Domain\Character\Attributes::maxSp((float) $job['coe'][1], 1, 10) }}，Lv.50 智慧 100：{{ \App\Domain\Character\Attributes::maxSp((float) $job['coe'][1], 50, 100) }}）</dd>
 @if($job['from'])<dt>转职条件</dt><dd><a href="{{ $job['from']['job']['href'] }}">{{ $job['from']['job']['name'] }}</a> 等级 {{ $job['from']['level'] }} 以上</dd>@endif
 @if($job['to'])<dt>可转职为</dt><dd>@foreach($job['to'] as $to)<a href="{{ $to['job']['href'] }}">{{ $to['job']['name'] }}</a>（Lv.{{ $to['level'] }}）{{ $loop->last ? '' : '、' }}@endforeach</dd>@endif
 </dl>

@@ -4,30 +4,39 @@ declare(strict_types=1);
 
 namespace App\Domain\Combat;
 
-/** Low stamina weakens a resolved character snapshot before the engine sees it. */
+/**
+ * Low stamina weakens a character's battle output. The engine applies the multipliers to
+ * formula damage, healing and action rate, so a listed penalty is the effect a player sees.
+ */
 final class Fatigue
 {
-    /** Minimum whole stamina => percentage removed from STR/INT/DEX/SPD/LUK. */
-    public const TIERS = [60 => 0, 30 => 10, 10 => 25, 1 => 40, 0 => 60];
+    /** Minimum stamina as a percentage of the maximum => [output penalty %, speed penalty %]. */
+    public const TIERS = [60 => [0, 0], 30 => [10, 5], 10 => [20, 10], 0 => [35, 20]];
 
-    public static function penalty(int $stamina): int
+    /** Penalties at exactly zero stamina. */
+    public const EXHAUSTED = [50, 30];
+
+    /** @return array{output: int, speed: int} */
+    public static function penalty(int $stamina, int $maximum): array
     {
-        foreach (self::TIERS as $minimum => $penalty) {
-            if ($stamina >= $minimum) {
-                return $penalty;
+        if ($stamina < 0 || $maximum < 1) {
+            throw new \InvalidArgumentException('Stamina cannot be negative.');
+        }
+        if ($stamina === 0) {
+            return ['output' => self::EXHAUSTED[0], 'speed' => self::EXHAUSTED[1]];
+        }
+        foreach (self::TIERS as $minimum => [$output, $speed]) {
+            if ($stamina * 100 >= $minimum * $maximum) {
+                return ['output' => $output, 'speed' => $speed];
             }
         }
 
-        throw new \InvalidArgumentException('Stamina cannot be negative.');
+        throw new \LogicException('Fatigue tiers must end at zero.');
     }
 
-    public static function apply(array $snapshot, int $stamina): array
+    public static function apply(array $snapshot, int $stamina, int $maximum): array
     {
-        $penalty = self::penalty($stamina);
-        foreach (['str', 'int', 'dex', 'spd', 'luk'] as $stat) {
-            $snapshot[$stat] = intdiv((int) $snapshot[$stat] * (100 - $penalty), 100);
-        }
-        $snapshot['fatigue'] = $penalty;
+        $snapshot['fatigue'] = self::penalty($stamina, $maximum);
 
         return $snapshot;
     }

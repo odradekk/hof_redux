@@ -272,7 +272,7 @@ trait Effects
         $type = (int) ($s['type'] ?? 0) === 0 ? 0 : 1;
         $stat = $type === 0 ? (($s['inf'] ?? '') === 'dex' ? 'dex' : 'str') : 'int';
         $power = (float) ($s['pow'] ?? 0) / 100;
-        $n = (sqrt($u->v[$stat]) * 10 + ($u->v['atk'][$type] ?? 0)) * $power * $multiply;
+        $n = (sqrt($u->v[$stat]) * 10 + ($u->v['atk'][$type] ?? 0)) * $power * $multiply * $u->output();
         if (! empty($t->v['SPECIAL']['Barrier'])) {
             $t->v['SPECIAL']['Barrier'] = false;
             $n = 0;
@@ -289,7 +289,7 @@ trait Effects
 
     private function healing(array $s, Combatant $u): int
     {
-        return (int) ceil((sqrt($u->v['int']) * 10 + ($u->v['atk'][1] ?? 0)) * (float) ($s['pow'] ?? 0) / 100);
+        return (int) ceil((sqrt($u->v['int']) * 10 + ($u->v['atk'][1] ?? 0)) * (float) ($s['pow'] ?? 0) / 100 * $u->output());
     }
 
     private function resource(Combatant $u, string $resource, int $change, string $reason, bool $nonlethal = false): void

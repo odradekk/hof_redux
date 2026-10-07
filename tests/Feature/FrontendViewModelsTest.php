@@ -30,9 +30,10 @@ final class FrontendViewModelsTest extends TestCase
         $at = CarbonImmutable::parse('2026-10-05T12:00:00Z');
         $character = app(CharacterFactory::class)->create(User::factory()->create(), 1, 'Hero', 0);
         $character->forceFill(['stamina_units' => 100, 'stamina_updated_at' => $at])->save();
-        $this->assertSame(600, Vitals::staminaUnits($character, $at->addSecond(), true));
+        // A warrior has VIT 8: maximum 108 points, regenerating 5 × 108 units per second.
+        $this->assertSame(640, Vitals::staminaUnits($character, $at->addSecond(), true));
         $this->assertSame(100, Vitals::staminaUnits($character, $at->subSecond(), true));
-        $this->assertSame(8640000, Vitals::staminaUnits($character, $at->addDay(), true));
+        $this->assertSame(108 * 86400, Vitals::staminaUnits($character, $at->addDay(), true));
         // A character inside a dungeon does not rest.
         $this->assertSame(100, Vitals::staminaUnits($character, $at->addDay(), false));
         $this->assertSame(100, $character->fresh()->stamina_units);

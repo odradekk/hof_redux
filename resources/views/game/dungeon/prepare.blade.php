@@ -3,7 +3,7 @@
 @section('content')
 <h1 class="page-title">{{ $dungeon['name'] }}<span class="meta">{{ $dungeon['proper'] }} · {{ $dungeon['rooms'] }} 个房间 · <a href="{{ route('dungeons') }}">返回地下城列表</a></span></h1>
 <p class="indent">{{ $dungeon['summary'] }}</p>
-<p class="hint indent">每次移动每名成员消耗 {{ $rules['move'] }} 体力，每场战斗再消耗 {{ $rules['battle'] }} 体力。地下城中不会自然恢复 HP、SP 和体力。</p>
+<p class="hint indent">每次移动每名成员消耗 {{ $rules['move'] }} 体力，每场战斗再消耗 {{ $rules['battle'] }} 体力。地下城中不会自然恢复 HP 和体力，每次移动按智慧恢复少量 SP。生命降到 0 的同伴会陷入濒死，可以救回或带回城镇。</p>
 <form method="post" action="{{ route('dungeons.prepare', $dungeon['id']) }}"><x-op />
     <x-sec title="队伍"><x-slot:aside>选择 1–5 名</x-slot:aside></x-sec>
     <x-unit-picker :units="$units" :selected="$selected" />

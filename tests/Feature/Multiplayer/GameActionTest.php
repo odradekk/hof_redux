@@ -32,9 +32,10 @@ final class GameActionTest extends TestCase
 
             return ['units' => $locked->stamina_units];
         });
-        self::assertSame(['units' => 63600], $run());
-        self::assertSame(['units' => 63600], $run());
-        self::assertSame(63600, $character->fresh()->stamina_units);
+        // A warrior (VIT 8, 108 stamina) regenerates 5 × 108 = 540 units per second.
+        self::assertSame(['units' => 100000 + 100 * 540 - 86400], $run());
+        self::assertSame(['units' => 100000 + 100 * 540 - 86400], $run());
+        self::assertSame(100000 + 100 * 540 - 86400, $character->fresh()->stamina_units);
     }
 
     public function test_rank2_place_capacities(): void

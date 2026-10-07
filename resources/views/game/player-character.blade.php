@@ -18,6 +18,8 @@
     <div class="specials meta">@foreach($specials as $special)<p>{{ $special }}</p>@endforeach</div>
 </div>
 <p class="hint indent">装备与被动技能合计：加成以绿色显示</p>
+<x-sec title="地下城能力" :help="route('catalog', 'rules').'#attributes'"><x-slot:aside>按分配的能力值计算</x-slot:aside></x-sec>
+<div class="indent"><x-kv :rows="$dungeonRows" /></div>
 
 @if($character['stat_points'] > 0)
 <form id="c-stat" method="post" action="{{ route('player.command', 'stats') }}">

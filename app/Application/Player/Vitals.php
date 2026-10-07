@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Player;
 
 use App\Application\Support\GameAction;
+use App\Domain\Character\Attributes;
 use App\Models\Character;
 use App\Models\DungeonRun;
 use Carbon\CarbonImmutable;
@@ -15,10 +16,6 @@ use Carbon\CarbonImmutable;
  */
 final class Vitals
 {
-    public const STAMINA_MAX = 100;
-
-    public const STAMINA_PER_DAY = 500;
-
     // One stamina point is 86400 units, so units regenerated per second equal points per day.
     public const STAMINA_UNIT = 86400;
 
@@ -27,14 +24,27 @@ final class Vitals
 
     public function __construct(private GameAction $actions) {}
 
+    /** Maximum stamina points, set by vitality. */
+    public static function staminaMax(Character $character): int
+    {
+        return Attributes::staminaMax((int) ($character->stats['vit'] ?? 0));
+    }
+
+    /** Town regeneration in points per day, which is also units per second. */
+    public static function staminaPerDay(Character $character): int
+    {
+        return Attributes::staminaPerDay((int) ($character->stats['vit'] ?? 0));
+    }
+
     public static function staminaUnits(Character $character, CarbonImmutable $now, bool $resting): int
     {
+        $maximum = self::staminaMax($character) * self::STAMINA_UNIT;
         if (! $resting) {
-            return $character->stamina_units;
+            return min($maximum, $character->stamina_units);
         }
         $seconds = max(0, $now->getTimestamp() - $character->stamina_updated_at->getTimestamp());
 
-        return min(self::STAMINA_MAX * self::STAMINA_UNIT, $character->stamina_units + $seconds * self::STAMINA_PER_DAY);
+        return min($maximum, $character->stamina_units + $seconds * self::staminaPerDay($character));
     }
 
     public static function stamina(Character $character, CarbonImmutable $now, bool $resting): int
@@ -61,7 +71,7 @@ final class Vitals
     {
         return self::health($character, $now, $resting) + [
             'maxhp' => (int) $character->stats['maxhp'], 'maxsp' => (int) $character->stats['maxsp'],
-            'stamina' => self::stamina($character, $now, $resting), 'staminaMax' => self::STAMINA_MAX,
+            'stamina' => self::stamina($character, $now, $resting), 'staminaMax' => self::staminaMax($character),
         ];
     }
 
@@ -85,7 +95,7 @@ final class Vitals
      */
     public function spendStamina(Character $character, int $points, int $operation, string $reason, bool $resting = true, bool $clamp = false): void
     {
-        $this->actions->ensure($points >= 0 && $points <= self::STAMINA_MAX, 'Invalid stamina cost.');
+        $this->actions->ensure($points >= 0 && $points <= self::staminaMax($character), 'Invalid stamina cost.');
         $now = CarbonImmutable::now();
         $available = self::staminaUnits($character, $now, $resting);
         $cost = $points * self::STAMINA_UNIT;
@@ -101,7 +111,7 @@ final class Vitals
     public function restoreStamina(Character $character, int $points, int $operation, string $reason): void
     {
         $before = $character->stamina_units;
-        $character->stamina_units = min(self::STAMINA_MAX * self::STAMINA_UNIT, $before + max(0, $points) * self::STAMINA_UNIT);
+        $character->stamina_units = min(self::staminaMax($character) * self::STAMINA_UNIT, $before + max(0, $points) * self::STAMINA_UNIT);
         $character->save();
         $this->actions->ledger($character->user_id, $operation, 'stamina', $character->stamina_units - $before, $reason, null, ['character_id' => $character->id, 'unit' => self::STAMINA_UNIT]);
     }
@@ -114,6 +124,17 @@ final class Vitals
         $character->stats = array_merge($character->stats, self::health($character, $now, true));
         $character->health_updated_at = $now;
         $character->save();
+    }
+
+    /**
+     * Settle resting recovery before a change to level, job or attributes, so time already
+     * spent recovering is measured against the old maxima and rates.
+     */
+    public function settleIfResting(Character $character): void
+    {
+        if (self::resting($character)) {
+            $this->settle($character, CarbonImmutable::now());
+        }
     }
 
     /** Resume resting recovery from the stored values. */

@@ -9,8 +9,10 @@ use App\Application\Player\PlayerRules;
 use App\Application\Player\PlayerService;
 use App\Application\Player\Vitals;
 use App\Application\Support\GameAction;
+use App\Domain\Character\Attributes;
 use App\Domain\Combat\BattleEngine;
 use App\Domain\Combat\BattleSnapshot;
+use App\Domain\Combat\Combatant;
 use App\Domain\Combat\Fatigue;
 use App\Domain\Combat\RandomSource;
 use App\Domain\Combat\SeededRandom;
@@ -27,13 +29,14 @@ final class BattleService
 
     public const SIMULATION_ACTION_LIMIT = 50;
 
-    public function __construct(private ContentCatalog $catalog, private ItemDetails $items, private PlayerService $players, private GameAction $actions) {}
+    public function __construct(private ContentCatalog $catalog, private ItemDetails $items, private PlayerService $players, private GameAction $actions, private Vitals $vitals) {}
 
     /**
      * Resolve a party. $wounded starts from stored HP/SP (dungeon battles) instead of full
-     * restoration; $fatigue applies the stamina penalty for modes that consume stamina.
+     * restoration; $fatigue applies the stamina penalty for modes that consume stamina;
+     * $downed members (dying in a dungeon) enter fallen at 0 HP and can only be revived.
      */
-    public function party(User $user, array $ids, string $prefix = 'player', bool $wounded = false, bool $fatigue = false): array
+    public function party(User $user, array $ids, string $prefix = 'player', bool $wounded = false, bool $fatigue = false, array $downed = []): array
     {
         $ids = array_map('intval', $ids);
         $this->actions->ensure(count($ids) >= 1 && count($ids) <= 5 && count(array_unique($ids)) === count($ids), 'Choose one to five different characters.');
@@ -71,8 +74,13 @@ final class BattleService
                 }
             }
             $snapshot = SnapshotFactory::character($base, $equipment, $passives);
+            if (in_array($id, $downed, true)) {
+                // Equipment bonuses must not lift a dying member off 0 HP.
+                $snapshot['hp'] = 0;
+                $snapshot['state'] = 1;
+            }
             // Dungeon characters do not rest, so their stored stamina is already current.
-            $party[] = $fatigue ? Fatigue::apply($snapshot, Vitals::stamina($character, CarbonImmutable::now(), ! $wounded)) : $snapshot;
+            $party[] = $fatigue ? Fatigue::apply($snapshot, Vitals::stamina($character, CarbonImmutable::now(), ! $wounded), Vitals::staminaMax($character)) : $snapshot;
         }
 
         return $party;
@@ -123,17 +131,51 @@ final class BattleService
      * A dungeon battle starts from current HP/SP with fatigue. Experience settles at once;
      * money is returned in the settlement for the run to hold and items become run loot.
      */
-    public function fightDungeon(User $user, array $partyIds, array $weights, int $count, array $fixed, string $land, string $name, int $operationId, int $seed): array
+    public function fightDungeon(User $user, array $partyIds, array $weights, int $count, array $fixed, string $land, string $name, int $operationId, int $seed, array $downed = []): array
     {
         $random = new SeededRandom($seed);
-        $party = $this->party($user, $partyIds, wounded: true, fatigue: true);
+        $party = $this->party($user, $partyIds, wounded: true, fatigue: true, downed: $downed);
         $enemies = $this->enemies($weights, $count, $random, array_map('strval', $fixed));
+        $standing = array_filter($party, static fn (array $unit): bool => ($unit['state'] ?? 0) !== 1);
+        $initiative = Attributes::initiative(self::averageRate($standing), self::averageRate($enemies));
+        if ($initiative === 1) {
+            $party = self::headStart($party);
+        } elseif ($initiative === -1) {
+            $enemies = self::headStart($enemies);
+        }
         $report = $this->run([$party, $enemies], 'pve', $random, $seed, [$user->name, $name]);
         $report['background'] = $land;
         $report['dungeon'] = true;
+        $report['initiative'] = $initiative;
         $this->settle($user, $report, $operationId, holdLoot: true);
 
         return $report;
+    }
+
+    /** The side with initiative starts part of the way to its first action. */
+    private static function headStart(array $units): array
+    {
+        foreach ($units as $i => $unit) {
+            if (($unit['state'] ?? 0) !== 1) {
+                $units[$i]['progress'] = Attributes::INITIATIVE_PROGRESS;
+            }
+        }
+
+        return $units;
+    }
+
+    /** Mean action rate of resolved units, including fatigue; an empty side has rate 0. */
+    private static function averageRate(array $units): float
+    {
+        if ($units === []) {
+            return 0.0;
+        }
+        $total = 0.0;
+        foreach ($units as $unit) {
+            $total += Combatant::rateFor((int) $unit['spd'], (int) ($unit['fatigue']['speed'] ?? 0));
+        }
+
+        return $total / count($units);
     }
 
     public function fightBoss(User $user, array $partyIds, array $definition, int $currentHp, int $currentSp, int $operationId, int $seed): array
@@ -204,6 +246,8 @@ final class BattleService
                     }
                     $id = (int) substr($unitId, 7);
                     $character = Character::where('user_id', $user->id)->findOrFail($id);
+                    // A level-up raises the maxima; measure earlier town recovery at the old ones.
+                    $this->vitals->settleIfResting($character);
                     PlayerRules::grantExperience($character, $xp);
                     $this->players->refreshVitals($character);
                     $character->save();

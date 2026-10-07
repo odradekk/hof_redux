@@ -146,7 +146,7 @@ final class BattleReportFrontendTest extends TestCase
     {
         [$user, $character] = $this->player();
         $user->forceFill(['preferences' => ['party' => [$character->id]]])->save();
-        $this->actingAs($user)->get('/dungeons/goblin_trail')->assertOk()->assertSee('队伍')->assertSee('背包')->assertSee('carpet-stage', false)->assertSee('体力 100 / 100')->assertSee('checked', false)->assertDontSee(' · front');
+        $this->actingAs($user)->get('/dungeons/goblin_trail')->assertOk()->assertSee('队伍')->assertSee('背包')->assertSee('carpet-stage', false)->assertSee('体力 108 / 108')->assertSee('checked', false)->assertDontSee(' · front');
         $this->get('/simulation')->assertOk()->assertSee('模拟战')->assertSee('不消耗体力');
     }
 

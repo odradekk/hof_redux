@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'stats' => ['hp' => '生命', 'maxhp' => '最大生命', 'sp' => '魔力', 'maxsp' => '最大魔力', 'str' => '力量', 'int' => '智慧', 'dex' => '敏捷', 'spd' => '速度', 'luk' => '幸运', 'atk' => '物理攻击', 'matk' => '魔法攻击', 'def' => '物理防御', 'mdef' => '魔法防御', 'handle' => '负重', 'money' => '资金', 'stamina' => '体力', 'xp' => '经验'],
+    'stats' => ['hp' => '生命', 'maxhp' => '最大生命', 'sp' => '魔力', 'maxsp' => '最大魔力', 'str' => '力量', 'int' => '智慧', 'dex' => '敏捷', 'spd' => '速度', 'luk' => '幸运', 'vit' => '体质', 'atk' => '物理攻击', 'matk' => '魔法攻击', 'def' => '物理防御', 'mdef' => '魔法防御', 'handle' => '负重', 'money' => '资金', 'stamina' => '体力', 'xp' => '经验'],
     'slots' => ['weapon' => '武器', 'shield' => '盾', 'armor' => '甲', 'item' => '道具'],
     'dungeon_status' => ['active' => '探索中', 'cleared' => '成功通关', 'retreated' => '中途撤离', 'wiped' => '全灭'],
     'guards' => ['always' => '必定保护', 'never' => '不保护', 'life25' => '生命高于25%时保护', 'life50' => '生命高于50%时保护', 'life75' => '生命高于75%时保护', 'prob25' => '25%概率保护', 'prob50' => '50%概率保护', 'prob75' => '75%概率保护'],

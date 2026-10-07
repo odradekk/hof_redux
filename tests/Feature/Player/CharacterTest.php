@@ -3,6 +3,8 @@
 namespace Tests\Feature\Player;
 
 use App\Application\Player\PlayerRules;
+use App\Application\Player\Vitals;
+use App\Domain\Character\Attributes;
 use App\Domain\Content\ContentCatalog;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
@@ -52,6 +54,38 @@ final class CharacterTest extends PlayerTestCase
         $other = $this->player('other');
         $this->expectException(ModelNotFoundException::class);
         $this->command($other, 'stats', ['character_id' => $character->id, 'stats' => ['str' => 1]]);
+    }
+
+    public function test_attributes_have_no_cap_and_vitality_sets_hp_and_stamina(): void
+    {
+        $this->freezeTime();
+        $user = $this->player();
+        $character = $this->character($user);
+        $this->assertSame(['str' => 10, 'int' => 2, 'dex' => 4, 'spd' => 4, 'luk' => 1, 'vit' => 8], array_intersect_key($character->stats, array_flip(PlayerRules::STATS)));
+        $this->assertSame([324, 51, 108], [$character->stats['maxhp'], $character->stats['maxsp'], Vitals::staminaMax($character)]);
+        $character->forceFill(['stat_points' => 400, 'stamina_units' => 0, 'stamina_updated_at' => now()])->save();
+        // Recovery before the change is measured at the old rate: 5 × 108 units per second.
+        $this->travel(1000)->seconds();
+        $this->command($user, 'stats', ['character_id' => $character->id, 'stats' => ['str' => 250, 'int' => 0, 'dex' => 0, 'spd' => 0, 'luk' => 0, 'vit' => 92]]);
+        $fresh = $character->fresh();
+        $this->assertSame([260, 100, 58], [$fresh->stats['str'], $fresh->stats['vit'], $fresh->stat_points]);
+        $this->assertSame(Attributes::maxHp(3, 1, 100), $fresh->stats['maxhp']);
+        $this->assertSame(600, $fresh->stats['maxhp']);
+        $this->assertSame(324, $fresh->stats['hp'], 'A higher maximum does not heal.');
+        $this->assertSame(540000, $fresh->stamina_units);
+        $this->assertSame(200, Vitals::staminaMax($fresh));
+        // Afterwards the new maximum regenerates 5 × 200 units per second.
+        $this->travel(1000)->seconds();
+        $this->assertSame(540000 + 1000000, Vitals::staminaUnits($fresh, now()->toImmutable(), true));
+
+        // Lowering vitality clamps stamina to the new maximum.
+        $fresh->forceFill(['stamina_units' => 200 * 86400, 'stamina_updated_at' => now()])->save();
+        $this->item($user, '7511');
+        $this->command($user, 'reset', ['character_id' => $character->id, 'item_id' => 7511]);
+        $fresh = $character->fresh();
+        $this->assertSame([30, 30, 58 + 230 + 70], [$fresh->stats['str'], $fresh->stats['vit'], $fresh->stat_points]);
+        $this->assertSame(130 * 86400, $fresh->stamina_units);
+        $this->assertSame(Attributes::maxHp(3, 1, 30), $fresh->stats['maxhp']);
     }
 
     public function test_skill_prerequisites_cost_and_complete_reset(): void
@@ -135,7 +169,7 @@ final class CharacterTest extends PlayerTestCase
         $user = $this->player();
         $character = $this->character($user);
         $this->item($user, '7510');
-        $before = array_sum(array_intersect_key($character->stats, array_flip(PlayerRules::STATS))) - 5;
+        $before = array_sum(array_intersect_key($character->stats, array_flip(PlayerRules::STATS))) - count(PlayerRules::STATS);
         $this->command($user, 'reset', ['character_id' => $character->id, 'item_id' => 7510]);
         foreach (PlayerRules::STATS as $stat) {
             $this->assertSame(1, $character->fresh()->stats[$stat]);
@@ -200,7 +234,7 @@ final class CharacterTest extends PlayerTestCase
         $this->assertTrue(PlayerRules::grantExperience($character, 10000));
         $this->assertSame(2, $character->level);
         $this->assertSame(0, $character->xp);
-        $this->assertSame(3, $character->stat_points);
+        $this->assertSame(5, $character->stat_points);
         $this->assertSame(1, $character->skill_points);
         $character->level = 50;
         $this->assertFalse(PlayerRules::grantExperience($character, 999999));

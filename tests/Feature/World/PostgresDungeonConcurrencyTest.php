@@ -4,6 +4,7 @@ namespace Tests\Feature\World;
 
 use App\Application\Dungeon\DungeonService;
 use App\Application\Player\PlayerService;
+use App\Models\Character;
 use App\Models\DungeonRun;
 use App\Models\InventoryItem;
 use App\Models\User;
@@ -68,7 +69,7 @@ final class PostgresDungeonConcurrencyTest extends TestCase
         $hero = app(CharacterFactory::class)->create($user, 1, 'Hero', 0);
         // Strong enough that the single battle is certainly won.
         $hero->level = 40;
-        $hero->stats = array_merge($hero->stats, ['str' => 255, 'int' => 255, 'spd' => 255, 'luk' => 255]);
+        $hero->stats = array_merge($hero->stats, ['str' => 255, 'int' => 255, 'spd' => 255, 'luk' => 255, 'vit' => 255]);
         app(PlayerService::class)->refreshVitals($hero);
         $hero->stats = array_merge($hero->stats, ['hp' => $hero->stats['maxhp']]);
         $hero->save();
@@ -82,7 +83,42 @@ final class PostgresDungeonConcurrencyTest extends TestCase
         $this->assertSame(['ok', 'rejected'], $statuses);
         $this->assertSame(1, DungeonRun::firstOrFail()->steps);
         $this->assertSame('active', DungeonRun::firstOrFail()->status);
-        // One move (2) and one battle (5), never twice.
-        $this->assertSame(93 * 86400, $hero->fresh()->stamina_units);
+        // One move (2) and one battle (5) from the starting 108, never twice.
+        $this->assertSame(101 * 86400, $hero->fresh()->stamina_units);
+    }
+
+    public function test_a_rescue_racing_the_last_step_settles_one_way_only(): void
+    {
+        if (DB::getDriverName() !== 'pgsql') {
+            $this->markTestSkipped('Requires PostgreSQL and independent PHP processes.');
+        }
+        $user = User::factory()->create();
+        $tank = app(CharacterFactory::class)->create($user, 1, 'Tank', 0);
+        $fragile = app(CharacterFactory::class)->create($user, 1, 'Fragile', 0);
+        $herbs = InventoryItem::create(['user_id' => $user->id, 'item_id' => '4100', 'quantity' => 1, 'location' => 'warehouse']);
+        app(DungeonService::class)->enter($user->id, (string) Str::uuid(), 'goblin_trail', [$tank->id, $fragile->id], [['id' => $herbs->id, 'quantity' => 1]]);
+        // The fragile member is dying with one step left; the next room holds no fight.
+        $run = DungeonRun::firstOrFail();
+        $run->members = [$fragile->id => ['dying' => 1]];
+        $run->rooms = array_merge($run->rooms, ['grass' => ['visited' => true, 'cleared' => true]]);
+        $run->save();
+        $fragile->forceFill(['stats' => array_merge($fragile->stats, ['hp' => 0])])->save();
+        $herb = InventoryItem::where('location', 'pack')->firstOrFail();
+        $results = $this->race(['move', [$user->id, (string) Str::uuid(), 'grass']], ['act', [$user->id, (string) Str::uuid(), 'use', ['item' => $herb->id, 'character' => $fragile->id]]]);
+
+        $this->assertSame('ok', $results[0]['status']);
+        $member = $fragile->fresh() ?? Character::withoutGlobalScope('living')->findOrFail($fragile->id);
+        if ($results[1]['status'] === 'ok') {
+            // Rescued first: the herb is spent, then the move costs nothing more.
+            $this->assertNull($member->died_at);
+            $this->assertGreaterThan(0, $member->stats['hp']);
+            $this->assertSame([$fragile->id => ['wounded' => true]], DungeonRun::firstOrFail()->members);
+            $this->assertNull($herb->fresh());
+        } else {
+            // The step ran out first: the member is dead and the herb is untouched.
+            $this->assertNotNull($member->died_at);
+            $this->assertSame([], DungeonRun::firstOrFail()->members);
+            $this->assertSame(1, $herb->fresh()->quantity);
+        }
     }
 }

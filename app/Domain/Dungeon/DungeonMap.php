@@ -14,7 +14,10 @@ final class DungeonMap
 {
     public const TYPES = ['empty', 'battle', 'chest', 'trap', 'rest', 'event', 'exit'];
 
-    public const EFFECTS = ['heal_percent', 'damage_percent', 'sp_percent', 'stamina', 'money', 'item'];
+    /** Damage is fixed points so that maximum HP matters outside battle; recovery is a percentage. */
+    public const EFFECTS = ['heal_percent', 'damage', 'sp_percent', 'stamina', 'money', 'item'];
+
+    public const MAX_DAMAGE = 100000;
 
     /** @var array<string, list<string>> */
     private array $neighbors = [];
@@ -190,7 +193,7 @@ final class DungeonMap
                 self::checkPoints($room['open_stamina'] ?? 0, "{$id} open_stamina");
                 break;
             case 'trap':
-                self::checkRange($room['damage_percent'] ?? null, 0, 100, "{$id} damage_percent");
+                self::checkRange($room['damage'] ?? null, 0, self::MAX_DAMAGE, "{$id} damage");
                 self::checkPoints($room['stamina_loss'] ?? 0, "{$id} stamina_loss");
                 break;
             case 'rest':
@@ -208,6 +211,7 @@ final class DungeonMap
                     self::check(is_array($outcomes) && array_is_list($outcomes) && $outcomes !== [], "{$id} choices need outcomes");
                     foreach ($outcomes as $outcome) {
                         self::check(is_int($outcome['weight'] ?? null) && $outcome['weight'] > 0, "{$id} outcome weights must be positive");
+                        self::check(is_bool($outcome['lucky'] ?? false), "{$id} lucky must be true or false");
                         self::check(is_string($outcome['text'] ?? null), "{$id} outcomes need text");
                         self::check(is_array($outcome['effects'] ?? null) && array_is_list($outcome['effects']), "{$id} outcomes need an effect list");
                         foreach ($outcome['effects'] as $effect) {
@@ -225,7 +229,8 @@ final class DungeonMap
         $kind = array_key_first($effect);
         $value = $effect[$kind];
         match ($kind) {
-            'heal_percent', 'damage_percent', 'sp_percent' => self::checkPoints($value, "{$id} {$kind}"),
+            'heal_percent', 'sp_percent' => self::checkPoints($value, "{$id} {$kind}"),
+            'damage' => self::check(is_int($value) && $value >= 0 && $value <= self::MAX_DAMAGE, "{$id} damage effect must be 0-".self::MAX_DAMAGE),
             'stamina' => self::check(is_int($value) && abs($value) <= 100, "{$id} stamina effect must be -100..100"),
             'money' => self::check(is_int($value) && $value >= 0 && $value <= 1000000, "{$id} money effect must be non-negative"),
             'item' => self::check(is_string($value) && is_int($effect['quantity'] ?? null) && $effect['quantity'] >= 1 && $effect['quantity'] <= 99, "{$id} item effect needs an ID and quantity"),

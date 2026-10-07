@@ -6,6 +6,7 @@ use App\Application\Dungeon\DungeonService;
 use App\Application\Multiplayer\BossService;
 use App\Application\Player\PlayerService;
 use App\Application\Player\Vitals;
+use App\Domain\Character\Attributes;
 use App\Models\BattleReport;
 use App\Models\Character;
 use App\Models\DungeonRun;
@@ -34,11 +35,14 @@ final class DungeonTest extends TestCase
         return [$user, ...$characters];
     }
 
-    /** Level 40 (below the cap, so experience still counts) with high stats: wins goblin fights. */
+    /**
+     * Level 40 (below the cap, so experience still counts) with high stats: wins goblin fights.
+     * DEX 0 never dodges or disarms a trap.
+     */
     private function strong(Character $character): Character
     {
         $character->level = 40;
-        $character->stats = array_merge($character->stats, ['str' => 255, 'int' => 255, 'dex' => 0, 'spd' => 255, 'luk' => 255]);
+        $character->stats = array_merge($character->stats, ['str' => 255, 'int' => 255, 'dex' => 0, 'spd' => 255, 'luk' => 255, 'vit' => 255]);
         app(PlayerService::class)->refreshVitals($character);
         $character->stats = array_merge($character->stats, ['hp' => $character->stats['maxhp'], 'sp' => $character->stats['maxsp']]);
         $character->save();
@@ -84,6 +88,26 @@ final class DungeonTest extends TestCase
     private function stamina(Character $character): int
     {
         return intdiv($character->fresh()->stamina_units, Vitals::STAMINA_UNIT);
+    }
+
+    private function hp(Character $character, int $hp): void
+    {
+        $character->forceFill(['stats' => array_merge($character->fresh()->stats, ['hp' => $hp])])->save();
+    }
+
+    /** Walk to the trap with a member at 1 HP: the trap knocks that member down. */
+    private function downAtTrap(User $user, array $party, Character $victim): void
+    {
+        $this->enter($user, $party);
+        $this->move($user, 'grass');
+        $this->move($user, 'fork');
+        $this->hp($victim, 1);
+        $this->move($user, 'pit');
+    }
+
+    private function members(User $user): array
+    {
+        return DungeonRun::where('user_id', $user->id)->latest('id')->firstOrFail()->members ?? [];
     }
 
     public function test_pack_weight_boundary_and_partial_stack_split(): void
@@ -135,9 +159,9 @@ final class DungeonTest extends TestCase
         $hero->forceFill(['stats' => array_merge($hero->stats, ['hp' => 1]), 'health_updated_at' => now()->subHour(), 'stamina_units' => 0, 'stamina_updated_at' => now()->subSeconds(864)])->save();
         $this->enter($user, [$hero]);
         $hero->refresh();
-        // One resting hour restores 20% before entry; 864 seconds restore 5 stamina points.
+        // One resting hour restores 20% before entry; a warrior (VIT 8, 108 stamina) regains 540 units a second.
         $this->assertSame(1 + intdiv($max * 20, 100), $hero->stats['hp']);
-        $this->assertSame(432000, $hero->stamina_units);
+        $this->assertSame(864 * 540, $hero->stamina_units);
         $this->travel(5)->hours();
         $this->assertSame(['hp' => 1 + intdiv($max * 20, 100), 'sp' => $hero->stats['sp']], Vitals::health($hero, CarbonImmutable::now(), Vitals::resting($hero)));
         $this->assertSame(5, Vitals::current($hero)['stamina']);
@@ -154,22 +178,26 @@ final class DungeonTest extends TestCase
         $this->enter($user, [$hero]);
         $this->rejected(fn () => $this->move($user, 'fork'), 'not adjacent to the entrance');
         $this->rejected(fn () => $this->move($user, 'nowhere'));
-        $this->assertSame(100, $this->stamina($hero));
+        $start = $this->stamina($hero);
 
         $key = (string) Str::uuid();
         $first = $this->service()->move($user->id, $key, 'grass');
         $this->assertSame($first, $this->service()->move($user->id, $key, 'grass'));
         $this->assertSame(1, BattleReport::count());
         // Move 2 plus battle 5, charged once.
-        $this->assertSame(93, $this->stamina($hero));
+        $this->assertSame($start - 7, $this->stamina($hero));
         $run = DungeonRun::activeFor($user->id);
         $this->assertSame('grass', $run->room);
         $this->assertTrue($run->rooms['grass']['cleared']);
-        // Revisiting a cleared battle room does not fight again.
+        // Revisiting a cleared battle room does not fight again; each move restores SP by INT.
         $this->move($user, 'gate');
+        $hero->forceFill(['stats' => array_merge($hero->fresh()->stats, ['sp' => 0])])->save();
         $this->move($user, 'grass');
         $this->assertSame(1, BattleReport::count());
-        $this->assertSame(89, $this->stamina($hero));
+        $this->assertSame($start - 11, $this->stamina($hero));
+        // INT 255: floor(floor(√255) ÷ 2) = 7%.
+        $this->assertSame(7, Attributes::moveSpPercent(255));
+        $this->assertSame(intdiv($hero->fresh()->stats['maxsp'] * 7, 100), $hero->fresh()->stats['sp']);
     }
 
     public function test_battle_experience_is_immediate_but_money_and_drops_wait_for_exit(): void
@@ -184,6 +212,11 @@ final class DungeonTest extends TestCase
         $report = BattleReport::firstOrFail()->report;
         $this->assertSame(0, $report['winner']);
         $this->assertTrue($report['dungeon']);
+        // SPD 255 (rate ≈ 21) against goblins (rate ≈ 7) takes the initiative.
+        $this->assertSame(1, $report['initiative']);
+        $this->assertSame(Attributes::INITIATIVE_PROGRESS, $report['initial_teams'][0][0]['progress']);
+        $this->assertArrayNotHasKey('progress', $report['initial_teams'][1][0]);
+        $this->assertStringContainsString('抢得了先机', $run->events()->where('type', 'battle')->value('text'));
         $this->assertGreaterThan($xp, $hero->fresh()->xp);
         $this->assertSame($money, $user->fresh()->money);
         $this->assertSame($report['settlement']['money'], $run->loot_money);
@@ -214,32 +247,163 @@ final class DungeonTest extends TestCase
         $this->assertSame(10000, $user->fresh()->money);
     }
 
-    public function test_trap_death_is_permanent_and_equipment_becomes_loot(): void
+    public function test_a_downed_member_is_dying_and_dies_when_the_steps_run_out(): void
     {
         [$user, $tank, $fragile] = $this->player(2);
         $this->strong($tank);
-        $this->strong($fragile);
-        $this->enter($user, [$tank, $fragile]);
-        $this->move($user, 'grass');
-        $this->move($user, 'fork');
+        $fragile = $this->strong($fragile);
+        // VIT 0 holds on for the minimum three moves.
+        $fragile->forceFill(['stats' => array_merge($fragile->stats, ['vit' => 0])])->save();
         $user->forceFill(['preferences' => ['party' => [$tank->id, $fragile->id]]])->save();
-        // DEX 0 never dodges; any trap hit costs at least 1 HP.
-        $fragile->forceFill(['stats' => array_merge($fragile->fresh()->stats, ['hp' => 1])])->save();
         $equipment = InventoryItem::where('character_id', $fragile->id)->pluck('id')->all();
         $this->assertNotEmpty($equipment);
-        $this->move($user, 'pit');
+        $this->downAtTrap($user, [$tank, $fragile], $fragile);
+
+        $this->assertNotNull(Character::find($fragile->id), 'A downed member is dying, not dead.');
+        $this->assertSame(0, $fragile->fresh()->stats['hp']);
+        $this->assertSame([$fragile->id => ['dying' => 3]], $this->members($user));
+        $this->assertStringContainsString('陷入濒死', DungeonRun::activeFor($user->id)->events()->where('type', 'trap')->value('text'));
+        // The dying are carried: no stamina, no SP recovery, one step lost per move.
+        $stamina = $this->stamina($fragile);
+        $fragile->forceFill(['stats' => array_merge($fragile->fresh()->stats, ['sp' => 0])])->save();
+        $this->move($user, 'fork');
+        $this->move($user, 'grass');
+        $this->assertSame([$fragile->id => ['dying' => 1]], $this->members($user));
+        $this->assertSame($stamina, $this->stamina($fragile));
+        $this->assertSame(0, $fragile->fresh()->stats['sp']);
+        $this->move($user, 'gate');
 
         $this->assertNull(Character::find($fragile->id));
         $dead = Character::withoutGlobalScope('living')->findOrFail($fragile->id);
         $this->assertNotNull($dead->died_at);
         $this->assertSame(0, $dead->stats['hp']);
+        $this->assertSame([], $this->members($user));
         $this->assertSame(['loot'], InventoryItem::whereIn('id', $equipment)->pluck('location')->unique()->values()->all());
         $this->assertSame([$tank->id], $user->fresh()->preferences['party']);
         $this->assertSame([$tank->id], $user->fresh()->characters()->pluck('id')->all());
         $this->assertSame('active', DungeonRun::where('user_id', $user->id)->value('status'));
+        $this->assertStringContainsString('没能撑到获救', DungeonRun::activeFor($user->id)->events()->where('type', 'move')->reorder('sequence', 'desc')->value('text'));
         // The fallen member's gear returns with the survivors.
         $this->act($user, 'retreat');
         $this->assertSame(['warehouse'], InventoryItem::whereIn('id', $equipment)->pluck('location')->unique()->values()->all());
+    }
+
+    public function test_healing_rescues_the_dying_once_and_a_wounded_member_dies_at_zero(): void
+    {
+        [$user, $tank, $fragile] = $this->player(2);
+        $this->strong($tank);
+        $fragile = $this->strong($fragile);
+        $herbs = $this->item($user, '4100', 1);
+        $bread = $this->item($user, '4000', 1);
+        $this->enter($user, [$tank, $fragile], [['id' => $herbs->id, 'quantity' => 1], ['id' => $bread->id, 'quantity' => 1]]);
+        $this->move($user, 'grass');
+        $this->move($user, 'fork');
+        $this->hp($fragile, 1);
+        $this->move($user, 'pit');
+        $this->assertSame(Attributes::dyingSteps(255), $this->members($user)[$fragile->id]['dying']);
+
+        // Only an HP item can be used on the dying.
+        $food = InventoryItem::where('user_id', $user->id)->where('location', 'pack')->where('item_id', '4000')->firstOrFail();
+        $this->rejected(fn () => $this->act($user, 'use', ['item' => $food->id, 'character' => $fragile->id]), 'food on the dying');
+        $herb = InventoryItem::where('user_id', $user->id)->where('location', 'pack')->where('item_id', '4100')->firstOrFail();
+        $this->act($user, 'use', ['item' => $herb->id, 'character' => $fragile->id]);
+        $this->assertSame(intdiv($fragile->stats['maxhp'] * 25, 100), $fragile->fresh()->stats['hp']);
+        $this->assertSame([$fragile->id => ['wounded' => true]], $this->members($user));
+        $this->assertStringContainsString('被救了回来', DungeonRun::activeFor($user->id)->events()->where('type', 'item')->value('text'));
+
+        // A wounded member who falls again dies at once instead of becoming dying.
+        $this->move($user, 'traveler');
+        $this->hp($fragile, 0);
+        $this->act($user, 'choose', ['choice' => 2]);
+        $this->assertNull(Character::find($fragile->id));
+        $this->assertSame('active', DungeonRun::where('user_id', $user->id)->value('status'));
+        $this->assertStringContainsString('再次倒下', DungeonRun::activeFor($user->id)->events()->where('type', 'event')->value('text'));
+    }
+
+    public function test_rest_rescues_the_dying_and_retreat_carries_them_home(): void
+    {
+        [$user, $tank, $fragile, $carried] = $this->player(3);
+        $this->strong($tank);
+        $this->strong($fragile);
+        $this->strong($carried);
+        $this->downAtTrap($user, [$tank, $fragile, $carried], $fragile);
+        $this->assertArrayHasKey('dying', $this->members($user)[$fragile->id]);
+        // Rest heals first, so the rescued member then recovers SP and stamina with the others.
+        $this->move($user, 'traveler');
+        $this->move($user, 'camp');
+        $stamina = $this->stamina($fragile);
+        $this->act($user, 'rest');
+        $this->assertSame(intdiv($fragile->fresh()->stats['maxhp'] * 30, 100), $fragile->fresh()->stats['hp']);
+        $this->assertSame(['wounded' => true], $this->members($user)[$fragile->id]);
+        $this->assertSame($stamina + 15, $this->stamina($fragile));
+
+        // Another member left dying at retreat is carried home alive with 1 HP.
+        $run = DungeonRun::activeFor($user->id);
+        $run->members = $run->members + [$carried->id => ['dying' => 2]];
+        $run->save();
+        $this->hp($carried, 0);
+        $this->act($user, 'retreat');
+        $this->assertSame(1, $carried->fresh()->stats['hp']);
+        $this->assertNull($carried->fresh()->died_at);
+        $this->assertSame([], $run->fresh()->members);
+    }
+
+    public function test_dying_members_enter_battle_fallen_and_a_revival_rescues_them(): void
+    {
+        [$user, $priest, $fragile] = $this->player(2);
+        $priest = $this->strong($priest);
+        $this->strong($fragile);
+        // The priest revives a fallen ally first (condition 1405: at least one dead ally), otherwise attacks.
+        $priest->forceFill(['skills' => [...$priest->skills, 3040], 'tactics' => [['judge' => 1405, 'quantity' => 1, 'action' => 3040], ['judge' => 1000, 'quantity' => 0, 'action' => 1000]]])->save();
+        $this->enter($user, [$priest, $fragile]);
+        $run = DungeonRun::activeFor($user->id);
+        $run->members = [$fragile->id => ['dying' => 5]];
+        $run->save();
+        $this->hp($fragile, 0);
+        $this->move($user, 'grass');
+
+        $report = BattleReport::firstOrFail()->report;
+        $this->assertSame(0, $report['winner']);
+        $fallen = collect($report['initial_teams'][0])->firstWhere('id', 'player:'.$fragile->id);
+        $this->assertSame([0, 1], [$fallen['hp'], $fallen['state']]);
+        // Enemies are counted for the one standing member only.
+        $this->assertCount(1, $report['initial_teams'][1]);
+        $this->assertGreaterThan(0, $fragile->fresh()->stats['hp']);
+        $this->assertSame([$fragile->id => ['wounded' => true]], $this->members($user));
+        $this->assertStringContainsString('被救了回来', DungeonRun::activeFor($user->id)->events()->where('type', 'battle')->value('text'));
+    }
+
+    public function test_disarming_spares_everyone_and_scouting_is_rolled_once(): void
+    {
+        [$user, $hero] = $this->player();
+        $hero = $this->strong($hero);
+        // DEX 250 disarms half the time; either outcome is checked below.
+        $hero->forceFill(['stats' => array_merge($hero->stats, ['dex' => 250])])->save();
+        $this->enter($user, [$hero]);
+        $run = DungeonRun::activeFor($user->id);
+        // The entrance's only neighbour was scouted once on entry; LUK 255 gives 80%.
+        $this->assertArrayHasKey('scouted', $run->rooms['grass']);
+        $this->move($user, 'grass');
+        $scouted = DungeonRun::activeFor($user->id)->rooms;
+        $this->assertArrayHasKey('scouted', $scouted['cache']);
+        $this->assertArrayHasKey('scouted', $scouted['fork']);
+        $this->move($user, 'gate');
+        $this->move($user, 'grass');
+        // Coming back does not reroll a room already judged.
+        $this->assertSame($scouted['cache']['scouted'], DungeonRun::activeFor($user->id)->rooms['cache']['scouted']);
+        $this->move($user, 'fork');
+        $hp = $hero->fresh()->stats['hp'];
+        $stamina = $this->stamina($hero);
+        $this->move($user, 'pit');
+        $text = DungeonRun::activeFor($user->id)->events()->where('type', 'trap')->value('text');
+        if (str_contains($text, '拆除了陷阱')) {
+            $this->assertSame($hp, $hero->fresh()->stats['hp']);
+            $this->assertSame($stamina - DungeonService::MOVE_STAMINA, $this->stamina($hero));
+        } else {
+            $this->assertStringContainsString('触发了陷阱', $text);
+            $this->assertSame($stamina - DungeonService::MOVE_STAMINA - 5, $this->stamina($hero));
+        }
+        $this->assertTrue(DungeonRun::activeFor($user->id)->rooms['pit']['cleared']);
     }
 
     public function test_wipe_loses_pack_loot_and_held_money_and_offers_a_free_restart(): void
@@ -298,7 +462,7 @@ final class DungeonTest extends TestCase
         $this->rejected(fn () => $this->act($user, 'use', ['item' => $food->id, 'character' => $other->id]), 'another team');
         $stamina = $this->stamina($hero);
         $this->act($user, 'use', ['item' => $food->id, 'character' => $hero->id]);
-        $this->assertSame(min(100, $stamina + 15), $this->stamina($hero));
+        $this->assertSame(min(Vitals::staminaMax($hero->fresh()), $stamina + 15), $this->stamina($hero));
 
         // Rest room: one use.
         $this->move($user, 'grass');
@@ -340,9 +504,15 @@ final class DungeonTest extends TestCase
         $this->get('/dungeons/ancient_cave')->assertForbidden();
         $this->get('/dungeons/goblin_trail')->assertOk()->assertSee('进入地下城');
         $this->post('/dungeons/goblin_trail', ['operation_id' => (string) Str::uuid(), 'party' => [$hero->id]])->assertRedirect('/dungeon');
+        // Unvisited rooms reveal neither name nor type unless scouted; fix the roll both ways.
+        $run = DungeonRun::activeFor($user->id);
+        $run->rooms = array_merge($run->rooms, ['grass' => ['scouted' => false]]);
+        $run->save();
         $page = $this->get('/dungeon')->assertOk()->assertSee('小径入口')->assertSee('未探索的房间');
-        // Unvisited rooms reveal neither name nor type.
         $page->assertDontSee('草丛')->assertDontSee('猎人的储物箱');
+        $run->rooms = array_merge($run->rooms, ['grass' => ['scouted' => true]]);
+        $run->save();
+        $this->get('/dungeon')->assertOk()->assertSee('草丛')->assertSee('战斗（侦察）')->assertDontSee('猎人的储物箱');
         $this->get('/dungeons/goblin_trail')->assertRedirect('/dungeon');
         $this->post('/dungeon/retreat', ['operation_id' => (string) Str::uuid()])->assertSessionHasErrors('confirm');
         $run = DungeonRun::activeFor($user->id);
