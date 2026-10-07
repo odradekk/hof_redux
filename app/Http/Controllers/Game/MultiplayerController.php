@@ -7,6 +7,7 @@ use App\Application\Multiplayer\AuctionService;
 use App\Application\Multiplayer\BossService;
 use App\Application\Multiplayer\RankingService;
 use App\Application\Player\ItemDetails;
+use App\Application\Player\Vitals;
 use App\Domain\Content\ContentCatalog;
 use App\Http\View\ItemLines;
 use App\Http\View\UnitCards;
@@ -49,7 +50,7 @@ final class MultiplayerController
                 'can_bid' => $members && $listing->seller_id !== $request->user()->id && $listing->bidder_id !== $request->user()->id,
             ];
         })->all();
-        $items = InventoryItem::where('user_id', $request->user()->id)->where('location', 'backpack')->get()
+        $items = InventoryItem::where('user_id', $request->user()->id)->where('location', 'warehouse')->get()
             ->filter(fn (InventoryItem $item): bool => in_array($this->content->get('items', $item->item_id)['type'] ?? '', AuctionService::TYPES, true))
             ->map(static function (InventoryItem $item) use ($details): array {
                 $row = $item->toArray();
@@ -176,7 +177,7 @@ final class MultiplayerController
             abort_if($bosses === [], 404);
         }
         $bosses = array_map(static fn (array $summary): array => $summary + ['unit' => UnitCards::boss($summary)], $bosses);
-        $units = $request->user()->characters->map(fn ($character): array => UnitCards::character($character->toArray(), $this->content->get('jobs', $character->job_id)))->all();
+        $units = $request->user()->characters->map(fn ($character): array => UnitCards::character($character->toArray(), $this->content->get('jobs', $character->job_id), Vitals::current($character)))->all();
         $selected = $request->user()->preferences['party'] ?? [];
         $latest = BossChallenge::where('user_id', $request->user()->id)->latest('created_at')->first(['created_at']);
         $readyAt = $latest?->created_at->copy()->addMinutes(20);

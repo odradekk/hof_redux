@@ -25,7 +25,6 @@ final class AuthenticationTest extends TestCase
         $this->assertNull($user->name);
         $this->assertTrue(Hash::check('a-secure-password', $user->password));
         $this->assertSame(10000, $user->money);
-        $this->assertSame(8640000, $user->stamina_units);
         $this->assertAuthenticatedAs($user);
         $this->get('/')->assertRedirect('/setup');
     }

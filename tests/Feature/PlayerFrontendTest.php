@@ -83,7 +83,7 @@ final class PlayerFrontendTest extends PlayerTestCase
         }
         $this->actingAs($user)->get('/shop/sell')->assertOk();
         $this->post('/player/sell', ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'form_complete' => '1', 'items' => $rows])->assertSessionHasErrors('items');
-        $this->assertSame(202, $user->inventory()->where('location', 'backpack')->sum('quantity'));
+        $this->assertSame(202, $user->inventory()->where('location', 'warehouse')->sum('quantity'));
         $this->assertSame(10000, $user->fresh()->money);
 
         foreach ($rows as $index => &$row) {
@@ -91,7 +91,7 @@ final class PlayerFrontendTest extends PlayerTestCase
         }
         unset($row);
         $this->post('/player/sell', ['operation_id' => (string) Str::uuid(), 'selection_mode' => 'checked', 'form_complete' => '1', 'items' => $rows])->assertRedirect('/shop/sell')->assertSessionHasNoErrors();
-        $this->assertSame(201, $user->inventory()->where('location', 'backpack')->sum('quantity'));
+        $this->assertSame(201, $user->inventory()->where('location', 'warehouse')->sum('quantity'));
         $this->assertSame(1, $item->fresh()->quantity);
         $this->assertSame(10100, $user->fresh()->money);
     }
@@ -168,17 +168,18 @@ final class PlayerFrontendTest extends PlayerTestCase
     {
         $this->freezeTime();
         $user = $this->player();
-        $this->character($user);
-        $user->forceFill(['stamina_units' => 0])->save();
+        $worker = $this->character($user);
+        $worker->forceFill(['stamina_units' => 0, 'stamina_updated_at' => now()])->save();
         $this->actingAs($user);
         $this->travel(17279)->seconds();
         $response = $this->get('/shop/work')->assertOk();
         $this->assertSame(1, $this->xpath($response->getContent())->query('//form[contains(@action,"/player/work")]//button[@disabled]')->length);
-        $this->assertSame(0, $user->fresh()->stamina_units);
+        $this->assertSame(1, $this->xpath($response->getContent())->query('//input[@name="character_id"][@disabled]')->length);
+        $this->assertSame(0, $worker->fresh()->stamina_units);
         $this->travel(1)->seconds();
         $response = $this->get('/shop/work')->assertOk();
         $this->assertSame(0, $this->xpath($response->getContent())->query('//form[contains(@action,"/player/work")]//button[@disabled]')->length);
-        $this->assertSame(0, $user->fresh()->stamina_units);
+        $this->assertSame(0, $worker->fresh()->stamina_units);
     }
 
     public function test_player_pages_have_no_inline_code_and_stack_tables_have_mobile_labels(): void

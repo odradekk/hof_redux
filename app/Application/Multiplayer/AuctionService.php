@@ -35,12 +35,13 @@ final class AuctionService
 
     public function isMember(int $userId): bool
     {
-        return InventoryItem::where('user_id', $userId)->where('item_id', '9000')->where('location', 'backpack')->exists();
+        return InventoryItem::where('user_id', $userId)->where('item_id', '9000')->where('location', 'warehouse')->exists();
     }
 
     public function join(int $userId, string $key): array
     {
         return $this->actions->execute($userId, 'auction.join', $key, [], function (User $user, int $op) {
+            $this->actions->ensureInTown($user);
             $this->actions->ensure(! $this->isMember($user->id), 'You are already an auction member.');
             $this->actions->money($user, -self::MEMBERSHIP_PRICE, $op, 'auction membership');
             $this->actions->addItem($user, '9000', 1, $op, 'auction membership');
@@ -52,13 +53,14 @@ final class AuctionService
     public function exhibit(int $userId, string $key, int $inventoryId, int $quantity, int $price, int $hours, string $comment = ''): array
     {
         return $this->actions->execute($userId, 'auction.exhibit', $key, compact('inventoryId', 'quantity', 'price', 'hours', 'comment'), function (User $user, int $op) use ($inventoryId, $quantity, $price, $hours, $comment) {
+            $this->actions->ensureInTown($user);
             $this->settleDueLocked();
             $user->refresh();
             $this->actions->ensure($this->isMember($user->id), 'Auction membership is required.');
             $this->actions->ensure(in_array($hours, self::DURATIONS, true) && $price >= 0 && $price <= 1000000000000 && mb_strlen($comment) <= 200, 'Invalid listing details.');
             $this->actions->ensure(AuctionListing::where('status', 'active')->count() < self::MAX_ACTIVE, 'The auction is full.');
             $this->actions->ensure(! AuctionListing::where('seller_id', $user->id)->where('created_at', '>', now()->subSeconds(self::LISTING_INTERVAL_SECONDS))->exists(), 'Wait 30 seconds between listings.');
-            $item = InventoryItem::where('user_id', $user->id)->where('location', 'backpack')->lockForUpdate()->findOrFail($inventoryId);
+            $item = InventoryItem::where('user_id', $user->id)->where('location', 'warehouse')->lockForUpdate()->findOrFail($inventoryId);
             $definition = $this->content->get('items', $item->item_id);
             $this->actions->ensure(in_array($definition['type'] ?? '', self::TYPES, true), 'This item cannot be auctioned.');
             $this->actions->ensure($quantity > 0 && $quantity <= $item->quantity, 'Invalid listing quantity.');
@@ -83,6 +85,7 @@ final class AuctionService
     public function bid(int $userId, string $key, int $auctionId, int $price): array
     {
         return $this->actions->execute($userId, 'auction.bid', $key, compact('auctionId', 'price'), function (User $user, int $op) use ($auctionId, $price) {
+            $this->actions->ensureInTown($user);
             $listing = AuctionListing::lockForUpdate()->findOrFail($auctionId);
             $this->actions->ensure($listing->status === 'active' && $listing->ends_at->isAfter(now()), 'This auction has ended.');
             $this->actions->ensure($this->isMember($user->id), 'Auction membership is required.');
@@ -132,7 +135,7 @@ final class AuctionService
                 $this->actions->ledger($recipient, null, 'item', $item->quantity, 'auction won', $item->item_id, ['auction_id' => $listing->id]);
             }
             $item->user_id = $recipient;
-            $item->location = 'backpack';
+            $item->location = 'warehouse';
             $item->save();
             $listing->status = $listing->bidder_id ? 'sold' : 'unsold';
             $listing->escrow = 0;

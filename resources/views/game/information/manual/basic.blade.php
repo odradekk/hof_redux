@@ -23,6 +23,7 @@
 <li><a href="#jobchange">转职(职业转换)</a></li>
 <li><a href="#sacrier">狂战士(Sacrier)的攻击方式</a></li>
 <li><a href="#time">体力(Time)</a></li>
+<li><a href="#dungeon">地下城(Dungeon)</a></li>
 <li><a href="#town">城镇(Town)</a></li>
 <li><a href="#union">共享首领(Union)</a></li>
 <li><a href="#ranking">排行</a></li>
@@ -199,8 +200,16 @@
 
 <h2 class="sec" id="time">体力(Time) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent prose">
-<p>狩猎和挑战首领时会消耗体力；体力会随时间流逝逐渐恢复，离线时也一样。</p>
-<p>体力上限 {{ $c['stamina_max'] }}，每天恢复 {{ $c['stamina_day'] }}（约每 {{ round($c['stamina_seconds']) }} 秒 1 点）。普通狩猎每次消耗 {{ $c['hunt'] }}，共享首领每次消耗 {{ $c['boss_stamina'] }}。在商店打工可以用 {{ $c['work_stamina'] }} 体力换 {{ \App\Application\World\GameText::money($c['work_pay']) }}。模拟战和竞技场不消耗体力。</p>
+<p>每名角色都有自己的体力。出战和打工会消耗参加角色的体力；角色在城镇中会随时间恢复体力，离线时也一样。体力越低，角色在战斗中的属性越低。</p>
+<p>每名角色体力上限 {{ $c['stamina_max'] }}，每天恢复 {{ $c['stamina_day'] }}（约每 {{ round($c['stamina_seconds']) }} 秒 1 点）。在地下城中每次移动消耗 {{ $c['dungeon_move'] }}，每场战斗再消耗 {{ $c['dungeon_battle'] }}；共享首领每次消耗 {{ $c['boss_stamina'] }}。在商店打工可以用 {{ $c['work_stamina'] }} 体力换 {{ \App\Application\World\GameText::money($c['work_pay']) }}。模拟战和竞技场不消耗体力。</p>
+</div>
+
+<h2 class="sec" id="dungeon">地下城(Dungeon) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
+<div class="indent prose">
+<p>冒险就是探索地下城。选择 1–{{ $c['party_max'] }} 名角色，从仓库挑选消耗品装入背包后进入。地下城由房间和通道组成，每次只能走到相邻的房间；没去过的房间只知道位置，不知道里面有什么。</p>
+<p>房间可能是战斗、宝箱、陷阱、事件、休息处或出口。走到出口并选择离开即为通关，可以得到通关奖励；也可以随时撤离，但没有通关奖励。离开或撤离之前无法使用城镇的设施，但仍可以分配属性点、学习技能和调整行动模式。</p>
+<p>战斗伤害会一直保留。角色 HP 归零就会<b>永久死亡</b>，其装备留在战利品中，由幸存的同伴带回。队伍全灭时，背包、战利品和这次找到的资金全部遗失；如果所有角色都已阵亡，可以免费招募一名新同伴重新出发。</p>
+<p>经验和升级在每场战斗后立即生效；资金和道具先算作战利品，离开或撤离后才存入仓库。背包上限为出战成员负重之和，每人 {{ $c['carry_base'] }} + 力量 ÷ {{ $c['carry_str'] }}。食物恢复体力，治疗药恢复 HP，魔力药恢复 SP，战斗中不能使用道具。</p>
 </div>
 
 <h2 class="sec" id="town">城镇(Town) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\View;
 
-use App\Application\Support\GameAction;
-use Carbon\CarbonImmutable;
+use App\Models\DungeonRun;
 use Illuminate\Http\Request;
 
 final class Hud
@@ -22,8 +21,7 @@ final class Hud
             $menu[] = ['label' => $entry['label'], 'href' => route($entry['route']), 'active' => $request->routeIs(...$entry['active'])];
         }
 
-        return ['team' => $user?->name, 'money' => (int) ($user?->money ?? 0),
-            'stamina' => $user ? intdiv(GameAction::availableStamina($user, CarbonImmutable::now()), GameAction::STAMINA_UNIT) : 0,
-            'staminaMax' => GameAction::STAMINA_MAX, 'menu' => $menu, 'isAdmin' => (bool) $user?->is_admin, 'authenticated' => (bool) $user, 'setup' => $setup];
+        return ['team' => $user?->name, 'money' => (int) ($user?->money ?? 0), 'menu' => $menu,
+            'exploring' => $user && ! $setup && DungeonRun::where('user_id', $user->id)->where('status', 'active')->exists(), 'isAdmin' => (bool) $user?->is_admin, 'authenticated' => (bool) $user, 'setup' => $setup];
     }
 }

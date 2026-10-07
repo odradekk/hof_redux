@@ -21,7 +21,7 @@ final class ShopFormCompletenessTest extends TestCase
             $this->post('/player/buy', ['operation_id' => (string) Str::uuid(), 'items' => [['id' => 7500, 'quantity' => 1]]])
                 ->assertRedirect('/shop')->assertSessionHasNoErrors();
         }
-        $this->assertSame(334, $user->inventory()->where('location', 'backpack')->count());
+        $this->assertSame(334, $user->inventory()->where('location', 'warehouse')->count());
         $ids = [];
         for ($page = 1; $page <= 4; $page++) {
             $response = $this->get('/shop/sell?page='.$page)->assertOk();
@@ -35,12 +35,12 @@ final class ShopFormCompletenessTest extends TestCase
                 $response->assertSee('page='.($page + 1), false);
             }
         }
-        $this->assertSame($user->inventory()->where('location', 'backpack')->orderBy('item_id')->orderBy('id')->pluck('id')->map(strval(...))->all(), $ids);
+        $this->assertSame($user->inventory()->where('location', 'warehouse')->orderBy('item_id')->orderBy('id')->pluck('id')->map(strval(...))->all(), $ids);
         $this->post('/player/sell', $parsed)->assertRedirect('/shop/sell')->assertSessionHasNoErrors();
-        $this->assertSame(300, $user->inventory()->where('location', 'backpack')->count());
+        $this->assertSame(300, $user->inventory()->where('location', 'warehouse')->count());
         $this->assertSame(10000, $user->fresh()->money);
         $this->post('/player/sell', $parsed)->assertRedirect('/shop/sell')->assertSessionHasNoErrors();
-        $this->assertSame(300, $user->inventory()->where('location', 'backpack')->count());
+        $this->assertSame(300, $user->inventory()->where('location', 'warehouse')->count());
     }
 
     public function test_php_truncated_checked_form_cannot_commit_a_partial_sale(): void
@@ -58,13 +58,13 @@ final class ShopFormCompletenessTest extends TestCase
         $truncated = $this->parseWithPhp($fields, $firstItemOfLastRow);
         $this->assertCount(2, $truncated['items']);
         $this->post('/player/sell', $truncated)->assertSessionHasErrors('form_complete');
-        $this->assertSame(3, $user->inventory()->where('location', 'backpack')->count());
+        $this->assertSame(3, $user->inventory()->where('location', 'warehouse')->count());
         $this->assertSame(7500, $user->fresh()->money);
         $this->assertDatabaseMissing('operations', ['command' => 'player.sell']);
 
         $complete = $this->parseWithPhp($fields);
         $this->post('/player/sell', $complete)->assertRedirect('/shop/sell')->assertSessionHasNoErrors();
-        $this->assertSame(0, $user->inventory()->where('location', 'backpack')->count());
+        $this->assertSame(0, $user->inventory()->where('location', 'warehouse')->count());
         $this->assertSame(8000, $user->fresh()->money);
     }
 
@@ -80,7 +80,7 @@ final class ShopFormCompletenessTest extends TestCase
         unset($complete['form_complete']);
         $this->post('/player/buy', $complete)->assertSessionHasErrors('form_complete');
         $this->assertSame(10000, $user->fresh()->money);
-        $this->assertSame(0, $user->inventory()->where('location', 'backpack')->count());
+        $this->assertSame(0, $user->inventory()->where('location', 'warehouse')->count());
     }
 
     private function registerPlayer(): User

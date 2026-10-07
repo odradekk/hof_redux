@@ -39,7 +39,8 @@ final class GameText
     /** Fields that carry no rule of their own (identity, art, or text shown elsewhere). */
     public const IGNORED_SKILL = ['name', 'name2', 'img', 'no', 'exp', 'learn'];
 
-    public const IGNORED_ITEM = ['name', 'img', 'no', 'type', 'type2', 'buy', 'sell', 'need', 'option'];
+    // "shop" is published through the item's shop source line.
+    public const IGNORED_ITEM = ['name', 'img', 'no', 'type', 'type2', 'buy', 'sell', 'need', 'option', 'shop'];
 
     /**
      * Skills whose handler in Domain\Combat\Effects is written by ID rather than by fields.
@@ -172,6 +173,11 @@ final class GameText
         foreach (['M_MAXHP' => '最大生命', 'M_MAXSP' => '最大魔力'] as $key => $label) {
             if (! empty($item[$key])) {
                 $parts[] = ['tone' => 'charge', 'text' => $label.' '.self::signed((int) $item[$key]).'%'];
+            }
+        }
+        foreach (['hp' => '恢复 HP ', 'sp' => '恢复 SP ', 'stamina' => '恢复体力 '] as $resource => $label) {
+            if (isset($item['restore'][$resource])) {
+                $parts[] = ['tone' => 'recover', 'text' => $label.$item['restore'][$resource].($resource === 'stamina' ? '' : '%')];
             }
         }
         if (isset($item['handle'])) {
@@ -320,7 +326,7 @@ final class GameText
 
     public static function itemFields(): array
     {
-        return ['atk', 'def', 'P_SUMMON', 'P_PIERCE', ...array_keys(self::BONUS), 'M_MAXHP', 'M_MAXSP', 'handle', 'dh', 'Add'];
+        return ['atk', 'def', 'P_SUMMON', 'P_PIERCE', ...array_keys(self::BONUS), 'M_MAXHP', 'M_MAXSP', 'restore', 'handle', 'dh', 'Add'];
     }
 
     /** Fill the legacy "←←" placeholder: "自己的HP ←←(%)以上" becomes "自己的HP 50% 以上", or "N% 以上" without a value. */

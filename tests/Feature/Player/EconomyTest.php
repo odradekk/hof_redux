@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Player;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -11,30 +12,44 @@ final class EconomyTest extends PlayerTestCase
     public function test_work_is_exact_and_retry_safe(): void
     {
         $user = $this->player();
+        $worker = $this->character($user);
+        $other = $this->character($user);
         $key = (string) Str::uuid();
-        $first = $this->command($user, 'work', [], $key);
-        $this->assertSame($first, $this->command($user, 'work', [], $key));
+        $first = $this->command($user, 'work', ['character_id' => $worker->id], $key);
+        $this->assertSame($first, $this->command($user, 'work', ['character_id' => $worker->id], $key));
         $this->assertSame(10500, $user->fresh()->money);
-        $this->assertSame(0, $user->fresh()->stamina_units);
+        // Only the chosen character pays; the other keeps full stamina.
+        $this->assertSame(0, $worker->fresh()->stamina_units);
+        $this->assertSame(8640000, $other->fresh()->stamina_units);
         $this->assertSame(1, DB::table('operations')->count());
+        $this->assertSame(-8640000, (int) DB::table('asset_entries')->where('kind', 'stamina')->sum('amount'));
     }
 
     public function test_work_checks_exact_regeneration_boundary(): void
     {
         $this->freezeTime();
         $user = $this->player();
-        $user->forceFill(['stamina_units' => 0])->save();
+        $worker = $this->character($user);
+        $worker->forceFill(['stamina_units' => 0, 'stamina_updated_at' => now()])->save();
         $this->travel(17279)->seconds();
         try {
-            $this->command($user, 'work');
+            $this->command($user, 'work', ['character_id' => $worker->id]);
             $this->fail('Work was allowed before full stamina.');
         } catch (ValidationException) {
         }
         $this->assertSame(10000, $user->fresh()->money);
         $this->travel(1)->seconds();
-        $this->command($user, 'work');
+        $this->command($user, 'work', ['character_id' => $worker->id]);
         $this->assertSame(10500, $user->fresh()->money);
-        $this->assertSame(0, $user->fresh()->stamina_units);
+        $this->assertSame(0, $worker->fresh()->stamina_units);
+    }
+
+    public function test_work_rejects_another_users_character(): void
+    {
+        $user = $this->player();
+        $stranger = $this->character($this->player('stranger'));
+        $this->expectException(ModelNotFoundException::class);
+        $this->command($user, 'work', ['character_id' => $stranger->id]);
     }
 
     public function test_buy_and_sell_use_catalog_prices_and_quantities(): void

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# PostgreSQL does not survive orb pause or the end of setup; start it again.
+set -euo pipefail
+sudo pg_ctlcluster 18 main start 2>/dev/null || pg_lsclusters | grep -q '^18 *main .* online'

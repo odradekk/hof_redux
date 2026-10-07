@@ -20,17 +20,17 @@ final class AuctionTest extends TestCase
 
     private function player(string $login, int $money = 100000): User
     {
-        $user = User::create(['login' => $login, 'name' => $login, 'password' => 'test-password', 'stamina_updated_at' => now()]);
+        $user = User::create(['login' => $login, 'name' => $login, 'password' => 'test-password']);
         $user->money = $money;
         $user->save();
-        InventoryItem::create(['user_id' => $user->id, 'item_id' => '9000', 'quantity' => 1, 'location' => 'backpack']);
+        InventoryItem::create(['user_id' => $user->id, 'item_id' => '9000', 'quantity' => 1, 'location' => 'warehouse']);
 
         return $user;
     }
 
     private function listing(User $user): array
     {
-        $item = InventoryItem::create(['user_id' => $user->id, 'item_id' => '1000', 'quantity' => 2, 'location' => 'backpack']);
+        $item = InventoryItem::create(['user_id' => $user->id, 'item_id' => '1000', 'quantity' => 2, 'location' => 'warehouse']);
         $result = app(AuctionService::class)->exhibit($user->id, (string) Str::uuid(), $item->id, 1, 100, 1);
 
         return [$item, AuctionListing::findOrFail($result['auction_id'])];
@@ -68,7 +68,7 @@ final class AuctionTest extends TestCase
         app(AuctionService::class)->settleDue();
         self::assertSame('unsold', $listing->fresh()->status);
         self::assertSame(99500, $seller->fresh()->money);
-        self::assertSame(2, InventoryItem::where('user_id', $seller->id)->where('item_id', '1000')->where('location', 'backpack')->sum('quantity'));
+        self::assertSame(2, InventoryItem::where('user_id', $seller->id)->where('item_id', '1000')->where('location', 'warehouse')->sum('quantity'));
     }
 
     public function test_late_bid_extends_deadline_and_exact_expiry_rejects_bid_without_debit(): void
@@ -100,7 +100,7 @@ final class AuctionTest extends TestCase
         }
         self::assertSame(100000, $seller->fresh()->money);
         self::assertSame(0, DB::table('operations')->count());
-        self::assertSame('backpack', $card->fresh()->location);
+        self::assertSame('warehouse', $card->fresh()->location);
     }
 
     public function test_idempotency_key_cannot_be_reused_for_different_payload(): void

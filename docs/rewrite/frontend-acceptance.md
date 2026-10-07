@@ -13,15 +13,18 @@ segments after the fifth, split GET routes with redirects, and CI-only Playwrigh
 plus axe. There is no production Node build, SPA, or JavaScript requirement.
 
 - Shared 780px shell, original title/carpet/button/NPC artwork, six-item player
-  menu, read-only stamina HUD, tablet fluid layout, and mobile stacked tables
+  menu, team/money HUD with a dungeon-run indicator (stamina is shown per character
+  on unit cards since 2026-10-06), tablet fluid layout, and mobile stacked tables
 - Array-only unit/item/skill/feed/HUD data, anonymous components, registries,
   Chinese terms and form errors, custom text pagination, and cache-versioned CSS
 - Login/setup/home, player details in legacy section order, shared tactics form,
   recruitment, inventory categories, shop buy/sell/work, smithy refine/create,
   unified settings, and preserved transactional/idempotent POST operations
-- Hunt with BOSS summaries, safe BOSS detail, SVG battle scenes with the legacy
-  geometry, ten-ActorSelected grouping, event registration including ActionSkipped,
-  hidden BOSS resources, same-party retry, and public report categories
+- Dungeon list, party/pack preparation, fog-of-war SVG map and run screen, run logs
+  (hunting removed 2026-10-06; see dungeon-design.md); safe BOSS list and detail,
+  SVG battle scenes with the legacy geometry, ten-ActorSelected grouping, event
+  registration including ActionSkipped, hidden BOSS resources, BOSS/simulation
+  retry, and public report categories
 - Auction, arena, town/board, catalog/manual/updates and administration
 - Local/testing-only /dev/ui exercises real components, including battle states
 - Author color is snapshotted when posting. Existing messages retain inherited
@@ -83,7 +86,7 @@ Run the final tests again after any subsequent changes:
   human comparison. Capturing screenshots does not approve visual parity and does
   not automatically overwrite the proposed baseline.
 - Real Firefox, Safari/iOS, Android Chrome, 200% zoom and a complete keyboard
-  hunt-to-report flow still require manual acceptance. Browser automation covers
+  dungeon entry, move and battle flow still require manual acceptance. Browser automation covers
   Chromium and cannot substitute for those checks.
 
 No production deployment or merge is part of this implementation.

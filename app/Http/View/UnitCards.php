@@ -10,7 +10,8 @@ final class UnitCards
     // Both abandoned-town sprites are absent in the preserved archive.
     public const LAND_FALLBACKS = ['aband' => 'build01'];
 
-    public static function character(array $character, array $job): array
+    /** $vitals comes from Vitals::project; without it the stored HP/SP are shown. */
+    public static function character(array $character, array $job, ?array $vitals = null): array
     {
         $gender = (int) ($character['gender'] ?? 0) === 1 ? 'female' : 'male';
 
@@ -19,7 +20,7 @@ final class UnitCards
             'label' => $job['name_'.$gender], 'position' => ($character['position'] ?? 'front') === 'front' ? '前卫' : '后卫',
             'img' => 'image/char/'.basename($job['img_'.$gender]),
             'star' => (int) ($character['stat_points'] ?? 0) > 0,
-            'vitals' => array_intersect_key($character['stats'] ?? [], array_flip(['hp', 'maxhp', 'sp', 'maxsp'])),
+            'vitals' => $vitals ?? array_intersect_key($character['stats'] ?? [], array_flip(['hp', 'maxhp', 'sp', 'maxsp'])),
         ];
     }
 

@@ -355,9 +355,9 @@ final class GameData
         }
         $view['special_material'] = ! empty($item['Add']) && (int) $id >= 7000 && (int) $id < 7200 ? $this->enchantRow((string) $item['Add']) : null;
         $view['unlocks'] = [];
-        foreach ($this->exposedAreas() as $areaId => $area) {
-            if (($area['unlock']['item'] ?? null) === $id) {
-                $view['unlocks'][] = ['id' => $areaId, 'name' => $area['name']];
+        foreach ($this->catalog->all('dungeons') as $dungeonId => $dungeon) {
+            if (($dungeon['requires_item'] ?? null) === $id) {
+                $view['unlocks'][] = ['id' => $dungeonId, 'name' => $dungeon['name']];
             }
         }
 
@@ -371,7 +371,7 @@ final class GameData
 
     public function shop(): array
     {
-        return $this->memo['shop'] ??= array_map('strval', $this->catalog->get('economy_rules', 'shop')['values']);
+        return $this->memo['shop'] ??= $this->catalog->shopStock();
     }
 
     private function quantities(array $ingredients): array
@@ -525,18 +525,13 @@ final class GameData
             foreach ($playable as $monster => $entry) {
                 $encounters[] = ['monster' => $this->monsterLine($monster), 'rate' => GameText::percent((int) $entry[0] / $total * 100), 'shown' => (bool) $entry[1]];
             }
-            $unlock = $area['unlock'];
-            $areas[$unlock['kind'] === 'unavailable' ? 'closed' : 'open'][$id] = [
+            $dungeons = $this->dungeonAreas()[$id] ?? [];
+            $areas[$dungeons === [] ? 'closed' : 'open'][$id] = [
                 'id' => $id, 'name' => $area['name'], 'name0' => $area['name0'] ?? '',
                 'base' => 'image/other/land_'.(UnitCards::LAND_FALLBACKS[$area['land']] ?? $area['land']).'.gif',
                 'proper' => $area['proper'], 'encounters' => $encounters,
-                'unlock' => match ($unlock['kind']) {
-                    'always' => '随时可进入',
-                    'item' => '持有「'.$this->text->name('items', $unlock['item']).'」时出现',
-                    'daily_window' => '每天 '.$unlock['timezone'].' '.$unlock['from'].'–'.$unlock['until'].' 之间出现（不含结束时刻）',
-                    default => '当前未开放',
-                },
-                'unlock_item' => $unlock['kind'] === 'item' ? $this->itemLine($unlock['item']) : null,
+                'unlock' => $dungeons === [] ? '当前没有地下城使用' : '出现在地下城：'.implode('、', $dungeons),
+                'unlock_item' => null,
             ];
         }
 
@@ -588,9 +583,27 @@ final class GameData
     }
 
     /** Areas a player can reach at some time (always, by item, or by daily window). */
+    /** Areas that some dungeon battle room draws enemies from. */
     public function exposedAreas(): array
     {
-        return array_filter($this->catalog->all('areas'), fn ($area) => $area['unlock']['kind'] !== 'unavailable');
+        return array_intersect_key($this->catalog->all('areas'), $this->dungeonAreas());
+    }
+
+    /** @return array<string, list<string>> area ID => names of dungeons using it */
+    private function dungeonAreas(): array
+    {
+        if (! isset($this->memo['dungeon_areas'])) {
+            $this->memo['dungeon_areas'] = [];
+            foreach ($this->catalog->all('dungeons') as $dungeon) {
+                foreach ($dungeon['rooms'] as $room) {
+                    if (isset($room['area']) && ! in_array($dungeon['name'], $this->memo['dungeon_areas'][$room['area']] ?? [], true)) {
+                        $this->memo['dungeon_areas'][$room['area']][] = $dungeon['name'];
+                    }
+                }
+            }
+        }
+
+        return $this->memo['dungeon_areas'];
     }
 
     // ---- Reverse indexes ---------------------------------------------------------------
@@ -618,7 +631,7 @@ final class GameData
             $total = array_sum(array_map(fn ($entry) => max(0, (int) $entry[0]), $area['encounters']));
             foreach ($area['encounters'] as $monster => $entry) {
                 if ((int) $entry[0] > 0) {
-                    $index['areas'][(string) $monster][] = ['id' => $areaId, 'name' => $area['name'], 'land' => $area['land'], 'open' => $area['unlock']['kind'] !== 'unavailable',
+                    $index['areas'][(string) $monster][] = ['id' => $areaId, 'name' => $area['name'], 'land' => $area['land'], 'open' => isset($this->dungeonAreas()[$areaId]),
                         'rate' => GameText::percent((int) $entry[0] / $total * 100), 'shown' => (bool) $entry[1]];
                 }
             }

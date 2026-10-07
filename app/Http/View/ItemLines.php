@@ -20,6 +20,14 @@ final class ItemLines
                 $stats[] = ['tone' => $tone, 'text' => $label.'：'.$item['def'][$i].'+'.($item['def'][$i + 1] ?? 0)];
             }
         }
+        foreach (['hp' => 'HP', 'sp' => 'SP'] as $resource => $label) {
+            if (isset($item['restore'][$resource])) {
+                $stats[] = ['tone' => 'recover', 'text' => '恢复 '.$label.' '.$item['restore'][$resource].'%'];
+            }
+        }
+        if (isset($item['restore']['stamina'])) {
+            $stats[] = ['tone' => 'recover', 'text' => '恢复体力 '.$item['restore']['stamina']];
+        }
         if (isset($item['handle'])) {
             $stats[] = ['tone' => 'charge', 'text' => '重量：'.$item['handle']];
         }

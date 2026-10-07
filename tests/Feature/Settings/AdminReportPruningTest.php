@@ -101,7 +101,9 @@ final class AdminReportPruningTest extends TestCase
         $admin = User::factory()->create(['is_admin' => true]);
         $character = app(CharacterFactory::class)->create($admin, 1, 'Hero', 0);
         $this->actingAs($admin);
-        $this->post('/hunt/gb0', ['operation_id' => (string) Str::uuid(), 'party' => [$character->id]])->assertRedirect()->assertSessionHasNoErrors();
+        $this->post('/dungeons/goblin_trail', ['operation_id' => (string) Str::uuid(), 'party' => [$character->id]])->assertRedirect()->assertSessionHasNoErrors();
+        $this->post('/dungeon/move', ['operation_id' => (string) Str::uuid(), 'room' => 'grass'])->assertRedirect()->assertSessionHasNoErrors();
+        $this->post('/dungeon/retreat', ['operation_id' => (string) Str::uuid(), 'confirm' => '撤离'])->assertRedirect()->assertSessionHasNoErrors();
         $ordinary = BattleReport::where('mode', 'pve')->sole();
         $this->post('/simulation', ['operation_id' => (string) Str::uuid(), 'party' => [$character->id]])->assertRedirect()->assertSessionHasNoErrors();
         $simulation = BattleReport::where('mode', 'simulation')->sole();

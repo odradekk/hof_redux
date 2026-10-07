@@ -1,0 +1,817 @@
+{
+  "goblin_trail": {
+    "id": "goblin_trail",
+    "data": {
+      "name": "哥布林小径",
+      "proper": "Lv1-6",
+      "land": "grass",
+      "requires_item": null,
+      "summary": "城外的林间小路，哥布林在这里设了哨站。适合刚组建的队伍。",
+      "entrance": "gate",
+      "clear_reward": {
+        "money": 800,
+        "items": {
+          "4100": 2
+        }
+      },
+      "rooms": {
+        "gate": {
+          "type": "empty",
+          "name": "小径入口",
+          "pos": [
+            0,
+            1
+          ]
+        },
+        "grass": {
+          "type": "battle",
+          "name": "草丛",
+          "pos": [
+            1,
+            1
+          ],
+          "area": "gb0"
+        },
+        "cache": {
+          "type": "chest",
+          "name": "猎人的储物箱",
+          "pos": [
+            1,
+            0
+          ],
+          "open_stamina": 1,
+          "money": [
+            50,
+            150
+          ],
+          "loot": {
+            "4000": 3,
+            "4100": 2,
+            "7000": 1
+          },
+          "rolls": 1
+        },
+        "fork": {
+          "type": "battle",
+          "name": "岔路",
+          "pos": [
+            2,
+            1
+          ],
+          "area": "gb1"
+        },
+        "pit": {
+          "type": "trap",
+          "name": "隐藏的陷坑",
+          "pos": [
+            2,
+            2
+          ],
+          "damage_percent": [
+            10,
+            20
+          ],
+          "stamina_loss": 5
+        },
+        "traveler": {
+          "type": "event",
+          "name": "迷路的旅人",
+          "pos": [
+            3,
+            2
+          ],
+          "text": "一名受伤的旅人靠在树下，向你们讨些吃的。",
+          "choices": [
+            {
+              "label": "分给他一些干粮",
+              "outcomes": [
+                {
+                  "weight": 1,
+                  "text": "旅人道谢后，留下了两份草药。",
+                  "effects": [
+                    {
+                      "stamina": -5
+                    },
+                    {
+                      "item": "4100",
+                      "quantity": 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "查看他的伤口",
+              "outcomes": [
+                {
+                  "weight": 70,
+                  "text": "只是皮外伤。旅人指了一条近路，大家省了些力气。",
+                  "effects": [
+                    {
+                      "stamina": 10
+                    }
+                  ]
+                },
+                {
+                  "weight": 30,
+                  "text": "旅人突然拔刀，他是哥布林的探子！",
+                  "effects": [
+                    {
+                      "damage_percent": 15
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "不理会他",
+              "outcomes": [
+                {
+                  "weight": 1,
+                  "text": "你们没有停留。",
+                  "effects": []
+                }
+              ]
+            }
+          ]
+        },
+        "camp": {
+          "type": "rest",
+          "name": "篝火营地",
+          "pos": [
+            3,
+            1
+          ],
+          "uses": 1,
+          "heal_percent": 30,
+          "stamina": 15
+        },
+        "sentry": {
+          "type": "battle",
+          "name": "哥布林哨站",
+          "pos": [
+            4,
+            1
+          ],
+          "encounters": {
+            "1005": 1,
+            "1006": 1,
+            "1007": 1
+          }
+        },
+        "hoard": {
+          "type": "chest",
+          "name": "哥布林的藏宝处",
+          "pos": [
+            4,
+            0
+          ],
+          "open_stamina": 2,
+          "money": [
+            200,
+            400
+          ],
+          "loot": {
+            "4101": 1,
+            "4001": 2,
+            "7000": 2
+          },
+          "rolls": 2
+        },
+        "chief": {
+          "type": "battle",
+          "name": "突击队长",
+          "pos": [
+            5,
+            1
+          ],
+          "fixed": [
+            "1008"
+          ],
+          "area": "gb1",
+          "count": 1
+        },
+        "exit": {
+          "type": "exit",
+          "name": "小径出口",
+          "pos": [
+            6,
+            1
+          ]
+        }
+      },
+      "edges": [
+        [
+          "gate",
+          "grass"
+        ],
+        [
+          "grass",
+          "cache"
+        ],
+        [
+          "grass",
+          "fork"
+        ],
+        [
+          "fork",
+          "pit"
+        ],
+        [
+          "pit",
+          "traveler"
+        ],
+        [
+          "traveler",
+          "camp"
+        ],
+        [
+          "fork",
+          "camp"
+        ],
+        [
+          "camp",
+          "sentry"
+        ],
+        [
+          "sentry",
+          "hoard"
+        ],
+        [
+          "sentry",
+          "chief"
+        ],
+        [
+          "chief",
+          "exit"
+        ]
+      ]
+    },
+    "source": {
+      "authored": true
+    }
+  },
+  "ancient_cave": {
+    "id": "ancient_cave",
+    "data": {
+      "name": "古之洞穴",
+      "proper": "Lv8-20",
+      "land": "cave",
+      "requires_item": "8000",
+      "summary": "蝙蝠盘踞的古老洞穴，深处传说藏着宝物库。",
+      "entrance": "mouth",
+      "clear_reward": {
+        "money": 3000,
+        "items": {
+          "4102": 1
+        }
+      },
+      "rooms": {
+        "mouth": {
+          "type": "empty",
+          "name": "洞口",
+          "pos": [
+            0,
+            2
+          ]
+        },
+        "bats": {
+          "type": "battle",
+          "name": "蝙蝠栖息处",
+          "pos": [
+            1,
+            2
+          ],
+          "area": "ac0"
+        },
+        "puddle": {
+          "type": "event",
+          "name": "地下水洼",
+          "pos": [
+            1,
+            1
+          ],
+          "text": "岩缝里渗出的水聚成一个清澈的水洼。",
+          "choices": [
+            {
+              "label": "喝几口",
+              "outcomes": [
+                {
+                  "weight": 60,
+                  "text": "冰凉的水让人头脑清醒。",
+                  "effects": [
+                    {
+                      "sp_percent": 30
+                    }
+                  ]
+                },
+                {
+                  "weight": 40,
+                  "text": "水里有洞穴蛙的毒液！",
+                  "effects": [
+                    {
+                      "damage_percent": 10
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "离开",
+              "outcomes": [
+                {
+                  "weight": 1,
+                  "text": "你们没有碰这些水。",
+                  "effects": []
+                }
+              ]
+            }
+          ]
+        },
+        "slope": {
+          "type": "trap",
+          "name": "湿滑的斜坡",
+          "pos": [
+            2,
+            2
+          ],
+          "damage_percent": [
+            15,
+            30
+          ],
+          "stamina_loss": 8
+        },
+        "crate": {
+          "type": "chest",
+          "name": "废弃的木箱",
+          "pos": [
+            2,
+            3
+          ],
+          "open_stamina": 2,
+          "money": [
+            100,
+            300
+          ],
+          "loot": {
+            "4101": 2,
+            "4200": 2,
+            "7001": 1
+          },
+          "rolls": 1
+        },
+        "hall": {
+          "type": "battle",
+          "name": "大厅",
+          "pos": [
+            3,
+            2
+          ],
+          "area": "ac0"
+        },
+        "shrine": {
+          "type": "event",
+          "name": "古老的祭坛",
+          "pos": [
+            3,
+            1
+          ],
+          "text": "石台上刻着看不懂的文字，中央有一处凹槽。",
+          "choices": [
+            {
+              "label": "祈祷",
+              "outcomes": [
+                {
+                  "weight": 50,
+                  "text": "柔和的光芒包围了队伍。",
+                  "effects": [
+                    {
+                      "heal_percent": 40
+                    }
+                  ]
+                },
+                {
+                  "weight": 30,
+                  "text": "一股暖流驱散了疲惫。",
+                  "effects": [
+                    {
+                      "stamina": 20
+                    }
+                  ]
+                },
+                {
+                  "weight": 20,
+                  "text": "祭坛发出刺眼的光，灼伤了所有人。",
+                  "effects": [
+                    {
+                      "damage_percent": 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "离开",
+              "outcomes": [
+                {
+                  "weight": 1,
+                  "text": "你们没有惊动祭坛。",
+                  "effects": []
+                }
+              ]
+            }
+          ]
+        },
+        "spring": {
+          "type": "rest",
+          "name": "地下温泉",
+          "pos": [
+            4,
+            1
+          ],
+          "uses": 2,
+          "heal_percent": 25,
+          "stamina": 10
+        },
+        "deep": {
+          "type": "battle",
+          "name": "深层通道",
+          "pos": [
+            4,
+            2
+          ],
+          "area": "ac1"
+        },
+        "vault": {
+          "type": "chest",
+          "name": "宝物库",
+          "pos": [
+            4,
+            3
+          ],
+          "open_stamina": 3,
+          "money": [
+            500,
+            1000
+          ],
+          "loot": {
+            "4102": 1,
+            "4201": 2,
+            "7001": 2
+          },
+          "rolls": 2
+        },
+        "lair": {
+          "type": "battle",
+          "name": "蝙蝠首领的巢穴",
+          "pos": [
+            5,
+            2
+          ],
+          "fixed": [
+            "1017"
+          ],
+          "area": "ac0",
+          "count": 2
+        },
+        "exit": {
+          "type": "exit",
+          "name": "通往地表的裂缝",
+          "pos": [
+            6,
+            2
+          ]
+        }
+      },
+      "edges": [
+        [
+          "mouth",
+          "bats"
+        ],
+        [
+          "bats",
+          "puddle"
+        ],
+        [
+          "bats",
+          "slope"
+        ],
+        [
+          "slope",
+          "crate"
+        ],
+        [
+          "slope",
+          "hall"
+        ],
+        [
+          "puddle",
+          "shrine"
+        ],
+        [
+          "hall",
+          "shrine"
+        ],
+        [
+          "shrine",
+          "spring"
+        ],
+        [
+          "hall",
+          "deep"
+        ],
+        [
+          "deep",
+          "vault"
+        ],
+        [
+          "deep",
+          "lair"
+        ],
+        [
+          "spring",
+          "lair"
+        ],
+        [
+          "lair",
+          "exit"
+        ]
+      ]
+    },
+    "source": {
+      "authored": true
+    }
+  },
+  "frosty_mountain": {
+    "id": "frosty_mountain",
+    "data": {
+      "name": "滴冻山",
+      "proper": "Lv5-25",
+      "land": "snow",
+      "requires_item": "8009",
+      "summary": "常年积雪的高山，越往上风雪越大。",
+      "entrance": "foot",
+      "clear_reward": {
+        "money": 5000,
+        "items": {
+          "4002": 1,
+          "4102": 1
+        }
+      },
+      "rooms": {
+        "foot": {
+          "type": "empty",
+          "name": "山脚",
+          "pos": [
+            0,
+            2
+          ]
+        },
+        "field": {
+          "type": "battle",
+          "name": "雪原",
+          "pos": [
+            1,
+            2
+          ],
+          "area": "snow0"
+        },
+        "hut": {
+          "type": "rest",
+          "name": "猎人小屋",
+          "pos": [
+            1,
+            1
+          ],
+          "uses": 1,
+          "heal_percent": 40,
+          "stamina": 25
+        },
+        "crevasse": {
+          "type": "trap",
+          "name": "冰隙",
+          "pos": [
+            2,
+            2
+          ],
+          "damage_percent": [
+            20,
+            35
+          ],
+          "stamina_loss": 10
+        },
+        "path": {
+          "type": "battle",
+          "name": "盘山道",
+          "pos": [
+            2,
+            1
+          ],
+          "area": "snow0"
+        },
+        "pack": {
+          "type": "chest",
+          "name": "冻住的行囊",
+          "pos": [
+            2,
+            0
+          ],
+          "open_stamina": 2,
+          "money": [
+            150,
+            400
+          ],
+          "loot": {
+            "4001": 2,
+            "4101": 1,
+            "4200": 1
+          },
+          "rolls": 1
+        },
+        "blizzard": {
+          "type": "event",
+          "name": "暴风雪",
+          "pos": [
+            3,
+            2
+          ],
+          "text": "风雪突然变大，几步之外就看不清了。",
+          "choices": [
+            {
+              "label": "顶着风雪前进",
+              "outcomes": [
+                {
+                  "weight": 1,
+                  "text": "你们咬牙走出了风雪，但都累坏了。",
+                  "effects": [
+                    {
+                      "stamina": -15
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "挖雪洞躲避",
+              "outcomes": [
+                {
+                  "weight": 70,
+                  "text": "雪洞里出奇地暖和，大家稍作休整。",
+                  "effects": [
+                    {
+                      "stamina": -5
+                    },
+                    {
+                      "heal_percent": 20
+                    }
+                  ]
+                },
+                {
+                  "weight": 30,
+                  "text": "雪洞塌了！",
+                  "effects": [
+                    {
+                      "damage_percent": 15
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "midway": {
+          "type": "battle",
+          "name": "半山腰",
+          "pos": [
+            3,
+            1
+          ],
+          "area": "snow1"
+        },
+        "ridge": {
+          "type": "battle",
+          "name": "山脊",
+          "pos": [
+            4,
+            1
+          ],
+          "area": "snow1"
+        },
+        "statue": {
+          "type": "event",
+          "name": "雪女神像",
+          "pos": [
+            4,
+            0
+          ],
+          "text": "风雪中立着一尊被冰覆盖的女神像。",
+          "choices": [
+            {
+              "label": "献上祈祷",
+              "outcomes": [
+                {
+                  "weight": 50,
+                  "text": "神像的眼中闪过蓝光。",
+                  "effects": [
+                    {
+                      "sp_percent": 50
+                    }
+                  ]
+                },
+                {
+                  "weight": 50,
+                  "text": "寒意退去，伤口不再疼痛。",
+                  "effects": [
+                    {
+                      "heal_percent": 30
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "离开",
+              "outcomes": [
+                {
+                  "weight": 1,
+                  "text": "你们继续赶路。",
+                  "effects": []
+                }
+              ]
+            }
+          ]
+        },
+        "summit": {
+          "type": "battle",
+          "name": "山顶",
+          "pos": [
+            5,
+            1
+          ],
+          "area": "snow2"
+        },
+        "exit": {
+          "type": "exit",
+          "name": "下山的索道",
+          "pos": [
+            6,
+            1
+          ]
+        }
+      },
+      "edges": [
+        [
+          "foot",
+          "field"
+        ],
+        [
+          "field",
+          "hut"
+        ],
+        [
+          "field",
+          "crevasse"
+        ],
+        [
+          "hut",
+          "path"
+        ],
+        [
+          "crevasse",
+          "blizzard"
+        ],
+        [
+          "path",
+          "pack"
+        ],
+        [
+          "path",
+          "midway"
+        ],
+        [
+          "blizzard",
+          "midway"
+        ],
+        [
+          "midway",
+          "ridge"
+        ],
+        [
+          "ridge",
+          "statue"
+        ],
+        [
+          "ridge",
+          "summit"
+        ],
+        [
+          "summit",
+          "exit"
+        ]
+      ]
+    },
+    "source": {
+      "authored": true
+    }
+  }
+}

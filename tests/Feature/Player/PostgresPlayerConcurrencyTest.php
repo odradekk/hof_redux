@@ -21,7 +21,7 @@ final class PostgresPlayerConcurrencyTest extends TestCase
             $this->markTestSkipped('Requires independent PostgreSQL connections.');
         }
 
-        return User::create(['login' => 'concurrent', 'name' => 'concurrent', 'password' => 'password123', 'stamina_updated_at' => now()]);
+        return User::create(['login' => 'concurrent', 'name' => 'concurrent', 'password' => 'password123']);
     }
 
     private function race(User $user, string $command, array $first, array $second, bool $sameKey = false): array
@@ -55,10 +55,12 @@ final class PostgresPlayerConcurrencyTest extends TestCase
     public function test_same_work_request_on_two_connections_is_paid_once(): void
     {
         $user = $this->player();
-        $results = $this->race($user, 'work', [], [], true);
+        $worker = DB::transaction(fn () => app(CharacterFactory::class)->create(User::lockForUpdate()->findOrFail($user->id), 1, 'Worker', 0));
+        $results = $this->race($user, 'work', ['character_id' => $worker->id], ['character_id' => $worker->id], true);
         $this->assertSame(['ok', 'ok'], array_column($results, 'status'));
         $this->assertSame($results[0]['result'], $results[1]['result']);
         $this->assertSame(10500, $user->fresh()->money);
+        $this->assertSame(0, $worker->fresh()->stamina_units);
         $this->assertSame(1, DB::table('operations')->count());
     }
 
@@ -97,7 +99,7 @@ final class PostgresPlayerConcurrencyTest extends TestCase
     public function test_parallel_sales_cannot_sell_same_item_twice(): void
     {
         $user = $this->player();
-        $item = InventoryItem::create(['user_id' => $user->id, 'item_id' => '1000', 'quantity' => 1, 'location' => 'backpack']);
+        $item = InventoryItem::create(['user_id' => $user->id, 'item_id' => '1000', 'quantity' => 1, 'location' => 'warehouse']);
         $data = ['items' => [['id' => $item->id, 'quantity' => 1]]];
         $results = $this->race($user, 'sell', $data, $data);
         $statuses = array_column($results, 'status');
@@ -110,7 +112,7 @@ final class PostgresPlayerConcurrencyTest extends TestCase
     public function test_parallel_crafting_cannot_duplicate_shared_materials(): void
     {
         $user = $this->player();
-        InventoryItem::create(['user_id' => $user->id, 'item_id' => '6001', 'quantity' => 4, 'location' => 'backpack']);
+        InventoryItem::create(['user_id' => $user->id, 'item_id' => '6001', 'quantity' => 4, 'location' => 'warehouse']);
         $results = $this->race($user, 'craft', ['item_id' => 1000], ['item_id' => 1000]);
         $statuses = array_column($results, 'status');
         sort($statuses);

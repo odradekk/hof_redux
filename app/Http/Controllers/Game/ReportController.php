@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Game;
 
 use App\Application\Battle\BattlePresenter;
 use App\Application\Battle\BattleService;
-use App\Application\World\WorldService;
 use App\Models\BattleReport;
 use App\Models\BossChallenge;
 use App\Models\RankingChallenge;
@@ -32,7 +31,7 @@ final class ReportController
         return view('game.reports.index', compact('type', 'records', 'entries', 'tabs'));
     }
 
-    public function show(Request $request, BattleReport $report, BattleService $battles, WorldService $world)
+    public function show(Request $request, BattleReport $report, BattleService $battles)
     {
         abort_unless($report->public || $request->user()?->id === $report->user_id || $request->user()?->is_admin, 404);
         $retry = null;
@@ -45,13 +44,6 @@ final class ReportController
                     $retry = ['action' => route('character.simulation', $party[0]), 'party' => $party];
                 } elseif ($limit === BattleService::SIMULATION_ACTION_LIMIT) {
                     $retry = ['action' => route('simulation'), 'party' => $party];
-                }
-            } elseif ($party && ($report->report['mode'] ?? '') === 'pve') {
-                foreach ($world->areas($request->user()) as $id => $area) {
-                    if ($area['name'] === ($report->report['names'][1] ?? '') && $area['land'] === ($report->report['background'] ?? '')) {
-                        $retry = ['action' => route('hunt.area', $id), 'party' => $party];
-                        break;
-                    }
                 }
             }
         }

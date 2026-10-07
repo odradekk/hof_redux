@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# Prepare an Amp orb (Debian 12) to develop and test HOF Redux: PHP 8.4 with the CI
+# extensions, PostgreSQL 18, Composer dependencies, and local test/dev databases.
+# Idempotent: a warm run skips package downloads and existing databases.
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+step() { printf '\n== %s (%s)\n' "$1" "$(date +%T)"; }
+
+# Disposable orb-only credentials; never used outside this sandbox.
+DB_USER=hof
+DB_PASSWORD=test-only-password
+PHP_PACKAGES=(php8.4-cli php8.4-pgsql php8.4-sqlite3 php8.4-mbstring php8.4-intl php8.4-bcmath php8.4-zip php8.4-xml php8.4-curl)
+
+step "System packages"
+missing=()
+for package in "${PHP_PACKAGES[@]}" postgresql-18; do
+  dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q 'install ok installed' || missing+=("$package")
+done
+if ((${#missing[@]})); then
+  if [[ ! -f /etc/apt/sources.list.d/sury.list || ! -f /etc/apt/sources.list.d/pgdg.list ]]; then
+    sudo apt-get update -qq
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ca-certificates curl gnupg lsb-release >/dev/null
+    curl -fsSL https://packages.sury.org/php/apt.gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/sury.gpg
+    echo "deb [signed-by=/usr/share/keyrings/sury.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/sury.list >/dev/null
+    curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/pgdg.gpg
+    echo "deb [signed-by=/usr/share/keyrings/pgdg.gpg] https://apt.postgresql.org/pub/repos/apt $(lsb_release -sc)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list >/dev/null
+  fi
+  sudo apt-get update -qq
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq "${missing[@]}" >/dev/null
+fi
+php -v | head -1
+
+step "Composer"
+if ! command -v composer >/dev/null; then
+  curl -fsSL https://getcomposer.org/installer -o /tmp/composer-setup.php
+  sudo php /tmp/composer-setup.php --quiet --install-dir=/usr/local/bin --filename=composer
+  rm -f /tmp/composer-setup.php
+fi
+composer install --no-interaction --prefer-dist --no-progress
+
+step "PostgreSQL"
+conf=/etc/postgresql/18/main/conf.d/orb-speed.conf
+if [[ ! -f "$conf" ]]; then
+  # Disposable sandbox: trade durability for speed.
+  printf 'fsync = off\nsynchronous_commit = off\nfull_page_writes = off\n' | sudo tee "$conf" >/dev/null
+fi
+sudo pg_ctlcluster 18 main start 2>/dev/null || true
+sudo -u postgres psql -qtAc "SELECT 1 FROM pg_roles WHERE rolname = '$DB_USER'" | grep -q 1 \
+  || sudo -u postgres psql -qc "CREATE USER $DB_USER PASSWORD '$DB_PASSWORD' SUPERUSER"
+for database in hof_test hof_dev; do
+  sudo -u postgres psql -qtAc "SELECT 1 FROM pg_database WHERE datname = '$database'" | grep -q 1 \
+    || sudo -u postgres psql -qc "CREATE DATABASE $database OWNER $DB_USER"
+done
+
+step "Application environment"
+if [[ ! -f .env ]]; then
+  cp -- .env.example .env
+  sed -i "s/^DB_HOST=.*/DB_HOST=127.0.0.1/; s/^DB_DATABASE=.*/DB_DATABASE=hof_dev/; s/^DB_PASSWORD=.*/DB_PASSWORD=$DB_PASSWORD/; s#^APP_URL=.*#APP_URL=http://127.0.0.1:8000#" .env
+fi
+grep -q '^APP_KEY=base64:' .env || php artisan key:generate --force --no-interaction
+php artisan migrate --force --no-interaction
+# The shared boss roster is created once; later runs report nothing to create.
+php artisan game:maintain --bootstrap --no-interaction
+
+step "Done"

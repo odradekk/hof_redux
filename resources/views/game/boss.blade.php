@@ -2,7 +2,7 @@
 @section('title', '共享首领')
 @section('content')
 <x-sec as="h1" title="共享首领(BOSS)">
-    <x-slot:aside><a href="{{ route('hunt') }}">返回狩猎</a></x-slot:aside>
+    <x-slot:aside><a href="{{ route('dungeons') }}">返回冒险</a></x-slot:aside>
 </x-sec>
 <p class="hint">每次消耗10体力，每20分钟可挑战一次。所有玩家共同挑战首领，首领生命与魔力不会公开。</p>
 @if(!$ready)<p>下次可挑战：<x-time :at="$readyAt" mode="relative" /></p>@endif

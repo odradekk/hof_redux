@@ -1,0 +1,173 @@
+{
+  "4000": {
+    "id": "4000",
+    "data": {
+      "name": "干粮",
+      "type": "消耗品",
+      "type2": "其他",
+      "buy": 150,
+      "img": "food_012.png",
+      "handle": 1,
+      "restore": {
+        "stamina": 15
+      },
+      "shop": true,
+      "no": "4000"
+    },
+    "source": {
+      "authored": true
+    }
+  },
+  "4001": {
+    "id": "4001",
+    "data": {
+      "name": "烤肉",
+      "type": "消耗品",
+      "type2": "其他",
+      "buy": 400,
+      "img": "food_014.png",
+      "handle": 2,
+      "restore": {
+        "stamina": 30
+      },
+      "shop": true,
+      "no": "4001"
+    },
+    "source": {
+      "authored": true
+    }
+  },
+  "4002": {
+    "id": "4002",
+    "data": {
+      "name": "炖菜便当",
+      "type": "消耗品",
+      "type2": "其他",
+      "buy": 1200,
+      "img": "food_016.png",
+      "handle": 3,
+      "restore": {
+        "stamina": 60
+      },
+      "shop": true,
+      "no": "4002"
+    },
+    "source": {
+      "authored": true
+    }
+  },
+  "4100": {
+    "id": "4100",
+    "data": {
+      "name": "草药",
+      "type": "消耗品",
+      "type2": "其他",
+      "buy": 300,
+      "img": "025-Herb01.png",
+      "handle": 1,
+      "restore": {
+        "hp": 25
+      },
+      "shop": true,
+      "no": "4100"
+    },
+    "source": {
+      "authored": true
+    }
+  },
+  "4101": {
+    "id": "4101",
+    "data": {
+      "name": "治疗药",
+      "type": "消耗品",
+      "type2": "其他",
+      "buy": 800,
+      "img": "022-Potion02.png",
+      "handle": 1,
+      "restore": {
+        "hp": 50
+      },
+      "shop": true,
+      "no": "4101"
+    },
+    "source": {
+      "authored": true
+    }
+  },
+  "4102": {
+    "id": "4102",
+    "data": {
+      "name": "高级治疗药",
+      "type": "消耗品",
+      "type2": "其他",
+      "buy": 2500,
+      "img": "023-Potion03.png",
+      "handle": 2,
+      "restore": {
+        "hp": 100
+      },
+      "shop": true,
+      "no": "4102"
+    },
+    "source": {
+      "authored": true
+    }
+  },
+  "4200": {
+    "id": "4200",
+    "data": {
+      "name": "魔力草",
+      "type": "消耗品",
+      "type2": "其他",
+      "buy": 400,
+      "img": "026-Herb02.png",
+      "handle": 1,
+      "restore": {
+        "sp": 25
+      },
+      "shop": true,
+      "no": "4200"
+    },
+    "source": {
+      "authored": true
+    }
+  },
+  "4201": {
+    "id": "4201",
+    "data": {
+      "name": "魔力药",
+      "type": "消耗品",
+      "type2": "其他",
+      "buy": 1000,
+      "img": "021-Potion01.png",
+      "handle": 1,
+      "restore": {
+        "sp": 50
+      },
+      "shop": true,
+      "no": "4201"
+    },
+    "source": {
+      "authored": true
+    }
+  },
+  "4202": {
+    "id": "4202",
+    "data": {
+      "name": "高级魔力药",
+      "type": "消耗品",
+      "type2": "其他",
+      "buy": 3000,
+      "img": "024-Potion04.png",
+      "handle": 2,
+      "restore": {
+        "sp": 100
+      },
+      "shop": true,
+      "no": "4202"
+    },
+    "source": {
+      "authored": true
+    }
+  }
+}

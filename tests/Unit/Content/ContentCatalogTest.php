@@ -20,9 +20,57 @@ final class ContentCatalogTest extends TestCase
     {
         $catalog = $this->catalog();
         $catalog->verifyIntegrity();
-        foreach (['items' => 181, 'skills' => 268, 'jobs' => 15, 'monsters' => 147, 'base_characters' => 4, 'areas' => 24, 'conditions' => 117, 'class_changes' => 11, 'recipes' => 90, 'enchants' => 134, 'enchant_pools' => 12, 'economy_rules' => 3, 'skill_tree' => 163] as $kind => $count) {
+        // 181 extracted items plus 9 authored consumables; dungeons are authored only.
+        foreach (['items' => 190, 'dungeons' => 3, 'skills' => 268, 'jobs' => 15, 'monsters' => 147, 'base_characters' => 4, 'areas' => 24, 'conditions' => 117, 'class_changes' => 11, 'recipes' => 90, 'enchants' => 134, 'enchant_pools' => 12, 'economy_rules' => 3, 'skill_tree' => 163] as $kind => $count) {
             self::assertCount($count, $catalog->all($kind));
         }
+    }
+
+    public function test_authored_layer_is_versioned_and_cannot_shadow_extracted_ids(): void
+    {
+        $root = dirname(__DIR__, 3).'/content';
+        $copy = sys_get_temp_dir().'/hof-content-'.bin2hex(random_bytes(4));
+        mkdir($copy.'/redux', 0777, true);
+        try {
+            foreach (glob($root.'/*.json') as $file) {
+                copy($file, $copy.'/'.basename($file));
+            }
+            foreach (glob($root.'/redux/*.json') as $file) {
+                copy($file, $copy.'/redux/'.basename($file));
+            }
+            $catalog = new ContentCatalog($copy);
+            $catalog->verifyIntegrity();
+            self::assertNotSame(json_decode(file_get_contents($root.'/manifest.json'), true)['content_version'], $catalog->version());
+
+            // Editing authored content without rebuilding its manifest is detected.
+            $items = json_decode(file_get_contents($copy.'/redux/items.json'), true);
+            $items['4000']['data']['buy'] = 1;
+            file_put_contents($copy.'/redux/items.json', json_encode($items));
+            try {
+                (new ContentCatalog($copy))->verifyIntegrity();
+                self::fail('Tampered authored content passed verification.');
+            } catch (\RuntimeException $e) {
+                self::assertSame('Content version mismatch', $e->getMessage());
+            }
+
+            // An authored record may not reuse an extracted ID.
+            $items['1000'] = ['id' => '1000', 'data' => ['name' => 'Shadow'], 'source' => ['authored' => true]];
+            file_put_contents($copy.'/redux/items.json', json_encode($items));
+            $this->expectExceptionMessage('Authored content reuses an extracted ID: items/1000');
+            (new ContentCatalog($copy))->get('items', 1000);
+        } finally {
+            array_map('unlink', [...glob($copy.'/redux/*'), ...glob($copy.'/*.json')]);
+            rmdir($copy.'/redux');
+            rmdir($copy);
+        }
+    }
+
+    public function test_shop_stock_appends_authored_items_marked_for_sale(): void
+    {
+        $stock = $this->catalog()->shopStock();
+        self::assertSame(['1002', '1003'], array_slice($stock, 0, 2));
+        self::assertSame(['4000', '4001', '4002', '4100', '4101', '4102', '4200', '4201', '4202'], array_slice($stock, -9));
+        self::assertNotContains('1000', $stock);
     }
 
     public function test_unicode_and_source_provenance_survive_extraction(): void

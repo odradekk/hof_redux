@@ -29,7 +29,7 @@ $fixture = DB::transaction(function (): array {
         $user = new User;
         $user->forceFill([
             'login' => $login, 'name' => $name, 'password' => $password, 'is_admin' => $admin,
-            'money' => 1000000, 'stamina_units' => 8640000, 'stamina_updated_at' => now(),
+            'money' => 1000000,
             'preferences' => ['record_battle_log' => true, 'no_js_inventory' => false, 'color' => '99ccff'],
             'created_at' => now()->subDays(7),
         ])->save();
@@ -46,7 +46,7 @@ $fixture = DB::transaction(function (): array {
     }
     $owner->update(['preferences' => [...$owner->preferences, 'party' => $party]]);
     foreach (['1000' => 3, '1001' => 2, '6001' => 40, '6002' => 20, '9000' => 1] as $item => $quantity) {
-        $owner->inventory()->create(['item_id' => (string) $item, 'quantity' => $quantity, 'location' => 'backpack']);
+        $owner->inventory()->create(['item_id' => (string) $item, 'quantity' => $quantity, 'location' => 'warehouse']);
     }
 
     // More than 30 accounts also exercises the actual administrator pagination template.

@@ -49,7 +49,7 @@ final class NavigationRegressionTest extends TestCase
     public function test_only_missing_or_empty_team_names_have_setup_navigation(): void
     {
         foreach ([null, '', '0', '00', 'NormalTeam'] as $name) {
-            $user = new User(['name' => $name, 'stamina_updated_at' => now()]);
+            $user = new User(['name' => $name]);
             $request = Request::create('/');
             $request->setUserResolver(fn () => $user);
             $hud = Hud::forRequest($request);

@@ -18,7 +18,7 @@ abstract class PlayerTestCase extends TestCase
 
     protected function player(string $login = 'player'): User
     {
-        return User::create(['login' => $login, 'name' => $login, 'password' => 'password123', 'stamina_updated_at' => now()]);
+        return User::create(['login' => $login, 'name' => $login, 'password' => 'password123']);
     }
 
     protected function character(User $user, int $type = 1): Character
@@ -28,7 +28,7 @@ abstract class PlayerTestCase extends TestCase
 
     protected function item(User $user, string $id, int $quantity = 1, array $attributes = []): InventoryItem
     {
-        return InventoryItem::create(['user_id' => $user->id, 'item_id' => $id, 'quantity' => $quantity, 'location' => 'backpack'] + $attributes);
+        return InventoryItem::create(['user_id' => $user->id, 'item_id' => $id, 'quantity' => $quantity, 'location' => 'warehouse'] + $attributes);
     }
 
     protected function command(User $user, string $command, array $data = [], ?string $key = null): array

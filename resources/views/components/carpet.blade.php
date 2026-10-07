@@ -13,6 +13,6 @@ Example: <x-carpet :unit="$unit" />
     <span class="carpet-name">{{ $unit['name'] }}@if($unit['star'] ?? false)<span class="star" aria-label="有未分配属性点">*</span>@endif</span>
     @if($href ?? $unit['href'] ?? null)</a>@endif
     <span class="meta">@if(isset($unit['level']))Lv.{{ $unit['level'] }} @endif{{ $unit['label'] ?? '' }}</span>
-    @if(!empty($unit['vitals']))<span class="carpet-vitals">HP {{ $unit['vitals']['hp'] }} / {{ $unit['vitals']['maxhp'] }}<br>SP {{ $unit['vitals']['sp'] }} / {{ $unit['vitals']['maxsp'] }}</span>@endif
+    @if(!empty($unit['vitals']))<span class="carpet-vitals">HP {{ $unit['vitals']['hp'] }} / {{ $unit['vitals']['maxhp'] }}<br>SP {{ $unit['vitals']['sp'] }} / {{ $unit['vitals']['maxsp'] }}@isset($unit['vitals']['stamina'])<br>体力 {{ $unit['vitals']['stamina'] }} / {{ $unit['vitals']['staminaMax'] }}@endisset</span>@endif
     {{ $footer ?? '' }}
 </div>

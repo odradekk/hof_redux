@@ -23,10 +23,13 @@ final class PlayerService
 
     public const TEAM_RENAME_PRICE = 100000;
 
+    /** Character planning stays available inside a dungeon; everything else is a town activity. */
+    public const DUNGEON_COMMANDS = ['stats', 'learn', 'position', 'tactics', 'memo', 'tactics-insert', 'tactics-delete', 'preferences', 'party'];
+
     public function __construct(
         private GameAction $actions, private ContentCatalog $catalog,
         private CharacterFactory $characters, private Inventory $inventory,
-        private Crafting $crafting, private ItemDetails $details,
+        private Crafting $crafting, private ItemDetails $details, private Vitals $vitals,
     ) {}
 
     public function execute(int $actor, string $command, string $key, array $input): array
@@ -35,13 +38,16 @@ final class PlayerService
 
         return $this->actions->execute($actor, 'player.'.$command, $key, $data,
             function (User $user, int $operation, int $seed) use ($command, $data): array {
+                if (! in_array($command, self::DUNGEON_COMMANDS, true)) {
+                    $this->actions->ensureInTown($user);
+                }
                 $random = new Randomizer(new Mt19937($seed));
 
                 return match ($command) {
                     'recruit' => $this->recruit($user, $data, $operation),
                     'buy' => $this->buy($user, $data['items'], $operation),
                     'sell' => $this->sell($user, $data['items'], $operation),
-                    'work' => $this->work($user, $operation),
+                    'work' => $this->work($user, (int) $data['character_id'], $operation),
                     'craft' => $this->crafting->create($user, (string) $data['item_id'], $data['material'] ?? null, $operation, $random),
                     'refine' => $this->crafting->refine($user, (int) $data['inventory_id'], (int) $data['times'], $operation, $random),
                     'preferences' => $this->preferences($user, $data),
@@ -59,7 +65,7 @@ final class PlayerService
         $rules = match ($command) {
             'recruit' => ['base_type' => ['required', 'integer', Rule::in([1, 2, 3, 4])], 'gender' => ['required', 'integer', Rule::in([0, 1])], 'name' => $name],
             'buy', 'sell' => ['items' => ['required', 'array', 'min:1', 'max:100'], 'items.*.id' => ['required', 'integer', 'min:1'], 'items.*.quantity' => ['required', 'integer', 'min:1', 'max:999']],
-            'work' => [],
+            'work' => $character,
             'craft' => ['item_id' => ['required', 'integer', 'min:1'], 'material' => ['nullable', 'string', 'regex:/^7[0-1][0-9]{2}$/']],
             'refine' => ['inventory_id' => ['required', 'integer', 'min:1'], 'times' => ['required', 'integer', 'between:1,10']],
             'preferences' => ['record_battle_log' => ['required', 'boolean'], 'no_js_inventory' => ['required', 'boolean'], 'color' => ['present', 'nullable', 'regex:/^(?:00|33|66|99|cc|ff){3}$/i']],
@@ -113,7 +119,7 @@ final class PlayerService
 
     private function buy(User $user, array $items, int $operation): array
     {
-        $stock = array_map('strval', $this->catalog->get('economy_rules', 'shop')['values']);
+        $stock = $this->catalog->shopStock();
         $total = 0;
         foreach ($items as $selection) {
             $id = (string) $selection['id'];
@@ -143,12 +149,13 @@ final class PlayerService
         return ['message' => '出售完成。', 'total' => $total];
     }
 
-    private function work(User $user, int $operation): array
+    private function work(User $user, int $characterId, int $operation): array
     {
-        $this->actions->stamina($user, self::WORK_STAMINA, $operation, 'work');
+        $character = $user->characters()->lockForUpdate()->findOrFail($characterId);
+        $this->vitals->spendStamina($character, self::WORK_STAMINA, $operation, 'work');
         $this->actions->money($user, self::WORK_PAY, $operation, 'work');
 
-        return ['message' => '打工完成：消耗 100 体力，获得 $ 500。'];
+        return ['message' => $character->name.' 打工完成：消耗 100 体力，获得 $ 500。'];
     }
 
     private function preferences(User $user, array $data): array
@@ -204,7 +211,7 @@ final class PlayerService
                 $user->save();
                 $character->delete();
 
-                return ['message' => '角色已离队，装备已返回背包。'];
+                return ['message' => '角色已离队，装备已返回仓库。'];
             case 'rename':
                 if ($character->name === $data['name']) {
                     Inventory::reject('请输入不同的角色名字。');
