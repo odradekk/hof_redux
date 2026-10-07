@@ -9,6 +9,7 @@ use App\Application\Player\PlayerRules;
 use App\Application\Player\PlayerService;
 use App\Application\Player\Vitals;
 use App\Application\World\WorldService;
+use App\Domain\Character\Attributes;
 use App\Domain\Combat\Fatigue;
 use App\Domain\Combat\SnapshotFactory;
 use App\Domain\Content\ContentCatalog;
@@ -80,11 +81,11 @@ final class PlayerController
         }
         $effective = SnapshotFactory::character($model->stats, $resolvedEquipment, $passives);
         $vitals = Vitals::current($model);
-        $penalty = Fatigue::penalty($vitals['stamina']);
+        $penalty = Fatigue::penalty($vitals['stamina'], $vitals['staminaMax']);
         $statusRows = [
             ['label' => 'HP', 'value' => $vitals['hp'].' / '.$vitals['maxhp']],
             ['label' => 'SP', 'value' => $vitals['sp'].' / '.$vitals['maxsp']],
-            ['label' => '体力', 'value' => $vitals['stamina'].' / '.$vitals['staminaMax'].($penalty ? '（疲劳：属性 -'.$penalty.'%）' : '')],
+            ['label' => '体力', 'value' => $vitals['stamina'].' / '.$vitals['staminaMax'].($penalty['output'] ? '（疲劳：伤害与治疗 -'.$penalty['output'].'%，速度 -'.$penalty['speed'].'%）' : '')],
             ['label' => '经验', 'value' => $model->xp.' / '.(PlayerRules::experienceRequired($model->level) ?? 'MAX')],
         ];
         foreach (['maxhp', 'maxsp', ...PlayerRules::STATS] as $stat) {
@@ -104,8 +105,20 @@ final class PlayerController
         }
         $allocations = [];
         foreach (PlayerRules::STATS as $stat) {
-            $allocations[] = ['id' => $stat, 'label' => __('hof.stats.'.$stat), 'value' => $model->stats[$stat], 'max' => min($model->stat_points, 255 - $model->stats[$stat])];
+            $allocations[] = ['id' => $stat, 'label' => __('hof.stats.'.$stat), 'value' => $model->stats[$stat], 'max' => $model->stat_points];
         }
+        // Base attributes only: dungeon rules read the allocated values, not equipment bonuses.
+        $stats = $model->stats;
+        $dungeonRows = [
+            ['label' => '体力恢复', 'value' => '每小时 '.round(Vitals::staminaPerDay($model) / 24, 1)],
+            ['label' => '背包负重', 'value' => Attributes::carryCapacity((int) $stats['str'])],
+            ['label' => '移动恢复 SP', 'value' => Attributes::moveSpPercent((int) $stats['int']).'%'],
+            ['label' => '陷阱闪避', 'value' => Attributes::dodgeChance((int) $stats['dex']).'%'],
+            ['label' => '拆除陷阱', 'value' => Attributes::disarmChance((int) $stats['dex']).'%'],
+            ['label' => '侦察', 'value' => Attributes::scoutChance((int) $stats['luk']).'%'],
+            ['label' => '宝箱多抽', 'value' => Attributes::chestBonusChance((int) $stats['luk']).'%'],
+            ['label' => '濒死坚持', 'value' => Attributes::dyingSteps((int) $stats['vit']).' 步'],
+        ];
         $combatRows = [
             ['label' => '物理攻击', 'value' => $effective['atk'][0], 'tone' => 'dmg'],
             ['label' => '魔法攻击', 'value' => $effective['atk'][1], 'tone' => 'spdmg'],
@@ -146,7 +159,7 @@ final class PlayerController
             'label' => $row->name, 'href' => route('player.character', $row->id), 'active' => $row->id === $id,
         ])->all();
 
-        return view('game.player-character', compact('character', 'unit', 'statusRows', 'specials', 'allocations', 'combatRows', 'slots', 'inventory', 'skills', 'availableSkills', 'jobs', 'conditions', 'actions', 'tactics', 'maxPatterns', 'guards', 'resetItems', 'characterLinks', 'effective') + [
+        return view('game.player-character', compact('character', 'unit', 'statusRows', 'dungeonRows', 'specials', 'allocations', 'combatRows', 'slots', 'inventory', 'skills', 'availableSkills', 'jobs', 'conditions', 'actions', 'tactics', 'maxPatterns', 'guards', 'resetItems', 'characterLinks', 'effective') + [
             'weight' => $weight, 'capacity' => PlayerRules::capacity($model),
         ]);
     }

@@ -76,21 +76,22 @@
 <figure><img src="{{ asset('image/manual/002.gif') }}" width="325" height="196" alt="原版示意图：角色能力值面板"><figcaption>原版示意图：角色能力值面板。</figcaption></figure>
 <ul>
 <li><b>经验(Exp)</b>：当前经验 / 升级所需经验。</li>
-<li><b>最大生命(MaxHP)</b>：降到 0 则战斗不能。由职业、等级和力量决定。</li>
+<li><b>最大生命(MaxHP)</b>：降到 0 则战斗不能。由职业、等级和体质决定。</li>
 <li><b>最大魔力(MaxSP)</b>：使用技能时消耗。由职业、等级和智慧决定。</li>
-<li><b>力量(Str)</b>：影响生命和物理攻击力。</li>
-<li><b>智慧(Int)</b>：影响魔力、魔法攻击力、回复量，以及行动模式的行数。</li>
-<li><b>敏捷(Dex)</b>：提高负重上限（可以装更重的装备）；猎人系部分攻击按敏捷计算；强化召唤物。</li>
-<li><b>速度(Spd)</b>：越高行动越频繁，行动间隔越短。</li>
-<li><b>幸运(Luk)</b>：强化召唤物。</li>
+<li><b>力量(Str)</b>：影响物理攻击力和地下城背包负重。</li>
+<li><b>智慧(Int)</b>：影响魔力、魔法攻击力、回复量、行动模式的行数，以及在地下城中每次移动恢复的魔力。</li>
+<li><b>敏捷(Dex)</b>：提高装备负重上限（可以装更重的装备）；猎人系部分攻击按敏捷计算；强化召唤物；在地下城中躲开和拆除陷阱。</li>
+<li><b>速度(Spd)</b>：越高行动越频繁，行动间隔越短；在地下城中决定能否抢得先机或被伏击。</li>
+<li><b>幸运(Luk)</b>：强化召唤物；在地下城中侦察未探索的房间、从宝箱多找到道具、让事件更容易有好结果。</li>
+<li><b>体质(Vit)</b>：影响最大生命、体力上限与恢复速度，以及濒死时能坚持的步数。</li>
 </ul>
 <p class="meta">计算公式见 <a href="{{ route('catalog', 'rules') }}#vitals">数值规则</a>。</p>
 </div>
 
 <h2 class="sec" id="statup">能力值上升 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent prose">
-<p>角色持续战斗获得经验值，<span class="u">升级</span>时会得到 3 个属性点和 1 个技能点。<br>属性点可以在角色页自由分配到各项能力值上。</p>
-<p>最高等级为 {{ $c['max_level'] }}，每项能力值最高为 {{ $c['stat_cap'] }}。一次获得的经验最多升 1 级，多出的部分不保留。各等级所需经验见 <a href="{{ route('catalog', 'rules') }}#growth">经验表</a>。</p>
+<p>角色持续战斗获得经验值，<span class="u">升级</span>时会得到 {{ $c['stat_points'] }} 个属性点和 1 个技能点。<br>属性点可以在角色页自由分配到各项能力值上，单项能力值没有上限。</p>
+<p>最高等级为 {{ $c['max_level'] }}。一次获得的经验最多升 1 级，多出的部分不保留。各等级所需经验见 <a href="{{ route('catalog', 'rules') }}#growth">经验表</a>。</p>
 </div>
 
 <h2 class="sec" id="jdg">人物在战斗中的命令 <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
@@ -113,7 +114,7 @@
 <p>判定中的 N（数值）在判定右侧填写。可以设定的行数根据<b>智慧</b>而增加（No 增加），等级 30 以上再加 1 行：</p>
 <table class="tbl tbl-stack">
 <thead><tr><th>智慧</th><th>行数</th><th>等级 30 以上</th></tr></thead>
-<tbody>@foreach($rules->patternTable() as $row)<tr><td class="primary">{{ $row['from'] }}–{{ $row['to'] }}</td><td class="num" data-label="行数">{{ $row['rows'] }}</td><td class="num" data-label="Lv30+">{{ $row['rows30'] }}</td></tr>@endforeach</tbody>
+<tbody>@foreach($rules->patternTable() as $row)<tr><td class="primary">{{ $row['from'] }}{{ $row['to'] === null ? ' 以上' : '–'.$row['to'] }}</td><td class="num" data-label="行数">{{ $row['rows'] }}</td><td class="num" data-label="Lv30+">{{ $row['rows30'] }}</td></tr>@endforeach</tbody>
 </table>
 <p>所有判定的种类见 <a href="{{ route('catalog', 'conditions') }}">游戏资料 · 行动条件</a>。只有已经学会的、可以主动使用的技能才能设为行动。没有任何一行满足时，这次行动什么也不做，所以最后一行通常设为“必定”。</p>
 </div>
@@ -136,7 +137,7 @@
 <p>在角色页会显示当前装备及可以装备的物品。装备位置有<b>武器</b>、<b>盾</b>、<b>甲</b>、<b>道具</b>四个，能装备哪些种类由职业决定。</p>
 <p>各装备都有 <span class="charge">重量</span>，角色有 <span class="charge">负重上限</span>，<br>
 装备的重量合计不能超过负重上限。这是装备的限制设定。<br>
-等级和敏捷上升的话，负重上限也会随之上升（5 + 等级 ÷ 10 + 敏捷 ÷ 5，均舍去小数）。</p>
+等级和敏捷上升的话，负重上限也会随之上升（5 + 等级 ÷ 10 + 敏捷 ÷ 5，均舍去小数）。地下城背包的负重另按力量计算。</p>
 <ul class="item-list">
 @foreach([1000, 1700, 5000] as $sample)<li><x-item :line="$data->itemLine($sample)" /></li>@endforeach
 </ul>
@@ -200,16 +201,16 @@
 
 <h2 class="sec" id="time">体力(Time) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent prose">
-<p>每名角色都有自己的体力。出战和打工会消耗参加角色的体力；角色在城镇中会随时间恢复体力，离线时也一样。体力越低，角色在战斗中的属性越低。</p>
-<p>每名角色体力上限 {{ $c['stamina_max'] }}，每天恢复 {{ $c['stamina_day'] }}（约每 {{ round($c['stamina_seconds']) }} 秒 1 点）。在地下城中每次移动消耗 {{ $c['dungeon_move'] }}，每场战斗再消耗 {{ $c['dungeon_battle'] }}；共享首领每次消耗 {{ $c['boss_stamina'] }}。在商店打工可以用 {{ $c['work_stamina'] }} 体力换 {{ \App\Application\World\GameText::money($c['work_pay']) }}。模拟战和竞技场不消耗体力。</p>
+<p>每名角色都有自己的体力。出战和打工会消耗参加角色的体力；角色在城镇中会随时间恢复体力，离线时也一样。体力越低，角色在战斗中造成的伤害、治疗量和行动速度越低。</p>
+<p>体力上限为 {{ $c['stamina_base'] }} + 体质，在城镇中约 {{ $c['stamina_hours'] }} 小时恢复满（体质越高，每小时恢复越多）。在地下城中每次移动消耗 {{ $c['dungeon_move'] }}，每场战斗再消耗 {{ $c['dungeon_battle'] }}；共享首领每次消耗 {{ $c['boss_stamina'] }}。在商店打工可以用 {{ $c['work_stamina'] }} 体力换 {{ \App\Application\World\GameText::money($c['work_pay']) }}。模拟战和竞技场不消耗体力。</p>
 </div>
 
 <h2 class="sec" id="dungeon">地下城(Dungeon) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>
 <div class="indent prose">
 <p>冒险就是探索地下城。选择 1–{{ $c['party_max'] }} 名角色，从仓库挑选消耗品装入背包后进入。地下城由房间和通道组成，每次只能走到相邻的房间；没去过的房间只知道位置，不知道里面有什么。</p>
 <p>房间可能是战斗、宝箱、陷阱、事件、休息处或出口。走到出口并选择离开即为通关，可以得到通关奖励；也可以随时撤离，但没有通关奖励。离开或撤离之前无法使用城镇的设施，但仍可以分配属性点、学习技能和调整行动模式。</p>
-<p>战斗伤害会一直保留。角色 HP 归零就会<b>永久死亡</b>，其装备留在战利品中，由幸存的同伴带回。队伍全灭时，背包、战利品和这次找到的资金全部遗失；如果所有角色都已阵亡，可以免费招募一名新同伴重新出发。</p>
-<p>经验和升级在每场战斗后立即生效；资金和道具先算作战利品，离开或撤离后才存入仓库。背包上限为出战成员负重之和，每人 {{ $c['carry_base'] }} + 力量 ÷ {{ $c['carry_str'] }}。食物恢复体力，治疗药恢复 HP，魔力药恢复 SP，战斗中不能使用道具。</p>
+<p>战斗伤害会一直保留。角色 HP 归零会陷入<b>濒死</b>：之后每移动一步，坚持步数减 1（{{ $c['dying_steps'] }} + 体质 ÷ {{ $c['dying_vit'] }}），归零即<b>永久死亡</b>，其装备留在战利品中，由幸存的同伴带回。用恢复生命的道具、休息处、事件或复活技能可以把濒死的同伴救回，但本次探索中会处于重伤，再次倒下就会直接死亡。撤离或离开时，濒死的同伴会被带回城镇。没有能行动的同伴时队伍全灭，濒死的同伴也会死去，背包、战利品和这次找到的资金全部遗失；如果所有角色都已阵亡，可以免费招募一名新同伴重新出发。</p>
+<p>经验和升级在每场战斗后立即生效；资金和道具先算作战利品，离开或撤离后才存入仓库。背包上限为出战成员负重之和，每人 {{ $c['carry_base'] }} + 力量 ÷ {{ $c['carry_str'] }}。食物恢复体力，治疗药恢复 HP，魔力药恢复 SP，战斗中不能使用道具。各项能力在地下城中的作用见 <a href="{{ route('catalog', 'rules') }}#attributes">数值规则</a>。</p>
 </div>
 
 <h2 class="sec" id="town">城镇(Town) <span class="sec-aside"><a href="#content" aria-label="回到目录">↑</a></span></h2>

@@ -12,7 +12,7 @@ final class DungeonRun extends Model
 
     protected function casts(): array
     {
-        return ['party' => 'array', 'rooms' => 'array', 'loot_money' => 'integer', 'steps' => 'integer', 'ended_at' => 'immutable_datetime'];
+        return ['party' => 'array', 'rooms' => 'array', 'members' => 'array', 'loot_money' => 'integer', 'steps' => 'integer', 'ended_at' => 'immutable_datetime'];
     }
 
     public static function activeFor(int $userId): ?self

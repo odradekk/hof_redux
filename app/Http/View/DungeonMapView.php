@@ -6,7 +6,7 @@ namespace App\Http\View;
 
 use App\Domain\Dungeon\DungeonMap;
 
-/** Fog-of-war map projection for the run screen. Unvisited rooms reveal nothing. */
+/** Fog-of-war map projection for the run screen. Unvisited rooms reveal nothing unless scouted. */
 final class DungeonMapView
 {
     public const TYPES = ['empty' => '空房间', 'battle' => '战斗', 'chest' => '宝箱', 'trap' => '陷阱', 'rest' => '休息处', 'event' => '事件', 'exit' => '出口'];
@@ -35,11 +35,13 @@ final class DungeonMapView
                 continue;
             }
             $known = $state[$id]['visited'] ?? false;
+            // Scouted rooms show their name and type before anyone has entered them.
+            $identified = $known || ($state[$id]['scouted'] ?? false);
             [$x, $y] = $point($room);
             $rooms[] = [
-                'id' => $id, 'x' => $x, 'y' => $y, 'known' => $known, 'current' => $id === $current,
-                'cleared' => $state[$id]['cleared'] ?? false, 'type' => $known ? $room['type'] : 'unknown',
-                'label' => $known ? $room['name'] : '？', 'kind' => $known ? self::TYPES[$room['type']] : '未探索',
+                'id' => $id, 'x' => $x, 'y' => $y, 'known' => $known, 'scouted' => ! $known && $identified, 'current' => $id === $current,
+                'cleared' => $state[$id]['cleared'] ?? false, 'type' => $identified ? $room['type'] : 'unknown',
+                'label' => $identified ? $room['name'] : '？', 'kind' => $identified ? self::TYPES[$room['type']].($known ? '' : '（侦察）') : '未探索',
             ];
         }
         $edges = [];

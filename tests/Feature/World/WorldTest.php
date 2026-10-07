@@ -116,7 +116,7 @@ final class WorldTest extends TestCase
     public function test_reward_batches_apply_growth_money_and_items_once(): void
     {
         [$user,$char] = $this->player();
-        $char->stats = array_merge($char->stats, ['str' => 255, 'int' => 255, 'dex' => 255, 'spd' => 255, 'luk' => 255]);
+        $char->stats = array_merge($char->stats, ['str' => 255, 'int' => 255, 'dex' => 255, 'spd' => 255, 'luk' => 255, 'vit' => 255]);
         app(PlayerService::class)->refreshVitals($char);
         $char->stats = array_merge($char->stats, ['hp' => $char->stats['maxhp']]);
         $char->save();

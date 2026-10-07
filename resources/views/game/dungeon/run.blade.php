@@ -17,7 +17,7 @@
         </g>
     @endforeach
 </svg>
-<figcaption class="hint">只显示到过的房间和相邻的房间；未探索的房间不显示内容。</figcaption>
+<figcaption class="hint">只显示到过的房间和相邻的房间；未探索的房间不显示内容，除非被队伍侦察出来（虚线框）。</figcaption>
 </figure>
 
 <div class="dungeon-grid">
@@ -88,14 +88,15 @@
 </section>
 </div>
 
-<x-sec title="队伍"><x-slot:aside>体力越低属性越低</x-slot:aside></x-sec>
+<x-sec title="队伍"><x-slot:aside>体力越低，伤害、治疗和速度越低</x-slot:aside></x-sec>
 <div class="carpets carpets-5">
 @foreach($party as $member)
-    <x-carpet :unit="$member['unit']" :class="$member['fallen'] ? 'is-fallen' : ''">
-        <x-slot:footer>@if($member['fallen'])<span class="dmg">已阵亡</span>@elseif($member['fatigue'])<span class="charge">疲劳 -{{ $member['fatigue'] }}%</span>@endif</x-slot:footer>
+    <x-carpet :unit="$member['unit']" :class="$member['fallen'] || $member['dying'] ? 'is-fallen' : ''">
+        <x-slot:footer>@if($member['fallen'])<span class="dmg">已阵亡</span>@elseif($member['dying'])<span class="dmg">濒死 · 剩 {{ $member['dying'] }} 步</span>@else @if($member['wounded'])<span class="dmg">重伤</span>@endif @if($member['fatigue'] && $member['fatigue']['output'])<span class="charge">疲劳：伤害 -{{ $member['fatigue']['output'] }}%</span><br><span class="charge">速度 -{{ $member['fatigue']['speed'] }}%</span>@endif @endif</x-slot:footer>
     </x-carpet>
 @endforeach
 </div>
+<p class="hint indent">生命降到 0 的同伴会陷入濒死：每移动一步坚持步数减 1，归零即永久死亡。用恢复生命的道具、休息处或复活技能可以救回，救回后本次探索中处于重伤，再次倒下会直接死亡。撤离或离开地下城时濒死的同伴会被带回城镇。</p>
 
 <x-sec title="探索日志" />
 <ol class="feed">

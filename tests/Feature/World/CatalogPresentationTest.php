@@ -4,9 +4,9 @@ namespace Tests\Feature\World;
 
 use App\Application\Multiplayer\AuctionService;
 use App\Application\Player\PlayerRules;
-use App\Application\Player\Vitals;
 use App\Application\World\GameData;
 use App\Application\World\GameText;
+use App\Domain\Character\Attributes;
 use App\Domain\Content\ContentCatalog;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -126,7 +126,7 @@ final class CatalogPresentationTest extends TestCase
     {
         $this->get('/catalog/rules')->assertOk()
             ->assertSee(number_format(PlayerRules::experienceRequired(1)))->assertSee(number_format(PlayerRules::experienceRequired(49)))
-            ->assertSee(PlayerRules::refineChance(4).'%')->assertSee('每天 '.Vitals::STAMINA_PER_DAY)
+            ->assertSee(PlayerRules::refineChance(4).'%')->assertSee('每天恢复上限的 '.Attributes::STAMINA_REFILLS_PER_DAY.' 倍')->assertSee('每升 1 级获得 '.Attributes::POINTS_PER_LEVEL.' 个属性点')
             ->assertSee(GameText::money(AuctionService::MEMBERSHIP_PRICE))->assertSee('第 2 阶 2、3 位');
     }
 

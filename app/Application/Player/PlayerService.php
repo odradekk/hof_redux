@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Player;
 
 use App\Application\Support\GameAction;
+use App\Domain\Character\Attributes;
 use App\Domain\Content\ContentCatalog;
 use App\Models\Character;
 use App\Models\User;
@@ -74,7 +75,8 @@ final class PlayerService
             'dismiss', 'memo', 'unequip-all' => $character,
             'rename' => $character + ['name' => $name],
             'reset' => $character + ['item_id' => ['required', 'integer', Rule::in([7510, 7511, 7512, 7513, 7520])]],
-            'stats' => $character + ['stats' => ['required', 'array:str,int,dex,spd,luk'], 'stats.*' => ['required', 'integer', 'between:0,255']],
+            // Attributes have no upper limit; the remaining points bound each allocation.
+            'stats' => $character + ['stats' => ['required', 'array:'.implode(',', Attributes::STATS)], 'stats.*' => ['required', 'integer', 'between:0,100000']],
             'position' => $character + ['position' => ['required', Rule::in(['front', 'back'])], 'guard' => ['required', Rule::in(PlayerRules::GUARDS)]],
             'learn' => $character + ['skill_id' => ['required', 'integer', 'min:1']],
             'job' => $character + ['job_id' => ['required', 'integer', 'min:1']],
@@ -220,15 +222,13 @@ final class PlayerService
                 $character->name = $data['name'];
                 break;
             case 'stats':
-                $stats = $character->stats;
                 $spent = array_sum($data['stats']);
                 if ($spent < 1 || $spent > $character->stat_points) {
                     Inventory::reject('剩余属性点不足。');
                 }
+                $this->vitals->settleIfResting($character);
+                $stats = $character->stats;
                 foreach ($data['stats'] as $stat => $amount) {
-                    if ($stats[$stat] + $amount > 255) {
-                        Inventory::reject('单项属性不能超过 255。');
-                    }
                     $stats[$stat] += (int) $amount;
                 }
                 $character->stats = $stats;
@@ -259,6 +259,7 @@ final class PlayerService
                     Inventory::reject('尚未满足转职条件。');
                 }
                 $this->inventory->unequip($user, $character, $operation);
+                $this->vitals->settleIfResting($character);
                 $character->job_id = (string) $data['job_id'];
                 $this->refreshVitals($character);
                 break;
@@ -371,7 +372,9 @@ final class PlayerService
         }
         $this->inventory->consumeBase($user, (string) $itemId, 1, $operation, 'status reset');
         $this->inventory->unequip($user, $character, $operation);
-        $character->stats = $stats;
+        $this->vitals->settleIfResting($character);
+        // Settling rewrote current HP/SP; only the attributes come from the reset copy.
+        $character->stats = array_merge($character->stats, array_intersect_key($stats, array_flip(PlayerRules::STATS)));
         $character->stat_points += $refund;
         $max = PlayerRules::maxPatterns((int) $stats['int'], $character->level);
         $character->tactics = array_slice($character->tactics, 0, $max);
@@ -379,15 +382,22 @@ final class PlayerService
         $this->refreshVitals($character);
     }
 
+    /**
+     * Recompute HP/SP maxima from job, level, vitality and INT, clamping current HP, SP and
+     * stamina to the new maxima. Mutations settle resting recovery first (Vitals::settleIfResting).
+     */
     public function refreshVitals(Character $character): void
     {
         $job = $this->catalog->get('jobs', $character->job_id);
         $stats = $character->stats;
-        foreach (['hp' => ['str', 0], 'sp' => ['int', 1]] as $resource => [$attribute, $coefficient]) {
-            $maximum = (int) round(100 * $job['coe'][$coefficient] * (1 + ($character->level - 1) / 49) * (1 + (255 ** 2 - (255 - $stats[$attribute]) ** 2) / (255 ** 2)));
-            $stats['max'.$resource] = $maximum;
-            $stats[$resource] = min($maximum, $stats[$resource] ?? $maximum);
+        $stats['maxhp'] = Attributes::maxHp((float) $job['coe'][0], $character->level, (int) $stats['vit']);
+        $stats['maxsp'] = Attributes::maxSp((float) $job['coe'][1], $character->level, (int) $stats['int']);
+        foreach (['hp', 'sp'] as $resource) {
+            $stats[$resource] = min($stats['max'.$resource], $stats[$resource] ?? $stats['max'.$resource]);
         }
         $character->stats = $stats;
+        if ($character->stamina_units !== null) {
+            $character->stamina_units = min($character->stamina_units, Vitals::staminaMax($character) * Vitals::STAMINA_UNIT);
+        }
     }
 }

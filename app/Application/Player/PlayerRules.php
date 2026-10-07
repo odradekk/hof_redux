@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Application\Player;
 
+use App\Domain\Character\Attributes;
 use App\Models\Character;
 
 final class PlayerRules
 {
-    public const STATS = ['str', 'int', 'dex', 'spd', 'luk'];
+    public const STATS = Attributes::STATS;
 
     public const RECRUIT_PRICES = [1 => 2000, 2 => 2000, 3 => 2500, 4 => 4000];
 
@@ -32,7 +33,7 @@ final class PlayerRules
 
     public static function maxPatterns(int $intelligence, int $level): int
     {
-        // The reference omitted INT 251–255; retain the highest tier there.
+        // INT 200 and above keeps the highest tier; attributes have no upper limit.
         $count = match (true) {
             $intelligence < 10 => 2, $intelligence < 15 => 3,
             $intelligence < 30 => 4, $intelligence < 50 => 5,
@@ -59,7 +60,7 @@ final class PlayerRules
 
     public static function capacity(Character $character): int
     {
-        return 5 + intdiv($character->level, 10) + intdiv((int) $character->stats['dex'], 5);
+        return Attributes::equipmentCapacity($character->level, (int) $character->stats['dex']);
     }
 
     public static function refineChance(int $refinement): int
@@ -94,7 +95,7 @@ final class PlayerRules
         // The retained rule grants at most one level and discards excess XP.
         $character->xp = 0;
         $character->level++;
-        $character->stat_points += 3;
+        $character->stat_points += Attributes::POINTS_PER_LEVEL;
         $character->skill_points++;
 
         return true;

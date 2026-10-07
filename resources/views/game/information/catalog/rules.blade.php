@@ -7,7 +7,7 @@
 @php($money = fn ($amount) => \App\Application\World\GameText::money($amount))
 <h2 class="sec">数值规则</h2>
 <ul class="toc">
-<li><a href="#growth">等级与经验</a></li><li><a href="#vitals">生命与魔力</a></li><li><a href="#patterns">行动模式行数</a></li>
+<li><a href="#growth">等级与经验</a></li><li><a href="#vitals">生命与魔力</a></li><li><a href="#attributes">能力值与地下城</a></li><li><a href="#patterns">行动模式行数</a></li>
 <li><a href="#capacity">负重</a></li><li><a href="#battle">战斗计算</a></li><li><a href="#stamina">体力</a></li>
 <li><a href="#economy">商店、雇佣与打工</a></li><li><a href="#refine">精炼</a></li><li><a href="#auction">拍卖</a></li>
 <li><a href="#arena">竞技场</a></li><li><a href="#boss">共享首领</a></li><li><a href="#other">其他</a></li>
@@ -15,8 +15,8 @@
 
 <h2 class="sec" id="growth">等级与经验</h2>
 <ul class="indent prose">
-<li>最高等级 {{ $c['max_level'] }}；每项能力值最高 {{ $c['stat_cap'] }}。</li>
-<li>每升 1 级获得 3 个属性点和 1 个技能点。</li>
+<li>最高等级 {{ $c['max_level'] }}；单项能力值没有上限。</li>
+<li>每升 1 级获得 {{ $c['stat_points'] }} 个属性点和 1 个技能点。</li>
 <li>经验达到下表数值时升级，经验归零；一次获得的经验最多升 1 级，多出的部分不保留。</li>
 <li>击倒怪物的经验由当时存活的角色平分（向上取整），倒下的角色得不到经验。</li>
 </ul>
@@ -26,20 +26,40 @@
 
 <h2 class="sec" id="vitals">生命与魔力</h2>
 <p class="indent">最大生命与最大魔力由职业系数、等级和能力值决定，加点、升级、转职和重置时重新计算：</p>
-<pre class="formula">最大生命 = round(100 × 生命系数 × (1 + (等级 − 1) ÷ 49) × (1 + (255² − (255 − 力量)²) ÷ 255²))
-最大魔力 = round(100 × 魔力系数 × (1 + (等级 − 1) ÷ 49) × (1 + (255² − (255 − 智慧)²) ÷ 255²))</pre>
-<p class="indent">战斗时再加上装备与被动技能的加成：先乘以（1 + 百分比加成），再加固定加成。每场战斗开始时生命、魔力全满，战斗中的损伤不会保留。各职业系数见 <a href="{{ route('catalog', 'jobs') }}">职业</a>。</p>
+<pre class="formula">最大生命 = round(100 × 生命系数 × (1 + (等级 − 1) ÷ 49) × (100 + 体质) ÷ 100)
+最大魔力 = round(100 × 魔力系数 × (1 + (等级 − 1) ÷ 49) × (100 + 智慧) ÷ 100)</pre>
+<p class="indent">战斗时再加上装备与被动技能的加成：先乘以（1 + 百分比加成），再加固定加成。地下城战斗从当前的生命、魔力开始，损伤会保留；竞技场、模拟战和共享首领每场开始时全满。各职业系数见 <a href="{{ route('catalog', 'jobs') }}">职业</a>。</p>
+<table class="tbl tbl-stack">
+<thead><tr><th>雇佣</th><th>力量</th><th>智慧</th><th>敏捷</th><th>速度</th><th>幸运</th><th>体质</th><th>Lv.1 生命</th><th>Lv.1 魔力</th></tr></thead>
+<tbody>@foreach($rules->startingAttributes() as $row)<tr><td class="primary"><a href="{{ route('catalog.entry', ['jobs', $row['job']]) }}">{{ $row['name'] }}</a></td>@foreach(['str' => '力量', 'int' => '智慧', 'dex' => '敏捷', 'spd' => '速度', 'luk' => '幸运', 'vit' => '体质'] as $stat => $label)<td class="num" data-label="{{ $label }}">{{ $row['stats'][$stat] }}</td>@endforeach<td class="num" data-label="Lv.1 生命">{{ $row['hp'] }}</td><td class="num" data-label="Lv.1 魔力">{{ $row['sp'] }}</td></tr>@endforeach</tbody>
+<caption>各基础角色的初始能力值。</caption>
+</table>
+
+<h2 class="sec" id="attributes">能力值与地下城</h2>
+<p class="indent">“队伍最高”只计算能行动的成员（不含濒死的同伴）。概率判定都在操作时一次决定，不会重新掷。</p>
+<dl class="kv indent">
+<dt>体力上限</dt><dd>{{ $c['stamina_base'] }} + 体质</dd>
+<dt>濒死</dt><dd>坚持 {{ $c['dying_steps'] }} + floor(体质 ÷ {{ $c['dying_vit'] }}) 步，每移动一步减 1</dd>
+<dt>移动恢复魔力</dt><dd>每次移动恢复 floor(floor(√智慧) ÷ 2)% 最大魔力</dd>
+<dt>陷阱闪避</dt><dd>每人 floor(敏捷 ÷ {{ $c['dodge_dex'] }})%，最多 {{ $c['dodge_max'] }}%</dd>
+<dt>拆除陷阱</dt><dd>队伍最高敏捷 floor(敏捷 ÷ {{ $c['disarm_dex'] }})%，最多 {{ $c['disarm_max'] }}%；拆除后无人受伤、也不消耗陷阱的体力</dd>
+<dt>先手 / 伏击</dt><dd>进入战斗房间时比较双方的平均行动速度（√速度 + 5，计入疲劳）；一方达到另一方的 {{ $c['initiative_ratio'] }} 倍时，该方以行动值 {{ $c['initiative_progress'] }} 开战</dd>
+<dt>侦察</dt><dd>房间第一次出现在迷雾边缘时，按队伍最高幸运 {{ $c['scout_base'] }} + floor(幸运 ÷ {{ $c['scout_luk'] }})%（最多 {{ $c['scout_max'] }}%）看出它的名称和类型</dd>
+<dt>宝箱</dt><dd>队伍最高幸运 floor(幸运 ÷ {{ $c['chest_luk'] }})%（最多 {{ $c['chest_max'] }}%）多抽一件道具</dd>
+<dt>事件</dt><dd>标记为好结果的选项结果，权重乘以 (100 + 队伍最高幸运) ÷ 100</dd>
+</dl>
 
 <h2 class="sec" id="patterns">行动模式行数</h2>
 <p class="indent">可设定的行动模式行数由智慧决定，等级 30 以上再加 1 行。</p>
 <table class="tbl tbl-stack">
 <thead><tr><th>智慧</th><th>行数</th><th>等级 30 以上</th></tr></thead>
-<tbody>@foreach($rules->patternTable() as $row)<tr><td class="primary">{{ $row['from'] }}–{{ $row['to'] }}</td><td class="num" data-label="行数">{{ $row['rows'] }}</td><td class="num" data-label="Lv30+">{{ $row['rows30'] }}</td></tr>@endforeach</tbody>
+<tbody>@foreach($rules->patternTable() as $row)<tr><td class="primary">{{ $row['from'] }}{{ $row['to'] === null ? ' 以上' : '–'.$row['to'] }}</td><td class="num" data-label="行数">{{ $row['rows'] }}</td><td class="num" data-label="Lv30+">{{ $row['rows30'] }}</td></tr>@endforeach</tbody>
 </table>
 
 <h2 class="sec" id="capacity">负重</h2>
-<pre class="formula">负重上限 = 5 + floor(等级 ÷ 10) + floor(敏捷 ÷ 5)</pre>
-<p class="indent">已装备道具的重量合计不能超过负重上限。装备双手武器时会卸下盾。</p>
+<pre class="formula">装备负重上限 = 5 + floor(等级 ÷ 10) + floor(敏捷 ÷ 5)
+背包负重     = 每名出战成员 {{ $c['carry_base'] }} + floor(力量 ÷ {{ $c['carry_str'] }}) 之和</pre>
+<p class="indent">已装备道具的重量合计不能超过装备负重上限。装备双手武器时会卸下盾。背包负重只限制带进地下城的消耗品。</p>
 
 <h2 class="sec" id="battle">战斗计算</h2>
 <h3 class="bold u">行动顺序</h3>
@@ -49,7 +69,7 @@
        能力：物理技能用力量（标注“敏捷”的用敏捷），魔法用智慧；攻击力用对应的物理 / 魔法攻击
 伤害 = ceil(max(基础 × 10%, 基础 × (1 − 防御a ÷ 100) − 防御b + 无视防御伤害 × 威力%))
 回复 = ceil((√智慧 × 10 + 魔法攻击) × 威力%)</pre>
-<p class="indent">“无视防御”的技能跳过防御一步。处于屏障状态的目标，下一次攻击的基础伤害变为 0，屏障消失；追加的无视防御伤害仍按公式计算。每次攻击至少造成经过屏障处理后的基础伤害的 10%。</p>
+<p class="indent">疲劳时“基础”与“回复”再乘以 (1 − 疲劳的伤害减少%)，行动值的积累速度乘以 (1 − 疲劳的速度减少%)，见 <a href="#stamina">体力</a>。“无视防御”的技能跳过防御一步。处于屏障状态的目标，下一次攻击的基础伤害变为 0，屏障消失；追加的无视防御伤害仍按公式计算。每次攻击至少造成经过屏障处理后的基础伤害的 10%。</p>
 <h3 class="bold u">中毒</h3>
 <p class="indent">中毒的角色每次轮到自己行动时受到 round(最大生命 × 10%) + ceil(等级 ÷ 2) 点伤害，不会因此倒下（最少剩 1）。共享首领改为 min(200, 当前生命的 1% × 50–150% 随机)。毒耐性按百分比降低中毒几率；没有毒耐性时必定中毒。</p>
 <h3 class="bold u">后卫保护</h3>
@@ -64,13 +84,11 @@
 
 <h2 class="sec" id="stamina">体力</h2>
 <dl class="kv indent">
-<dt>上限</dt><dd>每名角色 {{ $c['stamina_max'] }}</dd>
-<dt>恢复</dt><dd>在城镇中每天 {{ $c['stamina_day'] }}（约每 {{ round($c['stamina_seconds'], 1) }} 秒 1 点），离线时也会恢复；在地下城中不会自然恢复</dd>
-<dt>HP / SP</dt><dd>战斗伤害会保留；在城镇中每小时恢复上限的 {{ $c['health_hour'] }}%，在地下城中不会自然恢复</dd>
-<dt>疲劳</dt><dd>@foreach($c['fatigue'] as $minimum => $penalty)体力 ≥ {{ $minimum }}：力量、智力、灵巧、速度、幸运 -{{ $penalty }}%@if(! $loop->last)；@endif @endforeach</dd>
-<dt>地下城</dt><dd>每次移动每名成员 {{ $c['dungeon_move'] }}，每场战斗每名存活成员再 {{ $c['dungeon_battle'] }}；宝箱、陷阱和事件按房间而定。体力不足时降到 0 为止，不会阻止行动</dd>
-<dt>背包负重</dt><dd>每名出战成员 {{ $c['carry_base'] }} + floor(力量 ÷ {{ $c['carry_str'] }})，合计为背包上限</dd>
-<dt>陷阱闪避</dt><dd>floor(敏捷 ÷ {{ $c['dodge_dex'] }})%，最多 {{ $c['dodge_max'] }}%</dd>
+<dt>上限</dt><dd>{{ $c['stamina_base'] }} + 体质</dd>
+<dt>恢复</dt><dd>在城镇中每天恢复上限的 {{ $c['stamina_refills'] }} 倍（约 {{ $c['stamina_hours'] }} 小时回满），离线时也会恢复；在地下城中不会自然恢复</dd>
+<dt>HP / SP</dt><dd>地下城中的损伤会保留；在城镇中每小时恢复上限的 {{ $c['health_hour'] }}%，在地下城中不会自然恢复（每次移动按智慧恢复少量 SP）</dd>
+<dt>疲劳</dt><dd>按体力占上限的比例：@foreach($rules->fatigueTable() as $tier)体力 {{ $tier['label'] }}：伤害与治疗 -{{ $tier['output'] }}%，行动速度 -{{ $tier['speed'] }}%@if(! $loop->last)；@endif @endforeach。只影响地下城战斗和共享首领</dd>
+<dt>地下城</dt><dd>每次移动每名能行动的成员 {{ $c['dungeon_move'] }}，每场战斗再 {{ $c['dungeon_battle'] }}；宝箱、陷阱和事件按房间而定。体力不足时降到 0 为止，不会阻止行动；濒死的成员不消耗体力</dd>
 <dt>共享首领</dt><dd>每次 {{ $c['boss_stamina'] }}</dd>
 <dt>打工</dt><dd>{{ $c['work_stamina'] }} 体力换 {{ $money($c['work_pay']) }}</dd>
 <dt>模拟战、竞技场</dt><dd>不消耗</dd>

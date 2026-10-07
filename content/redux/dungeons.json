@@ -67,9 +67,9 @@
             2,
             2
           ],
-          "damage_percent": [
-            10,
-            20
+          "damage": [
+            30,
+            60
           ],
           "stamina_loss": 5
         },
@@ -105,6 +105,7 @@
               "outcomes": [
                 {
                   "weight": 70,
+                  "lucky": true,
                   "text": "只是皮外伤。旅人指了一条近路，大家省了些力气。",
                   "effects": [
                     {
@@ -117,7 +118,7 @@
                   "text": "旅人突然拔刀，他是哥布林的探子！",
                   "effects": [
                     {
-                      "damage_percent": 15
+                      "damage": 40
                     }
                   ]
                 }
@@ -298,6 +299,7 @@
               "outcomes": [
                 {
                   "weight": 60,
+                  "lucky": true,
                   "text": "冰凉的水让人头脑清醒。",
                   "effects": [
                     {
@@ -310,7 +312,7 @@
                   "text": "水里有洞穴蛙的毒液！",
                   "effects": [
                     {
-                      "damage_percent": 10
+                      "damage": 50
                     }
                   ]
                 }
@@ -335,9 +337,9 @@
             2,
             2
           ],
-          "damage_percent": [
-            15,
-            30
+          "damage": [
+            80,
+            160
           ],
           "stamina_loss": 8
         },
@@ -383,6 +385,7 @@
               "outcomes": [
                 {
                   "weight": 50,
+                  "lucky": true,
                   "text": "柔和的光芒包围了队伍。",
                   "effects": [
                     {
@@ -392,6 +395,7 @@
                 },
                 {
                   "weight": 30,
+                  "lucky": true,
                   "text": "一股暖流驱散了疲惫。",
                   "effects": [
                     {
@@ -404,7 +408,7 @@
                   "text": "祭坛发出刺眼的光，灼伤了所有人。",
                   "effects": [
                     {
-                      "damage_percent": 20
+                      "damage": 100
                     }
                   ]
                 }
@@ -594,9 +598,9 @@
             2,
             2
           ],
-          "damage_percent": [
-            20,
-            35
+          "damage": [
+            100,
+            200
           ],
           "stamina_loss": 10
         },
@@ -656,6 +660,7 @@
               "outcomes": [
                 {
                   "weight": 70,
+                  "lucky": true,
                   "text": "雪洞里出奇地暖和，大家稍作休整。",
                   "effects": [
                     {
@@ -671,7 +676,7 @@
                   "text": "雪洞塌了！",
                   "effects": [
                     {
-                      "damage_percent": 15
+                      "damage": 80
                     }
                   ]
                 }

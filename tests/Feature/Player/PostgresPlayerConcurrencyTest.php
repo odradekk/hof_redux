@@ -60,7 +60,8 @@ final class PostgresPlayerConcurrencyTest extends TestCase
         $this->assertSame(['ok', 'ok'], array_column($results, 'status'));
         $this->assertSame($results[0]['result'], $results[1]['result']);
         $this->assertSame(10500, $user->fresh()->money);
-        $this->assertSame(0, $worker->fresh()->stamina_units);
+        // Work costs 100 of a warrior's 108 stamina (VIT 8), once.
+        $this->assertSame(8 * 86400, $worker->fresh()->stamina_units);
         $this->assertSame(1, DB::table('operations')->count());
     }
 

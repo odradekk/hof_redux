@@ -7,6 +7,8 @@ namespace App\Application\Dungeon;
 use App\Application\Battle\BattleService;
 use App\Application\Player\Vitals;
 use App\Application\Support\GameAction;
+use App\Domain\Character\Attributes;
+use App\Domain\Combat\RandomSource;
 use App\Domain\Combat\SeededRandom;
 use App\Domain\Content\ContentCatalog;
 use App\Domain\Dungeon\DungeonMap;
@@ -23,17 +25,15 @@ use Illuminate\Support\Collection;
 /**
  * Dungeon runs: enter with a party and a pack, move one room at a time, resolve rooms,
  * and settle. Every command runs inside GameAction's transaction and idempotency key.
+ *
+ * Members at 0 HP are dying (run state `members[id].dying` = moves left) until rescued,
+ * which leaves them wounded for the rest of the run; a wounded member at 0 HP dies.
  */
 final class DungeonService
 {
     public const MOVE_STAMINA = 2;
 
     public const BATTLE_STAMINA = 5;
-
-    /** Pack weight each member can carry: base plus one per this much STR. */
-    public const CARRY_BASE = 10;
-
-    public const CARRY_STR_STEP = 10;
 
     public const ACTIONS = ['open', 'choose', 'rest', 'use', 'leave', 'retreat'];
 
@@ -74,7 +74,7 @@ final class DungeonService
 
     public static function carryCapacity(Character $character): int
     {
-        return self::CARRY_BASE + intdiv((int) $character->stats['str'], self::CARRY_STR_STEP);
+        return Attributes::carryCapacity((int) $character->stats['str']);
     }
 
     /** @param list<array{id: int, quantity: int}> $pack warehouse rows to carry */
@@ -83,7 +83,7 @@ final class DungeonService
         $party = array_map('intval', $party);
         $pack = array_values(array_map(static fn (array $row): array => ['id' => (int) $row['id'], 'quantity' => (int) $row['quantity']], $pack));
 
-        return $this->actions->execute($userId, 'dungeon.enter', $key, compact('dungeonId', 'party', 'pack'), function (User $user, int $operation) use ($dungeonId, $party, $pack): array {
+        return $this->actions->execute($userId, 'dungeon.enter', $key, compact('dungeonId', 'party', 'pack'), function (User $user, int $operation, int $seed) use ($dungeonId, $party, $pack): array {
             $this->actions->ensureInTown($user);
             $map = $this->available($user)[$dungeonId] ?? null;
             $this->actions->ensure($map !== null, '这个地下城尚未开放。');
@@ -112,8 +112,9 @@ final class DungeonService
             $entrance = $map->entrance();
             $run = DungeonRun::create([
                 'user_id' => $user->id, 'dungeon_id' => $dungeonId, 'content_version' => $this->catalog->version(),
-                'party' => $party, 'room' => $entrance, 'rooms' => [$entrance => ['visited' => true, 'cleared' => true]],
+                'party' => $party, 'room' => $entrance, 'rooms' => [$entrance => ['visited' => true, 'cleared' => true]], 'members' => [],
             ]);
+            $this->scout($run, $map, $members, $entrance, new SeededRandom($seed));
             $this->log($run, 'enter', $entrance, '队伍进入了「'.$map->name().'」。');
 
             return ['run_id' => $run->id, 'message' => '进入了「'.$map->name().'」。'];
@@ -125,16 +126,20 @@ final class DungeonService
         return $this->actions->execute($userId, 'dungeon.move', $key, compact('room'), function (User $user, int $operation, int $seed) use ($room): array {
             [$run, $map, $members] = $this->active($user);
             $this->actions->ensure($map->adjacent($run->room, $room), '只能移动到相邻的房间。');
-            foreach ($members as $member) {
+            $lines = $this->weaken($user, $run, $members, $operation);
+            $standing = $this->standing($run, $members);
+            foreach ($standing as $member) {
                 $this->vitals->spendStamina($member, self::MOVE_STAMINA, $operation, 'dungeon move', resting: false, clamp: true);
+                $this->recoverSp($member);
             }
             $run->previous_room = $run->room;
             $run->room = $room;
             $run->steps++;
             $this->setRoom($run, $room, ['visited' => true]);
             $definition = $map->room($room);
-            $this->log($run, 'move', $room, '前往「'.$definition['name'].'」。');
             $random = new SeededRandom($seed);
+            $this->scout($run, $map, $standing, $room, $random);
+            $this->log($run, 'move', $room, '前往「'.$definition['name'].'」。'.implode('', $lines));
             if (! ($run->rooms[$room]['cleared'] ?? false)) {
                 match ($definition['type']) {
                     'empty' => $this->setRoom($run, $room, ['cleared' => true]),
@@ -163,10 +168,11 @@ final class DungeonService
             switch ($action) {
                 case 'open':
                     $this->actions->ensure($definition['type'] === 'chest' && ! ($state['cleared'] ?? false), '这里没有可以打开的宝箱。');
-                    foreach ($members as $member) {
+                    $standing = $this->standing($run, $members);
+                    foreach ($standing as $member) {
                         $this->vitals->spendStamina($member, (int) ($definition['open_stamina'] ?? 0), $operation, 'dungeon chest', resting: false, clamp: true);
                     }
-                    $loot = RoomRules::chest($definition, $random);
+                    $loot = RoomRules::chest($definition, $random, $this->highest($standing, 'luk'));
                     $run->loot_money += $loot['money'];
                     $found = [];
                     foreach ($loot['items'] as $id => $quantity) {
@@ -174,24 +180,26 @@ final class DungeonService
                         $found[] = $this->catalog->get('items', $id)['name'].' ×'.$quantity;
                     }
                     $this->setRoom($run, $run->room, ['cleared' => true]);
-                    $this->log($run, 'chest', $run->room, '打开了宝箱：$ '.number_format($loot['money']).($found ? '，'.implode('，', $found) : '').'。');
+                    $this->log($run, 'chest', $run->room, '打开了宝箱：$ '.number_format($loot['money']).($found ? '，'.implode('，', $found) : '').'。'.($loot['bonus'] ? '运气不错，多找到了一件。' : ''));
                     break;
                 case 'choose':
                     $this->actions->ensure($definition['type'] === 'event' && ! ($state['cleared'] ?? false), '这里没有需要做出选择的事件。');
                     $choice = $input['choice'] ?? -1;
                     $this->actions->ensure(isset($definition['choices'][$choice]), '请选择有效的选项。');
-                    $outcome = RoomRules::eventOutcome($definition, $choice, $random);
+                    $outcome = RoomRules::eventOutcome($definition, $choice, $random, $this->highest($this->standing($run, $members), 'luk'));
                     $this->setRoom($run, $run->room, ['cleared' => true]);
-                    $summary = $this->applyEffects($user, $run, $members, $outcome['effects'], $operation);
-                    $this->log($run, 'event', $run->room, '「'.$definition['choices'][$choice]['label'].'」'.$outcome['text'].($summary ? '（'.implode('，', $summary).'）' : ''));
-                    $this->wipeIfFallen($user, $run, $members, $operation);
+                    [$summary, $lines] = $this->applyEffects($user, $run, $members, $outcome['effects'], $operation);
+                    $lines = [...$lines, ...$this->fall($user, $run, $members, $operation)];
+                    $this->log($run, 'event', $run->room, '「'.$definition['choices'][$choice]['label'].'」'.$outcome['text'].($summary ? '（'.implode('，', $summary).'）' : '').implode('', $lines));
+                    $this->wipeIfDown($user, $run, $members, $operation);
                     break;
                 case 'rest':
                     $uses = $state['uses'] ?? ($definition['uses'] ?? 0);
                     $this->actions->ensure($definition['type'] === 'rest' && $uses > 0, '这里不能休息了。');
-                    $summary = $this->applyEffects($user, $run, $members, [['heal_percent' => (int) ($definition['heal_percent'] ?? 0)], ['sp_percent' => (int) ($definition['heal_percent'] ?? 0)], ['stamina' => (int) ($definition['stamina'] ?? 0)]], $operation);
+                    // Healing comes first so that a rescued member also recovers SP and stamina.
+                    [$summary, $lines] = $this->applyEffects($user, $run, $members, [['heal_percent' => (int) ($definition['heal_percent'] ?? 0)], ['sp_percent' => (int) ($definition['heal_percent'] ?? 0)], ['stamina' => (int) ($definition['stamina'] ?? 0)]], $operation);
                     $this->setRoom($run, $run->room, ['uses' => $uses - 1, 'cleared' => $uses - 1 === 0]);
-                    $this->log($run, 'rest', $run->room, '休息了一会儿'.($summary ? '（'.implode('，', $summary).'）' : '').'。');
+                    $this->log($run, 'rest', $run->room, '休息了一会儿'.($summary ? '（'.implode('，', $summary).'）' : '').'。'.implode('', $lines));
                     break;
                 case 'use':
                     $member = $members->get($input['character'] ?? 0);
@@ -200,9 +208,11 @@ final class DungeonService
                     $this->actions->ensure($item !== null, '背包中没有这件道具。');
                     $data = $this->catalog->get('items', $item->item_id);
                     $this->actions->ensure(isset($data['restore']), '这件道具不能使用。');
+                    $dying = $this->isDying($run, $member->id);
+                    $this->actions->ensure(! $dying || isset($data['restore']['hp']), '濒死的同伴只能用恢复生命的道具救起。');
                     $this->actions->takeItem($user, $item->id, 1, $operation, 'dungeon consumable', 'pack');
                     $summary = $this->restore($member, $data['restore'], $operation);
-                    $this->log($run, 'item', $run->room, $member->name.' 使用了'.$data['name'].'（'.implode('，', $summary).'）。');
+                    $this->log($run, 'item', $run->room, $member->name.' 使用了'.$data['name'].'（'.implode('，', $summary).'）。'.($dying ? $this->rescue($run, $member) : ''));
                     break;
                 case 'leave':
                     $this->actions->ensure($definition['type'] === 'exit', '只有在出口才能离开地下城。');
@@ -242,9 +252,11 @@ final class DungeonService
         if (isset($room['area'])) {
             $weights = $this->catalog->get('areas', $room['area'])['encounters'];
         }
-        $count = ($room['count'] ?? 'party') === 'party' ? $members->count() : (int) $room['count'];
+        $count = ($room['count'] ?? 'party') === 'party' ? $this->standing($run, $members)->count() : (int) $room['count'];
         $ids = array_values(array_filter($run->party, static fn (int $id): bool => $members->has($id)));
-        $report = $this->battles->fightDungeon($user, $ids, $weights, $count, $room['fixed'] ?? [], $room['land'] ?? $map->definition()['land'], $map->name().'·'.$room['name'], $operation, $seed);
+        // Dying members are carried into battle fallen, where a revival skill can save them.
+        $downed = array_values(array_filter($ids, fn (int $id): bool => $this->isDying($run, $id)));
+        $report = $this->battles->fightDungeon($user, $ids, $weights, $count, $room['fixed'] ?? [], $room['land'] ?? $map->definition()['land'], $map->name().'·'.$room['name'], $operation, $seed, $downed);
         $run->loot_money += (int) $report['settlement']['money'];
         foreach ($report['teams'][0] as $unit) {
             if (! str_starts_with((string) $unit['id'], 'player:')) {
@@ -259,85 +271,126 @@ final class DungeonService
             $member->save();
         }
         $record = BattleReport::create(['user_id' => $user->id, 'mode' => 'pve', 'public' => (bool) ($user->preferences['record_battle_log'] ?? true), 'report' => $report]);
-        $fallen = $this->bury($user, $run, $members, $operation);
-        foreach ($members as $member) {
+        $lines = match ($report['initiative']) {
+            1 => ['队伍抢得了先机。'], -1 => ['队伍遭到了伏击！'], default => [],
+        };
+        foreach ($downed as $id) {
+            if ((int) $members->get($id)->stats['hp'] > 0) {
+                $lines[] = $this->rescue($run, $members->get($id));
+            }
+        }
+        $lines = [...$lines, ...$this->fall($user, $run, $members, $operation)];
+        foreach ($this->standing($run, $members) as $member) {
             $this->vitals->spendStamina($member, self::BATTLE_STAMINA, $operation, 'dungeon battle', resting: false, clamp: true);
         }
-        if ($members->isEmpty()) {
-            $this->log($run, 'battle', $run->room, '队伍全灭。', $record->id);
-            $this->finish($user, $run, $members, 'wiped', $operation);
+        if ($this->standing($run, $members)->isEmpty()) {
+            $this->log($run, 'battle', $run->room, '队伍全灭。'.implode('', $lines), $record->id);
+            $this->wipe($user, $run, $members, $operation);
 
             return;
         }
         if ($report['winner'] === 0) {
             $this->setRoom($run, $run->room, ['cleared' => true]);
-            $this->log($run, 'battle', $run->room, '击败了敌人。'.($fallen ? implode('', $fallen) : ''), $record->id);
+            $this->log($run, 'battle', $run->room, '击败了敌人。'.implode('', $lines), $record->id);
 
             return;
         }
         $from = $run->room;
         $run->room = $run->previous_room ?? $map->entrance();
-        $this->log($run, 'battle', $from, '未能击败敌人，退回「'.$map->room($run->room)['name'].'」。'.implode('', $fallen), $record->id);
+        $this->log($run, 'battle', $from, '未能击败敌人，退回「'.$map->room($run->room)['name'].'」。'.implode('', $lines), $record->id);
     }
 
-    private function trap(User $user, DungeonRun $run, array $room, Collection $members, int $operation, SeededRandom $random): void
+    private function trap(User $user, DungeonRun $run, array $room, Collection $members, int $operation, RandomSource $random): void
     {
+        $standing = $this->standing($run, $members);
+        $this->setRoom($run, $run->room, ['cleared' => true]);
+        // The member with the highest DEX tries to disarm it before anyone is hurt.
+        $expert = $standing->sortByDesc(static fn (Character $member): int => (int) $member->stats['dex'])->first();
+        if (RoomRules::disarm((int) $expert->stats['dex'], $random)) {
+            $this->log($run, 'trap', $run->room, $expert->name.' 拆除了陷阱。');
+
+            return;
+        }
         $lines = [];
-        foreach ($members as $member) {
-            $percent = RoomRules::trapDamage($room, (int) $member->stats['dex'], $random);
-            if ($percent === null) {
+        foreach ($standing as $member) {
+            $damage = RoomRules::trapDamage($room, (int) $member->stats['dex'], $random);
+            if ($damage === null) {
                 $lines[] = $member->name.' 躲开了';
 
                 continue;
             }
-            $damage = RoomRules::percentOf((int) $member->stats['maxhp'], $percent);
             $stats = $member->stats;
             $stats['hp'] = max(0, (int) $stats['hp'] - $damage);
             $member->stats = $stats;
             $member->save();
             $lines[] = $member->name.' 受到 '.$damage.' 点伤害';
         }
-        foreach ($members as $member) {
+        foreach ($standing as $member) {
             $this->vitals->spendStamina($member, (int) ($room['stamina_loss'] ?? 0), $operation, 'dungeon trap', resting: false, clamp: true);
         }
-        $this->setRoom($run, $run->room, ['cleared' => true]);
-        $this->log($run, 'trap', $run->room, '触发了陷阱：'.implode('，', $lines).'。');
-        $this->wipeIfFallen($user, $run, $members, $operation);
+        $this->log($run, 'trap', $run->room, '触发了陷阱：'.implode('，', $lines).'。'.implode('', $this->fall($user, $run, $members, $operation)));
+        $this->wipeIfDown($user, $run, $members, $operation);
     }
 
-    /** @return list<string> */
+    /**
+     * Healing reaches every living member and rescues the dying; damage, SP and stamina
+     * effects reach standing members only.
+     *
+     * @return array{0: list<string>, 1: list<string>} summary fragments and rescue lines
+     */
     private function applyEffects(User $user, DungeonRun $run, Collection $members, array $effects, int $operation): array
     {
         $summary = [];
+        $lines = [];
         foreach ($effects as $effect) {
             $kind = array_key_first($effect);
             $value = $effect[$kind];
             switch ($kind) {
                 case 'heal_percent':
-                case 'sp_percent':
-                case 'damage_percent':
                     if ($value === 0) {
                         break;
                     }
-                    $resource = $kind === 'sp_percent' ? 'sp' : 'hp';
                     foreach ($members as $member) {
+                        $dying = $this->isDying($run, $member->id);
                         $stats = $member->stats;
-                        $amount = RoomRules::percentOf((int) $stats['max'.$resource], $value);
-                        $stats[$resource] = $kind === 'damage_percent'
-                            ? max(0, (int) $stats['hp'] - $amount)
-                            : min((int) $stats['max'.$resource], (int) $stats[$resource] + $amount);
+                        $stats['hp'] = min((int) $stats['maxhp'], (int) $stats['hp'] + RoomRules::percentOf((int) $stats['maxhp'], $value));
+                        $member->stats = $stats;
+                        $member->save();
+                        if ($dying) {
+                            $lines[] = $this->rescue($run, $member);
+                        }
+                    }
+                    $summary[] = 'HP 恢复 '.$value.'%';
+                    break;
+                case 'sp_percent':
+                    if ($value === 0) {
+                        break;
+                    }
+                    foreach ($this->standing($run, $members) as $member) {
+                        $stats = $member->stats;
+                        $stats['sp'] = min((int) $stats['maxsp'], (int) $stats['sp'] + RoomRules::percentOf((int) $stats['maxsp'], $value));
                         $member->stats = $stats;
                         $member->save();
                     }
-                    $summary[] = match ($kind) {
-                        'heal_percent' => 'HP 恢复 '.$value.'%', 'sp_percent' => 'SP 恢复 '.$value.'%', default => 'HP 减少 '.$value.'%',
-                    };
+                    $summary[] = 'SP 恢复 '.$value.'%';
+                    break;
+                case 'damage':
+                    if ($value === 0) {
+                        break;
+                    }
+                    foreach ($this->standing($run, $members) as $member) {
+                        $stats = $member->stats;
+                        $stats['hp'] = max(0, (int) $stats['hp'] - $value);
+                        $member->stats = $stats;
+                        $member->save();
+                    }
+                    $summary[] = '每人受到 '.$value.' 点伤害';
                     break;
                 case 'stamina':
                     if ($value === 0) {
                         break;
                     }
-                    foreach ($members as $member) {
+                    foreach ($this->standing($run, $members) as $member) {
                         $value > 0
                             ? $this->vitals->restoreStamina($member, $value, $operation, 'dungeon effect')
                             : $this->vitals->spendStamina($member, -$value, $operation, 'dungeon effect', resting: false, clamp: true);
@@ -355,7 +408,7 @@ final class DungeonService
             }
         }
 
-        return $summary;
+        return [$summary, $lines];
     }
 
     /** @return list<string> */
@@ -381,45 +434,163 @@ final class DungeonService
         return $summary;
     }
 
+    /** Living members who are not dying. */
+    private function standing(DungeonRun $run, Collection $members): Collection
+    {
+        return $members->reject(fn (Character $member): bool => $this->isDying($run, $member->id));
+    }
+
+    private function isDying(DungeonRun $run, int $id): bool
+    {
+        return isset(($run->members ?? [])[$id]['dying']);
+    }
+
+    private function highest(Collection $members, string $stat): int
+    {
+        return (int) $members->max(static fn (Character $member): int => (int) $member->stats[$stat]);
+    }
+
+    /** Replace one member's run state; null clears it. */
+    private function setMember(DungeonRun $run, int $id, ?array $state): void
+    {
+        $states = $run->members ?? [];
+        if ($state === null) {
+            unset($states[$id]);
+        } else {
+            $states[$id] = $state;
+        }
+        $run->members = $states;
+    }
+
+    /** A dying member whose HP rose above 0 is saved, but wounded for the rest of the run. */
+    private function rescue(DungeonRun $run, Character $member): string
+    {
+        $this->setMember($run, $member->id, ['wounded' => true]);
+
+        return $member->name.' 被救了回来，但受了重伤。';
+    }
+
     /**
-     * Permanent death for members at 0 HP. Their equipment becomes run loot and they leave
-     * the collection of living members.
+     * Members at 0 HP become dying with steps set by VIT, or die when already wounded.
      *
      * @return list<string> log fragments
      */
-    private function bury(User $user, DungeonRun $run, Collection $members, int $operation): array
+    private function fall(User $user, DungeonRun $run, Collection $members, int $operation): array
     {
         $lines = [];
         foreach ($members->all() as $id => $member) {
-            if ((int) $member->stats['hp'] > 0) {
+            if ((int) $member->stats['hp'] > 0 || $this->isDying($run, $id)) {
                 continue;
             }
-            $member->died_at = CarbonImmutable::now();
-            $member->save();
-            foreach (InventoryItem::where('user_id', $user->id)->where('location', 'equipped')->where('character_id', $id)->orderBy('id')->lockForUpdate()->get() as $item) {
-                $previous = ['character_id' => $item->character_id, 'slot' => $item->slot];
-                $item->forceFill(['location' => 'loot', 'character_id' => null, 'slot' => null])->save();
-                $this->actions->ledger($user->id, $operation, 'item_move', 1, 'fallen equipment', $item->item_id, $previous + ['inventory_id' => $item->id]);
+            if ($run->members[$id]['wounded'] ?? false) {
+                $lines[] = $this->die($user, $run, $members, $id, $operation).' 再次倒下，永远离开了队伍。';
+
+                continue;
             }
-            $preferences = $user->preferences ?? [];
-            $preferences['party'] = array_values(array_filter($preferences['party'] ?? [], static fn ($party) => (int) $party !== $id));
-            $user->preferences = $preferences;
-            $user->save();
-            $members->forget($id);
-            $lines[] = $member->name.' 倒下了，永远离开了队伍。';
+            $steps = Attributes::dyingSteps((int) $member->stats['vit']);
+            $this->setMember($run, $id, ['dying' => $steps]);
+            $lines[] = $member->name.' 倒下了，陷入濒死（还能坚持 '.$steps.' 步）。';
         }
 
         return $lines;
     }
 
-    private function wipeIfFallen(User $user, DungeonRun $run, Collection $members, int $operation): void
+    /**
+     * Each move costs every dying member one step; at zero the member dies.
+     *
+     * @return list<string> log fragments
+     */
+    private function weaken(User $user, DungeonRun $run, Collection $members, int $operation): array
     {
-        $fallen = $this->bury($user, $run, $members, $operation);
-        if ($fallen) {
-            $this->log($run, 'death', $run->room, implode('', $fallen));
+        $lines = [];
+        foreach ($members->keys()->all() as $id) {
+            if (! $this->isDying($run, $id)) {
+                continue;
+            }
+            $left = $run->members[$id]['dying'] - 1;
+            if ($left > 0) {
+                $this->setMember($run, $id, ['dying' => $left]);
+
+                continue;
+            }
+            $lines[] = $this->die($user, $run, $members, $id, $operation).' 没能撑到获救，永远离开了队伍。';
         }
-        if ($members->isEmpty()) {
-            $this->finish($user, $run, $members, 'wiped', $operation);
+
+        return $lines;
+    }
+
+    /**
+     * Permanent death. The member's equipment becomes run loot and the member leaves the
+     * collection of living members.
+     *
+     * @return string the member's name
+     */
+    private function die(User $user, DungeonRun $run, Collection $members, int $id, int $operation): string
+    {
+        $member = $members->get($id);
+        $stats = $member->stats;
+        $stats['hp'] = 0;
+        $member->stats = $stats;
+        $member->died_at = CarbonImmutable::now();
+        $member->save();
+        foreach (InventoryItem::where('user_id', $user->id)->where('location', 'equipped')->where('character_id', $id)->orderBy('id')->lockForUpdate()->get() as $item) {
+            $previous = ['character_id' => $item->character_id, 'slot' => $item->slot];
+            $item->forceFill(['location' => 'loot', 'character_id' => null, 'slot' => null])->save();
+            $this->actions->ledger($user->id, $operation, 'item_move', 1, 'fallen equipment', $item->item_id, $previous + ['inventory_id' => $item->id]);
+        }
+        $preferences = $user->preferences ?? [];
+        $preferences['party'] = array_values(array_filter($preferences['party'] ?? [], static fn ($party) => (int) $party !== $id));
+        $user->preferences = $preferences;
+        $user->save();
+        $members->forget($id);
+        $this->setMember($run, $id, null);
+
+        return $member->name;
+    }
+
+    /** With nobody standing nobody can carry the dying out: they die and the run is lost. */
+    private function wipe(User $user, DungeonRun $run, Collection $members, int $operation): void
+    {
+        $names = [];
+        foreach ($members->keys()->all() as $id) {
+            $names[] = $this->die($user, $run, $members, $id, $operation);
+        }
+        if ($names) {
+            $this->log($run, 'death', $run->room, implode('、', $names).' 没有人能带出去，永远留在了这里。');
+        }
+        $this->finish($user, $run, $members, 'wiped', $operation);
+    }
+
+    private function wipeIfDown(User $user, DungeonRun $run, Collection $members, int $operation): void
+    {
+        if ($this->standing($run, $members)->isEmpty()) {
+            $this->wipe($user, $run, $members, $operation);
+        }
+    }
+
+    /** Each move restores a share of maximum SP set by INT. */
+    private function recoverSp(Character $member): void
+    {
+        $percent = Attributes::moveSpPercent((int) $member->stats['int']);
+        $stats = $member->stats;
+        $recovered = min((int) $stats['maxsp'], (int) $stats['sp'] + RoomRules::percentOf((int) $stats['maxsp'], $percent));
+        if ($recovered !== (int) $stats['sp']) {
+            $stats['sp'] = $recovered;
+            $member->stats = $stats;
+            $member->save();
+        }
+    }
+
+    /** Rooms first seen at the edge of the fog may be identified, by the party's highest LUK. */
+    private function scout(DungeonRun $run, DungeonMap $map, Collection $standing, string $room, RandomSource $random): void
+    {
+        $luk = $this->highest($standing, 'luk');
+        foreach ($map->neighbors($room) as $next) {
+            $state = $run->rooms[$next] ?? [];
+            if (($state['visited'] ?? false) || array_key_exists('scouted', $state)) {
+                continue;
+            }
+            $this->setRoom($run, $next, ['scouted' => RoomRules::scout($luk, $random)]);
         }
     }
 
@@ -441,12 +612,19 @@ final class DungeonService
                 $this->actions->money($user, $run->loot_money, $operation, 'dungeon loot');
             }
             foreach ($members as $member) {
+                // The dying are carried out alive.
+                if ((int) $member->stats['hp'] < 1) {
+                    $stats = $member->stats;
+                    $stats['hp'] = 1;
+                    $member->stats = $stats;
+                }
                 $this->vitals->resume($member, $now);
             }
             $text = ($status === 'cleared' ? '成功离开地下城' : '撤离了地下城').'：带回 $ '.number_format($run->loot_money).'，背包与战利品已存入仓库。';
         }
         $run->status = $status;
         $run->ended_at = $now;
+        $run->members = [];
         $this->log($run, $status, $run->room, $text);
     }
 

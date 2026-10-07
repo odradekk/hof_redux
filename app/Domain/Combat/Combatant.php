@@ -58,6 +58,24 @@ final class Combatant
         if (! is_array($this->v['SPECIAL']) || ! is_array($this->v['tactics'])) {
             throw new \InvalidArgumentException('Invalid specials or tactics');
         }
+        // Fatigue (see Fatigue) lowers formula damage, healing and action rate by whole percentages.
+        $fatigue = $this->v['fatigue'] ?? ['output' => 0, 'speed' => 0];
+        if (! is_array($fatigue) || array_keys($fatigue) !== ['output', 'speed']) {
+            throw new \InvalidArgumentException('Invalid fatigue');
+        }
+        foreach ($fatigue as $penalty) {
+            if (! is_int($penalty) || $penalty < 0 || $penalty > 99) {
+                throw new \InvalidArgumentException('Invalid fatigue');
+            }
+        }
+        $this->v['fatigue'] = $fatigue;
+        // Initiative starts a unit part of the way to its first action.
+        $progress = $data['progress'] ?? 0;
+        if (! is_int($progress) || $progress < 0 || $progress >= 100) {
+            throw new \InvalidArgumentException('Invalid starting progress');
+        }
+        $this->progress = $progress;
+        unset($this->v['progress']);
         if (isset($this->v['experienceThresholds'])) {
             if (! is_array($this->v['experienceThresholds'])) {
                 throw new \InvalidArgumentException('Invalid experience thresholds');
@@ -104,7 +122,19 @@ final class Combatant
 
     public function rate(): float
     {
-        return sqrt($this->v['spd']) + 5;
+        return self::rateFor($this->v['spd'], $this->v['fatigue']['speed']);
+    }
+
+    /** Action progress gained per tick for a speed and a fatigue speed penalty (percent). */
+    public static function rateFor(int $speed, int $penalty = 0): float
+    {
+        return (sqrt($speed) + 5) * (100 - $penalty) / 100;
+    }
+
+    /** Multiplier for formula damage and healing this unit deals. */
+    public function output(): float
+    {
+        return (100 - $this->v['fatigue']['output']) / 100;
     }
 
     public function percent(string $resource): float

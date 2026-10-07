@@ -97,9 +97,14 @@ final class DungeonMapTest extends TestCase
             ['c', ['type' => 'battle', 'name' => 'C', 'pos' => [1, 1], 'fixed' => ['1008'], 'count' => 2], 'random enemies need a pool'],
             ['c', ['type' => 'battle', 'name' => 'C', 'pos' => [1, 1], 'encounters' => ['1000' => 0]], 'positive integers'],
             ['b', ['type' => 'chest', 'name' => 'B', 'pos' => [1, 0], 'money' => [5, 1]], 'money'],
-            ['b', ['type' => 'trap', 'name' => 'B', 'pos' => [1, 0], 'damage_percent' => [10, 101]], 'damage_percent'],
+            ['b', ['type' => 'trap', 'name' => 'B', 'pos' => [1, 0], 'damage' => [20, 10]], 'damage'],
+            // Trap damage is fixed points now; the old percentage field is not accepted.
+            ['b', ['type' => 'trap', 'name' => 'B', 'pos' => [1, 0], 'damage_percent' => [10, 20]], 'damage'],
             ['b', ['type' => 'rest', 'name' => 'B', 'pos' => [1, 0], 'uses' => 0], 'uses'],
             ['b', ['type' => 'event', 'name' => 'B', 'pos' => [1, 0], 'text' => 't', 'choices' => [['label' => 'x', 'outcomes' => [['weight' => 1, 'text' => '', 'effects' => [['teleport' => 1]]]]]]], 'unknown effect'],
+            ['b', ['type' => 'event', 'name' => 'B', 'pos' => [1, 0], 'text' => 't', 'choices' => [['label' => 'x', 'outcomes' => [['weight' => 1, 'text' => '', 'effects' => [['damage_percent' => 10]]]]]]], 'unknown effect'],
+            ['b', ['type' => 'event', 'name' => 'B', 'pos' => [1, 0], 'text' => 't', 'choices' => [['label' => 'x', 'outcomes' => [['weight' => 1, 'text' => '', 'effects' => [['damage' => -1]]]]]]], 'damage effect'],
+            ['b', ['type' => 'event', 'name' => 'B', 'pos' => [1, 0], 'text' => 't', 'choices' => [['label' => 'x', 'outcomes' => [['weight' => 1, 'lucky' => 1, 'text' => '', 'effects' => []]]]]], 'lucky'],
         ];
         foreach ($cases as [$id, $room, $fragment]) {
             $broken = $definition;
@@ -132,12 +137,9 @@ final class DungeonMapTest extends TestCase
         }
     }
 
-    public function test_trap_dodge_is_capped_and_damage_stays_in_range(): void
+    public function test_trap_dodge_is_capped_and_fixed_damage_stays_in_range(): void
     {
-        self::assertSame(0, RoomRules::dodgeChance(3));
-        self::assertSame(1, RoomRules::dodgeChance(4));
-        self::assertSame(50, RoomRules::dodgeChance(255));
-        $room = ['damage_percent' => [10, 20]];
+        $room = ['damage' => [10, 20]];
         // SequenceRandom yields minimum + value: a 1-100 roll of 1 dodges at DEX 4 (1%), 2 does not.
         self::assertNull(RoomRules::trapDamage($room, 4, new SequenceRandom([0])));
         self::assertSame(20, RoomRules::trapDamage($room, 4, new SequenceRandom([1, 10])));
@@ -148,6 +150,42 @@ final class DungeonMapTest extends TestCase
             self::assertGreaterThanOrEqual(10, $damage);
             self::assertLessThanOrEqual(20, $damage);
         }
+    }
+
+    public function test_disarm_uses_the_highest_dex_and_zero_chance_rolls_nothing(): void
+    {
+        // DEX 5 gives 1%: a roll of 1 disarms, 2 does not.
+        self::assertTrue(RoomRules::disarm(5, new SequenceRandom([0])));
+        self::assertFalse(RoomRules::disarm(5, new SequenceRandom([1])));
+        $random = new SequenceRandom([0]);
+        self::assertFalse(RoomRules::disarm(4, $random));
+        self::assertSame(0, $random->state()['index'], 'A 0% chance does not consume the stream.');
+    }
+
+    public function test_chest_luck_adds_one_roll(): void
+    {
+        $room = ['money' => [0, 0], 'loot' => ['a' => 1, 'b' => 1], 'rolls' => 1];
+        // LUK 3 gives 1%: roll 1 succeeds, then the two loot rolls pick a and b.
+        self::assertSame(['money' => 0, 'items' => ['a' => 1, 'b' => 1], 'bonus' => true], RoomRules::chest($room, new SequenceRandom([0, 0, 1, 0]), 3));
+        self::assertSame(['money' => 0, 'items' => ['a' => 1], 'bonus' => false], RoomRules::chest($room, new SequenceRandom([0, 0]), 0));
+        self::assertSame(['money' => 0, 'items' => ['a' => 1], 'bonus' => false], RoomRules::chest($room, new SequenceRandom([1, 0, 0]), 3));
+    }
+
+    public function test_luck_weights_lucky_event_outcomes_only(): void
+    {
+        $room = ['choices' => [['label' => 'x', 'outcomes' => [['weight' => 1, 'lucky' => true, 'text' => 'good', 'effects' => []], ['weight' => 1, 'text' => 'bad', 'effects' => []]]]]];
+        // Roll 2: with LUK 0 the weights are 1 + 1 and pick "bad"; with LUK 100 they are 2 + 1 and pick "good".
+        self::assertSame('bad', RoomRules::eventOutcome($room, 0, new SequenceRandom([1]), 0)['text']);
+        self::assertSame('good', RoomRules::eventOutcome($room, 0, new SequenceRandom([1]), 100)['text']);
+        // Roll 3 of 3 still reaches the unlucky outcome.
+        self::assertSame('bad', RoomRules::eventOutcome($room, 0, new SequenceRandom([2]), 100)['text']);
+    }
+
+    public function test_scouting_chance_comes_from_luck(): void
+    {
+        // LUK 0 gives 20%: roll 20 identifies, 21 does not.
+        self::assertTrue(RoomRules::scout(0, new SequenceRandom([19])));
+        self::assertFalse(RoomRules::scout(0, new SequenceRandom([20])));
     }
 
     public function test_percent_damage_never_rounds_a_hit_to_zero(): void

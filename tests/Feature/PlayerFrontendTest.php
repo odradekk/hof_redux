@@ -171,7 +171,8 @@ final class PlayerFrontendTest extends PlayerTestCase
         $worker = $this->character($user);
         $worker->forceFill(['stamina_units' => 0, 'stamina_updated_at' => now()])->save();
         $this->actingAs($user);
-        $this->travel(17279)->seconds();
+        // 100 points at 540 units per second (VIT 8) take exactly 16000 seconds.
+        $this->travel(15999)->seconds();
         $response = $this->get('/shop/work')->assertOk();
         $this->assertSame(1, $this->xpath($response->getContent())->query('//form[contains(@action,"/player/work")]//button[@disabled]')->length);
         $this->assertSame(1, $this->xpath($response->getContent())->query('//input[@name="character_id"][@disabled]')->length);

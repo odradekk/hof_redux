@@ -101,7 +101,8 @@ final class CompetitionTest extends TestCase
         $result = $service->challenge($user->id, $key, $boss->id, [$character->id]);
         self::assertSame($result, $service->challenge($user->id, $key, $boss->id, [$character->id]));
         self::assertSame(1, BossChallenge::count());
-        self::assertSame(7776000, $character->fresh()->stamina_units);
+        // A warrior starts with VIT 8: 108 stamina, of which the challenge costs 10.
+        self::assertSame((108 - 10) * 86400, $character->fresh()->stamina_units);
         self::assertGreaterThanOrEqual(0, $boss->fresh()->hp);
         $this->expectException(ValidationException::class);
         $service->challenge($user->id, (string) Str::uuid(), $boss->id, [$character->id]);
@@ -121,12 +122,13 @@ final class CompetitionTest extends TestCase
             self::fail('A member below 10 stamina must block the challenge.');
         } catch (ValidationException) {
         }
-        self::assertSame(8640000, $first->fresh()->stamina_units);
+        self::assertSame(108 * 86400, $first->fresh()->stamina_units);
         self::assertSame(0, BossChallenge::count());
         $this->travel(1)->seconds();
         $service->challenge($user->id, (string) Str::uuid(), $boss->id, [$first->id, $second->id]);
-        self::assertSame(90 * 86400, $first->fresh()->stamina_units);
-        self::assertSame(499, $second->fresh()->stamina_units);
+        self::assertSame(98 * 86400, $first->fresh()->stamina_units);
+        // A wizard (VIT 3, 103 stamina) regenerates 5 × 103 = 515 units per second.
+        self::assertSame(86399 + 515 - 86400, $second->fresh()->stamina_units);
     }
 
     public function test_multiplayer_pages_render_and_hide_boss_resources(): void

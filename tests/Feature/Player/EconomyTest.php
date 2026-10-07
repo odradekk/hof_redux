@@ -18,9 +18,9 @@ final class EconomyTest extends PlayerTestCase
         $first = $this->command($user, 'work', ['character_id' => $worker->id], $key);
         $this->assertSame($first, $this->command($user, 'work', ['character_id' => $worker->id], $key));
         $this->assertSame(10500, $user->fresh()->money);
-        // Only the chosen character pays; the other keeps full stamina.
-        $this->assertSame(0, $worker->fresh()->stamina_units);
-        $this->assertSame(8640000, $other->fresh()->stamina_units);
+        // Only the chosen character pays 100 of its 108 (VIT 8); the other keeps full stamina.
+        $this->assertSame(8 * 86400, $worker->fresh()->stamina_units);
+        $this->assertSame(108 * 86400, $other->fresh()->stamina_units);
         $this->assertSame(1, DB::table('operations')->count());
         $this->assertSame(-8640000, (int) DB::table('asset_entries')->where('kind', 'stamina')->sum('amount'));
     }
@@ -31,7 +31,8 @@ final class EconomyTest extends PlayerTestCase
         $user = $this->player();
         $worker = $this->character($user);
         $worker->forceFill(['stamina_units' => 0, 'stamina_updated_at' => now()])->save();
-        $this->travel(17279)->seconds();
+        // 100 points at 540 units per second take exactly 16000 seconds.
+        $this->travel(15999)->seconds();
         try {
             $this->command($user, 'work', ['character_id' => $worker->id]);
             $this->fail('Work was allowed before full stamina.');

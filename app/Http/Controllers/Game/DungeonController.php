@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Game;
 use App\Application\Dungeon\DungeonService;
 use App\Application\Player\ItemDetails;
 use App\Application\Player\Vitals;
+use App\Domain\Character\Attributes;
 use App\Domain\Combat\Fatigue;
 use App\Domain\Content\ContentCatalog;
 use App\Http\View\DungeonMapView;
@@ -69,7 +70,7 @@ final class DungeonController
         return view('game.dungeon.prepare', [
             'dungeon' => ['id' => $dungeon, 'name' => $map->name(), 'proper' => $map->definition()['proper'] ?? '', 'summary' => $map->definition()['summary'] ?? '', 'rooms' => count($map->rooms())],
             'units' => $units, 'selected' => $request->old('party', $request->user()->preferences['party'] ?? []), 'consumables' => $consumables,
-            'rules' => ['move' => DungeonService::MOVE_STAMINA, 'battle' => DungeonService::BATTLE_STAMINA, 'carry' => DungeonService::CARRY_BASE, 'carry_str' => DungeonService::CARRY_STR_STEP],
+            'rules' => ['move' => DungeonService::MOVE_STAMINA, 'battle' => DungeonService::BATTLE_STAMINA, 'carry' => Attributes::CARRY_BASE, 'carry_str' => Attributes::CARRY_STR_STEP],
         ]);
     }
 
@@ -102,8 +103,12 @@ final class DungeonController
             $vitals = Vitals::current($member);
             $unit = UnitCards::character($member->toArray(), $this->catalog->get('jobs', $member->job_id), $member->died_at ? null : $vitals);
             $unit['href'] = route('player.character', $id);
-            $penalty = Fatigue::penalty($vitals['stamina']);
-            $party[] = ['unit' => $member->died_at ? array_diff_key($unit, ['href' => true, 'vitals' => true]) : $unit, 'fallen' => $member->died_at !== null, 'fatigue' => $member->died_at ? 0 : $penalty];
+            $state = ($run->members ?? [])[$id] ?? [];
+            $party[] = [
+                'unit' => $member->died_at ? array_diff_key($unit, ['href' => true, 'vitals' => true]) : $unit, 'fallen' => $member->died_at !== null,
+                'dying' => $state['dying'] ?? null, 'wounded' => $state['wounded'] ?? false,
+                'fatigue' => $member->died_at || isset($state['dying']) ? null : Fatigue::penalty($vitals['stamina'], $vitals['staminaMax']),
+            ];
         }
         $living = array_values(array_filter($party, static fn (array $member): bool => ! $member['fallen']));
         $pack = InventoryItem::where('user_id', $user->id)->where('location', 'pack')->orderBy('item_id')->orderBy('id')->get()
@@ -112,7 +117,7 @@ final class DungeonController
             ->map(fn (InventoryItem $item): array => ItemLines::fromInventory($item->toArray(), $this->details->resolve($item)))->all();
         $exits = [];
         foreach ($map->neighbors($run->room) as $next) {
-            $known = $run->rooms[$next]['visited'] ?? false;
+            $known = ($run->rooms[$next]['visited'] ?? false) || ($run->rooms[$next]['scouted'] ?? false);
             $exits[] = ['id' => $next, 'label' => $known ? $map->room($next)['name'] : '未探索的房间', 'kind' => $known ? DungeonMapView::TYPES[$map->room($next)['type']] : '？'];
         }
         $events = $run->events()->reorder('sequence', 'desc')->limit(30)->get()->map(static fn ($event): array => [
@@ -126,7 +131,7 @@ final class DungeonController
                 'text' => $room['text'] ?? null, 'choices' => array_column($room['choices'] ?? [], 'label'), 'open_stamina' => (int) ($room['open_stamina'] ?? 0),
                 'uses' => $state['uses'] ?? ($room['uses'] ?? 0), 'heal' => (int) ($room['heal_percent'] ?? 0), 'stamina' => (int) ($room['stamina'] ?? 0),
             ],
-            'exits' => $exits, 'party' => $party, 'living' => array_map(static fn (array $member): array => ['id' => $member['unit']['id'], 'name' => $member['unit']['name']], $living),
+            'exits' => $exits, 'party' => $party, 'living' => array_map(static fn (array $member): array => ['id' => $member['unit']['id'], 'name' => $member['unit']['name'].($member['dying'] ? '（濒死）' : '')], $living),
             'pack' => $pack, 'loot' => $loot, 'money' => $run->loot_money, 'events' => $events, 'steps' => $run->steps,
             'rules' => ['move' => DungeonService::MOVE_STAMINA, 'battle' => DungeonService::BATTLE_STAMINA],
         ]);
